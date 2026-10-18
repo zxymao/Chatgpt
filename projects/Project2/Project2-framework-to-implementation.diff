@@ -1,0 +1,2800 @@
+--- /dev/null
++++ Project2-Acore/.gitignore
+@@ -0,0 +1,3 @@
++/build/
++*.log
++__pycache__/
+--- Project2-framework/Makefile
++++ Project2-Acore/Makefile
+@@ -1,183 +1,100 @@
+-# -----------------------------------------------------------------------
+-# Project Information
+-# -----------------------------------------------------------------------
++PROJECT_IDX = 2
++SHELL = /bin/sh
++.DEFAULT_GOAL := all
++.NOTPARALLEL:
++DIR_OSLAB ?= $(HOME)/OSLab-RISC-V
++QEMU ?= $(DIR_OSLAB)/qemu/riscv64-softmmu/qemu-system-riscv64
++UBOOT ?= $(DIR_OSLAB)/u-boot/u-boot
++CROSS_PREFIX ?= riscv64-unknown-linux-gnu-
++CC = $(CROSS_PREFIX)gcc
++AR = $(CROSS_PREFIX)ar
++OBJDUMP = $(CROSS_PREFIX)objdump
++GDB = $(CROSS_PREFIX)gdb
++HOST_CC ?= gcc
++LAB_STAGE ?= 4
++ifeq ($(filter $(LAB_STAGE),1 2 3 4),)
++$(error LAB_STAGE must be 1, 2, 3 or 4)
++endif
++ifeq ($(LAB_STAGE),1)
++TASKS ?= coop1 coop2
++else ifeq ($(LAB_STAGE),2)
++TASKS ?= mutex1 mutex2
++else ifeq ($(LAB_STAGE),3)
++TASKS ?= sleep coop_timer
++else
++TASKS ?= print1 print2 lock1 lock2 sleep timer
++endif
++COURSE_TASKS = fly lock1 lock2 print1 print2 sleep timer
++VALIDATION_TASKS = coop1 coop2 mutex1 mutex2 coop_timer probe1 probe2
++VALID_TASKS = $(COURSE_TASKS) $(VALIDATION_TASKS)
++ifneq ($(filter-out $(VALID_TASKS),$(TASKS)),)
++$(error Unknown A-Core task: $(filter-out $(VALID_TASKS),$(TASKS)))
++endif
++ifeq ($(strip $(TASKS)),)
++$(error TASKS must not be empty)
++endif
++ifneq ($(words $(TASKS)),$(words $(sort $(TASKS))))
++$(error TASKS must not contain duplicates)
++endif
+ 
+-PROJECT_IDX	= 2
++RISCV_ARCH ?= rv64imac_zicsr_zifencei
++CFLAGS = -O1 -g -Wall -Wextra -Wno-unused-parameter -ffreestanding -fno-builtin \
++         -nostdlib -nostdinc -fno-pie -fno-stack-protector -fno-common \
++         -mcmodel=medany -msmall-data-limit=0 -mno-relax \
++         -march=$(RISCV_ARCH) -mabi=lp64 -DLAB_STAGE=$(LAB_STAGE)
++LDFLAGS = -static -no-pie -Wl,--build-id=none -Wl,--no-relax -T riscv.lds
++KINC = -Iarch/riscv/include -Iinclude -Idrivers
++UINC = -Itiny_libc/include
++KERNEL_SRC = $(wildcard arch/riscv/kernel/*.S arch/riscv/bios/*.c drivers/*.c \
++                        init/*.c kernel/*/*.c libs/*.c)
++USER_SRC = $(wildcard tiny_libc/*.c)
++USER_OBJ = $(patsubst tiny_libc/%.c,build/libc_%.o,$(USER_SRC))
++USER_ELF = $(addprefix build/,$(TASKS))
++HEADERS = $(shell find include arch/riscv/include drivers tiny_libc/include test/validation -name '*.h')
++vpath %.c test/test_project2 test/validation
+ 
+-# -----------------------------------------------------------------------
+-# Host Linux Variables
+-# -----------------------------------------------------------------------
++all: image asm
+ 
+-SHELL       = /bin/sh
+-DISK        = /dev/sdb
+-TTYUSB1     = /dev/ttyUSB1
+-DIR_OSLAB   = $(HOME)/OSLab-RISC-V
+-DIR_QEMU    = $(DIR_OSLAB)/qemu
+-DIR_UBOOT   = $(DIR_OSLAB)/u-boot
++build:
++	mkdir -p build
++.PHONY: FORCE
++FORCE:
++build/config: FORCE | build
++	@printf '%s\n' 'LAB_STAGE=$(LAB_STAGE)' 'TASKS=$(TASKS)' 'CC=$(CC)' 'CFLAGS=$(CFLAGS)' > build/config.tmp
++	@cmp -s build/config.tmp $@ || cp build/config.tmp $@
++	@rm build/config.tmp
+ 
+-# -----------------------------------------------------------------------
+-# Build and Debug Tools
+-# -----------------------------------------------------------------------
++build/bootblock: arch/riscv/boot/bootblock.S riscv.lds $(HEADERS) build/config
++	$(CC) $(CFLAGS) $(KINC) $(LDFLAGS) -Wl,--defsym=TEXT_START=0x50200000 -Wl,-e,main -o $@ $<
++build/main: $(KERNEL_SRC) riscv.lds $(HEADERS) build/config
++	$(CC) $(CFLAGS) $(KINC) $(LDFLAGS) -Wl,--defsym=TEXT_START=0x50201000 -o $@ $(KERNEL_SRC)
++build/crt0.o: arch/riscv/crt0/crt0.S $(HEADERS) build/config
++	$(CC) $(CFLAGS) -Iarch/riscv/include -c $< -o $@
++build/libc_%.o: tiny_libc/%.c $(HEADERS) build/config
++	$(CC) $(CFLAGS) $(UINC) -c $< -o $@
++build/libtinyc.a: $(USER_OBJ)
++	$(AR) rcs $@ $^
++build/%: %.c build/crt0.o build/libtinyc.a riscv.lds $(HEADERS) build/config
++	$(CC) $(CFLAGS) $(UINC) $(LDFLAGS) -Wl,--defsym=TEXT_START=$$(python3 -c 'import sys; print(hex(0x52000000+sys.argv[2:].index(sys.argv[1])*0x10000))' '$*' $(TASKS)) -o $@ build/crt0.o $< -Lbuild -ltinyc
++build/createimage: tools/createimage.c
++	$(HOST_CC) -O2 -g -Wall -Wextra -Werror $< -o $@
++elf: build/bootblock build/main $(USER_ELF)
++image: elf build/createimage
++	cd build && ./createimage --extended bootblock main $(TASKS)
++asm: elf
++	@for name in bootblock main $(TASKS); do $(OBJDUMP) -d build/$$name > build/$$name.txt; done
+ 
+-HOST_CC         = gcc
+-CROSS_PREFIX    = riscv64-unknown-linux-gnu-
+-CC              = $(CROSS_PREFIX)gcc
+-AR              = $(CROSS_PREFIX)ar
+-OBJDUMP         = $(CROSS_PREFIX)objdump
+-GDB             = $(CROSS_PREFIX)gdb
+-QEMU            = $(DIR_QEMU)/riscv64-softmmu/qemu-system-riscv64
+-UBOOT           = $(DIR_UBOOT)/u-boot
+-MINICOM         = minicom
+-
+-# -----------------------------------------------------------------------
+-# Build/Debug Flags and Variables
+-# -----------------------------------------------------------------------
+-
+-CFLAGS          = -O0 -fno-builtin -nostdlib -nostdinc -Wall -mcmodel=medany -ggdb3
+-
+-BOOT_INCLUDE    = -I$(DIR_ARCH)/include
+-BOOT_CFLAGS     = $(CFLAGS) $(BOOT_INCLUDE) -Wl,--defsym=TEXT_START=$(BOOTLOADER_ENTRYPOINT) -T riscv.lds
+-
+-KERNEL_INCLUDE  = -I$(DIR_ARCH)/include -Iinclude -Idrivers
+-KERNEL_CFLAGS   = $(CFLAGS) $(KERNEL_INCLUDE) -Wl,--defsym=TEXT_START=$(KERNEL_ENTRYPOINT) -T riscv.lds
+-
+-USER_INCLUDE    = -I$(DIR_TINYLIBC)/include
+-USER_CFLAGS     = $(CFLAGS) $(USER_INCLUDE)
+-USER_LDFLAGS    = -L$(DIR_BUILD) -ltinyc
+-
+-QEMU_LOG_FILE   = $(DIR_OSLAB)/oslab-log.txt
+-QEMU_OPTS       = -nographic -machine virt -m 256M -kernel $(UBOOT) -bios none \
+-                     -drive if=none,format=raw,id=image,file=${ELF_IMAGE} \
+-                     -device virtio-blk-device,drive=image \
+-                     -monitor telnet::45454,server,nowait -serial mon:stdio \
+-                     -D $(QEMU_LOG_FILE) -d oslab
+-QEMU_DEBUG_OPT  = -s -S
+-
+-# -----------------------------------------------------------------------
+-# UCAS-OS Entrypoints and Variables
+-# -----------------------------------------------------------------------
+-
+-DIR_ARCH        = ./arch/riscv
+-DIR_BUILD       = ./build
+-DIR_DRIVERS     = ./drivers
+-DIR_INIT        = ./init
+-DIR_KERNEL      = ./kernel
+-DIR_LIBS        = ./libs
+-DIR_TINYLIBC    = ./tiny_libc
+-DIR_TEST        = ./test
+-DIR_TEST_PROJ   = $(DIR_TEST)/test_project$(PROJECT_IDX)
+-
+-BOOTLOADER_ENTRYPOINT   = 0x50200000
+-KERNEL_ENTRYPOINT       = 0x50201000
+-USER_ENTRYPOINT         = 0x52000000
+-
+-# -----------------------------------------------------------------------
+-# UCAS-OS Kernel Source Files
+-# -----------------------------------------------------------------------
+-
+-SRC_BOOT    = $(wildcard $(DIR_ARCH)/boot/*.S)
+-SRC_ARCH    = $(wildcard $(DIR_ARCH)/kernel/*.S)
+-SRC_BIOS    = $(wildcard $(DIR_ARCH)/bios/*.c)
+-SRC_DRIVER  = $(wildcard $(DIR_DRIVERS)/*.c)
+-SRC_INIT    = $(wildcard $(DIR_INIT)/*.c)
+-SRC_KERNEL  = $(wildcard $(DIR_KERNEL)/*/*.c)
+-SRC_LIBS    = $(wildcard $(DIR_LIBS)/*.c)
+-
+-SRC_MAIN    = $(SRC_ARCH) $(SRC_INIT) $(SRC_BIOS) $(SRC_DRIVER) $(SRC_KERNEL) $(SRC_LIBS)
+-
+-ELF_BOOT    = $(DIR_BUILD)/bootblock
+-ELF_MAIN    = $(DIR_BUILD)/main
+-ELF_IMAGE   = $(DIR_BUILD)/image
+-
+-# -----------------------------------------------------------------------
+-# UCAS-OS User Source Files
+-# -----------------------------------------------------------------------
+-
+-SRC_CRT0    = $(wildcard $(DIR_ARCH)/crt0/*.S)
+-OBJ_CRT0    = $(DIR_BUILD)/$(notdir $(SRC_CRT0:.S=.o))
+-
+-SRC_LIBC    = $(wildcard ./tiny_libc/*.c)
+-OBJ_LIBC    = $(patsubst %.c, %.o, $(foreach file, $(SRC_LIBC), $(DIR_BUILD)/$(notdir $(file))))
+-LIB_TINYC   = $(DIR_BUILD)/libtinyc.a
+-
+-SRC_USER    = $(wildcard $(DIR_TEST_PROJ)/*.c)
+-ELF_USER    = $(patsubst %.c, %, $(foreach file, $(SRC_USER), $(DIR_BUILD)/$(notdir $(file))))
+-
+-# -----------------------------------------------------------------------
+-# Host Linux Tools Source Files
+-# -----------------------------------------------------------------------
+-
+-SRC_CREATEIMAGE = ./tools/createimage.c
+-ELF_CREATEIMAGE = $(DIR_BUILD)/$(notdir $(SRC_CREATEIMAGE:.c=))
+-
+-# -----------------------------------------------------------------------
+-# Top-level Rules
+-# -----------------------------------------------------------------------
+-
+-all: dirs elf image asm # floppy
+-
+-dirs:
+-	@mkdir -p $(DIR_BUILD)
+-
++QEMU_LOG_FILE ?= $(CURDIR)/build/oslab-log.txt
++QEMU_OPTS ?= -nographic -machine virt -m 256M -kernel $(UBOOT) -bios none \
++             -drive if=none,format=raw,id=image,file=build/image \
++             -device virtio-blk-device,drive=image -monitor none -serial stdio \
++             -D $(QEMU_LOG_FILE) -d oslab
++run: image
++	$(QEMU) $(QEMU_OPTS)
++debug: image
++	$(QEMU) $(QEMU_OPTS) -s -S
++gdb:
++	$(GDB) build/main -ex 'target remote :1234'
+ clean:
+-	rm -rf $(DIR_BUILD)
+-
+-floppy:
+-	sudo fdisk -l $(DISK)
+-	sudo dd if=$(DIR_BUILD)/image of=$(DISK)3 conv=notrunc
+-
+-asm: $(ELF_BOOT) $(ELF_MAIN) $(ELF_USER)
+-	for elffile in $^; do $(OBJDUMP) -d $$elffile > $(notdir $$elffile).txt; done
+-
+-gdb:
+-	$(GDB) $(ELF_MAIN) -ex "target remote:1234"
+-
+-run:
+-	$(QEMU) $(QEMU_OPTS)
+-
+-debug:
+-	$(QEMU) $(QEMU_OPTS) $(QEMU_DEBUG_OPT)
+-
+-minicom:
+-	sudo $(MINICOM) -D $(TTYUSB1)
+-
+-.PHONY: all dirs clean floppy asm gdb run debug minicom
+-
+-# -----------------------------------------------------------------------
+-# UCAS-OS Rules
+-# -----------------------------------------------------------------------
+-
+-$(ELF_BOOT): $(SRC_BOOT) riscv.lds
+-	$(CC) $(BOOT_CFLAGS) -o $@ $(SRC_BOOT) -e main
+-
+-$(ELF_MAIN): $(SRC_MAIN) riscv.lds
+-	$(CC) $(KERNEL_CFLAGS) -o $@ $(SRC_MAIN)
+-
+-$(OBJ_CRT0): $(SRC_CRT0)
+-	$(CC) $(USER_CFLAGS) -I$(DIR_ARCH)/include -c $< -o $@
+-
+-$(LIB_TINYC): $(OBJ_LIBC)
+-	$(AR) rcs $@ $^
+-
+-$(DIR_BUILD)/%.o: $(DIR_TINYLIBC)/%.c
+-	$(CC) $(USER_CFLAGS) -c $< -o $@
+-
+-$(DIR_BUILD)/%: $(DIR_TEST_PROJ)/%.c $(OBJ_CRT0) $(LIB_TINYC) riscv.lds
+-	$(CC) $(USER_CFLAGS) -o $@ $(OBJ_CRT0) $< $(USER_LDFLAGS) -Wl,--defsym=TEXT_START=$(USER_ENTRYPOINT) -T riscv.lds
+-	$(eval USER_ENTRYPOINT := $(shell python3 -c "print(hex(int('$(USER_ENTRYPOINT)', 16) + int('0x10000', 16)))"))
+-
+-elf: $(ELF_BOOT) $(ELF_MAIN) $(LIB_TINYC) $(ELF_USER)
+-
+-.PHONY: elf
+-
+-# -----------------------------------------------------------------------
+-# Host Linux Rules
+-# -----------------------------------------------------------------------
+-
+-$(ELF_CREATEIMAGE): $(SRC_CREATEIMAGE)
+-	$(HOST_CC) $(SRC_CREATEIMAGE) -o $@ -ggdb -Wall
+-
+-image: $(ELF_CREATEIMAGE) $(ELF_BOOT) $(ELF_MAIN) $(ELF_USER)
+-	cd $(DIR_BUILD) && ./$(<F) --extended $(filter-out $(<F), $(^F))
+-
+-.PHONY: image
++	rm -rf build
++.PHONY: all elf image asm run debug gdb clean
+--- Project2-framework/README.md
++++ Project2-Acore/README.md
+@@ -1 +1,94 @@
+-TODO：请在此完成你自己项目的“说明书”。
++# Project 2 — A Simple Kernel（A-Core）
++
++本工程基于上传的Project 2框架，整合Project 1的启动和按名称加载思路，实现Task 1—4。默认构建完整的用户态系统调用及轮转抢占调度。Task 5不在范围内；原课程测试源码保持不变。
++
++## 在现有lab中使用
++
++请把源码包解压到一个新的目录，不要覆盖原实验1，也不要在原实验1目录切换或合并分支。依赖课程已经安装的RISC-V编译器、QEMU和U-Boot。
++
++```bash
++cd ~/Project2-Acore
++riscv64-unknown-linux-gnu-gcc --version
++make
++make run
++```
++
++默认使用`~/OSLab-RISC-V/qemu/riscv64-softmmu/qemu-system-riscv64`和`~/OSLab-RISC-V/u-boot/u-boot`。其他位置可以覆盖：
++
++```bash
++make run DIR_OSLAB=/你的路径/OSLab-RISC-V
++# 如果编译器名称是riscv64-linux-gnu-gcc：
++make CROSS_PREFIX=riscv64-linux-gnu-
++make run CROSS_PREFIX=riscv64-linux-gnu-
++```
++
++`LAB_STAGE`和`TASKS`会影响构建；每次`make run`也应提供相同参数。Makefile会检测阶段及任务列表变化并重新链接，不需要手动改源码。构建不并行，任务按TASKS顺序固定链接到0x52000000起每64 KiB一个槽位。
++
++默认指令集为`rv64imac_zicsr_zifencei`、软浮点ABI `lp64`，禁用PIE和gp松弛。如果课程旧工具链不认识拆分后的Zicsr/Zifencei扩展，可在确认该工具链的rv64imac包含CSR/fence.i后使用：
++
++```bash
++make RISCV_ARCH=rv64imac
++make run RISCV_ARCH=rv64imac
++```
++
++## 分阶段验证
++
++| 阶段 | 命令（构建后启动） | 预期 |
++|---|---|---|
++| Task 1 | `make run LAB_STAGE=1` | coop1、coop2主动yield，两个计数持续更新 |
++| Task 2 | `make run LAB_STAGE=2` | mutex1、mutex2使用相同key，持锁时主动yield，等待者阻塞并按顺序得到锁 |
++| Task 3 | `make run LAB_STAGE=3` | sleep与coop_timer通过ecall运行；无时钟中断，调度和idle轮询唤醒睡眠任务 |
++| Task 4 | `make run LAB_STAGE=4` | 原print1/2、lock1/2、sleep、timer无需主动yield也能持续运行 |
++
++单独检查飞机或更强的探针：
++
++```bash
++make run LAB_STAGE=4 TASKS='fly print1 print2'
++make run LAB_STAGE=4 TASKS='probe1 probe2'
++make run LAB_STAGE=4 TASKS='probe1'
++make run LAB_STAGE=3 TASKS='sleep'
++```
++
++probe任务检查无系统调用计算期间的异步抢占、用户寄存器保持、非法系统调用号的ENOSYS返回、坏字符串指针的EFAULT返回、相同key复用、持锁睡眠、释放后的所有权移交及睡眠时间下界。打印PASS后仍会睡眠，内核没有实现Project 3的退出系统调用。单probe用于检查所有用户任务睡眠时idle及唤醒路径。
++
++新增验证程序在`test/validation/`，原测试在`test/test_project2/`。fly1—fly5依赖缺失的Task 5接口，不加入A-Core默认构建，未添加虚假空实现。
++
++`make debug`启动GDB服务，另一终端执行`make gdb`。构建后的ELF、镜像和反汇编均在`build/`；QEMU日志为`build/oslab-log.txt`。
++
++## 设计说明
++
++### 启动、镜像与加载
++
++bootblock调用BIOS读取内核，向内核a0传任务数量、a1传任务信息的镜像字节偏移。head.S保留参数，清零BSS并使用与pid0一致的启动栈。加载器支持不对齐的镜像偏移和跨扇区复制。
++
++镜像引导扇区：0x1f6为16位任务数量；0x1f8为32位任务信息偏移；0x1fc为16位内核字节数；0x1fe为55 aa签名。每条task_info_t固定48字节：32字节名称、32位偏移、32位文件跨度、64位入口。createimage按PT_LOAD相对虚拟地址放置段并填充空洞，不把ELF文件头或调试信息写入任务映像。BSS由启动代码清零。保留内核65535字节上限、任务16个和每槽64 KiB限制，超限明确报错。
++
++### PCB、上下文与调度
++
++PCB最前两个字段仍为kernel_sp与user_sp，与课程汇编偏移一致；新增trap临时寄存器槽和用户栈基址。编译期断言校验PCB关键偏移、112字节switch帧和288字节异常帧。
++
++switch_to保存ra、sp及s0—s11，把内核栈位置写入旧PCB；切换tp和sscratch到新PCB，恢复新任务的寄存器。新任务的初始switch帧返回到ret_from_exception，再由sret进入任务。Task 1/2的任务运行在S模式，Task 3/4运行在U模式。
++
++就绪队列FIFO轮转。正在运行且未阻塞的普通任务回队尾；阻塞任务不回就绪队列；无任务可运行时返回pid0。首次调度使用pid0保存main上下文。睡眠队列到期任务回到就绪队列。
++
++### 异常、系统调用与时钟
++
++sscratch始终指向当前PCB。异常入口先交换tp，保存原t0，根据SPP区分U态和S态来源，选择用户任务对应的内核栈或当前S态栈；保存全部通用寄存器及sstatus/sepc/stval/scause。返回时恢复原tp、sp和其他现场，再执行sret。用户任务可以有与PCB无关的tp值，探针对此有检查。
++
++系统调用号放a7，参数放a0—a4，结果放a0。只给ecall的sepc加4；中断不改变被中断PC。用户接口通过ecall进入内核，不直接调用内核地址。未知系统调用返回-38；字符串输出先验证指针及终止符在当前任务的映像槽或用户栈内，失败返回-14。本实验无页表隔离，完整内存保护仍需课程loadbootd/DASIC验证。
++
++内核处理系统调用时不重新开启SIE；队列和锁操作也保存并关闭本地中断。该设计面向单核，未实现SMP。Task 4只启用STIE，每次时钟中断先重设下一次定时器，再刷新屏幕并调度。Task 3没有时钟中断，通过yield、阻塞后的调度以及pid0循环检查睡眠队列。Task 4的pid0通过WFI等待，避免用户任务全部睡眠后停滞。
++
++### 互斥锁
++
++相同key返回同一个槽位；不存在的key分配空闲槽。竞争失败时进程进入锁等待队列并调度，避免忙等。释放时优先把所有权交给FIFO等待者，锁保持占用状态，防止刚唤醒的任务被新到达者抢走。没有等待者才真正解锁。锁不支持递归获取；无效索引、重复获取或非持有者释放会触发内核断言。未实现任务退出时自动释放锁。
++
++### 其他修改
++
++修正屏幕换行/自动折行时的行边界和恢复光标的1基坐标；修正两个原有格式化库读取`%ld`参数时的signed long类型。链接器仍可能提示裸机ELF的RWX段，这是原链接脚本将代码和数据放在同一可加载段所致，不代表通过了课程内存保护验收。
++
++## 已完成的验证与限制
++
++详细结果见`docs/VALIDATION.md`。当前已完成原始课程地址布局的交叉编译，以及通用QEMU中的临时地址重定位运行验证。通用QEMU测试适配层在`test/host-qemu/`；它不属于内核启动流程，也不是课程U-Boot。
++
++真实课程QEMU、课程U-Boot、loadbootd/DASIC和Pynq板端尚未验证。需在你现有lab运行以上命令，再按课程规定执行loadbootd及板端检查；本工程没有杜撰未知的loadbootd命令。不要把通用QEMU测试通过当作A-Core全部验收通过。
+--- Project2-framework/arch/riscv/boot/bootblock.S
++++ Project2-Acore/arch/riscv/boot/bootblock.S
+@@ -1,41 +1,35 @@
+ #include <asm/biosdef.h>
+-
+-// os size location (os_size could be sectors [p1-task3] or bytes [p1-task4])
+-.equ os_size_loc, 0x502001fc
+-
+-// kernel address (move kernel to here, and jmp here to start kernel)
+-.equ kernel, 0x50201000
+-
+-// BIOS function entry (jump here to use BIOS APIs)
+-.equ bios_func_entry, 0x50150000
+-
++.equ BIOS_ENTRY, 0x50150000
++.equ KERNEL_ENTRY, 0x50201000
++.equ TASK_NUM, 0x502001f6
++.equ APP_INFO, 0x502001f8
++.equ KERNEL_BYTES, 0x502001fc
+ .text
+ .global main
+-
+ main:
+-	// fence on all memory and I/O
+-	fence
+-
+-	// TODO: [p1-task1] call BIOS to print string "It's bootblock!"
+-
+-
+-	// TODO: [p1-task2] call BIOS to read kernel in SD card
+-
+-
+-	// TODO: [p1-task4] load task-related arguments and pass them to kernel
+-
+-
+-	// TODO: [p1-task2] jump to kernel to start UCAS-OS
+-
+-	/************************************************************/
+-	/* Do not touch this comment. Reserved for future projects. */
+-	/************************************************************/
+-// while(1) --> stop here
+-stop:
+-	j stop
+-	nop
+-
+-.data
+-
+-msg: .string "It's a bootloader...\n\r"
+-
++    fence
++    la a0, message
++    li a7, BIOS_PUTSTR
++    li t0, BIOS_ENTRY
++    jalr t0
++    li a0, KERNEL_ENTRY
++    li t0, KERNEL_BYTES
++    lhu a1, 0(t0)
++    addi a1, a1, 511
++    srli a1, a1, 9
++    li a2, 1
++    li a7, BIOS_SDREAD
++    li t0, BIOS_ENTRY
++    jalr t0
++    fence.i
++    li t0, TASK_NUM
++    lhu a0, 0(t0)
++    li t0, APP_INFO
++    lwu a1, 0(t0)
++    li t0, KERNEL_ENTRY
++    jr t0
++    /************************************************************/
++    /* Do not touch this comment. Reserved for future projects. */
++    /************************************************************/
++message:
++    .asciz "It's bootblock!\n\r"
+--- Project2-framework/arch/riscv/crt0/crt0.S
++++ Project2-Acore/arch/riscv/crt0/crt0.S
+@@ -1,22 +1,18 @@
+ #include <asm.h>
+-
+ .section ".entry_function","ax"
+ ENTRY(_start)
+-
+-    /* TODO: [p1-task3] setup C runtime environment for the user program */
+-
+-
+-    /* TODO: [p1-task3] enter main function */
+-
+-
+-    /* TODO: [p1-task3] finish task and return to the kernel, replace this in p3-task2! */
+-
++    /* The kernel already supplied a private aligned stack. */
++    la t0, __bss_start
++    la t1, __BSS_END__
++1:  bgeu t0, t1, 2f
++    sb zero, 0(t0)
++    addi t0, t0, 1
++    j 1b
++2:  call main
++    /* P2 tasks normally never return; avoid returning to a fake caller. */
++3:  call sys_yield
++    j 3b
+     /************************************************************/
+     /* Do not touch this comment. Reserved for future projects. */
+     /************************************************************/
+-// while(1) loop, unreachable here
+-loop:
+-    wfi
+-    j loop
+-
+-END(_start)
++ENDPROC(_start)
+--- Project2-framework/arch/riscv/include/asm/regs.h
++++ Project2-Acore/arch/riscv/include/asm/regs.h
+@@ -92,6 +92,7 @@
+ 
+ #define PCB_KERNEL_SP          0
+ #define PCB_USER_SP            8
++#define PCB_TRAP_T0            16
+ 
+ /* offset in switch_to */
+ #define SWITCH_TO_RA     0
+--- Project2-framework/arch/riscv/kernel/entry.S
++++ Project2-Acore/arch/riscv/kernel/entry.S
+@@ -2,84 +2,177 @@
+ #include <csr.h>
+ #include <asm/regs.h>
+ 
++/* sscratch always points to the current PCB, in both U and S mode.
++ * Interrupts remain masked throughout kernel handlers. Only idle runs
++ * with SIE set in S mode, so a suspended handler cannot nest traps. */
+ .macro SAVE_CONTEXT
+-  /* TODO: [p2-task3] save all general purpose registers here! */
+-  /* HINT: Pay attention to the function of tp and sp, and save them carefully! */
+-
+-  /*
+-   * Disable user-mode memory access as it should only be set in the
+-   * actual user copy routines.
+-   *
+-   * Disable the FPU to detect illegal usage of floating point in kernel
+-   * space.
+-   */
+-  li t0, SR_SUM | SR_FS
+-
+-  /* TODO: [p2-task3] save sstatus, sepc, stval and scause on kernel stack */
+-
++    csrrw tp, CSR_SSCRATCH, tp
++    sd t0, PCB_TRAP_T0(tp)
++    csrr t0, CSR_SSTATUS
++    andi t0, t0, SR_SPP
++    bnez t0, 1f
++    sd sp, PCB_USER_SP(tp)
++    ld sp, PCB_KERNEL_SP(tp)
++1:  addi sp, sp, -OFFSET_SIZE
++    sd zero, 0(sp)
++    sd ra, 8(sp)
++    sd gp, 24(sp)
++    sd t1, 48(sp)
++    sd t2, 56(sp)
++    sd s0, 64(sp)
++    sd s1, 72(sp)
++    sd a0, 80(sp)
++    sd a1, 88(sp)
++    sd a2, 96(sp)
++    sd a3, 104(sp)
++    sd a4, 112(sp)
++    sd a5, 120(sp)
++    sd a6, 128(sp)
++    sd a7, 136(sp)
++    sd s2, 144(sp)
++    sd s3, 152(sp)
++    sd s4, 160(sp)
++    sd s5, 168(sp)
++    sd s6, 176(sp)
++    sd s7, 184(sp)
++    sd s8, 192(sp)
++    sd s9, 200(sp)
++    sd s10, 208(sp)
++    sd s11, 216(sp)
++    sd t3, 224(sp)
++    sd t4, 232(sp)
++    sd t5, 240(sp)
++    sd t6, 248(sp)
++    ld t0, PCB_TRAP_T0(tp)
++    sd t0, OFFSET_REG_T0(sp)
++    csrr t0, CSR_SSCRATCH
++    sd t0, OFFSET_REG_TP(sp)
++    csrw CSR_SSCRATCH, tp
++    csrr t0, CSR_SSTATUS
++    sd t0, OFFSET_REG_SSTATUS(sp)
++    andi t0, t0, SR_SPP
++    beqz t0, 2f
++    addi t0, sp, OFFSET_SIZE
++    j 3f
++2:  ld t0, PCB_USER_SP(tp)
++3:  sd t0, OFFSET_REG_SP(sp)
++    csrr t0, CSR_SEPC
++    sd t0, OFFSET_REG_SEPC(sp)
++    csrr t0, CSR_STVAL
++    sd t0, OFFSET_REG_SBADADDR(sp)
++    csrr t0, CSR_SCAUSE
++    sd t0, OFFSET_REG_SCAUSE(sp)
++    /* No FPU instructions in kernel or user binaries. */
++    li t0, SR_SUM | SR_FS
++    csrc CSR_SSTATUS, t0
+ .endm
+ 
+ .macro RESTORE_CONTEXT
+-  /* TODO: Restore all general purpose registers and sepc, sstatus */
+-  /* HINT: Pay attention to sp again! */
++    ld t0, OFFSET_REG_SSTATUS(sp)
++    csrw CSR_SSTATUS, t0
++    ld t0, OFFSET_REG_SEPC(sp)
++    csrw CSR_SEPC, t0
++    addi t0, sp, OFFSET_SIZE
++    sd t0, PCB_KERNEL_SP(tp)
++    csrw CSR_SSCRATCH, tp
++    ld ra, 8(sp)
++    ld gp, 24(sp)
++    ld t1, 48(sp)
++    ld t2, 56(sp)
++    ld s0, 64(sp)
++    ld s1, 72(sp)
++    ld a0, 80(sp)
++    ld a1, 88(sp)
++    ld a2, 96(sp)
++    ld a3, 104(sp)
++    ld a4, 112(sp)
++    ld a5, 120(sp)
++    ld a6, 128(sp)
++    ld a7, 136(sp)
++    ld s2, 144(sp)
++    ld s3, 152(sp)
++    ld s4, 160(sp)
++    ld s5, 168(sp)
++    ld s6, 176(sp)
++    ld s7, 184(sp)
++    ld s8, 192(sp)
++    ld s9, 200(sp)
++    ld s10, 208(sp)
++    ld s11, 216(sp)
++    ld t3, 224(sp)
++    ld t4, 232(sp)
++    ld t5, 240(sp)
++    ld t6, 248(sp)
++    ld t0, OFFSET_REG_T0(sp)
++    ld tp, OFFSET_REG_TP(sp)
++    ld sp, OFFSET_REG_SP(sp)
+ .endm
+ 
+ ENTRY(enable_preempt)
+-  not t0, x0
+-  csrs CSR_SIE, t0
+-  jr ra
++    li t0, SIE_STIE
++    csrs CSR_SIE, t0
++    ret
+ ENDPROC(enable_preempt)
+-
+ ENTRY(disable_preempt)
+-  csrw CSR_SIE, zero
+-  jr ra
++    li t0, SIE_STIE
++    csrc CSR_SIE, t0
++    ret
+ ENDPROC(disable_preempt)
+-
+ ENTRY(enable_interrupt)
+-  li t0, SR_SIE
+-  csrs CSR_SSTATUS, t0
+-  jr ra
++    csrsi CSR_SSTATUS, 2
++    ret
+ ENDPROC(enable_interrupt)
+-
+ ENTRY(disable_interrupt)
+-  li t0, SR_SIE
+-  csrc CSR_SSTATUS, t0
+-  jr ra
++    csrci CSR_SSTATUS, 2
++    ret
+ ENDPROC(disable_interrupt)
+ 
+-// NOTE: the address of previous pcb in a0
+-// NOTE: the address of next pcb in a1
+ ENTRY(switch_to)
+-  addi sp, sp, -(SWITCH_TO_SIZE)
+-
+-  /* TODO: [p2-task1] save all callee save registers on kernel stack,
+-   * see the definition of `struct switchto_context` in sched.h*/
+-
+-  /* TODO: [p2-task1] restore all callee save registers from kernel stack,
+-   * see the definition of `struct switchto_context` in sched.h*/
+-
+-  addi sp, sp, SWITCH_TO_SIZE
+-  jr ra
++    addi sp, sp, -SWITCH_TO_SIZE
++    sd ra, 0(sp)
++    sd sp, 8(sp)
++    sd s0, 16(sp)
++    sd s1, 24(sp)
++    sd s2, 32(sp)
++    sd s3, 40(sp)
++    sd s4, 48(sp)
++    sd s5, 56(sp)
++    sd s6, 64(sp)
++    sd s7, 72(sp)
++    sd s8, 80(sp)
++    sd s9, 88(sp)
++    sd s10, 96(sp)
++    sd s11, 104(sp)
++    sd sp, PCB_KERNEL_SP(a0)
++    mv tp, a1
++    csrw CSR_SSCRATCH, tp
++    ld sp, PCB_KERNEL_SP(tp)
++    ld ra, 0(sp)
++    ld s0, 16(sp)
++    ld s1, 24(sp)
++    ld s2, 32(sp)
++    ld s3, 40(sp)
++    ld s4, 48(sp)
++    ld s5, 56(sp)
++    ld s6, 64(sp)
++    ld s7, 72(sp)
++    ld s8, 80(sp)
++    ld s9, 88(sp)
++    ld s10, 96(sp)
++    ld s11, 104(sp)
++    ld sp, SWITCH_TO_SP(sp)
++    addi sp, sp, SWITCH_TO_SIZE
++    ret
+ ENDPROC(switch_to)
+-
+ ENTRY(ret_from_exception)
+-  /* TODO: [p2-task3] restore context via provided macro and return to sepc */
+-  /* HINT: remember to check your sp, does it point to the right address? */
++    RESTORE_CONTEXT
++    sret
+ ENDPROC(ret_from_exception)
+-
+ ENTRY(exception_handler_entry)
+-
+-  /* TODO: [p2-task3] save context via the provided macro */
+-
+-
+-  /* TODO: [p2-task3] load ret_from_exception into $ra so that we can return to
+-   * ret_from_exception when interrupt_help complete.
+-   */
+-
+-
+-  /* TODO: [p2-task3] call interrupt_helper
+-   * NOTE: don't forget to pass parameters for it.
+-   */
+-
+-
++    SAVE_CONTEXT
++    mv a0, sp
++    ld a1, OFFSET_REG_SBADADDR(sp)
++    ld a2, OFFSET_REG_SCAUSE(sp)
++    call interrupt_helper
++    j ret_from_exception
+ ENDPROC(exception_handler_entry)
+--- Project2-framework/arch/riscv/kernel/head.S
++++ Project2-Acore/arch/riscv/kernel/head.S
+@@ -1,27 +1,17 @@
+-/* SPDX-License-Identifier: GPL-2.0-only */
+-/*
+- * Copyright (C) 2012 Regents of the University of California
+- */
+-
+ #include <asm.h>
+ #include <csr.h>
+-
+-#define KERNEL_STACK		0x50500000
+-
+ .section ".entry_function","ax"
+ ENTRY(_start)
+-  /* Mask all interrupts */
+-  csrw CSR_SIE, zero
+-  csrw CSR_SIP, zero
+-
+-  /* TODO: [p1-task2] clear BSS for flat non-ELF images */
+-
+-
+-  /* TODO: [p1-task2] setup C environment */
+-
+-
+-loop:
+-  wfi
+-  j loop
+-
+-END(_start)
++    csrw CSR_SIE, zero
++    csrc CSR_SSTATUS, 2
++    la t0, __bss_start
++    la t1, __BSS_END__
++1:  bgeu t0, t1, 2f
++    sb zero, 0(t0)
++    addi t0, t0, 1
++    j 1b
++2:  li sp, 0x50501000
++    call main
++3:  wfi
++    j 3b
++ENDPROC(_start)
+--- Project2-framework/arch/riscv/kernel/trap.S
++++ Project2-Acore/arch/riscv/kernel/trap.S
+@@ -1,10 +1,11 @@
+ #include <asm.h>
+ #include <csr.h>
+-
+ ENTRY(setup_exception)
+-
+-  /* TODO: [p2-task3] save exception_handler_entry into STVEC */
+-
+-  /* TODO: [p2-task4] enable interrupts globally */
+-
++    la t0, exception_handler_entry
++    csrw CSR_STVEC, t0
++    csrw CSR_SSCRATCH, tp
++    li t0, 2 /* permit user rdtime when M-mode also permits it */
++    csrs CSR_SCOUNTEREN, t0
++    /* Enable only after all tables, queues and the timer are ready. */
++    ret
+ ENDPROC(setup_exception)
+--- /dev/null
++++ Project2-Acore/docs/CHANGES.md
+@@ -0,0 +1,57 @@
++# 修改文件清单
++
++以Project2-source.tar.gz中的课程框架为比较基线。实验1仅用于整合，不改动原上传文件。
++
++## 修改
++
++- `Makefile`
++- `README.md`
++- `arch/riscv/boot/bootblock.S`
++- `arch/riscv/crt0/crt0.S`
++- `arch/riscv/include/asm/regs.h`
++- `arch/riscv/kernel/entry.S`
++- `arch/riscv/kernel/head.S`
++- `arch/riscv/kernel/trap.S`
++- `drivers/screen.c`
++- `include/os/irq.h`
++- `include/os/kernel.h`
++- `include/os/list.h`
++- `include/os/loader.h`
++- `include/os/lock.h`
++- `include/os/sched.h`
++- `include/os/task.h`
++- `init/main.c`
++- `kernel/irq/irq.c`
++- `kernel/loader/loader.c`
++- `kernel/locking/lock.c`
++- `kernel/sched/sched.c`
++- `kernel/sched/time.c`
++- `kernel/syscall/syscall.c`
++- `libs/printk.c`
++- `tiny_libc/include/kernel.h`
++- `tiny_libc/printf.c`
++- `tiny_libc/syscall.c`
++- `tools/createimage.c`
++
++## 新增
++
++- `.gitignore`
++- `include/os/config.h`
++- `test/host-qemu/firmware.S`
++- `test/host-qemu/firmware.lds`
++- `test/validation/coop1.c`
++- `test/validation/coop2.c`
++- `test/validation/coop_timer.c`
++- `test/validation/mutex1.c`
++- `test/validation/mutex2.c`
++- `test/validation/probe1.c`
++- `test/validation/probe2.c`
++- `test/validation/register_check.h`
++- `tools/host_qemu_smoke.py`
++- `tools/test_image.py`
++
++## 移除
++
++- 根目录旧的预编译`createimage`，统一由`tools/createimage.c`构建为`build/createimage`。
++
++原课程测试未修改。详细设计见README，已执行与尚未执行的验证见VALIDATION.md；压缩日志在docs/logs。
+--- /dev/null
++++ Project2-Acore/docs/VALIDATION.md
+@@ -0,0 +1,57 @@
++# 验证记录
++
++本记录区分编译、通用QEMU功能检查及课程环境验收。
++
++## 工具
++
++- 宿主：Debian 13，x86-64。
++- 交叉编译器：Debian GCC 14.2.0，riscv64-linux-gnu，rv64imac_zicsr_zifencei/lp64。
++- 通用QEMU：10.0.13，virt，256 MiB，单核。
++- 工具包通过Debian签名索引与包校验下载至工作区；未更改用户lab环境。
++
++## 已验证
++
++| 检查 | 结果与证据 |
++|---|---|
++| 原始课程地址布局的LAB_STAGE=1、2、3、4构建 | 四种配置均编译、链接并生成镜像；Task 4默认6个课程任务 |
++| 镜像格式及错误输入 | tools/test_image.py：10项通过，覆盖段间空洞、元信息、扇区补齐、内核及任务大小超限、引导区覆盖、入口错误、截断ELF、无任务、过多任务、重复任务、字节序错误 |
++| Task 1运行 | coop1/coop2均持续输出计数，主动yield切换 |
++| Task 2运行 | mutex1/mutex2均出现获取和释放事件，持锁yield强制另一任务竞争并阻塞 |
++| Task 3运行 | 无定时中断，sleep恢复到下一次计数，coop_timer超过2秒 |
++| Task 4寄存器和抢占探针 | 两任务均在对方一秒无系统调用计算结束前开始；检测ra/gp/tp、临时、参数及保存寄存器；两任务均打印PASS |
++| 系统调用边界 | 两种未注册/越界调用号返回-38，坏字符串指针返回-14，由probe断言检查 |
++| 锁与睡眠联合 | probe持锁sleep，另一任务阻塞；持有者唤醒并释放，等待者接管，两任务最终PASS |
++| 空就绪队列 | 单probe在全部用户任务睡眠后再次唤醒，最终PASS |
++| 原课程测试组合 | print1、print2、lock1、lock2分别在对应屏幕行运行，sleep继续计数，timer输出时间 |
++| 原飞机测试组合 | fly显示飞机，print1/print2同时运行 |
++| 原课程测试源码保护 | test/test_project2下文件与上传框架逐字节一致 |
++
++## 运行验证的范围
++
++以上运行检查使用tools/host_qemu_smoke.py：在临时副本中将0x50xxxxxx—0x52xxxxxx地址整体平移至通用virt的RAM范围0x80xxxxxx—0x82xxxxxx，保留相对布局；使用独立M模式测试BIOS转接串口、内存镜像读取和定时器。原始工程地址及源码文件不会因此被改动。
++
++测试内核执行真实的用户态异常入口、系统调用、上下文切换、定时中断和队列代码；适配层不模拟这些内核功能。但磁盘读取来自内存镜像，不检验课程SD/virtio硬件路径；也不检验课程QEMU/U-Boot或DASIC。
++
++典型命令（独立机器需先安装对应工具）：
++
++```bash
++python3 tools/test_image.py build/createimage
++python3 tools/host_qemu_smoke.py --stage 1 --seconds 4 --log stage1.log
++python3 tools/host_qemu_smoke.py --stage 2 --seconds 4 --log stage2.log
++python3 tools/host_qemu_smoke.py --stage 3 --seconds 4 --log stage3.log
++python3 tools/host_qemu_smoke.py --stage 4 --seconds 8 --log stage4.log
++python3 tools/host_qemu_smoke.py --stage 4 --tasks 'print1 print2 lock1 lock2 sleep timer' --seconds 4 --log course.log
++python3 tools/host_qemu_smoke.py --stage 4 --tasks 'fly print1 print2' --seconds 3 --log fly.log
++python3 tools/host_qemu_smoke.py --stage 4 --tasks 'probe1' --seconds 6 --log idle.log
++```
++
++默认探针要求与观察到的标记匹配，错误/断言或缺少标记时退出非零。QEMU是持续运行的内核，脚本在限定时间后终止进程，再解析VT100屏幕输出作功能判断；超时本身不是通过依据。
++
++## 尚未执行
++
++- 课程原QEMU与U-Boot的端到端启动和实际块设备读取。
++- 课程loadbootd/DASIC检查。
++- Pynq板端运行与A-Core正式验收。
++- 原lab工具链兼容性；旧版本若不识别拆分指令集扩展，可按README说明确认后覆盖RISCV_ARCH。
++
++未将上述未执行项标为通过。工程需要在用户已有课程lab中继续验证。
+--- Project2-framework/drivers/screen.c
++++ Project2-Acore/drivers/screen.c
+@@ -41,7 +41,7 @@
+     if (ch == '\n')
+     {
+         current_running->cursor_x = 0;
+-        if (current_running->cursor_y < SCREEN_HEIGHT)
++        if (current_running->cursor_y < SCREEN_HEIGHT - 1)
+             current_running->cursor_y++;
+     }
+     else if (ch == '\b' || ch == '\177')
+@@ -54,7 +54,7 @@
+         if (++current_running->cursor_x >= SCREEN_WIDTH)
+         {
+             current_running->cursor_x = 0;
+-            if (current_running->cursor_y < SCREEN_HEIGHT)
++            if (current_running->cursor_y < SCREEN_HEIGHT - 1)
+                 current_running->cursor_y++;
+         }
+     }
+@@ -138,5 +138,5 @@
+     }
+ 
+     /* recover cursor position */
+-    vt100_move_cursor(current_running->cursor_x, current_running->cursor_y);
++    vt100_move_cursor(current_running->cursor_x + 1, current_running->cursor_y + 1);
+ }
+--- /dev/null
++++ Project2-Acore/include/os/config.h
+@@ -0,0 +1,9 @@
++#ifndef OS_CONFIG_H
++#define OS_CONFIG_H
++#ifndef LAB_STAGE
++#define LAB_STAGE 4
++#endif
++#if LAB_STAGE < 1 || LAB_STAGE > 4
++#error LAB_STAGE must be in 1..4
++#endif
++#endif
+--- Project2-framework/include/os/irq.h
++++ Project2-Acore/include/os/irq.h
+@@ -75,6 +75,17 @@
+ extern void handle_other(regs_context_t *regs, uint64_t stval, uint64_t scause);
+ extern void handle_syscall(regs_context_t *regs, uint64_t stval, uint64_t scause);
+ 
++static inline uint64_t irq_save(void)
++{
++    uint64_t old;
++    __asm__ volatile ("csrrc %0, sstatus, %1" : "=r"(old) : "r"(2UL) : "memory");
++    return old;
++}
++static inline void irq_restore(uint64_t old)
++{
++    if (old & 2UL)
++        __asm__ volatile ("csrs sstatus, %0" :: "r"(2UL) : "memory");
++}
+ extern void enable_interrupt(void);
+ extern void disable_interrupt(void);
+ extern void enable_preempt(void);
+--- Project2-framework/include/os/kernel.h
++++ Project2-Acore/include/os/kernel.h
+@@ -20,6 +20,7 @@
+     MUTEX_INIT,
+     MUTEX_ACQ,
+     MUTEX_RELEASE,
++    REFLUSH,
+     NUM_ENTRIES
+ } jmptab_idx_t;
+ 
+--- Project2-framework/include/os/list.h
++++ Project2-Acore/include/os/list.h
+@@ -50,6 +50,35 @@
+ // LIST_HEAD is used to define the head of a list.
+ #define LIST_HEAD(name) struct list_node name = {&(name), &(name)}
+ 
+-/* TODO: [p2-task1] implement your own list API */
++static inline void list_init(list_head *head)
++{
++    head->next = head->prev = head;
++}
++static inline int list_empty(const list_head *head)
++{
++    return head->next == head;
++}
++static inline void list_add_tail(list_node_t *node, list_head *head)
++{
++    node->prev = head->prev;
++    node->next = head;
++    head->prev->next = node;
++    head->prev = node;
++}
++static inline void list_del(list_node_t *node)
++{
++    node->prev->next = node->next;
++    node->next->prev = node->prev;
++    list_init(node);
++}
++static inline list_node_t *list_pop_front(list_head *head)
++{
++    if (list_empty(head)) return NULL;
++    list_node_t *node = head->next;
++    list_del(node);
++    return node;
++}
++#define list_entry(ptr, type, member) \
++    ((type *)((char *)(ptr) - __builtin_offsetof(type, member)))
+ 
+ #endif
+--- Project2-framework/include/os/loader.h
++++ Project2-Acore/include/os/loader.h
+@@ -2,7 +2,9 @@
+ #define __INCLUDE_LOADER_H__
+ 
+ #include <type.h>
++void load_img_bytes(uint32_t offset, uint32_t size, void *dst);
++uint64_t load_task_img(char *taskname);
+ 
+-uint64_t load_task_img(int taskid);
++
+ 
+ #endif
+--- Project2-framework/include/os/lock.h
++++ Project2-Acore/include/os/lock.h
+@@ -47,6 +47,8 @@
+     spin_lock_t lock;
+     list_head block_queue;
+     int key;
++    int used;
++    pid_t owner;
+ } mutex_lock_t;
+ 
+ void init_locks(void);
+--- Project2-framework/include/os/sched.h
++++ Project2-Acore/include/os/sched.h
+@@ -68,6 +68,8 @@
+     // NOTE: this order must be preserved, which is defined in regs.h!!
+     reg_t kernel_sp;
+     reg_t user_sp;
++    reg_t trap_t0; /* temporary saved before trap stack selection */
++    ptr_t user_stack_base;
+ 
+     /* previous, next pointer */
+     list_node_t list;
+@@ -83,7 +85,7 @@
+     int cursor_y;
+ 
+     /* time(seconds) to wake up sleeping PCB */
+-    uint64_t wakeup_time;
++    uint64_t wakeup_time; /* absolute rdtime ticks */
+ 
+ } pcb_t;
+ 
+--- Project2-framework/include/os/task.h
++++ Project2-Acore/include/os/task.h
+@@ -6,6 +6,7 @@
+ #define TASK_MEM_BASE    0x52000000
+ #define TASK_MAXNUM      16
+ #define TASK_SIZE        0x10000
++#define TASK_NAME_LEN    32
+ 
+ 
+ #define SECTOR_SIZE 512
+@@ -13,7 +14,10 @@
+ 
+ /* TODO: [p1-task4] implement your own task_info_t! */
+ typedef struct {
+-
++    char task_name[TASK_NAME_LEN];
++    uint32_t offset;
++    uint32_t size;
++    uint64_t entrypoint;
+ } task_info_t;
+ 
+ extern task_info_t tasks[TASK_MAXNUM];
+--- Project2-framework/init/main.c
++++ Project2-Acore/init/main.c
+@@ -1,12 +1,13 @@
+ #include <common.h>
+-#include <asm.h>
++#include <asm/regs.h>
+ #include <asm/unistd.h>
+-#include <os/loader.h>
++#include <os/config.h>
+ #include <os/irq.h>
+ #include <os/sched.h>
+ #include <os/lock.h>
+ #include <os/kernel.h>
+ #include <os/task.h>
++#include <os/loader.h>
+ #include <os/string.h>
+ #include <os/mm.h>
+ #include <os/time.h>
+@@ -14,131 +15,205 @@
+ #include <screen.h>
+ #include <printk.h>
+ #include <assert.h>
+-#include <type.h>
+ #include <csr.h>
+ 
+-extern void ret_from_exception();
+-
+-// Task info array
++extern void ret_from_exception(void);
+ task_info_t tasks[TASK_MAXNUM];
+-
++int task_num;
++
++_Static_assert(sizeof(regs_context_t) == OFFSET_SIZE, "trap ABI size");
++_Static_assert(sizeof(switchto_context_t) == SWITCH_TO_SIZE, "switch ABI size");
++_Static_assert(__builtin_offsetof(pcb_t, kernel_sp) == PCB_KERNEL_SP, "kernel_sp ABI");
++_Static_assert(__builtin_offsetof(pcb_t, user_sp) == PCB_USER_SP, "user_sp ABI");
++_Static_assert(__builtin_offsetof(pcb_t, trap_t0) == PCB_TRAP_T0, "trap scratch ABI");
++_Static_assert(sizeof(task_info_t) == 48, "disk task metadata ABI");
++
++/* Wrappers provide one uniform syscall ABI, including defined void returns. */
++static long k_yield(long a, long b, long c, long d, long e)
++{ do_scheduler(); return 0; }
++static long k_write(long p, long b, long c, long d, long e)
++{
++    /* No page tables in P2. Validate the complete string against this task's
++     * user image or user stack before dereferencing it, also for loadbootd. */
++    uint64_t begin = (uint64_t)p, limit = 0;
++    for (int i = 0; i < task_num; ++i) {
++        if (current_running->pid == i + 1 && begin >= tasks[i].entrypoint &&
++            begin < tasks[i].entrypoint + TASK_SIZE)
++            limit = tasks[i].entrypoint + TASK_SIZE;
++    }
++    if (begin >= current_running->user_stack_base &&
++        begin < current_running->user_stack_base + PAGE_SIZE)
++        limit = current_running->user_stack_base + PAGE_SIZE;
++    if (!limit) return -14;
++    char *text = (char *)p;
++    uint64_t i = 0;
++    while (begin + i < limit && text[i]) ++i;
++    if (begin + i == limit) return -14;
++    screen_write(text);
++#if LAB_STAGE < 4
++    screen_reflush();
++#endif
++    return 0;
++}
++static long k_cursor(long x, long y, long c, long d, long e)
++{ screen_move_cursor(x, y); return 0; }
++static long k_refresh(long a, long b, long c, long d, long e)
++{ screen_reflush(); return 0; }
++static long k_sleep(long s, long b, long c, long d, long e)
++{ do_sleep((uint32_t)s); return 0; }
++static long k_lock_init(long key, long b, long c, long d, long e)
++{ return do_mutex_lock_init((int)key); }
++static long k_lock_acq(long id, long b, long c, long d, long e)
++{ do_mutex_lock_acquire((int)id); return 0; }
++static long k_lock_rel(long id, long b, long c, long d, long e)
++{ do_mutex_lock_release((int)id); return 0; }
++static long k_timebase(long a, long b, long c, long d, long e)
++{ return get_time_base(); }
++static long k_ticks(long a, long b, long c, long d, long e)
++{ return get_ticks(); }
++
++static long k_putstr(long p, long b, long c, long d, long e)
++{ port_write((char *)p); return 0; }
++static long k_putchar(long ch, long b, long c, long d, long e)
++{ port_write_ch(ch); return 0; }
++static long k_getchar(long a, long b, long c, long d, long e)
++{ return port_read_ch(); }
++static long k_sdread(long p, long n, long block, long d, long e)
++{ return sd_read(p, n, block); }
++static long k_sdwrite(long p, long n, long block, long d, long e)
++{ return sd_write(p, n, block); }
++static long k_logging(long p, long b, long c, long d, long e)
++{ qemu_logging((char *)p); return 0; }
++static long k_settimer(long ticks, long b, long c, long d, long e)
++{ set_timer(ticks); return 0; }
++static long k_fdt(long type, long b, long c, long d, long e)
++{ return read_fdt(type); }
+ 
+ static void init_jmptab(void)
+ {
+-    volatile long (*(*jmptab))() = (volatile long (*(*))())KERNEL_JMPTAB_BASE;
+-
+-    jmptab[CONSOLE_PUTSTR]  = (long (*)())port_write;
+-    jmptab[CONSOLE_PUTCHAR] = (long (*)())port_write_ch;
+-    jmptab[CONSOLE_GETCHAR] = (long (*)())port_read_ch;
+-    jmptab[SD_READ]         = (long (*)())sd_read;
+-    jmptab[SD_WRITE]        = (long (*)())sd_write;
+-    jmptab[QEMU_LOGGING]    = (long (*)())qemu_logging;
+-    jmptab[SET_TIMER]       = (long (*)())set_timer;
+-    jmptab[READ_FDT]        = (long (*)())read_fdt;
+-    jmptab[MOVE_CURSOR]     = (long (*)())screen_move_cursor;
+-    jmptab[PRINT]           = (long (*)())printk;
+-    jmptab[YIELD]           = (long (*)())do_scheduler;
+-    jmptab[MUTEX_INIT]      = (long (*)())do_mutex_lock_init;
+-    jmptab[MUTEX_ACQ]       = (long (*)())do_mutex_lock_acquire;
+-    jmptab[MUTEX_RELEASE]   = (long (*)())do_mutex_lock_release;
+-
+-    // TODO: [p2-task1] (S-core) initialize system call table.
+-
+-}
+-
+-static void init_task_info(void)
+-{
+-    // TODO: [p1-task4] Init 'tasks' array via reading app-info sector
+-    // NOTE: You need to get some related arguments from bootblock first
+-}
+-
+-/************************************************************/
+-static void init_pcb_stack(
+-    ptr_t kernel_stack, ptr_t user_stack, ptr_t entry_point,
+-    pcb_t *pcb)
+-{
+-     /* TODO: [p2-task3] initialization of registers on kernel stack
+-      * HINT: sp, ra, sepc, sstatus
+-      * NOTE: To run the task in user mode, you should set corresponding bits
+-      *     of sstatus(SPP, SPIE, etc.).
+-      */
+-    regs_context_t *pt_regs =
+-        (regs_context_t *)(kernel_stack - sizeof(regs_context_t));
+-
+-
+-    /* TODO: [p2-task1] set sp to simulate just returning from switch_to
+-     * NOTE: you should prepare a stack, and push some values to
+-     * simulate a callee-saved context.
+-     */
+-    switchto_context_t *pt_switchto =
+-        (switchto_context_t *)((ptr_t)pt_regs - sizeof(switchto_context_t));
+-
++    long (**table)() = (long (**)())KERNEL_JMPTAB_BASE;
++    table[CONSOLE_PUTSTR] = k_putstr;
++    table[CONSOLE_PUTCHAR] = k_putchar;
++    table[CONSOLE_GETCHAR] = k_getchar;
++    table[SD_READ] = k_sdread;
++    table[SD_WRITE] = k_sdwrite;
++    table[QEMU_LOGGING] = k_logging;
++    table[SET_TIMER] = k_settimer;
++    table[READ_FDT] = k_fdt;
++    table[MOVE_CURSOR] = k_cursor;
++    table[PRINT] = k_write;
++    table[YIELD] = k_yield;
++    table[MUTEX_INIT] = k_lock_init;
++    table[MUTEX_ACQ] = k_lock_acq;
++    table[MUTEX_RELEASE] = k_lock_rel;
++    table[REFLUSH] = k_refresh;
++}
++
++static void init_task_info(int count, uint32_t offset)
++{
++    assert(count > 0 && count <= TASK_MAXNUM && count <= NUM_MAX_TASK);
++    task_num = count;
++    load_img_bytes(offset, count * sizeof(task_info_t), tasks);
++    for (int i = 0; i < count; ++i) {
++        assert(tasks[i].task_name[TASK_NAME_LEN-1] == 0);
++        assert(tasks[i].entrypoint == TASK_MEM_BASE + (ptr_t)i * TASK_SIZE);
++        assert(tasks[i].size > 0 && tasks[i].size <= TASK_SIZE);
++    }
++}
++
++static void init_pcb_stack(ptr_t ktop, ptr_t utop, ptr_t entry, pcb_t *task)
++{
++    regs_context_t *regs = (regs_context_t *)(ktop - sizeof(*regs));
++    switchto_context_t *sw = (switchto_context_t *)((ptr_t)regs - sizeof(*sw));
++    bzero(regs, sizeof(*regs));
++    bzero(sw, sizeof(*sw));
++    regs->regs[2] = utop;
++    regs->sepc = entry;
++#if LAB_STAGE >= 3
++    /* SPP=0 returns to U mode; SPIE controls SIE after sret. */
++    regs->sstatus = SR_SPIE;
++#else
++    /* Cooperative tasks share S mode and call the jump table directly. */
++    regs->regs[4] = (ptr_t)task;
++    regs->sstatus = SR_SPP;
++#endif
++    sw->regs[0] = (ptr_t)ret_from_exception;
++    sw->regs[1] = (ptr_t)sw;
++    task->kernel_sp = (ptr_t)sw;
++    task->user_sp = utop;
+ }
+ 
+ static void init_pcb(void)
+ {
+-    /* TODO: [p2-task1] load needed tasks and init their corresponding PCB */
+-
+-
+-    /* TODO: [p2-task1] remember to initialize 'current_running' */
+-
++    list_init(&ready_queue);
++    list_init(&sleep_queue);
++    list_init(&pid0_pcb.list);
++    pid0_pcb.status = TASK_RUNNING;
++    current_running = &pid0_pcb;
++    __asm__ volatile ("csrw sscratch, %0" :: "r"(current_running) : "memory");
++    for (int i = 0; i < task_num; ++i) {
++        pcb_t *task = &pcb[i];
++        bzero(task, sizeof(*task));
++        task->pid = process_id++;
++        task->status = TASK_READY;
++        task->cursor_y = i * 2;
++        list_init(&task->list);
++        ptr_t ktop = allocKernelPage(1) + PAGE_SIZE;
++        task->user_stack_base = allocUserPage(1);
++        ptr_t utop = task->user_stack_base + PAGE_SIZE;
++        uint64_t entry = load_task_img(tasks[i].task_name);
++        assert(entry);
++        init_pcb_stack(ktop, utop, entry, task);
++        list_add_tail(&task->list, &ready_queue);
++        printk("[LOAD] pid=%d task=%s entry=0x%lx\n\r", task->pid,
++               tasks[i].task_name, entry);
++    }
+ }
+ 
+ static void init_syscall(void)
+ {
+-    // TODO: [p2-task3] initialize system call table.
+-}
+-/************************************************************/
+-
+-int main(void)
+-{
+-    // Init jump table provided by kernel and bios(ΦωΦ)
++    bzero(syscall, sizeof(long (*)()) * NUM_SYSCALLS);
++    syscall[SYSCALL_YIELD] = k_yield;
++    syscall[SYSCALL_WRITE] = k_write;
++    syscall[SYSCALL_CURSOR] = k_cursor;
++    syscall[SYSCALL_REFLUSH] = k_refresh;
++    syscall[SYSCALL_SLEEP] = k_sleep;
++    syscall[SYSCALL_LOCK_INIT] = k_lock_init;
++    syscall[SYSCALL_LOCK_ACQ] = k_lock_acq;
++    syscall[SYSCALL_LOCK_RELEASE] = k_lock_rel;
++    syscall[SYSCALL_GET_TIMEBASE] = k_timebase;
++    syscall[SYSCALL_GET_TICK] = k_ticks;
++}
++
++int main(int count, uint32_t app_offset)
++{
+     init_jmptab();
+-
+-    // Init task information (〃'▽'〃)
+-    init_task_info();
+-
+-    // Init Process Control Blocks |•'-'•) ✧
++    init_task_info(count, app_offset);
+     init_pcb();
+-    printk("> [INIT] PCB initialization succeeded.\n");
+-
+-    // Read CPU frequency (｡•ᴗ-)_
+     time_base = bios_read_fdt(TIMEBASE);
+-
+-    // Init lock mechanism o(´^｀)o
++    assert(time_base > 0);
+     init_locks();
+-    printk("> [INIT] Lock mechanism initialization succeeded.\n");
+-
+-    // Init interrupt (^_^)
++    init_syscall();
+     init_exception();
+-    printk("> [INIT] Interrupt processing initialization succeeded.\n");
+-
+-    // Init system call table (0_0)
+-    init_syscall();
+-    printk("> [INIT] System call initialized successfully.\n");
+-
+-    // Init screen (QAQ)
+     init_screen();
+-    printk("> [INIT] SCREEN initialization succeeded.\n");
+-
+-    // TODO: [p2-task4] Setup timer interrupt and enable all interrupt globally
+-    // NOTE: The function of sstatus.sie is different from sie's
+-    
+-
+-
+-    // TODO: Load tasks by either task id [p1-task3] or task name [p1-task4],
+-    //   and then execute them.
+-
+-    // Infinite while loop, where CPU stays in a low-power state (QAQQQQQQQQQQQ)
+-    while (1)
+-    {
+-        // If you do non-preemptive scheduling, it's used to surrender control
++    printk("[INIT] A-Core stage %d, %d tasks, timebase=%lu\n\r",
++           LAB_STAGE, task_num, time_base);
++#if LAB_STAGE >= 4
++    bios_set_timer(get_ticks() + TIMER_INTERVAL);
++    enable_preempt();
++#endif
++    /************************************************************/
++    /* Do not touch this comment. Reserved for future projects. */
++    /************************************************************/
++    while (1) {
++        disable_interrupt();
+         do_scheduler();
+-
+-        // If you do preemptive scheduling, they're used to enable CSR_SIE and wfi
+-        // enable_preempt();
+-        // asm volatile("wfi");
+-    }
+-
+-    return 0;
+-}
++#if LAB_STAGE >= 4
++        /* WFI may wake on a pending individually enabled interrupt even
++         * with global SIE clear. Enable after WFI to service it safely. */
++        __asm__ volatile ("wfi");
++        enable_interrupt();
++#endif
++        /* Stage 3 deliberately polls here when every task is asleep. */
++    }
++}
+--- Project2-framework/kernel/irq/irq.c
++++ Project2-Acore/kernel/irq/irq.c
+@@ -6,31 +6,43 @@
+ #include <printk.h>
+ #include <assert.h>
+ #include <screen.h>
++#include <csr.h>
++#include <os/config.h>
+ 
+ handler_t irq_table[IRQC_COUNT];
+ handler_t exc_table[EXCC_COUNT];
+ 
+ void interrupt_helper(regs_context_t *regs, uint64_t stval, uint64_t scause)
+ {
+-    // TODO: [p2-task3] & [p2-task4] interrupt handler.
+-    // call corresponding handler by the value of `scause`
++    uint64_t code = scause & ~SCAUSE_IRQ_FLAG;
++    if (scause & SCAUSE_IRQ_FLAG) {
++        if (code < IRQC_COUNT) irq_table[code](regs, stval, scause);
++        else handle_other(regs, stval, scause);
++    } else {
++        if (code < EXCC_COUNT) exc_table[code](regs, stval, scause);
++        else handle_other(regs, stval, scause);
++    }
+ }
+ 
+ void handle_irq_timer(regs_context_t *regs, uint64_t stval, uint64_t scause)
+ {
+-    // TODO: [p2-task4] clock interrupt handler.
+-    // Note: use bios_set_timer to reset the timer and remember to reschedule
++    (void)regs; (void)stval; (void)scause;
++    bios_set_timer(get_ticks() + TIMER_INTERVAL);
++    screen_reflush();
++    do_scheduler();
+ }
+ 
+ void init_exception()
+ {
+-    /* TODO: [p2-task3] initialize exc_table */
+-    /* NOTE: handle_syscall, handle_other, etc.*/
+-
+-    /* TODO: [p2-task4] initialize irq_table */
+-    /* NOTE: handle_int, handle_other, etc.*/
+-
+-    /* TODO: [p2-task3] set up the entrypoint of exceptions */
++    for (int i = 0; i < EXCC_COUNT; ++i) exc_table[i] = handle_other;
++    for (int i = 0; i < IRQC_COUNT; ++i) irq_table[i] = handle_other;
++#if LAB_STAGE >= 3
++    exc_table[EXCC_SYSCALL] = handle_syscall;
++#endif
++#if LAB_STAGE >= 4
++    irq_table[IRQC_S_TIMER] = handle_irq_timer;
++#endif
++    setup_exception();
+ }
+ 
+ void handle_other(regs_context_t *regs, uint64_t stval, uint64_t scause)
+--- Project2-framework/kernel/loader/loader.c
++++ Project2-Acore/kernel/loader/loader.c
+@@ -1,15 +1,38 @@
+ #include <os/task.h>
+ #include <os/string.h>
+ #include <os/kernel.h>
+-#include <type.h>
++#include <os/loader.h>
++#include <assert.h>
+ 
+-uint64_t load_task_img(int taskid)
++static unsigned char sector_buf[SECTOR_SIZE] __attribute__((aligned(512)));
++extern int task_num;
++
++void load_img_bytes(uint32_t offset, uint32_t size, void *dst)
+ {
+-    /**
+-     * TODO:
+-     * 1. [p1-task3] load task from image via task id, and return its entrypoint
+-     * 2. [p1-task4] load task via task name, thus the arg should be 'char *taskname'
+-     */
++    unsigned char *out = dst;
++    while (size) {
++        uint32_t in_sector = offset % SECTOR_SIZE;
++        uint32_t count = SECTOR_SIZE - in_sector;
++        if (count > size) count = size;
++        /* Course BIOS uses physical addresses below 4 GiB. */
++        sd_read((unsigned)(ptr_t)sector_buf, 1, offset / SECTOR_SIZE);
++        memcpy(out, sector_buf + in_sector, count);
++        out += count;
++        offset += count;
++        size -= count;
++    }
++}
+ 
++uint64_t load_task_img(char *name)
++{
++    for (int i = 0; i < task_num; ++i) {
++        if (!strcmp(name, tasks[i].task_name)) {
++            assert(tasks[i].size <= TASK_SIZE);
++            load_img_bytes(tasks[i].offset, tasks[i].size,
++                           (void *)tasks[i].entrypoint);
++            __asm__ volatile ("fence.i" ::: "memory");
++            return tasks[i].entrypoint;
++        }
++    }
+     return 0;
+ }
+--- Project2-framework/kernel/locking/lock.c
++++ Project2-Acore/kernel/locking/lock.c
+@@ -1,48 +1,81 @@
+ #include <os/lock.h>
+ #include <os/sched.h>
+-#include <os/list.h>
++#include <os/irq.h>
+ #include <atomic.h>
++#include <assert.h>
+ 
+ mutex_lock_t mlocks[LOCK_NUM];
+-
++void spin_lock_init(spin_lock_t *lock) { lock->status = UNLOCKED; }
++int spin_lock_try_acquire(spin_lock_t *lock)
++{
++    return atomic_swap(LOCKED, (ptr_t)&lock->status) == UNLOCKED;
++}
++void spin_lock_acquire(spin_lock_t *lock)
++{
++    while (!spin_lock_try_acquire(lock)) __asm__ volatile ("nop");
++}
++void spin_lock_release(spin_lock_t *lock)
++{
++    atomic_swap(UNLOCKED, (ptr_t)&lock->status);
++}
+ void init_locks(void)
+ {
+-    /* TODO: [p2-task2] initialize mlocks */
++    for (int i = 0; i < LOCK_NUM; ++i) {
++        spin_lock_init(&mlocks[i].lock);
++        list_init(&mlocks[i].block_queue);
++        mlocks[i].used = 0;
++        mlocks[i].owner = 0;
++    }
+ }
+-
+-void spin_lock_init(spin_lock_t *lock)
+-{
+-    /* TODO: [p2-task2] initialize spin lock */
+-}
+-
+-int spin_lock_try_acquire(spin_lock_t *lock)
+-{
+-    /* TODO: [p2-task2] try to acquire spin lock */
+-    return 0;
+-}
+-
+-void spin_lock_acquire(spin_lock_t *lock)
+-{
+-    /* TODO: [p2-task2] acquire spin lock */
+-}
+-
+-void spin_lock_release(spin_lock_t *lock)
+-{
+-    /* TODO: [p2-task2] release spin lock */
+-}
+-
+ int do_mutex_lock_init(int key)
+ {
+-    /* TODO: [p2-task2] initialize mutex lock */
+-    return 0;
++    uint64_t flags = irq_save();
++    int free_slot = -1;
++    for (int i = 0; i < LOCK_NUM; ++i) {
++        if (mlocks[i].used && mlocks[i].key == key) {
++            irq_restore(flags);
++            return i;
++        }
++        if (!mlocks[i].used && free_slot < 0) free_slot = i;
++    }
++    if (free_slot >= 0) {
++        mlocks[free_slot].used = 1;
++        mlocks[free_slot].key = key;
++    }
++    irq_restore(flags);
++    return free_slot;
+ }
+-
+-void do_mutex_lock_acquire(int mlock_idx)
++static mutex_lock_t *get_lock(int id)
+ {
+-    /* TODO: [p2-task2] acquire mutex lock */
++    assert(id >= 0 && id < LOCK_NUM && mlocks[id].used);
++    return &mlocks[id];
+ }
+-
+-void do_mutex_lock_release(int mlock_idx)
++void do_mutex_lock_acquire(int id)
+ {
+-    /* TODO: [p2-task2] release mutex lock */
++    uint64_t flags = irq_save();
++    mutex_lock_t *lock = get_lock(id);
++    assert(lock->owner != current_running->pid); /* non-recursive */
++    if (spin_lock_try_acquire(&lock->lock)) {
++        lock->owner = current_running->pid;
++    } else {
++        do_block(&current_running->list, &lock->block_queue);
++        /* release handed ownership to us; no stealing by a new arrival. */
++        assert(lock->owner == current_running->pid);
++    }
++    irq_restore(flags);
+ }
++void do_mutex_lock_release(int id)
++{
++    uint64_t flags = irq_save();
++    mutex_lock_t *lock = get_lock(id);
++    assert(lock->owner == current_running->pid);
++    if (!list_empty(&lock->block_queue)) {
++        list_node_t *node = lock->block_queue.next;
++        lock->owner = list_entry(node, pcb_t, list)->pid;
++        do_unblock(node); /* lock remains LOCKED until this owner releases */
++    } else {
++        lock->owner = 0;
++        spin_lock_release(&lock->lock);
++    }
++    irq_restore(flags);
++}
+--- Project2-framework/kernel/sched/sched.c
++++ Project2-Acore/kernel/sched/sched.c
+@@ -1,56 +1,71 @@
+ #include <os/list.h>
+-#include <os/lock.h>
+ #include <os/sched.h>
+ #include <os/time.h>
+ #include <os/mm.h>
+-#include <screen.h>
+-#include <printk.h>
++#include <os/irq.h>
+ #include <assert.h>
+ 
+ pcb_t pcb[NUM_MAX_TASK];
+ const ptr_t pid0_stack = INIT_KERNEL_STACK + PAGE_SIZE;
+-pcb_t pid0_pcb = {
+-    .pid = 0,
+-    .kernel_sp = (ptr_t)pid0_stack,
+-    .user_sp = (ptr_t)pid0_stack
+-};
+-
++pcb_t pid0_pcb = { .pid = 0, .kernel_sp = INIT_KERNEL_STACK + PAGE_SIZE,
++                   .user_sp = INIT_KERNEL_STACK + PAGE_SIZE };
+ LIST_HEAD(ready_queue);
+ LIST_HEAD(sleep_queue);
+-
+-/* global process id */
+ pid_t process_id = 1;
+ 
+ void do_scheduler(void)
+ {
+-    // TODO: [p2-task3] Check sleep queue to wake up PCBs
+-
++    uint64_t flags = irq_save();
++    check_sleeping();
+     /************************************************************/
+     /* Do not touch this comment. Reserved for future projects. */
+     /************************************************************/
+-
+-    // TODO: [p2-task1] Modify the current_running pointer.
+-
+-
+-    // TODO: [p2-task1] switch_to current_running
+-
++    pcb_t *prev = current_running;
++    if (prev->status == TASK_RUNNING && prev != &pid0_pcb) {
++        prev->status = TASK_READY;
++        list_add_tail(&prev->list, &ready_queue);
++    }
++    list_node_t *node = list_pop_front(&ready_queue);
++    pcb_t *next = node ? list_entry(node, pcb_t, list) : &pid0_pcb;
++    if (prev == &pid0_pcb && next != prev) prev->status = TASK_READY;
++    next->status = TASK_RUNNING;
++    if (prev != next) {
++        /* switch_to installs tp and sscratch atomically with IRQs disabled. */
++        switch_to(prev, next);
++    }
++    irq_restore(flags);
+ }
+ 
+-void do_sleep(uint32_t sleep_time)
++void do_sleep(uint32_t seconds)
+ {
+-    // TODO: [p2-task3] sleep(seconds)
+-    // NOTE: you can assume: 1 second = 1 `timebase` ticks
+-    // 1. block the current_running
+-    // 2. set the wake up time for the blocked task
+-    // 3. reschedule because the current_running is blocked.
++    uint64_t flags = irq_save();
++    if (!seconds) {
++        do_scheduler();
++    } else {
++        current_running->wakeup_time = get_ticks() + (uint64_t)seconds * time_base;
++        do_block(&current_running->list, &sleep_queue);
++    }
++    irq_restore(flags);
+ }
+ 
+-void do_block(list_node_t *pcb_node, list_head *queue)
++void do_block(list_node_t *node, list_head *queue)
+ {
+-    // TODO: [p2-task2] block the pcb task into the block queue
++    uint64_t flags = irq_save();
++    assert(node == &current_running->list && current_running != &pid0_pcb);
++    assert(list_empty(node));
++    current_running->status = TASK_BLOCKED;
++    list_add_tail(node, queue);
++    do_scheduler();
++    irq_restore(flags);
+ }
+ 
+-void do_unblock(list_node_t *pcb_node)
++void do_unblock(list_node_t *node)
+ {
+-    // TODO: [p2-task2] unblock the `pcb` from the block queue
++    uint64_t flags = irq_save();
++    pcb_t *task = list_entry(node, pcb_t, list);
++    assert(task->status == TASK_BLOCKED);
++    list_del(node);
++    task->status = TASK_READY;
++    list_add_tail(node, &ready_queue);
++    irq_restore(flags);
+ }
+--- Project2-framework/kernel/sched/time.c
++++ Project2-Acore/kernel/sched/time.c
+@@ -33,5 +33,12 @@
+ 
+ void check_sleeping(void)
+ {
+-    // TODO: [p2-task3] Pick out tasks that should wake up from the sleep queue
++    uint64_t now = get_ticks();
++    list_node_t *node = sleep_queue.next;
++    while (node != &sleep_queue) {
++        list_node_t *next = node->next;
++        pcb_t *task = list_entry(node, pcb_t, list);
++        if ((int64_t)(now - task->wakeup_time) >= 0) do_unblock(node);
++        node = next;
++    }
+ }
+--- Project2-framework/kernel/syscall/syscall.c
++++ Project2-Acore/kernel/syscall/syscall.c
+@@ -1,12 +1,14 @@
+ #include <sys/syscall.h>
+-
+ long (*syscall[NUM_SYSCALLS])();
+-
+-void handle_syscall(regs_context_t *regs, uint64_t interrupt, uint64_t cause)
++void handle_syscall(regs_context_t *regs, uint64_t stval, uint64_t cause)
+ {
+-    /* TODO: [p2-task3] handle syscall exception */
+-    /**
+-     * HINT: call syscall function like syscall[fn](arg0, arg1, arg2),
+-     * and pay attention to the return value and sepc
+-     */
++    (void)stval; (void)cause;
++    uint64_t number = regs->regs[17]; /* a7 */
++    regs->sepc += 4; /* ecall is always a 32-bit instruction */
++    if (number >= NUM_SYSCALLS || !syscall[number]) {
++        regs->regs[10] = (reg_t)-38; /* ENOSYS */
++        return;
++    }
++    regs->regs[10] = syscall[number](regs->regs[10], regs->regs[11],
++                                    regs->regs[12], regs->regs[13], regs->regs[14]);
+ }
+--- Project2-framework/libs/printk.c
++++ Project2-Acore/libs/printk.c
+@@ -218,7 +218,7 @@
+                     len = mini_itoa(
+                         longflag == 0 ? (long)va_arg(
+                                             va, int) :
+-                                        va_arg(va, unsigned long),
++                                        va_arg(va, long),
+                         10, 0, (ch == 'u'), bf, n_pad, c_pad);
+                     _puts(bf, len, &b);
+                     longflag = 0;
+--- /dev/null
++++ Project2-Acore/test/host-qemu/firmware.S
+@@ -0,0 +1,137 @@
++/* Test-only BIOS adapter for upstream QEMU virt. Not course U-Boot,
++ * not loadbootd/DASIC. The runner relocates 0x50..0x52 to 0x80..0x82
++ * in a temporary source copy; delivered lab sources keep original addresses. */
++.section .text
++.global _start
++_start:
++    la t0, machine_trap
++    csrw mtvec, t0
++    li t0, 0x80010000
++    csrw mscratch, t0
++    li t0, -1
++    csrw pmpaddr0, t0
++    li t0, 0x0f
++    csrw pmpcfg0, t0
++    li t0, 0xb1ff
++    csrw medeleg, t0
++    li t0, 0x20
++    csrw mideleg, t0
++    li t0, 7
++    csrw mcounteren, t0
++    csrw scounteren, t0
++    csrw mie, zero
++    /* Copy the disk's initial boot sector, like course U-Boot. */
++    li t0, 0x84000000
++    li t1, 0x80200000
++    li t2, 512
++1:  lbu t3, 0(t0)
++    sb t3, 0(t1)
++    addi t0, t0, 1
++    addi t1, t1, 1
++    addi t2, t2, -1
++    bnez t2, 1b
++    fence.i
++    li t0, 0x80200000
++    csrw mepc, t0
++    li t0, 0x800
++    csrw mstatus, t0
++    li sp, 0x80500000
++    mret
++
++.balign 4
++machine_trap:
++    csrrw sp, mscratch, sp
++    addi sp, sp, -64
++    sd t0, 0(sp)
++    sd t1, 8(sp)
++    sd t2, 16(sp)
++    sd t3, 24(sp)
++    sd t4, 32(sp)
++    sd t5, 40(sp)
++    csrr t0, mcause
++    li t1, 0x8000000000000007
++    beq t0, t1, timer_irq
++    li t1, 9
++    bne t0, t1, fatal
++    beqz a7, set_timer
++    li t0, 1
++    beq a7, t0, putchar
++    li t0, 2
++    beq a7, t0, getchar
++    li t0, 9
++    beq a7, t0, putstr
++    li t0, 11
++    beq a7, t0, sdread
++    li t0, 12
++    beq a7, t0, fdt
++    li t0, 14
++    beq a7, t0, putstr
++    j fatal
++set_timer:
++    li t0, 0x2004000
++    sd a0, 0(t0)
++    li t0, 0x20
++    csrc mip, t0
++    li t0, 0x80
++    csrs mie, t0
++    j bios_done
++putchar:
++    li t0, 0x10000000
++    sb a0, 0(t0)
++    j bios_done
++getchar:
++    li a0, -1
++    j bios_done
++putstr:
++    mv t0, a0
++    li t1, 0x10000000
++1:  lbu t2, 0(t0)
++    beqz t2, bios_done
++    sb t2, 0(t1)
++    addi t0, t0, 1
++    j 1b
++sdread:
++    li t0, 0x84000000
++    slli t1, a2, 9
++    add t0, t0, t1
++    mv t1, a0
++    slli t2, a1, 9
++1:  beqz t2, bios_done
++    lbu t3, 0(t0)
++    sb t3, 0(t1)
++    addi t0, t0, 1
++    addi t1, t1, 1
++    addi t2, t2, -1
++    j 1b
++fdt:
++    li a0, 10000000
++bios_done:
++    csrr t0, mepc
++    addi t0, t0, 4
++    csrw mepc, t0
++    j restore
++ timer_irq:
++    li t0, 0x80
++    csrc mie, t0
++    li t0, 0x20
++    csrs mip, t0
++restore:
++    ld t0, 0(sp)
++    ld t1, 8(sp)
++    ld t2, 16(sp)
++    ld t3, 24(sp)
++    ld t4, 32(sp)
++    ld t5, 40(sp)
++    addi sp, sp, 64
++    csrrw sp, mscratch, sp
++    mret
++fatal:
++    li t0, 0x10000000
++    li t1, 33
++    sb t1, 0(t0)
++1:  wfi
++    j 1b
++
++.section .bios,"ax"
++    ecall
++    ret
+--- /dev/null
++++ Project2-Acore/test/host-qemu/firmware.lds
+@@ -0,0 +1,9 @@
++OUTPUT_ARCH(riscv)
++ENTRY(_start)
++SECTIONS {
++  . = 0x80000000;
++  .text : { *(.text) }
++  . = 0x80150000;
++  .bios : { *(.bios) }
++  /DISCARD/ : { *(.comment) *(.riscv.attributes) *(.note*) }
++}
+--- /dev/null
++++ Project2-Acore/test/validation/coop1.c
+@@ -0,0 +1,10 @@
++#include <stdio.h>
++#include <unistd.h>
++int main(void)
++{
++    for (unsigned i = 0; ; ++i) {
++        sys_move_cursor(0, 0);
++        printf("[COOP 1] count=%u\n", i);
++        sys_yield();
++    }
++}
+--- /dev/null
++++ Project2-Acore/test/validation/coop2.c
+@@ -0,0 +1,10 @@
++#include <stdio.h>
++#include <unistd.h>
++int main(void)
++{
++    for (unsigned i = 0; ; ++i) {
++        sys_move_cursor(0, 1);
++        printf("[COOP 2] count=%u\n", i);
++        sys_yield();
++    }
++}
+--- /dev/null
++++ Project2-Acore/test/validation/coop_timer.c
+@@ -0,0 +1,15 @@
++#include <stdio.h>
++#include <unistd.h>
++int main(void)
++{
++    long last = -1;
++    for (;;) {
++        long now = sys_get_tick() / sys_get_timebase();
++        if (now != last) {
++            last = now;
++            sys_move_cursor(0, 6);
++            printf("[COOP TIMER] seconds=%ld\n", now);
++        }
++        sys_yield();
++    }
++}
+--- /dev/null
++++ Project2-Acore/test/validation/mutex1.c
+@@ -0,0 +1,18 @@
++#include <stdio.h>
++#include <unistd.h>
++#include <assert.h>
++int main(void)
++{
++    int id = sys_mutex_init(42);
++    assert(id >= 0 && id == sys_mutex_init(42));
++    for (unsigned n = 0;; ++n) {
++        sys_mutex_acquire(id);
++        sys_move_cursor(0, 0);
++        printf("[MUTEX 1] acquired %u\n", n);
++        sys_yield(); /* force the peer to contend while we own the lock */
++        sys_move_cursor(0, 0);
++        printf("[MUTEX 1] release %u\n", n);
++        sys_mutex_release(id);
++        sys_yield();
++    }
++}
+--- /dev/null
++++ Project2-Acore/test/validation/mutex2.c
+@@ -0,0 +1,18 @@
++#include <stdio.h>
++#include <unistd.h>
++#include <assert.h>
++int main(void)
++{
++    int id = sys_mutex_init(42);
++    assert(id >= 0 && id == sys_mutex_init(42));
++    for (unsigned n = 0;; ++n) {
++        sys_mutex_acquire(id);
++        sys_move_cursor(0, 1);
++        printf("[MUTEX 2] acquired %u\n", n);
++        sys_yield(); /* force the peer to contend while we own the lock */
++        sys_move_cursor(0, 1);
++        printf("[MUTEX 2] release %u\n", n);
++        sys_mutex_release(id);
++        sys_yield();
++    }
++}
+--- /dev/null
++++ Project2-Acore/test/validation/probe1.c
+@@ -0,0 +1,46 @@
++#include <stdio.h>
++#include <stdint.h>
++#include <unistd.h>
++#include <assert.h>
++#include "register_check.h"
++static long raw_call(long number, long argument)
++{
++    register long a0 asm("a0") = argument;
++    register long a7 asm("a7") = number;
++    asm volatile ("ecall" : "+r"(a0) : "r"(a7) : "memory");
++    return a0;
++}
++static void report(const char *s)
++{
++    sys_move_cursor(0, 0);
++    printf("[PROBE 1] %s\n", s);
++    sys_reflush();
++}
++int main(void)
++{
++    register uintptr_t c0 asm("s2") = 0x12345678UL + 1;
++    register uintptr_t c1 asm("s3") = 0x87654321UL + 1;
++    report("start");
++    assert(raw_call(95, 0) == -38);
++    assert(raw_call(1000000, 0) == -38);
++    assert(raw_call(20, 1) == -14);
++    int lock = sys_mutex_init(99);
++    assert(lock >= 0 && lock == sys_mutex_init(99));
++    long base = sys_get_timebase();
++    assert(base > 0);
++    long start = sys_get_tick();
++    /* This function never calls a syscall or yields. */
++    assert(register_check(base));
++    assert(c0 == 0x12345678UL + 1 && c1 == 0x87654321UL + 1);
++    report("cpu-loop-ok");
++    sys_mutex_acquire(lock);
++    report("lock-held");
++    sys_sleep(1); /* keep ownership, ensuring the other probe blocks */
++    report("lock-release");
++    sys_mutex_release(lock);
++    start = sys_get_tick();
++    sys_sleep(1);
++    assert(sys_get_tick() - start >= base);
++    report("PASS");
++    for (;;) sys_sleep(1);
++}
+--- /dev/null
++++ Project2-Acore/test/validation/probe2.c
+@@ -0,0 +1,46 @@
++#include <stdio.h>
++#include <stdint.h>
++#include <unistd.h>
++#include <assert.h>
++#include "register_check.h"
++static long raw_call(long number, long argument)
++{
++    register long a0 asm("a0") = argument;
++    register long a7 asm("a7") = number;
++    asm volatile ("ecall" : "+r"(a0) : "r"(a7) : "memory");
++    return a0;
++}
++static void report(const char *s)
++{
++    sys_move_cursor(0, 1);
++    printf("[PROBE 2] %s\n", s);
++    sys_reflush();
++}
++int main(void)
++{
++    register uintptr_t c0 asm("s2") = 0x12345678UL + 2;
++    register uintptr_t c1 asm("s3") = 0x87654321UL + 2;
++    report("start");
++    assert(raw_call(95, 0) == -38);
++    assert(raw_call(1000000, 0) == -38);
++    assert(raw_call(20, 1) == -14);
++    int lock = sys_mutex_init(99);
++    assert(lock >= 0 && lock == sys_mutex_init(99));
++    long base = sys_get_timebase();
++    assert(base > 0);
++    long start = sys_get_tick();
++    /* This function never calls a syscall or yields. */
++    assert(register_check(base));
++    assert(c0 == 0x12345678UL + 2 && c1 == 0x87654321UL + 2);
++    report("cpu-loop-ok");
++    sys_mutex_acquire(lock);
++    report("lock-held");
++    sys_sleep(1); /* keep ownership, ensuring the other probe blocks */
++    report("lock-release");
++    sys_mutex_release(lock);
++    start = sys_get_tick();
++    sys_sleep(1);
++    assert(sys_get_tick() - start >= base);
++    report("PASS");
++    for (;;) sys_sleep(1);
++}
+--- /dev/null
++++ Project2-Acore/test/validation/register_check.h
+@@ -0,0 +1,132 @@
++#ifndef REGISTER_CHECK_H
++#define REGISTER_CHECK_H
++#include <stdint.h>
++__attribute__((naked, noinline)) static long register_check(unsigned long ticks)
++{
++    asm volatile (
++        "addi sp, sp, -144\n"
++        "sd ra, 0(sp)\n"
++        "sd s0, 8(sp)\n"
++        "sd s1, 16(sp)\n"
++        "sd s2, 24(sp)\n"
++        "sd s3, 32(sp)\n"
++        "sd s4, 40(sp)\n"
++        "sd s5, 48(sp)\n"
++        "sd s6, 56(sp)\n"
++        "sd s7, 64(sp)\n"
++        "sd s8, 72(sp)\n"
++        "sd s9, 80(sp)\n"
++        "sd s10, 88(sp)\n"
++        "sd s11, 96(sp)\n"
++        "sd gp, 104(sp)\n"
++        "sd tp, 112(sp)\n"
++        "rdtime t5\n"
++        "add t5, t5, a0\n"
++        "sd t5, 120(sp)\n"
++        "li ra, 1192960\n"
++        "li gp, 1192961\n"
++        "li tp, 1192962\n"
++        "li t0, 1192963\n"
++        "li t1, 1192964\n"
++        "li t2, 1192965\n"
++        "li t3, 1192966\n"
++        "li t4, 1192967\n"
++        "li a1, 1192968\n"
++        "li a2, 1192969\n"
++        "li a3, 1192970\n"
++        "li a4, 1192971\n"
++        "li a5, 1192972\n"
++        "li a6, 1192973\n"
++        "li a7, 1192974\n"
++        "li s0, 1192975\n"
++        "li s1, 1192976\n"
++        "li s2, 1192977\n"
++        "li s3, 1192978\n"
++        "li s4, 1192979\n"
++        "li s5, 1192980\n"
++        "li s6, 1192981\n"
++        "li s7, 1192982\n"
++        "li s8, 1192983\n"
++        "li s9, 1192984\n"
++        "li s10, 1192985\n"
++        "li s11, 1192986\n"
++        "1: rdtime t5\n"
++        "ld t6, 120(sp)\n"
++        "bltu t5, t6, 1b\n"
++        "li t5, 1192960\n"
++        "bne ra, t5, 2f\n"
++        "li t5, 1192961\n"
++        "bne gp, t5, 2f\n"
++        "li t5, 1192962\n"
++        "bne tp, t5, 2f\n"
++        "li t5, 1192963\n"
++        "bne t0, t5, 2f\n"
++        "li t5, 1192964\n"
++        "bne t1, t5, 2f\n"
++        "li t5, 1192965\n"
++        "bne t2, t5, 2f\n"
++        "li t5, 1192966\n"
++        "bne t3, t5, 2f\n"
++        "li t5, 1192967\n"
++        "bne t4, t5, 2f\n"
++        "li t5, 1192968\n"
++        "bne a1, t5, 2f\n"
++        "li t5, 1192969\n"
++        "bne a2, t5, 2f\n"
++        "li t5, 1192970\n"
++        "bne a3, t5, 2f\n"
++        "li t5, 1192971\n"
++        "bne a4, t5, 2f\n"
++        "li t5, 1192972\n"
++        "bne a5, t5, 2f\n"
++        "li t5, 1192973\n"
++        "bne a6, t5, 2f\n"
++        "li t5, 1192974\n"
++        "bne a7, t5, 2f\n"
++        "li t5, 1192975\n"
++        "bne s0, t5, 2f\n"
++        "li t5, 1192976\n"
++        "bne s1, t5, 2f\n"
++        "li t5, 1192977\n"
++        "bne s2, t5, 2f\n"
++        "li t5, 1192978\n"
++        "bne s3, t5, 2f\n"
++        "li t5, 1192979\n"
++        "bne s4, t5, 2f\n"
++        "li t5, 1192980\n"
++        "bne s5, t5, 2f\n"
++        "li t5, 1192981\n"
++        "bne s6, t5, 2f\n"
++        "li t5, 1192982\n"
++        "bne s7, t5, 2f\n"
++        "li t5, 1192983\n"
++        "bne s8, t5, 2f\n"
++        "li t5, 1192984\n"
++        "bne s9, t5, 2f\n"
++        "li t5, 1192985\n"
++        "bne s10, t5, 2f\n"
++        "li t5, 1192986\n"
++        "bne s11, t5, 2f\n"
++        "li a0, 1\n"
++        "j 3f\n"
++        "2: li a0, 0\n"
++        "3: ld ra, 0(sp)\n"
++        "ld s0, 8(sp)\n"
++        "ld s1, 16(sp)\n"
++        "ld s2, 24(sp)\n"
++        "ld s3, 32(sp)\n"
++        "ld s4, 40(sp)\n"
++        "ld s5, 48(sp)\n"
++        "ld s6, 56(sp)\n"
++        "ld s7, 64(sp)\n"
++        "ld s8, 72(sp)\n"
++        "ld s9, 80(sp)\n"
++        "ld s10, 88(sp)\n"
++        "ld s11, 96(sp)\n"
++        "ld gp, 104(sp)\n"
++        "ld tp, 112(sp)\n"
++        "addi sp, sp, 144\n"
++        "ret\n"
++    );
++}
++#endif
+--- Project2-framework/tiny_libc/include/kernel.h
++++ Project2-Acore/tiny_libc/include/kernel.h
+@@ -19,6 +19,7 @@
+     MUTEX_INIT,
+     MUTEX_ACQ,
+     MUTEX_RELEASE,
++    REFLUSH,
+     NUM_ENTRIES
+ } jmptab_idx_t;
+ 
+--- Project2-framework/tiny_libc/printf.c
++++ Project2-Acore/tiny_libc/printf.c
+@@ -182,7 +182,7 @@
+                     len = mini_itoa(
+                         longflag == 0 ? (long)va_arg(
+                                             va, int) :
+-                                        va_arg(va, unsigned long),
++                                        va_arg(va, long),
+                         10, 0, (ch == 'u'), bf, zero_pad);
+                     _puts(bf, len, &b);
+                     longflag = 0;
+--- Project2-framework/tiny_libc/syscall.c
++++ Project2-Acore/tiny_libc/syscall.c
+@@ -3,77 +3,86 @@
+ #include <kernel.h>
+ #include <unistd.h>
+ 
+-static const long IGNORE = 0L;
+-
+-static long invoke_syscall(long sysno, long arg0, long arg1, long arg2,
+-                           long arg3, long arg4)
++static long invoke_syscall(long number, long p0, long p1, long p2, long p3, long p4)
+ {
+-    /* TODO: [p2-task3] implement invoke_syscall via inline assembly */
+-    asm volatile("nop");
+-
+-    return 0;
++    register long a0 asm("a0") = p0;
++    register long a1 asm("a1") = p1;
++    register long a2 asm("a2") = p2;
++    register long a3 asm("a3") = p3;
++    register long a4 asm("a4") = p4;
++    register long a7 asm("a7") = number;
++    asm volatile ("ecall" : "+r"(a0) : "r"(a1), "r"(a2), "r"(a3),
++                  "r"(a4), "r"(a7) : "memory");
++    return a0;
+ }
+-
+ void sys_yield(void)
+ {
+-    /* TODO: [p2-task1] call call_jmptab to implement sys_yield */
+-    /* TODO: [p2-task3] call invoke_syscall to implement sys_yield */
++#if LAB_STAGE < 3
++    call_jmptab(YIELD, 0, 0, 0, 0, 0);
++#else
++    invoke_syscall(SYSCALL_YIELD, 0, 0, 0, 0, 0);
++#endif
+ }
+-
+ void sys_move_cursor(int x, int y)
+ {
+-    /* TODO: [p2-task1] call call_jmptab to implement sys_move_cursor */
+-    /* TODO: [p2-task3] call invoke_syscall to implement sys_move_cursor */
++#if LAB_STAGE < 3
++    call_jmptab(MOVE_CURSOR, x, y, 0, 0, 0);
++#else
++    invoke_syscall(SYSCALL_CURSOR, x, y, 0, 0, 0);
++#endif
+ }
+-
+ void sys_write(char *buff)
+ {
+-    /* TODO: [p2-task1] call call_jmptab to implement sys_write */
+-    /* TODO: [p2-task3] call invoke_syscall to implement sys_write */
++#if LAB_STAGE < 3
++    call_jmptab(PRINT, (long)buff, 0, 0, 0, 0);
++#else
++    invoke_syscall(SYSCALL_WRITE, (long)buff, 0, 0, 0, 0);
++#endif
+ }
+-
+ void sys_reflush(void)
+ {
+-    /* TODO: [p2-task1] call call_jmptab to implement sys_reflush */
+-    /* TODO: [p2-task3] call invoke_syscall to implement sys_reflush */
++#if LAB_STAGE < 3
++    call_jmptab(REFLUSH, 0, 0, 0, 0, 0);
++#else
++    invoke_syscall(SYSCALL_REFLUSH, 0, 0, 0, 0, 0);
++#endif
+ }
+-
+ int sys_mutex_init(int key)
+ {
+-    /* TODO: [p2-task2] call call_jmptab to implement sys_mutex_init */
+-    /* TODO: [p2-task3] call invoke_syscall to implement sys_mutex_init */
+-    return 0;
++#if LAB_STAGE < 3
++    return call_jmptab(MUTEX_INIT, key, 0, 0, 0, 0);
++#else
++    return invoke_syscall(SYSCALL_LOCK_INIT, key, 0, 0, 0, 0);
++#endif
+ }
+-
+-void sys_mutex_acquire(int mutex_idx)
++void sys_mutex_acquire(int id)
+ {
+-    /* TODO: [p2-task2] call call_jmptab to implement sys_mutex_acquire */
+-    /* TODO: [p2-task3] call invoke_syscall to implement sys_mutex_acquire */
++#if LAB_STAGE < 3
++    call_jmptab(MUTEX_ACQ, id, 0, 0, 0, 0);
++#else
++    invoke_syscall(SYSCALL_LOCK_ACQ, id, 0, 0, 0, 0);
++#endif
+ }
+-
+-void sys_mutex_release(int mutex_idx)
++void sys_mutex_release(int id)
+ {
+-    /* TODO: [p2-task2] call call_jmptab to implement sys_mutex_release */
+-    /* TODO: [p2-task3] call invoke_syscall to implement sys_mutex_release */
++#if LAB_STAGE < 3
++    call_jmptab(MUTEX_RELEASE, id, 0, 0, 0, 0);
++#else
++    invoke_syscall(SYSCALL_LOCK_RELEASE, id, 0, 0, 0, 0);
++#endif
+ }
+-
+ long sys_get_timebase(void)
+ {
+-    /* TODO: [p2-task3] call invoke_syscall to implement sys_get_timebase */
+-    return 0;
++    return invoke_syscall(SYSCALL_GET_TIMEBASE, 0, 0, 0, 0, 0);
+ }
+-
+ long sys_get_tick(void)
+ {
+-    /* TODO: [p2-task3] call invoke_syscall to implement sys_get_tick */
+-    return 0;
++    return invoke_syscall(SYSCALL_GET_TICK, 0, 0, 0, 0, 0);
+ }
+-
+-void sys_sleep(uint32_t time)
++void sys_sleep(uint32_t seconds)
+ {
+-    /* TODO: [p2-task3] call invoke_syscall to implement sys_sleep */
++    invoke_syscall(SYSCALL_SLEEP, seconds, 0, 0, 0, 0);
+ }
+-
+ /************************************************************/
+ /* Do not touch this comment. Reserved for future projects. */
+ /************************************************************/
+--- Project2-framework/tools/createimage.c
++++ Project2-Acore/tools/createimage.c
+@@ -1,232 +1,145 @@
+-#include <assert.h>
++/* ELF -> flat course disk image. Metadata matches the Project 1 layout.
++ * PT_LOAD segments retain their relative virtual-address offsets; holes
++ * are zero-filled. BSS is initialized by kernel/user startup code. */
+ #include <elf.h>
+-#include <errno.h>
+-#include <stdarg.h>
++#include <stdint.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+-
+-#define IMAGE_FILE "./image"
+-#define ARGS "[--extended] [--vm] <bootblock> <executable-file> ..."
+-
+-#define SECTOR_SIZE 512
+-#define BOOT_LOADER_SIG_OFFSET 0x1fe
+-#define OS_SIZE_LOC (BOOT_LOADER_SIG_OFFSET - 2)
+-#define BOOT_LOADER_SIG_1 0x55
+-#define BOOT_LOADER_SIG_2 0xaa
+-
+-#define NBYTES2SEC(nbytes) (((nbytes) / SECTOR_SIZE) + ((nbytes) % SECTOR_SIZE != 0))
+-
+-/* TODO: [p1-task4] design your own task_info_t */
+-typedef struct {
+-
+-} task_info_t;
++#include <stdarg.h>
++#include <limits.h>
+ 
+ #define TASK_MAXNUM 16
+-static task_info_t taskinfo[TASK_MAXNUM];
++#define TASK_NAME_LEN 32
++#define TASK_SIZE 0x10000UL
++#define TASK_BASE 0x52000000UL
++#define KERNEL_BASE 0x50201000UL
++#define BOOT_BASE 0x50200000UL
++#define SECTOR 512
++#define TASK_NUM_LOC 0x1f6
++#define APP_INFO_LOC 0x1f8
++#define OS_SIZE_LOC 0x1fc
+ 
+-/* structure to store command line options */
+-static struct {
+-    int vm;
+-    int extended;
+-} options;
++typedef struct {
++    char task_name[TASK_NAME_LEN];
++    uint32_t offset;
++    uint32_t size;
++    uint64_t entrypoint;
++} task_info_t;
++_Static_assert(sizeof(task_info_t) == 48, "disk ABI");
++static int extended;
+ 
+-/* prototypes of local functions */
+-static void create_image(int nfiles, char *files[]);
+-static void error(char *fmt, ...);
+-static void read_ehdr(Elf64_Ehdr *ehdr, FILE *fp);
+-static void read_phdr(Elf64_Phdr *phdr, FILE *fp, int ph, Elf64_Ehdr ehdr);
+-static uint64_t get_entrypoint(Elf64_Ehdr ehdr);
+-static uint32_t get_filesz(Elf64_Phdr phdr);
+-static uint32_t get_memsz(Elf64_Phdr phdr);
+-static void write_segment(Elf64_Phdr phdr, FILE *fp, FILE *img, int *phyaddr);
+-static void write_padding(FILE *img, int *phyaddr, int new_phyaddr);
+-static void write_img_info(int nbytes_kernel, task_info_t *taskinfo,
+-                           short tasknum, FILE *img);
+-
++static void die(const char *fmt, ...)
++{
++    va_list ap;
++    va_start(ap, fmt);
++    vfprintf(stderr, fmt, ap);
++    va_end(ap);
++    fputc('\n', stderr);
++    exit(1);
++}
++static void read_at(FILE *fp, uint64_t offset, void *data, size_t size)
++{
++    if (offset > LONG_MAX || fseek(fp, (long)offset, SEEK_SET) ||
++        fread(data, 1, size, fp) != size) die("invalid/truncated ELF");
++}
++static void write_at(FILE *fp, uint64_t offset, const void *data, size_t size)
++{
++    if (offset > LONG_MAX || fseek(fp, (long)offset, SEEK_SET) ||
++        fwrite(data, 1, size, fp) != size) die("image write failed");
++}
++static uint32_t append_elf(FILE *img, const char *path, uint64_t expected,
++                           uint64_t max_mem, uint64_t *entry)
++{
++    FILE *fp = fopen(path, "rb");
++    if (!fp) die("cannot open %s", path);
++    Elf64_Ehdr eh;
++    read_at(fp, 0, &eh, sizeof(eh));
++    if (memcmp(eh.e_ident, ELFMAG, SELFMAG) ||
++        eh.e_ident[EI_CLASS] != ELFCLASS64 || eh.e_ident[EI_DATA] != ELFDATA2LSB ||
++        eh.e_machine != EM_RISCV || eh.e_type != ET_EXEC ||
++        eh.e_phentsize != sizeof(Elf64_Phdr) || !eh.e_phnum)
++        die("%s: expected a static little-endian RISC-V ELF64 executable", path);
++    if (eh.e_entry != expected) die("%s: unexpected entry 0x%lx", path, eh.e_entry);
++    unsigned char *flat = calloc(1, max_mem);
++    if (!flat) die("out of memory");
++    uint64_t span = 0;
++    int loaded = 0;
++    for (unsigned i = 0; i < eh.e_phnum; ++i) {
++        Elf64_Phdr ph;
++        read_at(fp, eh.e_phoff + (uint64_t)i * sizeof(ph), &ph, sizeof(ph));
++        if (ph.p_type != PT_LOAD || !ph.p_memsz) continue;
++        if (ph.p_vaddr < expected || ph.p_filesz > ph.p_memsz ||
++            ph.p_vaddr - expected > max_mem ||
++            ph.p_memsz > max_mem - (ph.p_vaddr - expected))
++            die("%s: PT_LOAD outside its reserved memory", path);
++        uint64_t delta = ph.p_vaddr - expected;
++        if (ph.p_filesz) {
++            read_at(fp, ph.p_offset, flat + delta, ph.p_filesz);
++            uint64_t end = delta + ph.p_filesz;
++            if (end > span) span = end;
++            loaded = 1;
++        }
++    }
++    if (!loaded || !span || span > UINT32_MAX) die("%s: no loadable data", path);
++    if (fwrite(flat, 1, span, img) != span) die("image write failed");
++    free(flat);
++    fclose(fp);
++    *entry = eh.e_entry;
++    if (extended) printf("%s: entry=0x%lx, file span=%lu bytes\n", path, *entry, span);
++    return (uint32_t)span;
++}
+ int main(int argc, char **argv)
+ {
+-    char *progname = argv[0];
+-
+-    /* process command line options */
+-    options.vm = 0;
+-    options.extended = 0;
+-    while ((argc > 1) && (argv[1][0] == '-') && (argv[1][1] == '-')) {
+-        char *option = &argv[1][2];
+-
+-        if (strcmp(option, "vm") == 0) {
+-            options.vm = 1;
+-        } else if (strcmp(option, "extended") == 0) {
+-            options.extended = 1;
+-        } else {
+-            error("%s: invalid option\nusage: %s %s\n", progname,
+-                  progname, ARGS);
+-        }
+-        argc--;
+-        argv++;
++    if (argc > 1 && !strcmp(argv[1], "--extended")) {
++        extended = 1;
++        --argc; ++argv;
+     }
+-    if (options.vm == 1) {
+-        error("%s: option --vm not implemented\n", progname);
++    int count = argc - 3;
++    if (count < 1 || count > TASK_MAXNUM)
++        die("usage: createimage [--extended] bootblock main app... (1..16 apps)");
++    FILE *img = fopen("image", "wb+");
++    if (!img) die("cannot create image");
++    uint64_t entry;
++    uint32_t boot_size = append_elf(img, argv[1], BOOT_BASE, TASK_NUM_LOC, &entry);
++    for (uint32_t i = boot_size; i < SECTOR; ++i)
++        if (fputc(0, img) == EOF) die("image write failed");
++    /* Boot size field is still bytes, not sectors, matching Project 1. */
++    uint32_t kernel_size = append_elf(img, argv[2], KERNEL_BASE,
++                                     0x50500000UL - KERNEL_BASE, &entry);
++    if (kernel_size > UINT16_MAX)
++        die("kernel exceeds the 16-bit byte-count field (%u bytes)", kernel_size);
++    task_info_t tasks[TASK_MAXNUM] = {0};
++    for (int i = 0; i < count; ++i) {
++        const char *path = argv[i + 3];
++        const char *base = strrchr(path, '/');
++        base = base ? base + 1 : path;
++        if (!*base || strlen(base) >= TASK_NAME_LEN) die("invalid task name");
++        for (int j = 0; j < i; ++j)
++            if (!strcmp(tasks[j].task_name, base)) die("duplicate task name");
++        strcpy(tasks[i].task_name, base);
++        long pos = ftell(img);
++        if (pos < 0 || (unsigned long)pos > UINT32_MAX) die("image too large");
++        tasks[i].offset = (uint32_t)pos;
++        tasks[i].size = append_elf(img, path, TASK_BASE + i * TASK_SIZE,
++                                   TASK_SIZE, &tasks[i].entrypoint);
+     }
+-    if (argc < 3) {
+-        /* at least 3 args (createimage bootblock main) */
+-        error("usage: %s %s\n", progname, ARGS);
+-    }
+-    create_image(argc - 1, argv + 1);
++    long pos = ftell(img);
++    if (pos < 0 || (unsigned long)pos > UINT32_MAX) die("image too large");
++    uint32_t app_offset = (uint32_t)pos;
++    if (fwrite(tasks, sizeof(*tasks), count, img) != (size_t)count)
++        die("metadata write failed");
++    /* Pad the image tail so the BIOS can safely read its final sector. */
++    long end = ftell(img);
++    if (end < 0) die("image offset failed");
++    while (end++ % SECTOR) if (fputc(0, img) == EOF) die("image write failed");
++    uint16_t n = count, bytes = kernel_size;
++    uint8_t signature[] = {0x55, 0xaa};
++    write_at(img, TASK_NUM_LOC, &n, sizeof(n));
++    write_at(img, APP_INFO_LOC, &app_offset, sizeof(app_offset));
++    write_at(img, OS_SIZE_LOC, &bytes, sizeof(bytes));
++    write_at(img, 0x1fe, signature, sizeof(signature));
++    if (fclose(img)) die("image close failed");
++    printf("image: kernel=%u bytes, tasks=%d, app-info=%u\n", kernel_size, count, app_offset);
+     return 0;
+ }
+-
+-/* TODO: [p1-task4] assign your task_info_t somewhere in 'create_image' */
+-static void create_image(int nfiles, char *files[])
+-{
+-    int tasknum = nfiles - 2;
+-    int nbytes_kernel = 0;
+-    int phyaddr = 0;
+-    FILE *fp = NULL, *img = NULL;
+-    Elf64_Ehdr ehdr;
+-    Elf64_Phdr phdr;
+-
+-    /* open the image file */
+-    img = fopen(IMAGE_FILE, "w");
+-    assert(img != NULL);
+-
+-    /* for each input file */
+-    for (int fidx = 0; fidx < nfiles; ++fidx) {
+-
+-        int taskidx = fidx - 2;
+-
+-        /* open input file */
+-        fp = fopen(*files, "r");
+-        assert(fp != NULL);
+-
+-        /* read ELF header */
+-        read_ehdr(&ehdr, fp);
+-        printf("0x%04lx: %s\n", ehdr.e_entry, *files);
+-
+-        /* for each program header */
+-        for (int ph = 0; ph < ehdr.e_phnum; ph++) {
+-
+-            /* read program header */
+-            read_phdr(&phdr, fp, ph, ehdr);
+-
+-            if (phdr.p_type != PT_LOAD) continue;
+-
+-            /* write segment to the image */
+-            write_segment(phdr, fp, img, &phyaddr);
+-
+-            /* update nbytes_kernel */
+-            if (strcmp(*files, "main") == 0) {
+-                nbytes_kernel += get_filesz(phdr);
+-            }
+-        }
+-
+-        /* write padding bytes */
+-        /**
+-         * TODO:
+-         * 1. [p1-task3] do padding so that the kernel and every app program
+-         *  occupies the same number of sectors
+-         * 2. [p1-task4] only padding bootblock is allowed!
+-         */
+-        if (strcmp(*files, "bootblock") == 0) {
+-            write_padding(img, &phyaddr, SECTOR_SIZE);
+-        }
+-
+-        fclose(fp);
+-        files++;
+-    }
+-    write_img_info(nbytes_kernel, taskinfo, tasknum, img);
+-
+-    fclose(img);
+-}
+-
+-static void read_ehdr(Elf64_Ehdr * ehdr, FILE * fp)
+-{
+-    int ret;
+-
+-    ret = fread(ehdr, sizeof(*ehdr), 1, fp);
+-    assert(ret == 1);
+-    assert(ehdr->e_ident[EI_MAG1] == 'E');
+-    assert(ehdr->e_ident[EI_MAG2] == 'L');
+-    assert(ehdr->e_ident[EI_MAG3] == 'F');
+-}
+-
+-static void read_phdr(Elf64_Phdr * phdr, FILE * fp, int ph,
+-                      Elf64_Ehdr ehdr)
+-{
+-    int ret;
+-
+-    fseek(fp, ehdr.e_phoff + ph * ehdr.e_phentsize, SEEK_SET);
+-    ret = fread(phdr, sizeof(*phdr), 1, fp);
+-    assert(ret == 1);
+-    if (options.extended == 1) {
+-        printf("\tsegment %d\n", ph);
+-        printf("\t\toffset 0x%04lx", phdr->p_offset);
+-        printf("\t\tvaddr 0x%04lx\n", phdr->p_vaddr);
+-        printf("\t\tfilesz 0x%04lx", phdr->p_filesz);
+-        printf("\t\tmemsz 0x%04lx\n", phdr->p_memsz);
+-    }
+-}
+-
+-static uint64_t get_entrypoint(Elf64_Ehdr ehdr)
+-{
+-    return ehdr.e_entry;
+-}
+-
+-static uint32_t get_filesz(Elf64_Phdr phdr)
+-{
+-    return phdr.p_filesz;
+-}
+-
+-static uint32_t get_memsz(Elf64_Phdr phdr)
+-{
+-    return phdr.p_memsz;
+-}
+-
+-static void write_segment(Elf64_Phdr phdr, FILE *fp, FILE *img, int *phyaddr)
+-{
+-    if (phdr.p_memsz != 0 && phdr.p_type == PT_LOAD) {
+-        /* write the segment itself */
+-        /* NOTE: expansion of .bss should be done by kernel or runtime env! */
+-        if (options.extended == 1) {
+-            printf("\t\twriting 0x%04lx bytes\n", phdr.p_filesz);
+-        }
+-        fseek(fp, phdr.p_offset, SEEK_SET);
+-        while (phdr.p_filesz-- > 0) {
+-            fputc(fgetc(fp), img);
+-            (*phyaddr)++;
+-        }
+-    }
+-}
+-
+-static void write_padding(FILE *img, int *phyaddr, int new_phyaddr)
+-{
+-    if (options.extended == 1 && *phyaddr < new_phyaddr) {
+-        printf("\t\twrite 0x%04x bytes for padding\n", new_phyaddr - *phyaddr);
+-    }
+-
+-    while (*phyaddr < new_phyaddr) {
+-        fputc(0, img);
+-        (*phyaddr)++;
+-    }
+-}
+-
+-static void write_img_info(int nbytes_kernel, task_info_t *taskinfo,
+-                           short tasknum, FILE * img)
+-{
+-    // TODO: [p1-task3] & [p1-task4] write image info to some certain places
+-    // NOTE: os size, infomation about app-info sector(s) ...
+-}
+-
+-/* print an error message and exit */
+-static void error(char *fmt, ...)
+-{
+-    va_list args;
+-
+-    va_start(args, fmt);
+-    vfprintf(stderr, fmt, args);
+-    va_end(args);
+-    if (errno != 0) {
+-        perror(NULL);
+-    }
+-    exit(EXIT_FAILURE);
+-}
