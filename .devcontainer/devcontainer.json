@@ -1,0 +1,14 @@
+{
+  "name": "A-Core RISC-V + QEMU",
+  "build": { "dockerfile": "Dockerfile" },
+  "remoteUser": "vscode",
+  "postCreateCommand": "python3 scripts/acore.py setup && python3 scripts/acore.py build && python3 scripts/acore.py image-test",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "files.exclude": { "**/__pycache__": true }
+      }
+    }
+  }
+}

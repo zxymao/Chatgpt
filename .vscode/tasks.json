@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "A-Core: 实时运行课程任务",
+      "type": "process",
+      "command": "python3",
+      "args": ["scripts/acore.py", "run"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "A-Core: 自动测试全部阶段",
+      "type": "process",
+      "command": "python3",
+      "args": ["scripts/acore.py", "test"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    }
+  ]
+}
