@@ -168,7 +168,8 @@ def main():
                 "completion": "final branch passes WB", "bht_initial_state": 0,
                 "bht_aliasing": False, "dual_issue_same_packet_raw": False},
                "dynamic_instructions": 201, "taken_branches": 99,
-               "multicycle": {"alu_cycles": 4, "branch_cycles": 3, "total": 704},
+               "multicycle": {"alu_cycles": 5, "branch_cycles": 5, "total": 1005,
+                              "control": "Fig. 9.4: fixed five-phase divided clock"},
                "pipeline": {"no_forwarding": pipeline(100),
                             "forwarding": pipeline(100, True),
                             "id_predict_taken": pipeline(100, True, True)},
@@ -206,32 +207,23 @@ def main():
         timing_svg(name, title, rows, max(max(x["trace"]) for x in rows))
     rows = []
     c = 1
-    for name, seq in [("I", "FDEW")] + [(x + str(i), s) for i in range(1, 4) for x, s in [("D", "FDEW"), ("B", "FDE")]]:
+    for name, seq in [("I", "FDEMW")] + [(x + str(i), "FDEMW") for i in range(1, 4) for x in ("D", "B")]:
         rows.append({"label": name, "trace": dict(zip(range(c, c + len(seq)), seq))})
         c += len(seq)
-    timing_svg("q1.svg", "Q1: multicycle (first three iterations)", rows, c - 1)
+    assert c - 1 == 35
+    assert results["multicycle"]["total"] == results["dynamic_instructions"] * 5
+    timing_svg("q1.svg", "多周期处理器：前三次循环", rows, c - 1)
     rows = results["pipeline"]["forwarding"]["prefix"]
-    # Two-wide front end: dependent members of a fetched pair issue separately.
-    dual_rows = []
-    for row in rows:
-        tr = {c: s for c, s in row["trace"].items() if s != "F"}
-        if row["label"] == "D1":
-            tr.update({1: "F", 2: "D*"})
-        elif row["label"] == "B1":
-            tr.update({2: "F", 3: "D*"})
-        elif row["label"].startswith("B"):
-            f = min(c for c, s in row["trace"].items() if s == "F")
-            tr.update({f - 1: "F", f: "D*"})
-        else:
-            tr.update({c: s for c, s in row["trace"].items() if s == "F"})
-        dual_rows.append({"label": row["label"], "trace": tr})
-    timing_svg("q5.svg", "Q5: two-wide front end; no same-packet RAW issue", dual_rows, 15)
+    # Dependent instructions occupy separate issue groups; companion slot is empty.
+    # Fig. 9.18 shows lockstep pair stalls, not same-cycle RAW forwarding.
+    dual_rows = [{"label": row["label"], "trace": dict(row["trace"])} for row in rows]
+    timing_svg("q5.svg", "双发射：有效指令时序（另一发射槽空闲）", dual_rows, 15)
     # Preserve semantic order: this chain cannot issue dependent ALU/branch pairs.
     assert all(sum(r["trace"].get(c) == "E" for r in dual_rows) <= 1 for c in range(1, 16))
     results["dual_issue_cycles"] = results["pipeline"]["forwarding"]["cycles"]
     (ROOT / "results.json").write_text(json.dumps(results, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print("PASS: 90 five-stage pipeline simulations (loop bounds 1..30)")
-    print("PASS: loop bound 100: multicycle 704; no-forward 605; forward 403; dual 403; prediction 304")
+    print("PASS: loop bound 100: multicycle 1005; no-forward 605; forward 403; dual 403; prediction 304")
     print("PASS: BHT state-machine simulation; bottom-test: 1110 branches, misses 222 / 117")
     print("PASS: Cache field partition and CPI/time calculations")
     print("Wrote results.json and five SVG timing diagrams")

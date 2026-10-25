@@ -10,9 +10,10 @@
   "dynamic_instructions": 201,
   "taken_branches": 99,
   "multicycle": {
-    "alu_cycles": 4,
-    "branch_cycles": 3,
-    "total": 704
+    "alu_cycles": 5,
+    "branch_cycles": 5,
+    "total": 1005,
+    "control": "Fig. 9.4: fixed five-phase divided clock"
   },
   "pipeline": {
     "no_forwarding": {
