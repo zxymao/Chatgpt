@@ -18,4 +18,17 @@ pandoc 体系结构习题实验报告.md \
     --pdf-engine=xelatex \
     --fail-if-warnings \
     --output=体系结构习题实验报告.pdf
-printf '%s\n' 'PASS: report PDF generated'
+for format in pdf docx; do
+    options=()
+    if [ "$format" = pdf ]; then
+        options+=(--pdf-engine=xelatex)
+    fi
+    pandoc 体系结构作业.md \
+        --data-dir="$report_dir" \
+        --from=markdown+tex_math_dollars+tex_math_single_backslash \
+        --resource-path="$report_dir" \
+        "${options[@]}" \
+        --fail-if-warnings \
+        --output="体系结构作业.$format"
+done
+printf '%s\n' 'PASS: report PDF and homework PDF/Word generated'
