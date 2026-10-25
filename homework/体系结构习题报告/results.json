@@ -1,0 +1,510 @@
+{
+  "assumptions": {
+    "branch_resolution": "EX",
+    "wb_before_id_read": true,
+    "completion": "final branch passes WB",
+    "bht_initial_state": 0,
+    "bht_aliasing": false,
+    "dual_issue_same_packet_raw": false
+  },
+  "dynamic_instructions": 201,
+  "taken_branches": 99,
+  "multicycle": {
+    "alu_cycles": 4,
+    "branch_cycles": 3,
+    "total": 704
+  },
+  "pipeline": {
+    "no_forwarding": {
+      "cycles": 605,
+      "raw_stalls": 202,
+      "ex_redirects": 99,
+      "retired": 201,
+      "prefix": [
+        {
+          "uid": 1,
+          "pc": 0,
+          "trace": {
+            "1": "F",
+            "2": "D",
+            "3": "E",
+            "4": "M",
+            "5": "W"
+          },
+          "prediction": false,
+          "operand": 0,
+          "result": 100,
+          "label": "I"
+        },
+        {
+          "uid": 2,
+          "pc": 1,
+          "trace": {
+            "2": "F",
+            "3": "D*",
+            "4": "D*",
+            "5": "D",
+            "6": "E",
+            "7": "M",
+            "8": "W"
+          },
+          "prediction": false,
+          "operand": 100,
+          "result": 99,
+          "label": "D1"
+        },
+        {
+          "uid": 3,
+          "pc": 2,
+          "trace": {
+            "3": "F*",
+            "4": "F*",
+            "5": "F",
+            "6": "D*",
+            "7": "D*",
+            "8": "D",
+            "9": "E",
+            "10": "M",
+            "11": "W"
+          },
+          "prediction": false,
+          "operand": 99,
+          "taken": true,
+          "label": "B1"
+        },
+        {
+          "uid": 4,
+          "pc": 1,
+          "trace": {
+            "10": "F",
+            "11": "D",
+            "12": "E",
+            "13": "M",
+            "14": "W"
+          },
+          "prediction": false,
+          "operand": 99,
+          "result": 98,
+          "label": "D2"
+        },
+        {
+          "uid": 5,
+          "pc": 2,
+          "trace": {
+            "11": "F",
+            "12": "D*",
+            "13": "D*",
+            "14": "D",
+            "15": "E",
+            "16": "M",
+            "17": "W"
+          },
+          "prediction": false,
+          "operand": 98,
+          "taken": true,
+          "label": "B2"
+        },
+        {
+          "uid": 6,
+          "pc": 1,
+          "trace": {
+            "16": "F",
+            "17": "D",
+            "18": "E",
+            "19": "M",
+            "20": "W"
+          },
+          "prediction": false,
+          "operand": 98,
+          "result": 97,
+          "label": "D3"
+        },
+        {
+          "uid": 7,
+          "pc": 2,
+          "trace": {
+            "17": "F",
+            "18": "D*",
+            "19": "D*",
+            "20": "D",
+            "21": "E",
+            "22": "M",
+            "23": "W"
+          },
+          "prediction": false,
+          "operand": 97,
+          "taken": true,
+          "label": "B3"
+        }
+      ]
+    },
+    "forwarding": {
+      "cycles": 403,
+      "raw_stalls": 0,
+      "ex_redirects": 99,
+      "retired": 201,
+      "prefix": [
+        {
+          "uid": 1,
+          "pc": 0,
+          "trace": {
+            "1": "F",
+            "2": "D",
+            "3": "E",
+            "4": "M",
+            "5": "W"
+          },
+          "prediction": false,
+          "operand": 0,
+          "result": 100,
+          "label": "I"
+        },
+        {
+          "uid": 2,
+          "pc": 1,
+          "trace": {
+            "2": "F",
+            "3": "D",
+            "4": "E",
+            "5": "M",
+            "6": "W"
+          },
+          "prediction": false,
+          "operand": 0,
+          "result": 99,
+          "label": "D1"
+        },
+        {
+          "uid": 3,
+          "pc": 2,
+          "trace": {
+            "3": "F",
+            "4": "D",
+            "5": "E",
+            "6": "M",
+            "7": "W"
+          },
+          "prediction": false,
+          "operand": 0,
+          "taken": true,
+          "label": "B1"
+        },
+        {
+          "uid": 4,
+          "pc": 1,
+          "trace": {
+            "6": "F",
+            "7": "D",
+            "8": "E",
+            "9": "M",
+            "10": "W"
+          },
+          "prediction": false,
+          "operand": 99,
+          "result": 98,
+          "label": "D2"
+        },
+        {
+          "uid": 5,
+          "pc": 2,
+          "trace": {
+            "7": "F",
+            "8": "D",
+            "9": "E",
+            "10": "M",
+            "11": "W"
+          },
+          "prediction": false,
+          "operand": 99,
+          "taken": true,
+          "label": "B2"
+        },
+        {
+          "uid": 6,
+          "pc": 1,
+          "trace": {
+            "10": "F",
+            "11": "D",
+            "12": "E",
+            "13": "M",
+            "14": "W"
+          },
+          "prediction": false,
+          "operand": 98,
+          "result": 97,
+          "label": "D3"
+        },
+        {
+          "uid": 7,
+          "pc": 2,
+          "trace": {
+            "11": "F",
+            "12": "D",
+            "13": "E",
+            "14": "M",
+            "15": "W"
+          },
+          "prediction": false,
+          "operand": 98,
+          "taken": true,
+          "label": "B3"
+        }
+      ]
+    },
+    "id_predict_taken": {
+      "cycles": 304,
+      "raw_stalls": 0,
+      "ex_redirects": 1,
+      "retired": 201,
+      "prefix": [
+        {
+          "uid": 1,
+          "pc": 0,
+          "trace": {
+            "1": "F",
+            "2": "D",
+            "3": "E",
+            "4": "M",
+            "5": "W"
+          },
+          "prediction": false,
+          "operand": 0,
+          "result": 100,
+          "label": "I"
+        },
+        {
+          "uid": 2,
+          "pc": 1,
+          "trace": {
+            "2": "F",
+            "3": "D",
+            "4": "E",
+            "5": "M",
+            "6": "W"
+          },
+          "prediction": false,
+          "operand": 0,
+          "result": 99,
+          "label": "D1"
+        },
+        {
+          "uid": 3,
+          "pc": 2,
+          "trace": {
+            "3": "F",
+            "4": "D",
+            "5": "E",
+            "6": "M",
+            "7": "W"
+          },
+          "prediction": true,
+          "operand": 0,
+          "taken": true,
+          "label": "B1"
+        },
+        {
+          "uid": 4,
+          "pc": 1,
+          "trace": {
+            "5": "F",
+            "6": "D",
+            "7": "E",
+            "8": "M",
+            "9": "W"
+          },
+          "prediction": false,
+          "operand": 99,
+          "result": 98,
+          "label": "D2"
+        },
+        {
+          "uid": 5,
+          "pc": 2,
+          "trace": {
+            "6": "F",
+            "7": "D",
+            "8": "E",
+            "9": "M",
+            "10": "W"
+          },
+          "prediction": true,
+          "operand": 99,
+          "taken": true,
+          "label": "B2"
+        },
+        {
+          "uid": 6,
+          "pc": 1,
+          "trace": {
+            "8": "F",
+            "9": "D",
+            "10": "E",
+            "11": "M",
+            "12": "W"
+          },
+          "prediction": false,
+          "operand": 98,
+          "result": 97,
+          "label": "D3"
+        },
+        {
+          "uid": 7,
+          "pc": 2,
+          "trace": {
+            "9": "F",
+            "10": "D",
+            "11": "E",
+            "12": "M",
+            "13": "W"
+          },
+          "prediction": true,
+          "operand": 98,
+          "taken": true,
+          "label": "B3"
+        }
+      ]
+    }
+  },
+  "bht": {
+    "bottom_test": {
+      "1": {
+        "inner": {
+          "accesses": 1000,
+          "misses": 200,
+          "accuracy": "4/5",
+          "percent": 80.0
+        },
+        "middle": {
+          "accesses": 100,
+          "misses": 20,
+          "accuracy": "4/5",
+          "percent": 80.0
+        },
+        "outer": {
+          "accesses": 10,
+          "misses": 2,
+          "accuracy": "4/5",
+          "percent": 80.0
+        },
+        "total": {
+          "accesses": 1110,
+          "misses": 222,
+          "accuracy": "4/5",
+          "percent": 80.0
+        }
+      },
+      "2": {
+        "inner": {
+          "accesses": 1000,
+          "misses": 102,
+          "accuracy": "449/500",
+          "percent": 89.8
+        },
+        "middle": {
+          "accesses": 100,
+          "misses": 12,
+          "accuracy": "22/25",
+          "percent": 88.0
+        },
+        "outer": {
+          "accesses": 10,
+          "misses": 3,
+          "accuracy": "7/10",
+          "percent": 70.0
+        },
+        "total": {
+          "accesses": 1110,
+          "misses": 117,
+          "accuracy": "331/370",
+          "percent": 89.45945945945945
+        }
+      }
+    },
+    "top_test_taken_to_body": {
+      "1": {
+        "inner": {
+          "accesses": 1100,
+          "misses": 200,
+          "accuracy": "9/11",
+          "percent": 81.81818181818181
+        },
+        "middle": {
+          "accesses": 110,
+          "misses": 20,
+          "accuracy": "9/11",
+          "percent": 81.81818181818181
+        },
+        "outer": {
+          "accesses": 11,
+          "misses": 2,
+          "accuracy": "9/11",
+          "percent": 81.81818181818181
+        },
+        "total": {
+          "accesses": 1221,
+          "misses": 222,
+          "accuracy": "9/11",
+          "percent": 81.81818181818181
+        }
+      },
+      "2": {
+        "inner": {
+          "accesses": 1100,
+          "misses": 102,
+          "accuracy": "499/550",
+          "percent": 90.72727272727273
+        },
+        "middle": {
+          "accesses": 110,
+          "misses": 12,
+          "accuracy": "49/55",
+          "percent": 89.0909090909091
+        },
+        "outer": {
+          "accesses": 11,
+          "misses": 3,
+          "accuracy": "8/11",
+          "percent": 72.72727272727273
+        },
+        "total": {
+          "accesses": 1221,
+          "misses": 117,
+          "accuracy": "368/407",
+          "percent": 90.41769041769042
+        }
+      }
+    }
+  },
+  "cache": [
+    {
+      "ways": 1,
+      "sets": 512,
+      "offset": 6,
+      "index": 9,
+      "tag": 17
+    },
+    {
+      "ways": 2,
+      "sets": 256,
+      "offset": 6,
+      "index": 8,
+      "tag": 18
+    },
+    {
+      "ways": 4,
+      "sets": 128,
+      "offset": 6,
+      "index": 7,
+      "tag": 19
+    }
+  ],
+  "performance": {
+    "base_cpi": 1,
+    "cpi_1": 7,
+    "cpi_2": 3,
+    "time_2_over_1": "10/21",
+    "speedup_2_over_1": "21/10",
+    "equal_base_cpi": 34
+  },
+  "dual_issue_cycles": 403
+}

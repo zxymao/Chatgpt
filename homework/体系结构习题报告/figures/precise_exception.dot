@@ -1,0 +1,31 @@
+digraph precise_exception {
+  graph [rankdir=TB, bgcolor="white", pad=0.25, nodesep=0.25, ranksep=0.65,
+         fontname="Noto Sans CJK SC", label="精确异常：检测信息随行，在最老指令处提交或陷入", labelloc=t, fontsize=22];
+  node [shape=box, style="rounded,filled", fillcolor="#e0f2fe", color="#0369a1",
+        fontname="Noto Sans CJK SC", fontsize=17, margin="0.15,0.12"];
+  edge [fontname="Noto Sans CJK SC", fontsize=13, color="#334155"];
+  pc [label="PC 选择\n顺序 / 分支 / 异常"];
+  f [label="F 取指\n取指异常检测"];
+  d [label="D 译码\n非法 / 特权检查"];
+  e [label="E 执行\n地址与分支计算"];
+  m [label="M 访存\n访问异常检测"];
+  w [label="W 最老指令\n提交 / 同步异常", fillcolor="#dcfce7", color="#15803d"];
+  { rank=same; pc; f; d; e; m; w; }
+  pc -> f -> d -> e -> m -> w [weight=100];
+  carry [label="流水寄存器随行信息\npc、valid、异常标志/原因\n故障地址、目的寄存器、写使能", fillcolor="#f1f5f9", color="#64748b"];
+  buffer [label="存储提交缓冲\nM：暂存地址/数据\nW 许可后才对外写入", fillcolor="#fef3c7", color="#b45309"];
+  control [label="顺序提交与冲刷控制\n禁止故障指令副作用\n取消所有年轻指令", fillcolor="#fee2e2", color="#b91c1c"];
+  csr [label="异常状态与入口\n保存 PC / 原因 / 故障地址\n选择异常处理入口", fillcolor="#fee2e2", color="#b91c1c"];
+  rf [label="寄存器 / CSR 正常写回\nvalid 且获准提交", fillcolor="#dcfce7", color="#15803d"];
+  { rank=same; carry; buffer; control; }
+  { rank=same; rf; csr; }
+  d -> carry [style=dotted, arrowhead=none];
+  carry -> m [style=dotted, arrowhead=none, constraint=false];
+  m -> buffer [label="暂存 store"];
+  w -> control [label="异常 / 提交判定"];
+  w -> rf [label="无异常"];
+  control -> buffer [label="提交或丢弃", color="#b91c1c", style=dashed, constraint=false];
+  control -> csr [label="有效异常"];
+  csr -> pc [color="#b91c1c", style=dashed, constraint=false, label="异常重定向"];
+  control -> d [color="#b91c1c", style=dashed, constraint=false, label="冲刷 F/D/E/M"];
+}
