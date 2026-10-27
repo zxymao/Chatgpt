@@ -1,11 +1,11 @@
 (function(root){
   'use strict';
-  const WIDTH=24,HEIGHT=16,TILE=48,SPAWN={x:3,y:8};
+  const WIDTH=24,HEIGHT=16,TILE=48,SPAWN={x:3,y:8},ATLAS_COLUMNS=5,HERO_PORTRAIT=4;
   const cast=[
     {id:'guide',name:'林岚',role:'远征引路人',x:6,y:5,portrait:0,color:'#c5df98'},
-    {id:'engineer',name:'周衡',role:'系统工程师',x:17,y:5,portrait:1,color:'#e2b881'},
+    {id:'engineer',name:'周澄',role:'系统工程师',x:17,y:5,portrait:1,color:'#e2b881'},
     {id:'archivist',name:'苏禾',role:'记忆档案员',x:7,y:11,portrait:2,color:'#b5c2ed'},
-    {id:'ranger',name:'陈峻',role:'边界守望者',x:17,y:11,portrait:3,color:'#8dcac6'}
+    {id:'ranger',name:'陈星遥',role:'边界守望者',x:17,y:11,portrait:3,color:'#8dcac6'}
   ];
   const stories=[
     {title:'失灵的边界',place:'引导营地',incident:'营地的服务门失去了门禁，越权树灵正在误导新来的旅人。',problem:'要让普通应用安全地请求内核服务，应该怎样修复服务门？',choices:['设置系统调用号与参数，经过受控入口，由内核验证并执行','让应用直接改为内核态，再跳进任意内核地址'],right:0,lesson:'身份权限与 CPU 特权级不同。系统调用通过受控入口进入内核，也不必切换到另一个进程。',archive:'启动先经过固件与引导程序。进入营地后，记住同步异常由当前指令引起，外部中断则通常没有这种因果关系。'},
@@ -44,7 +44,7 @@
   function quest(w){return w.quests[w.zone]||{accepted:false,insight:false,claimed:false};}
   function progress(s){const w=s.world,q=quest(w);return [
     {label:'向林岚接下修复任务',done:q.accepted},
-    {label:'与周衡讨论并修复控制台',done:q.insight},
+    {label:'与周澄讨论并修复控制台',done:q.insight},
     {label:'向苏禾查阅本章记忆',done:w.met.includes(`${w.zone}:archivist`)},
     {label:'答对本章任意一道流程题',done:Object.entries(s.records).some(([id,r])=>id.startsWith(`c${w.zone+1}-`)&&Number(id.split('-')[1])>=13&&r.right>0)}
   ];}
@@ -53,7 +53,7 @@
     const n=byId.get(d.npcId),story=stories[w.zone],q=quest(w),choice=(id,label)=>({id,label});
     let text='',choices=[];
     if(n.id==='guide'){
-      if(d.node==='accepted'){text=`任务已记下：${story.title}。先与周衡修复控制台，再找苏禾查阅记忆，并在本章答对一道流程题。最后去南侧找陈峻点亮锚点。`;choices=[choice('close','我出发了')];}
+      if(d.node==='accepted'){text=`任务已记下：${story.title}。先与周澄修复控制台，再找苏禾查阅记忆，并在本章答对一道流程题。最后去南侧找陈星遥点亮锚点。`;choices=[choice('close','我出发了')];}
       else if(d.node==='lore'){text=`${story.incident} 每一章都有一枚记忆锚点。我们需要你理解其中的规则，再把正确流程带回这里。`;choices=[choice('accept','接下修复任务'),choice('close','先去看看')];}
       else{text=q.claimed?'锚点已恢复，这片土地又记起了自己的秩序。欢迎回来，守护者。':`欢迎来到${story.place}，${s.name}。${story.incident}`;choices=[choice('accept',q.accepted?'再确认一下任务':'接下修复任务'),choice('lore','这里发生了什么？'),choice('close','稍后再聊')];}
     }else if(n.id==='engineer'){
@@ -96,6 +96,6 @@
     if(x.dialog&&nodes[x.dialog.npcId]?.includes(x.dialog.node)&&nearby(w)?.id===x.dialog.npcId)w.dialog={npcId:x.dialog.npcId,node:x.dialog.node};
     return w;
   }
-  const api={WIDTH,HEIGHT,TILE,SPAWN,cast,byId,stories,rows,create,terrain,walkable,nearby,open,move,enter,quest,progress,dialogue,respond,restore};
+  const api={WIDTH,HEIGHT,TILE,SPAWN,ATLAS_COLUMNS,HERO_PORTRAIT,cast,byId,stories,rows,create,terrain,walkable,nearby,open,move,enter,quest,progress,dialogue,respond,restore};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.OSQuestWorld=api;
 })(typeof globalThis!=='undefined'?globalThis:this);

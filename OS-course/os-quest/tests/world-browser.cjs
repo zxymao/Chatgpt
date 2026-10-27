@@ -22,6 +22,7 @@ const server=http.createServer((req,res)=>{res.setHeader('Content-Type','text/ht
     await page.locator('#world-canvas').focus();
     for(let i=0;i<3;i++)await page.keyboard.press('ArrowRight');for(let i=0;i<2;i++)await page.keyboard.press('ArrowUp');
     await page.locator('#npc-dialog[open]').waitFor();assert.ok((await page.locator('#npc-name').textContent()).includes('林岚'));
+    assert.ok(await page.locator('.npc-portrait').evaluate(el=>{const r=el.getBoundingClientRect();return getComputedStyle(el).backgroundImage!=='none'&&r.width>0&&r.height>0;}),'NPC dialogue portrait must display the character atlas');
     let before=await saved();assert.equal(before.world.x,6);assert.equal(before.world.y,6);assert.deepEqual(before.flowDraft,s.flowDraft);assert.equal(before.monsterHp,s.monsterHp);
     await page.keyboard.press('ArrowLeft');assert.equal((await saved()).world.x,6);
     await page.locator('[data-npc-choice="lore"]').click();await page.locator('[data-npc-choice="accept"]').click();assert.ok((await saved()).world.quests[0].accepted);
@@ -31,7 +32,7 @@ const server=http.createServer((req,res)=>{res.setHeader('Content-Type','text/ht
     await page.keyboard.press('ArrowDown');await page.keyboard.press('ArrowUp');assert.equal(await page.locator('#npc-dialog').isVisible(),false);await page.keyboard.press('e');await page.locator('#npc-dialog[open]').waitFor();await page.keyboard.press('Escape');assert.equal((await saved()).world.dialog,null);
     // Walk to the engineer along the northern path, using actual keys.
     for(let i=0;i<10;i++)await page.keyboard.press('d');await page.keyboard.press('w');
-    await page.locator('#npc-dialog[open]').waitFor();assert.ok((await page.locator('#npc-name').textContent()).includes('周衡'));
+    await page.locator('#npc-dialog[open]').waitFor();assert.ok((await page.locator('#npc-name').textContent()).includes('周澄'));
     await page.locator('[data-npc-choice="problem"]').click();await page.locator('[data-npc-choice="solve-1"]').click();assert.equal((await saved()).world.quests[0].insight,false);
     await page.locator('[data-npc-choice="problem"]').click();await page.locator('[data-npc-choice="solve-0"]').click();assert.ok((await saved()).world.quests[0].insight);
     await page.reload();await page.locator('#npc-dialog[open]').waitFor();assert.ok((await page.locator('.npc-speech').textContent()).includes('控制台已恢复'));
@@ -48,7 +49,7 @@ const server=http.createServer((req,res)=>{res.setHeader('Content-Type','text/ht
     await page.locator('[data-view="world"]').click();await page.locator('#world-spawn').click();
     // Reach the ranger via row 9, passing below the solid memory anchor.
     await page.keyboard.press('ArrowDown');for(let i=0;i<14;i++)await page.keyboard.press('ArrowRight');await page.keyboard.press('ArrowDown');
-    await page.locator('#npc-dialog[open]').waitFor();assert.ok((await page.locator('#npc-name').textContent()).includes('陈峻'));await page.locator('[data-npc-choice="claim"]').click();assert.ok((await saved()).world.quests[0].claimed);await page.locator('[data-npc-choice="close"]').last().click();
+    await page.locator('#npc-dialog[open]').waitFor();assert.ok((await page.locator('#npc-name').textContent()).includes('陈星遥'));await page.locator('[data-npc-choice="claim"]').click();assert.ok((await saved()).world.quests[0].claimed);await page.locator('[data-npc-choice="close"]').last().click();
     now=await saved();for(const key of ['level','xp','hp','monsterHp','chapter','encounter','records'])assert.deepEqual(now[key],battle[key],key);assert.ok((await page.locator('#fragment-count').textContent()).includes('1 / 8'));
     await page.reload();assert.ok((await saved()).world.quests[0].claimed);await page.locator('#world-spawn').click();
     // Importing a map save resumes its view and quest state, without dropping battle progress.
