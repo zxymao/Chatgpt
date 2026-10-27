@@ -21,7 +21,7 @@ const serve=http.createServer((req,res)=>{
     const initial=E.create();initial.questionId='c1-01';delete initial.contentRevision;delete initial.training;delete initial.flowDraft;
     await ctx.addInitScript(s=>{if(!localStorage.getItem('os-quest-v1'))localStorage.setItem('os-quest-v1',JSON.stringify(s));},initial);
     await page.goto(url);await page.locator('#question-title').waitFor();assert.equal(await page.locator('.option').count(),4);
-    const backupKey='os-quest-v1-before-flow-update';
+    const backupKey='os-quest-v1-before-world-update';
     assert.deepEqual(await page.evaluate(k=>JSON.parse(localStorage.getItem(k)),backupKey),initial);
     const beforeBackupDownload=await page.evaluate(()=>localStorage.getItem('os-quest-v1'));
     const backupDownload=page.waitForEvent('download');await page.locator('[data-do="export-backup"]').click();const backupFile=await backupDownload;

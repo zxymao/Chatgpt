@@ -1,0 +1,112 @@
+{
+  "generatedFrom": "2cd281c (unmodified flow-release engine)",
+  "questionsSha256": "b41fee54c5614c7885af406c800d16cab7181349965ff36cf666b7f5c97cbc28",
+  "saves": {
+    "draft": {
+      "version": 1,
+      "contentRevision": 2,
+      "name": "流程题冒险者",
+      "level": 1,
+      "xp": 0,
+      "hp": 100,
+      "focus": 3,
+      "chapter": 0,
+      "encounter": 0,
+      "unlocked": 0,
+      "completed": [],
+      "monsterHp": 46,
+      "phase": "question",
+      "questionId": "c1-15",
+      "action": "heavy",
+      "mode": "battle",
+      "training": "mixed",
+      "flowDraft": {
+        "questionId": "c1-15",
+        "slots": [
+          "b0",
+          "b2",
+          null,
+          null
+        ],
+        "order": [
+          "b1",
+          "b2",
+          "b3",
+          "b4",
+          "b0"
+        ],
+        "active": 2
+      },
+      "history": [],
+      "records": {},
+      "correct": 0,
+      "answered": 0,
+      "combo": 0,
+      "bestCombo": 0,
+      "kills": 0,
+      "log": [],
+      "last": null,
+      "sound": false
+    },
+    "feedback": {
+      "version": 1,
+      "contentRevision": 2,
+      "name": "见习守护者",
+      "level": 1,
+      "xp": 28,
+      "hp": 91,
+      "focus": 4,
+      "chapter": 0,
+      "encounter": 0,
+      "unlocked": 0,
+      "completed": [],
+      "monsterHp": 31,
+      "phase": "feedback",
+      "questionId": "c1-13",
+      "action": "strike",
+      "mode": "battle",
+      "training": "mixed",
+      "flowDraft": null,
+      "history": [
+        "c1-13"
+      ],
+      "records": {
+        "c1-13": {
+          "right": 1,
+          "wrong": 0,
+          "streak": 1
+        }
+      },
+      "correct": 1,
+      "answered": 1,
+      "combo": 1,
+      "bestCombo": 1,
+      "kills": 0,
+      "log": [
+        {
+          "text": "命中 · 流程题 +28 EXP，造成 15 伤害",
+          "tone": "good"
+        }
+      ],
+      "last": {
+        "questionId": "c1-13",
+        "input": [
+          "b0",
+          "b1",
+          "b2",
+          "b3",
+          "b4"
+        ],
+        "correct": true,
+        "damage": 15,
+        "incoming": 9,
+        "xp": 28,
+        "levels": 0,
+        "killed": false,
+        "defeated": false,
+        "mode": "battle"
+      },
+      "sound": false
+    }
+  }
+}

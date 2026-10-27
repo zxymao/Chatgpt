@@ -67,7 +67,7 @@ test('unmodified original v1 saves preserve all progression, feedback, review an
   for(const [name,legacy] of Object.entries(require('./fixtures/v1-saves.json').saves)){
     const loaded=E.restore(JSON.stringify(legacy));assert.ok(loaded,name);
     for(const key of Object.keys(legacy))assert.deepEqual(loaded[key],legacy[key],`${name}: ${key}`);
-    assert.equal(loaded.version,1);assert.equal(loaded.contentRevision,2);assert.equal(loaded.training,'mixed');
+    assert.equal(loaded.version,1);assert.equal(loaded.contentRevision,3);assert.equal(loaded.training,'mixed');
     assert.deepEqual(E.wrongIds(loaded),E.wrongIds(legacy));
     if(loaded.phase==='feedback'){const before=JSON.stringify(loaded);assert.equal(E.answer(loaded,E.byId.get(loaded.questionId).answer),null);assert.equal(JSON.stringify(loaded),before);}
   }
@@ -109,4 +109,50 @@ test('wrong flow questions support two-step review with saved feedback and no da
   const q=E.byId.get('c1-13'),s=ready(q.id),wrong=[...q.answer].reverse();E.answer(s,wrong);E.advance(s);E.review(s,()=>0);
   const hp=s.hp;for(let i=0;i<2;i++){assert.equal(s.questionId,q.id);const r=E.answer(s,q.answer);assert.ok(r.correct);assert.equal(r.xp,10);assert.equal(s.hp,hp);const loaded=E.restore(JSON.stringify(s));assert.deepEqual(loaded.last.input,q.answer);E.advance(s,()=>0);}
   assert.deepEqual(E.wrongIds(s),[]);
+});
+const W=require('../src/world.js');
+test('world map collision blocks boundaries, water, trees, NPCs and the memory anchor',()=>{
+  const w=W.create();assert.equal(W.walkable(0,8),false);assert.equal(W.walkable(10,2),false);assert.equal(W.walkable(3,2),false);assert.equal(W.walkable(6,5),false);assert.equal(W.walkable(12,8),false);assert.ok(W.walkable(10,4));
+  w.x=1;w.y=8;assert.equal(W.move(w,'left').moved,false);assert.equal(w.x,1);assert.equal(W.move(w,'up').moved,true);assert.equal(w.y,7);assert.equal(W.move(w,'bad').moved,false);
+});
+test('all NPCs and exits are reachable from spawn without walking through obstacles',()=>{
+  const seen=new Set([`${W.SPAWN.x},${W.SPAWN.y}`]),queue=[W.SPAWN];
+  while(queue.length){const p=queue.shift();for(const [dx,dy]of [[0,1],[0,-1],[1,0],[-1,0]]){const x=p.x+dx,y=p.y+dy,key=`${x},${y}`;if(!seen.has(key)&&W.walkable(x,y)){seen.add(key);queue.push({x,y});}}}
+  for(const n of W.cast)assert.ok([[0,1],[0,-1],[1,0],[-1,0]].some(([dx,dy])=>seen.has(`${n.x+dx},${n.y+dy}`)),n.id);
+  assert.ok(seen.has('1,8'));assert.ok(seen.has('22,8'));assert.equal(W.rows.length,W.HEIGHT);assert.ok(W.rows.every(r=>r.length===W.WIDTH));
+});
+test('approaching an NPC triggers a first greeting, stops movement and supports repeat interaction',()=>{
+  const w=W.create();w.x=6;w.y=7;const r=W.move(w,'up');assert.ok(r.moved&&r.greeting);assert.equal(w.dialog.npcId,'guide');assert.ok(w.met.includes('0:guide'));
+  assert.equal(W.move(w,'down').moved,false);w.dialog=null;assert.ok(W.move(w,'down').moved);assert.equal(W.move(w,'up').greeting,false);assert.ok(W.open(w,'guide'));assert.equal(W.open(w,'engineer'),false);
+});
+test('world portals obey combat chapter unlocks without changing battle resources or progress',()=>{
+  const s=E.restore(require('./fixtures/v1-saves.json').saves.active),before=JSON.stringify({...s,world:null});
+  assert.equal(W.enter(s.world,6,s.unlocked),false);assert.ok(W.enter(s.world,5,s.unlocked));assert.equal(W.enter(s.world,-1,s.unlocked),false);assert.equal(W.enter(s.world,8,s.unlocked),false);
+  assert.equal(JSON.stringify({...s,world:null}),before);
+});
+test('all eight storylines have correct/wrong branches and require evidence before granting a unique fragment',()=>{
+  for(let zone=0;zone<8;zone++){
+    const s=E.create();s.chapter=s.unlocked=zone;s.world=W.create(zone);const w=s.world;
+    function talk(id){w.dialog=null;const n=W.byId.get(id);w.x=n.x;w.y=n.y+1;assert.ok(W.open(w,id));assert.ok(W.dialogue(s).text);}
+    talk('guide');assert.ok(W.respond(s,'lore'));assert.ok(W.respond(s,'accept'));assert.ok(W.quest(w).accepted);
+    talk('engineer');W.respond(s,'problem');assert.equal(W.respond(s,'solve-999'),null);W.respond(s,`solve-${1-W.stories[zone].right}`);assert.equal(w.dialog.node,'wrong');assert.equal(W.quest(w).insight,false);
+    W.respond(s,'problem');W.respond(s,`solve-${W.stories[zone].right}`);assert.ok(W.quest(w).insight);
+    talk('archivist');W.respond(s,'notes');assert.ok(W.dialogue(s).text.includes(W.stories[zone].archive));
+    talk('ranger');assert.equal(W.respond(s,'claim'),null);const q=E.byId.get(`c${zone+1}-13`);s.records[q.id]={right:1,wrong:0,streak:1};
+    assert.ok(W.progress(s).every(p=>p.done));const xp=s.xp,level=s.level;assert.ok(W.respond(s,'claim'));assert.equal(W.quest(w).claimed,true);assert.equal(s.xp,xp);assert.equal(s.level,level);
+    W.respond(s,'close');talk('ranger');assert.equal(W.respond(s,'claim'),null);assert.equal(Object.values(w.quests).filter(q=>q.claimed).length,1);
+  }
+});
+test('world position, branching dialogue, memory quests and flow drafts survive engine restore',()=>{
+  const s=ready('c1-15');E.flowDraft(s,()=>0);E.placeBlock(s,'b0');s.world.x=17;s.world.y=6;s.world.active=true;W.open(s.world,'engineer');W.respond(s,'problem');W.respond(s,'solve-0');
+  const loaded=E.restore(JSON.stringify(s));assert.deepEqual(loaded.world,s.world);assert.deepEqual(loaded.flowDraft,s.flowDraft);assert.equal(W.dialogue(loaded).npc.id,'engineer');assert.equal(loaded.questionId,s.questionId);
+});
+test('damaged optional exploration data resets safely while preserving the existing combat save',()=>{
+  const s=E.restore(require('./fixtures/v1-saves.json').saves.active);s.world={version:1,zone:7,x:0,y:0,dialog:{npcId:'unknown',node:'bogus'},quests:null};const r=E.restore(s);assert.equal(r.world.zone,s.chapter);assert.ok(W.walkable(r.world.x,r.world.y));assert.equal(r.world.dialog,null);assert.equal(r.level,s.level);assert.deepEqual(r.records,s.records);
+  const x=W.restore({version:1,zone:0,x:10,y:2,met:['oops','0:guide'],quests:{bad:{claimed:true}},dialog:{npcId:'guide',node:'start'}});assert.deepEqual(x.met,['0:guide']);assert.deepEqual(x.quests,{});assert.equal(x.dialog,null);
+});
+test('flow-release v2 saves and all 128 questions stay compatible with the new exploration release',()=>{
+  const fixture=require('./fixtures/v2-saves.json'),crypto=require('node:crypto');
+  assert.equal(crypto.createHash('sha256').update(JSON.stringify(E.data.questions)).digest('hex'),fixture.questionsSha256);
+  for(const old of Object.values(fixture.saves)){const loaded=E.restore(old);assert.ok(loaded);for(const key of Object.keys(old))if(key!=='contentRevision')assert.deepEqual(loaded[key],old[key],key);assert.equal(loaded.world.zone,old.chapter);assert.equal(loaded.world.active,false);}
 });

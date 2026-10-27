@@ -1,6 +1,7 @@
 (function (root) {
   'use strict';
   const data = typeof module !== 'undefined' && module.exports ? require('./questions.js') : root.OSQuestData;
+  const W = typeof module !== 'undefined' && module.exports ? require('./world.js') : root.OSQuestWorld;
   const byId = new Map(data.questions.map(q => [q.id,q]));
   const LIMIT = 50;
   const clamp = (n,min,max) => Math.max(min,Math.min(max,n));
@@ -11,7 +12,7 @@
     return {name:boss?data.chapters[chapter].boss:data.chapters[chapter].enemy,maxHp:46+chapter*13+(boss?40:encounter*10),attack:12+chapter*3+(boss?4:0),defense:2+chapter,boss};
   }
   function create() {
-    return {version:1,contentRevision:2,name:'见习守护者',level:1,xp:0,hp:100,focus:3,chapter:0,encounter:0,unlocked:0,completed:[],monsterHp:46,phase:'question',questionId:null,action:'strike',mode:'battle',training:'mixed',flowDraft:null,history:[],records:{},correct:0,answered:0,combo:0,bestCombo:0,kills:0,log:[],last:null,sound:false};
+    return {version:1,contentRevision:3,name:'见习守护者',level:1,xp:0,hp:100,focus:3,chapter:0,encounter:0,unlocked:0,completed:[],monsterHp:46,phase:'question',questionId:null,action:'strike',mode:'battle',training:'mixed',flowDraft:null,world:W.create(),history:[],records:{},correct:0,answered:0,combo:0,bestCombo:0,kills:0,log:[],last:null,sound:false};
   }
   function normalize(value) {return String(value).normalize('NFKC').trim().toLowerCase().replace(/\s+/g,'');}
   function validFlow(q,input){return Array.isArray(input)&&input.length===q.answer.length&&new Set(input).size===input.length&&input.every(id=>q.blocks.some(b=>b.id===id));}
@@ -156,6 +157,8 @@
       if(q&&(s.mode==='review'||q.chapter===s.chapter))s.questionId=q.id;
     }
     if(['strike','heavy','guard'].includes(x.action))s.action=x.action;
+    s.world=W.restore(x.world,s.chapter);
+    if(s.world.zone>s.unlocked)s.world=W.create(s.chapter);
     const q=byId.get(s.questionId),d=x.flowDraft;
     if(q?.type==='flow'&&d&&d.questionId===q.id&&Array.isArray(d.slots)&&d.slots.length===q.answer.length){
       const valid=id=>q.blocks.some(b=>b.id===id),filled=d.slots.filter(id=>id!==null);
