@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101713">
+  <meta name="description" content="把操作系统复习变成一场冒险。回答选择、判断与填空题，获得经验、提升能力，挑战八大章节与内核 Boss。">
+  <meta property="og:title" content="内核远征 · Kernel Quest">
+  <meta property="og:description" content="以知识为剑，踏上操作系统的八章冒险。">
+  <meta property="og:type" content="website">
+  <title>内核远征 · Kernel Quest</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23c7ed8d'/%3E%3Cpath d='M25 6C10 4 4 12 9 23c11 3 17-5 16-17ZM9 25 21 10' fill='none' stroke='%2323351e' stroke-width='2'/%3E%3C/svg%3E">
+  <style>@charset "UTF-8";
+:root{color-scheme:dark;--bg:#101713;--panel:#19221b;--line:#303a30;--text:#f0f0e2;--muted:#9ba79a;--lime:#c7ed8d;--paper:#f1efe4;--ink:#29382e;--gold:#d7b976;--red:#e9a09a;font-family:Inter,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;font-synthesis:none}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;background-image:radial-gradient(ellipse at 20% 0%,#26332960,transparent 50%)}button,input,select{font:inherit}button,a,input,summary,select{-webkit-tap-highlight-color:transparent}button{cursor:pointer;color:inherit}button:disabled{cursor:not-allowed}button,a{touch-action:manipulation}a{color:inherit;text-decoration:none}button{border:0}button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible,select:focus-visible{outline:3px solid #93bff0;outline-offset:4px}input,select{min-width:0}button{transition:background .15s,transform .15s,border-color .15s}button:active:not(:disabled){transform:translateY(1px)}svg{flex-shrink:0;vertical-align:middle}h1,h2,h3,p{margin:0}h1,h2,h3{font-weight:650}small{font-size:11px}.app-shell{max-width:1640px;margin:auto;padding:0 40px}.site-header{height:100px;display:flex;align-items:center;gap:50px;border-bottom:1px solid var(--line)}.brand{display:flex;align-items:center;gap:12px;flex-shrink:0;font-size:22px;letter-spacing:2px;font-weight:700;line-height:1.25}.brand-icon{display:grid;place-items:center;background:var(--lime);color:#243421;width:42px;height:48px;border-radius:12px 12px 18px 12px;transform:rotate(-7deg)}.brand-icon svg{transform:rotate(7deg)}.brand small{display:block;color:#a5b39d;font-size:9px;letter-spacing:3px;margin-top:7px}.site-header nav{display:flex;align-self:stretch;gap:29px;align-items:stretch}.nav-link{display:flex;align-items:center;gap:8px;padding:0 1px;background:none;position:relative;color:var(--muted);font-size:13px;white-space:nowrap}.nav-link:hover{color:var(--text)}.nav-link.active{color:var(--lime)}.nav-link.active:after{content:"";position:absolute;bottom:-1px;height:3px;background:var(--lime);left:0;right:0;border-radius:3px 3px 0 0}.nav-count{background:#35432e;border-radius:5px;min-width:17px;font-size:10px;padding:0 3px}.header-tools{margin-left:auto;display:flex;gap:14px;align-items:center}.saved-state{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:11px;white-space:nowrap}.live-dot{display:inline-block;width:5px;height:5px;background:#a4c48d;border-radius:50%;box-shadow:0 0 8px #9dcf8630}.icon-button{display:grid;place-items:center;background:none;color:var(--muted);width:32px;height:36px;border-radius:8px}.icon-button:hover,.sound-on{background:#2a352b;color:var(--lime)}.page-heading{padding:30px 0 25px;display:flex;justify-content:space-between;align-items:center;gap:20px}.breadcrumb{display:flex;align-items:center;gap:12px;color:#a8b3a2;font-size:11px;letter-spacing:1px}.breadcrumb span{color:var(--lime);font-size:9px;letter-spacing:2px}.breadcrumb i{font-style:normal;color:#4a5649}h1{font-size:25px;letter-spacing:1px;margin-top:8px}.chapter-pips{display:flex;align-items:center;gap:6px}.chapter-pips i{width:20px;height:5px;background:#303a2f;border-radius:1px}.chapter-pips i.done{background:var(--lime)}.chapter-pips i.here{background:#6d865b}.chapter-pips span{font-size:11px;color:var(--muted);margin-left:10px;white-space:nowrap}.game-layout{display:grid;grid-template-columns:204px minmax(300px,1fr) 390px;gap:20px;align-items:start}.hero-panel{border:1px solid var(--line);background:linear-gradient(160deg,#202a20,#18201a);border-radius:15px;padding:20px 18px}.profile-art{height:121px;position:relative;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse,#4c614749,transparent 70%)}.profile-art:before{content:"";position:absolute;width:95px;height:95px;border:1px solid #a9ba8d27;border-radius:50%;outline:1px dashed #a9ba8d1a;outline-offset:9px}.profile-art .sprite{height:112px;width:110px;position:relative;transform:scaleX(-1)}.rank-seal{position:absolute;bottom:0;background:#303f2c;border:1px solid #526447;color:#cbd8bc;font-size:10px;padding:2px 9px;border-radius:20px;display:flex;align-items:center;gap:4px}.hero-identity{text-align:center;padding:18px 0}.eyebrow{font-size:9px;letter-spacing:2px;color:#94a286;display:block;font-weight:600}.name-button{background:none;max-width:100%;word-break:break-word;padding:5px 0;font-size:17px;letter-spacing:1px}.name-button span{color:#91a185;font-size:12px}.hero-identity p{font-size:10px;color:var(--muted)}.level-tag{color:var(--lime);font-size:11px;margin-right:5px}.meter-label{display:flex;align-items:center;justify-content:space-between;font-size:10px;color:#a4b19e;margin-bottom:7px}.meter-label>span{display:flex;align-items:center;gap:6px}.meter-label b{font-size:11px;color:#dfe6d5;font-weight:500}.meter-label small{color:#7c8b77;font-size:10px}.meter{height:5px;background:#101812;border-radius:4px;overflow:hidden;margin-bottom:15px}.meter i{display:block;height:100%;border-radius:4px;transition:width .5s}.health i{background:#a8ce88}.xp i{background:#d4bb7a}.stat-grid{display:grid;grid-template-columns:1fr 1fr;margin:20px 0 17px;border-top:1px solid #34412f;border-bottom:1px solid #34412f;padding:15px 0}.stat-grid>div{display:grid;grid-template-columns:23px 1fr;gap:0 5px;align-items:center}.stat-grid>div+div{padding-left:13px;border-left:1px solid #34412f}.stat-grid svg{color:#a5b296;grid-row:span 2}.stat-grid span{font-size:10px;color:#8e9b88}.stat-grid b{font-size:18px;font-weight:500;line-height:1.2}.focus-row{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:#b8c4ad}.focus-row>span{display:flex;gap:5px;align-items:center}.focus-dot{width:8px;height:11px;border-radius:2px;transform:skew(-10deg);background:#354132}.focus-dot.filled{background:#e1c884;box-shadow:0 0 9px #e1c88410}.learning-mini{margin-top:23px;display:flex;justify-content:center;gap:29px;text-align:center}.learning-mini b{font-size:22px;font-weight:500;display:block;line-height:1.3}.learning-mini small{font-size:12px}.learning-mini span{color:#8e9b88;font-size:9px}.camp-button{margin-top:22px;width:100%;border:1px solid #48573d;background:#2c3929;color:#d1dfc0;font-size:11px;display:flex;gap:8px;align-items:center;justify-content:center;border-radius:7px;padding:10px}.camp-button:hover:not(:disabled){background:#394c32}.camp-button:disabled{opacity:.4}.camp-note{font-size:9px;color:#819079;text-align:center;margin-top:7px}.save-tools{border-top:1px solid #34412f;margin-top:20px;padding-top:12px;display:flex;justify-content:space-between;gap:3px}.save-tools button{font-size:9px;color:#a1af98;background:none;display:flex;gap:4px;align-items:center;padding:3px 0}.save-tools button:hover{color:var(--lime)}.adventure-column{min-width:0}.stage-card{overflow:hidden;background:#13281f;border:1px solid #374a37;border-radius:14px}.stage-top{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;color:#a8bea5;position:relative;z-index:1;font-size:9px;letter-spacing:1px;background:#14221ba8}.stage-top>span:first-child{display:flex;gap:8px;align-items:center}.stage-top>span:last-child{color:#93a98d;letter-spacing:0}.scene{height:317px;position:relative;background:linear-gradient(#162d28,#294a3d 80%);overflow:hidden}.scenery{position:absolute;width:100%;height:100%;inset:0}.fighter{position:absolute;width:42%;bottom:35px;display:flex;align-items:center;flex-direction:column;isolation:isolate}.fighter.player{left:4%}.fighter.enemy{right:3%;bottom:38px}.fighter-name{color:#d9e2c8;font-size:10px;padding:5px 12px;background:#16281c90;border:1px solid #b0cc8917;border-radius:20px;text-align:center;z-index:1;white-space:normal;max-width:100%}.fighter .sprite{height:167px;width:170px;max-width:100%;position:relative;z-index:1;image-rendering:pixelated;filter:drop-shadow(0 6px 0 #0a20183b);animation:idle 3.5s ease-in-out infinite}.player .sprite{transform:scaleX(-1)}.enemy .sprite{height:140px;width:153px;animation-delay:-1.4s;margin-top:14px;filter:drop-shadow(0 0 16px #c3b0e126)}.enemy.boss .sprite{height:157px;width:177px}.boss-mark{color:#e1bf7b}.ground-shadow{position:absolute;bottom:8px;background:#0b2119a1;width:110px;height:17px;filter:blur(2px);border-radius:50%;z-index:0}.versus{position:absolute;top:49%;left:48%;font:italic 14px Georgia,serif;color:#b8c2a34d}.enemy-hp{height:3px;width:78px;background:#203024;margin-top:7px;border-radius:2px;overflow:hidden}.enemy-hp i{display:block;background:var(--chapter-color);height:100%;transition:width .4s}.scene-caption{position:absolute;bottom:10px;left:0;right:0;text-align:center;font-size:9px;letter-spacing:1px;color:#a7b898;z-index:2;padding:0 8px}.enemy-strip{display:flex;align-items:center;gap:22px;min-height:44px;padding:12px 18px;background:#17271c;color:#b5c4a9;font-size:10px;border-top:1px solid #344a36}.enemy-strip>span{display:flex;align-items:center;gap:5px}.enemy-label{margin-left:auto;color:#7f9376!important;font-size:9px}.firefly{position:absolute;width:3px;height:3px;background:#e1d99e;border-radius:50%;box-shadow:0 0 9px #e9d38b;animation:glow 4s ease-in-out infinite}.f1{top:33%;left:21%}.f2{top:48%;left:57%;animation-delay:1.3s}.f3{top:21%;left:81%;animation-delay:2.5s}.floating-damage{position:absolute;right:20%;top:45%;z-index:5;font-size:27px;font-weight:700;text-shadow:0 3px 0 #19251b;animation:float-up .6s ease-out}.floating-damage.positive{color:#e5dca1}.floating-damage.negative{color:#e6afa2;font-size:16px}.hit .enemy-sprite{animation:hit .4s ease-in-out}.miss .hero-sprite{animation:hit .4s ease-in-out}.skills-heading{display:flex;justify-content:space-between;align-items:center;padding:21px 0 11px;gap:10px}.skills-heading h3{font-size:12px;color:#cbd5bf}.skills-heading>span{font-size:9px;color:#86957b}.skills{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.skill{position:relative;display:flex;flex-direction:column;align-items:center;gap:5px;min-height:112px;padding:14px 6px 9px;border:1px solid #35432e;background:#1b251c;border-radius:9px;color:#b3c0a5}.skill strong{font-size:11px;font-weight:500}.skill small{font-size:9px;color:#8e9c82}.skill.active{background:#303e26;border-color:#a1be79;color:var(--lime)}.skill.active:before{content:"";position:absolute;top:-1px;left:33%;right:33%;height:2px;background:var(--lime)}.skill:hover:not(:disabled){background:#34442c}.skill:disabled:not(.active){opacity:.45}.skill-cost{font-size:8px;color:#b4bea0;margin-top:1px}.battle-log{padding:20px 0 0}.section-title{display:flex;justify-content:space-between;align-items:center;padding-bottom:11px;border-bottom:1px solid var(--line)}.section-title h3{font-size:11px;display:flex;align-items:center;gap:7px;color:#b9c5ac}.section-title>span{color:#73826b;font-size:9px}.battle-log ol{padding:11px 0 0;margin:0;list-style:none;font-size:10px;line-height:1.8;color:#8f9f84}.battle-log li{display:flex;gap:10px;margin-bottom:6px}.battle-log li>span{color:#687c5d}.battle-log li.good{color:#b7cb9d}.battle-log li.bad{color:#d9a09a}.battle-log li.gold{color:#ddc582}.question-card{background:var(--paper);border-radius:14px;padding:24px;color:var(--ink);min-height:660px;display:flex;flex-direction:column;box-shadow:0 14px 40px #050b0630}.question-meta{display:flex;justify-content:space-between;align-items:center;gap:8px}.question-meta>span:last-child{font-size:10px;color:#73806f}.question-meta i{font-style:normal;padding:0 4px;color:#a1a994}.type-badge{font-size:10px;padding:4px 10px;border-radius:4px;background:#dee4ce;color:#536445}.question-reward{font-size:10px;color:#84906e;display:flex;gap:5px;align-items:center;margin:20px 0 10px}.question-card h2{font-size:19px;line-height:1.7;font-weight:650;letter-spacing:.2px;overflow-wrap:anywhere}.answer-options{display:flex;flex-direction:column;gap:10px;margin:23px 0}.option{background:#faf9f1;border:1px solid #dcded0;border-radius:8px;text-align:left;display:flex;align-items:center;gap:11px;padding:13px 12px;color:#47513d;min-height:58px;font-size:12px;line-height:1.65}.option:hover:not(:disabled){background:#e6edda;border-color:#8c9e75}.option.selected{background:#e0e9ce;border-color:#748f4e;box-shadow:0 0 0 1px #748f4e}.option-letter{width:24px;height:25px;flex-shrink:0;display:grid;place-items:center;font-size:10px;border:1px solid #d9ddcb;border-radius:5px;color:#8b947e;background:#f4f5eb}.option.selected .option-letter{background:#5a7142;border-color:#5a7142;color:white}.option>svg{margin-left:auto;min-width:17px}.option.correct-option{border-color:#7a9b5f;background:#dce8cb;box-shadow:none;color:#3a542d}.option.wrong-option{background:#f0ded5;border-color:#b98b79;box-shadow:none}.option:disabled{opacity:1}.question-bottom{margin-top:auto}.primary{width:100%;min-height:47px;background:#34492c;border:1px solid #34492c;border-radius:7px;color:#f1f4e6;font-size:12px;display:flex;align-items:center;justify-content:center;gap:12px;padding:12px 17px}.primary:hover:not(:disabled){background:#465f37}.primary:disabled{background:#daddcf;border-color:#daddcf;color:#9ba38d;cursor:not-allowed}.primary svg{margin-left:auto}.keyboard-note{text-align:center;font-size:9px;color:#8f9781;margin-top:9px}.question-footer{display:flex;justify-content:space-between;gap:6px;border-top:1px solid #dbdecd;margin-top:23px;padding-top:15px;font-size:8px;color:#8b937f}.question-footer>span:first-child{display:flex;gap:5px;align-items:center}.fill-label{display:block;margin:28px 0 9px;font-size:11px;color:#6d795f}.fill-input{width:100%;border:1px solid #c9d1b8;border-radius:7px;background:#fbfaf4;color:#33442a;padding:15px;outline-offset:3px;min-height:53px}.fill-input:disabled{background:#e8eadd;color:#6a755e}.input-note{font-size:9px;color:#8d967e;margin:8px 0 25px}.feedback{border-radius:8px;border:1px solid #c6d3b1;background:#e4ebd6;padding:15px;margin:5px 0 17px;font-size:11px;line-height:1.85}.feedback.failure{background:#eee2d8;border-color:#d6bca9}.feedback strong{display:flex;align-items:center;gap:7px;color:#476434;font-size:12px}.feedback.failure strong{color:#925c43}.feedback p{margin-top:8px}.correct-answer{font-weight:600;color:#785c3e}.feedback-numbers{display:flex;flex-wrap:wrap;gap:5px 12px;margin-top:10px;color:#667b49;font-size:10px}.failure .feedback-numbers{color:#99755e}.source-link{display:block;margin-top:9px;color:#6c7c56;font-size:10px;text-decoration:underline;text-underline-offset:3px}.next-button{margin-top:auto}.end-card{align-items:center;justify-content:center;text-align:center;gap:18px;min-height:650px}.end-card .eyebrow{color:#6d8159}.end-card h2{font-size:34px;line-height:1.4}.end-card p{font-size:12px;color:#7e8972;line-height:2}.victory-icon{color:#a88e48;margin:20px}.end-stats{display:flex;gap:17px;font-size:11px;color:#71845b}.text-button{background:none;padding:10px;color:#a5b997;font-size:12px}.question-card .text-button{color:#5c7547}.wide-view{background:#19221b;border:1px solid var(--line);padding:30px;border-radius:15px;min-height:570px}.view-intro h2{font-size:27px;letter-spacing:1px;margin:8px 0 10px}.view-intro p{font-size:12px;color:#9eac94;line-height:1.9}.chapter-grid{margin-top:28px;display:grid;grid-template-columns:repeat(4,1fr);gap:15px}.chapter-tile{min-height:235px;text-align:left;background:linear-gradient(150deg,#2c372a,#20291f);border:1px solid #394a31;border-radius:12px;padding:20px;position:relative}.chapter-tile.current{border-color:#9eb780;box-shadow:inset 0 0 0 1px #9eb78055}.chapter-tile.locked{opacity:.4;filter:saturate(.4)}.chapter-tile:hover:not(:disabled){background:#35432e}.chapter-number{font:italic 30px Georgia,serif;color:var(--tile-color);opacity:.7}.chapter-symbol{position:absolute;right:20px;top:25px;color:var(--tile-color)}.chapter-tile h3{margin-top:25px;font-size:18px}.chapter-tile p{font-size:11px;color:#9dab93}.tile-progress{height:4px;background:#192216;border-radius:2px;overflow:hidden;margin:20px 0 8px}.tile-progress i{display:block;height:100%;background:var(--tile-color)}.chapter-tile small{color:#94a186;font-size:10px}.small-primary{width:auto;min-width:190px;margin-top:20px;gap:10px;background:#3c512c;border-color:#698452;color:#ddebcc}.filter-row{display:flex;align-items:center;gap:15px;margin:25px 0 18px;font-size:11px;color:#a6b29c}.filter-row select{background:#25311f;border:1px solid #4a5b3e;color:#cdd9c1;padding:8px 28px 8px 10px;border-radius:5px}.filter-row>span{margin-left:auto}.study-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.study-item{background:#202b21;border:1px solid #35462f;border-radius:9px;padding:20px}.study-tag{color:#9eb486;font-size:10px}.study-item h3{font-size:14px;line-height:1.9;margin:9px 0 15px}.study-item details{font-size:12px;color:#b1c0a6;line-height:1.8}.study-item summary{cursor:pointer;color:#b6cb9c;font-size:11px}.study-item details p{margin:12px 0}.study-item a{font-size:10px;color:#a6be87;text-decoration:underline;text-underline-offset:3px}.empty-state{grid-column:1/-1;text-align:center;padding:60px 20px;color:#9aaa8e}.empty-state>svg{color:#a2bc81;margin-bottom:15px}.empty-state h3{font-size:18px;color:#d6dfca;margin-bottom:10px}.empty-state p{font-size:12px}.library-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:25px 0}.library-tabs button{background:#23301f;border:1px solid #394b30;padding:8px 14px;border-radius:6px;color:#a7b79a;font-size:11px}.library-tabs button.active{color:#d9ecc1;background:#3a4d2d;border-color:#8ca96c}.library-summary{display:flex;justify-content:space-between;align-items:center;margin:18px 0;font-size:12px;color:#a8ba9c}.library-summary b{color:#d3e0c4}.site-footer{display:flex;align-items:center;gap:20px;justify-content:space-between;font-size:9px;color:#74846d;border-top:1px solid var(--line);padding:20px 0;margin-top:34px}.site-footer>span:first-child{display:flex;gap:5px;align-items:center}.site-footer a{color:#a2b28f}.site-footer a:hover{text-decoration:underline}#toast{position:fixed;bottom:30px;left:50%;transform:translate(-50%,20px);background:#e7eddc;color:#34462b;padding:12px 22px;border:1px solid #cad5b8;border-radius:8px;font-size:12px;z-index:20;box-shadow:0 8px 35px #0005;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;max-width:90vw;width:max-content}#toast.show{opacity:1;transform:translate(-50%,0)}dialog{background:#f0efe2;border:1px solid #b3bea0;border-radius:16px;padding:27px;color:#3b4d31;max-width:520px;width:calc(100% - 40px);box-shadow:0 25px 100px #0007}dialog::backdrop{background:#07100bd9;backdrop-filter:blur(6px)}.dialog-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;gap:12px}.dialog-head h2{font-size:22px}.dialog-head .icon-button{color:#667754}.help-copy p{font-size:12px;margin-bottom:17px;line-height:2}.help-copy b{color:#415d30}.muted{color:#7e8e70;font-size:10px!important}dialog>p{font-size:13px;margin-bottom:20px}dialog .primary{margin-top:20px}dialog form label{font-size:12px;display:block}dialog input{width:100%;background:#fffef5;border:1px solid #b6c6a1;color:#35482b;border-radius:6px;padding:12px;margin-top:9px}.skip-link{position:fixed;top:-60px;left:10px;background:var(--lime);color:#21331a;padding:12px;z-index:40}.skip-link:focus{top:10px}.no-script{margin:40px;text-align:center}
+@keyframes idle{0%,100%{translate:0 0}50%{translate:0 -5px}}@keyframes glow{0%,100%{opacity:.1;translate:0 0}50%{opacity:.85;translate:8px -10px}}@keyframes float-up{0%{opacity:0;translate:0 15px}70%{opacity:1}100%{translate:0 0}}@keyframes hit{0%,100%{translate:0 0}30%{translate:6px 0;filter:brightness(1.5)}60%{translate:-5px 0}}
+@media(min-width:1500px){.game-layout{grid-template-columns:220px minmax(350px,1fr) 430px;gap:26px}.scene{height:345px}.question-card{min-height:690px;padding:29px}.question-card h2{font-size:21px}.option{min-height:63px}.hero-panel{padding:24px}.fighter .sprite{height:190px;width:190px}.enemy .sprite{height:162px;width:175px}}
+@media(max-width:1250px){.app-shell{padding:0 25px}.site-header{gap:28px}.site-header nav{gap:20px}.game-layout{grid-template-columns:180px minmax(270px,1fr) 340px;gap:16px}.question-card{padding:20px}.question-card h2{font-size:18px}.scene{height:300px}.header-tools{gap:7px}.skills-heading>span{font-size:8px}.enemy-strip{gap:14px;padding:12px}.hero-panel{padding:16px}.hero-identity{padding:17px 0}.name-button{font-size:15px}.skills{gap:6px}.skill strong{font-size:10px}.fighter .sprite{width:145px;height:155px}.enemy .sprite{height:126px;width:135px}.enemy.boss .sprite{height:145px;width:153px}.chapter-grid{grid-template-columns:repeat(4,1fr)}}
+@media(max-width:1050px){.site-header{height:auto;min-height:90px;flex-wrap:wrap;gap:15px;padding:20px 0 0}.site-header nav{order:3;width:100%;height:46px;gap:30px}.header-tools{margin-left:auto}.game-layout{grid-template-columns:190px minmax(0,1fr)}.question-card{grid-column:1/-1;min-height:0}.question-card .question-bottom{margin-top:20px}.question-card .answer-options{display:grid;grid-template-columns:1fr 1fr}.question-card h2{font-size:22px}.question-card .feedback{margin-top:12px}.scene{height:320px}.hero-panel{height:100%}.battle-log{padding-top:16px}.question-footer{margin-top:18px}.end-card{min-height:400px}.chapter-grid{grid-template-columns:repeat(2,1fr)}.hero-panel .camp-note{font-size:9px}.page-heading{padding:25px 0}.site-footer{font-size:9px}.site-footer>span:last-child{display:none}}
+@media(max-width:650px){.app-shell{padding:0 16px}.site-header{padding-top:17px;min-height:0;gap:10px}.brand{font-size:20px;gap:10px}.brand-icon{width:34px;height:40px}.brand small{font-size:8px;margin-top:5px;letter-spacing:2px}.header-tools{gap:2px}.saved-state{font-size:9px;gap:5px}.icon-button{width:29px}.site-header nav{gap:0;justify-content:space-between;height:50px}.nav-link{font-size:11px;gap:6px;padding:0 3px}.nav-link svg{width:15px}.page-heading{padding:22px 0 20px}.breadcrumb{font-size:9px;gap:8px}.breadcrumb span{font-size:8px}h1{font-size:20px;margin-top:7px;letter-spacing:.4px}.chapter-pips{display:none}.game-layout{grid-template-columns:1fr;gap:16px}.hero-panel{display:grid;grid-template-columns:1fr 1fr;gap:0 20px;padding:15px 17px;position:relative}.profile-art{display:none}.hero-identity{text-align:left;padding:0;grid-column:1;grid-row:1}.hero-identity .eyebrow{font-size:7px}.name-button{font-size:14px;padding:2px 0}.hero-identity p{font-size:9px}.hero-vitals{grid-column:2;grid-row:1;padding-top:0}.meter-label{margin-bottom:3px;font-size:9px}.meter-label svg{height:11px}.meter-label b{font-size:10px}.meter{margin-bottom:8px;height:4px}.stat-grid{border:0;grid-row:2;grid-column:1;display:flex;gap:17px;padding:7px 0 0;margin:0}.stat-grid>div{display:flex;gap:5px}.stat-grid>div+div{padding:0;border:0}.stat-grid svg{width:14px;height:14px}.stat-grid span{font-size:9px}.stat-grid b{font-size:13px}.focus-row{grid-row:2;grid-column:2;font-size:9px}.focus-dot{width:7px;height:9px}.learning-mini{display:none}.camp-button{grid-column:1;grid-row:3;margin-top:12px;padding:6px;min-height:34px;font-size:10px}.camp-note{display:none}.save-tools{grid-column:2;grid-row:3;margin:12px 0 0;padding:0;border:0;align-items:center;justify-content:flex-end;gap:16px}.save-tools button{font-size:9px}.adventure-column{grid-column:1}.stage-top{padding:12px 14px;font-size:8px}.scene{height:245px}.fighter{bottom:32px}.fighter.enemy{bottom:36px}.fighter .sprite{width:145px;height:149px}.enemy .sprite{height:112px;width:120px}.enemy.boss .sprite{height:129px;width:139px}.fighter-name{font-size:9px;padding:4px 9px}.ground-shadow{width:90px;height:14px}.enemy-strip{min-height:39px;padding:10px 14px;font-size:9px;gap:19px}.scene-caption{font-size:8px}.skills-heading{padding-top:17px}.skills-heading h3{font-size:11px}.skills-heading>span{font-size:8px}.skill{min-height:99px;padding:11px 4px 8px}.skill strong{font-size:11px}.skill small{font-size:8px}.skill svg{width:20px;height:20px}.battle-log{padding-top:15px}.battle-log ol{font-size:10px}.battle-log li{margin-bottom:4px}.battle-log li:nth-child(n+3){display:none}.question-card{grid-column:1;padding:21px 18px;min-height:0}.question-card h2{font-size:20px;line-height:1.7}.question-card .answer-options{display:flex;margin-top:20px}.question-reward{font-size:9px;margin-top:17px}.option{font-size:12px;min-height:55px}.question-footer{font-size:8px;gap:12px}.question-meta>span:last-child{font-size:9px}.feedback{font-size:12px}.feedback strong{font-size:12px}.primary{min-height:47px;font-size:12px}.question-card .end-card{min-height:400px}.site-footer{margin-top:25px;gap:10px;font-size:8px;padding-bottom:20px;flex-wrap:wrap}.wide-view{padding:21px 16px}.view-intro h2{font-size:22px}.view-intro p{font-size:11px}.chapter-grid{gap:11px;margin-top:22px}.chapter-tile{min-height:207px;padding:15px}.chapter-tile h3{font-size:16px;margin-top:19px}.chapter-number{font-size:27px}.chapter-symbol{right:14px;top:20px}.chapter-symbol svg{width:29px}.chapter-tile small{font-size:9px}.study-list{grid-template-columns:1fr}.study-item{padding:17px}.library-tabs{gap:7px}.library-tabs button{font-size:10px;padding:7px 10px}.library-summary{font-size:10px}.filter-row{gap:9px;font-size:10px}.filter-row select{font-size:11px;max-width:145px;padding:8px}.empty-state{padding:40px 10px}.small-primary{font-size:11px}.end-card{padding:35px 20px}.end-card h2{font-size:29px}.dialog-head h2{font-size:20px}dialog{padding:23px}#toast{font-size:11px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+  <a href="#question-panel" class="skip-link">跳到答题区</a>
+  <div id="app"></div>
+  <noscript><p class="no-script">这场冒险需要 JavaScript。请启用浏览器的 JavaScript 后重新打开。</p></noscript>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <dialog id="dialog" aria-labelledby="dialog-title"></dialog>
+  <input type="file" id="import-file" accept="application/json,.json" hidden>
+  <script>(function (root) {
+  'use strict';
+  const sourceFiles = ['Intro02 操作系统结构与组成.pdf','Proc01 进程.pdf','Proc02 线程 (1).pdf','Proc03 CPU调度.pdf','Sync01 临界区与锁.pdf','Sync02 死锁.pdf','Sync03 信号量-条件变量-屏障.pdf','Sync04 进程间通信.pdf'];
+  const chapters = [
+    ['引导之森','系统结构','认识内核，唤醒你的第一份力量。','特权幽灵','越权树灵','#9dcf86'],
+    ['进程遗迹','进程管理','穿过状态迷宫，找回执行的轨迹。','迷路的 PCB','上下文石像','#b1bcf1'],
+    ['线程双塔','线程与并发','独立的执行流，也需要共同的节奏。','分裂史莱姆','并发双生魔','#e3b2db'],
+    ['调度旷野','CPU 调度','让每一份等待，都有被回应的机会。','饥饿游魂','优先级暴君','#ebbc78'],
+    ['互斥熔炉','临界区与锁','铸造原子之刃，斩断竞态。','竞态火灵','唤醒吞噬者','#ee9c7f'],
+    ['死锁深渊','死锁与安全状态','打破等待的圆环，寻找安全的道路。','环路守卫','死锁巨像','#b59be2'],
+    ['同步圣殿','同步机制','等待、通知、会合，让协作发生。','失落的信号','屏障守门人','#7ccac7'],
+    ['通信星港','进程间通信','让消息跨越边界，让知识抵达终点。','断流机械虫','终焉·消息风暴','#88b9df']
+  ].map((c,i) => ({id:i,name:c[0],topic:c[1],description:c[2],enemy:c[3],boss:c[4],color:c[5],file:sourceFiles[i]}));
+  const mc = (prompt,options,answer,explanation,page) => ({type:'choice',prompt,options,answer:String(answer),explanation,page});
+  const tf = (prompt,answer,explanation,page) => ({type:'boolean',prompt,answer:String(answer),explanation,page});
+  const fill = (prompt,answers,explanation,page) => ({type:'fill',prompt,answers,answer:answers[0],explanation,page});
+  const banks = [
+    [
+      mc('操作系统对应用最重要的作用是什么？',['让应用直接修改所有硬件','提供抽象与接口，并管理、共享和隔离资源','替代 CPU 执行所有指令','只负责显示桌面'],1,'OS 承上启下：向上提供抽象和服务，向下管理资源、实现保护与隔离。',2),
+      mc('硬件判断能否执行某条特权指令，主要依据什么？',['当前 CPU 特权级','程序窗口大小','用户是否双击了图标','文件是不是 PDF'],0,'硬件检查执行代码时的特权级。root 启动的普通程序通常仍运行在用户态。',14),
+      mc('应用主动请求内核服务，通常经过哪种受控入口？',['普通变量赋值','随意跳到内核地址','系统调用','重新启动计算机'],2,'应用按约定设置调用号与参数，再通过系统调用指令进入受控内核入口。',23),
+      mc('微内核将更多服务放在用户态，主要带来哪种取舍？',['完全不需要内核','隔离和模块化更好，但可能增加通信开销','所有服务都无需通信','必然比所有宏内核更快'],1,'微内核以更多消息交互与边界穿越换取模块化和故障隔离。',37),
+      tf('管理员启动的普通应用，可以不经过内核直接执行任何特权指令。',false,'用户身份权限和 CPU 特权级不同。管理员应用也不能任意绕过用户态限制。',12),
+      tf('发生一次用户态到内核态切换，就必然切换到另一个进程。',false,'模式切换不等于进程切换；内核可以继续代表当前进程完成系统调用。',27),
+      tf('每次调用 malloc，都必然发生一次系统调用。',false,'分配器可以从已取得的内存中分配小块，只有必要时才向内核请求更多空间。',34),
+      tf('磁盘完成 I/O 后产生的中断，与 CPU 当前执行的指令通常没有直接因果关系。',true,'外部硬件中断是异步事件；同步异常则由当前指令执行引起。',20),
+      fill('负责在启动过程中加载内核的引导程序，常称为 ____。',['bootloader','boot loader','引导加载程序','引导加载器'],'固件先运行初始代码，再由 Bootloader 加载和移交控制给内核。',7),
+      fill('能够修复后重新执行故障指令的异常类型，课件称为 ____。',['fault','出错'],'Fault 如可修复缺页，处理后可重试导致异常的指令。',22),
+      fill('应用请求操作系统服务的受控接口称为 ____。',['系统调用','system call','syscall'],'系统调用跨越保护边界，不能等同于普通的用户态函数调用。',27),
+      fill('规定二进制调用时参数、返回值和寄存器使用约定的规范，简称 ____。',['ABI','应用程序二进制接口'],'ABI 约定二进制交互规则；还需要相应指令集、平台和运行库才能兼容。',31)
+    ],
+    [
+      mc('哪个结构是进程在内核中的主要管理表示？',['CPU Cache','PCB','屏幕缓冲区','源代码注释'],1,'PCB 保存或关联进程状态、标识、寄存器上下文和资源信息。',17),
+      mc('exec 成功执行后，通常会发生什么？',['新增一个子进程','原程序一定继续执行下一行','当前进程映像被替换','复制所有硬盘文件'],2,'exec 替换当前进程的程序映像，成功时不返回；本身不创建新 PID。',34),
+      mc('阻塞进程等待的 I/O 已完成，被唤醒后通常先进入哪个状态？',['运行','退出','创建','就绪'],3,'唤醒只是使其有资格竞争 CPU，被调度后才进入运行态。',26),
+      mc('malloc 返回的动态内存，典型情况下属于哪一类区域？',['代码段','堆或动态映射区','只读字符串区','CPU 指令寄存器'],1,'堆用于动态分配；实际分配器对大块内存也可能采用独立映射。',14),
+      tf('fork 的写时复制意味着子进程修改普通私有变量时，父进程会自动看到新值。',false,'父子具有逻辑上独立的地址空间。COW 可以初始共享物理页面，写入时再分离。',34),
+      tf('每次上下文切换，都需要把进程全部内存保存到磁盘。',false,'上下文切换主要保存恢复寄存器与执行状态，不等于将全部内存换出。',31),
+      tf('就绪进程具备运行条件，只是在等待 CPU。',true,'就绪与阻塞的区别是：就绪主要缺 CPU；阻塞是在等待事件或资源。',28),
+      tf('ELF 的 segment 偏向装载视图，section 偏向链接视图。',true,'程序头描述装载用段，节表描述链接时按逻辑组织的各节。',10),
+      fill('进程控制块的英文缩写是 ____。',['PCB'],'Process Control Block，是进程在内核中的管理表示。',17),
+      fill('UNIX 中创建子进程的典型系统调用是 ____。',['fork','fork()'],'fork 成功后父子分别从返回处继续，返回值不同。',34),
+      fill('父进程等待并回收子进程退出状态，常用 ____ 或 waitpid。',['wait','wait()'],'wait 不只是让子进程先运行，它还用于收集退出信息。',35),
+      fill('运行中的进程时间片用完，被抢占后通常回到 ____ 态。',['就绪','ready'],'时间片结束时任务通常仍具备执行条件，重新排队等待 CPU。',24)
+    ],
+    [
+      mc('同一进程内的线程通常共享什么？',['同一个 PC 的实时值','整个地址空间和打开文件等资源','同一个栈指针的值','同一份独立寄存器现场'],1,'线程共享进程资源，同时各有执行上下文和栈。',7),
+      mc('哪个是线程通常各自拥有的执行状态？',['所有全局变量','进程的全部文件','PC、SP 和寄存器上下文','一套完全独立的进程地址空间'],2,'独立上下文使线程能够作为执行流被单独调度。',13),
+      mc('M:1 用户级线程模型中，承载实体执行阻塞系统调用后可能怎样？',['整组用户线程暂时停住','自动新增十个 CPU','所有线程立刻并行','阻塞只影响另一个进程'],0,'多个用户线程共用一个内核实体；该实体阻塞，整组都可能无法继续。',20),
+      mc('单核上交错执行多个任务，最准确的描述是？',['只能叫串行，绝不并发','必然多核并行','并发，但不必物理并行','一定已经死锁'],2,'并发指一段时间内多个任务推进；并行指同一时刻实际同时执行。',29),
+      tf('调用普通函数，就创建了一个可独立调度的新线程。',false,'函数调用通常只在当前线程中创建调用帧，没有增加独立调度实体。',11),
+      tf('内核级线程的应用业务代码必须始终运行在内核态。',false,'内核级表示对内核可见、可调度，不意味着业务代码只能在内核态。',18),
+      tf('一对一线程模型可以把同一进程的多个线程调度到不同 CPU 核上。',true,'各线程分别对应内核调度实体，在硬件资源允许时可并行。',18),
+      tf('因为线程拥有各自的栈，其他同进程线程从硬件上绝对无法访问它。',false,'线程共享地址空间；不同栈不是不同保护域，还要考虑指针和对象生命周期。',7),
+      fill('线程控制块的英文缩写是 ____。',['TCB'],'Thread Control Block 关联线程状态、寄存器上下文和栈等信息。',13),
+      fill('pthread 中等待指定线程结束的函数是 ____。',['pthread_join','pthread_join()'],'join 等待目标线程退出，不是让固定一组线程反复会合的屏障。',14),
+      fill('Linux 常见 pthread 模型中，一个用户线程对应一个内核实体，称为 ____ 映射（用数字比例）。',['1:1','1：1','一对一'],'一对一模型支持内核分别调度这些线程。',22),
+      fill('复习提纲拓展：串行比例为 20%，使用 4 核，忽略开销的 Amdahl 加速比上限是 ____。',['2.5','2.5倍'],'1 / (0.2 + 0.8/4) = 2.5。并行部分加速后，串行部分仍限制收益。',34)
+    ],
+    [
+      mc('三个作业同时到达，执行时间为 24、3、3，FCFS 按此顺序运行，平均周转时间是？',['17','10','27','30'],2,'完成时刻为 24、27、30，平均周转时间为 (24+27+30)/3=27。',12),
+      mc('课件 RR 例题：53、8、68、24，时间片20，同时到达，平均等待时间是？',['24','66.25','104.5','153'],1,'等待时间为 72、20、85、88，平均为 66.25；24 是平均首次响应时间。',18),
+      mc('本课程课件中的 STCF（最短时间优先）采用哪种方式？',['非抢占式','所有场景都按截止时间','不允许作业排队','随机抽签'],0,'本课 STCF 是非抢占的最短作业优先；SRTCF 才是抢占的最短剩余时间优先。',14),
+      mc('高优先级任务等低优先级持锁者，中优先级任务又阻碍后者运行，适合用什么缓解？',['无限降低所有优先级','删除时间片','优先级继承','增加随机等待'],2,'临时提升持锁者的优先级，使其尽快运行并释放锁。',22),
+      tf('一个任务的响应时间，永远等于它全部就绪等待时间之和。',false,'响应时间通常只到首次获得服务；等待时间可跨多次就绪排队累计。',9),
+      tf('RR 时间片越小，所有指标和吞吐率都一定越好。',false,'小时间片有利于较快响应，但会增加上下文切换开销，不能保证所有指标都改善。',19),
+      tf('EDF 总是选择剩余执行时间最短的任务。',false,'EDF 根据绝对截止时间排序，不是剩余执行时间。',31),
+      tf('MLFQ 中任务可以根据历史行为在不同优先级队列之间移动。',true,'反馈的关键是动态调整，常见规则包括用完配额降级、等待过久提升。',23),
+      fill('作业同时到达且按 24、3、3 的 FCFS 顺序运行，平均等待时间为 ____。',['17','17秒'],'等待为 0、24、27，平均 17，不能与平均周转 27 混淆。',12),
+      fill('时间片轮转调度的常见英文缩写是 ____。',['RR'],'Round Robin 按时间片轮流让就绪任务使用 CPU。',17),
+      fill('周期任务计算时间/周期分别为 1/4、2/5、2/7，总利用率的最简分数是 ____。',['131/140'],'35/140+56/140+40/140=131/140。利用率条件的充分性还要有相应 EDF 模型假设。',29),
+      fill('复习提纲拓展：每次切换开销 0.01ms，要求 c/(q+c)≤1%，q 至少为 ____ ms。',['0.99','0.99ms'],'q≥99c，因此至少 0.99ms。',19)
+    ],
+    [
+      mc('TAS 锁的关键硬件保证是什么？',['先检查，任意久以后再赋值','只读不写','读取旧值并设置新值是原子读改写','自动让所有线程同时入锁'],2,'TAS 把检查与置位合成不可分割的原子操作，普通 if 加赋值不具备此保证。',29),
+      mc('仅关闭当前 CPU 的中断，为何不能实现多核共享数据的互斥？',['内存立即被清空','其他 CPU 核仍可能访问数据','中断不存在','关闭中断会复制线程'],1,'本核关中断不阻止其他核，需要跨核的原子操作和同步协议。',42),
+      mc('自旋锁通常更适合哪种情况？',['持锁者长时间等待磁盘','锁永远不释放','临界区很短且持有者能够继续运行','必须在持锁时休眠数分钟'],2,'短等待可以避免阻塞唤醒开销；长自旋则浪费 CPU。',43),
+      {...mc('RCU 更新指针后，为何不能立即释放旧对象？',['旧读者可能仍在访问旧版本','因为指针不能赋值','所有读者必须退出进程','每次读都需要写磁盘'],0,'要等相应旧读侧临界区结束/宽限期，才能安全回收旧版本。',5),file:'Sync01 临界区与锁-扩展.pdf'},
+      tf('Peterson 的等待条件应该写成 flag[j] 或 turn==j。',false,'经典条件是 flag[j] && turn==j，同时考虑意愿与冲突时让步。',26),
+      tf('把普通共享变量加上 volatile，就能直接得到可靠的多线程互斥锁。',false,'volatile 不提供所需原子读改写及完整线程同步语义。',29),
+      tf('检查条件、登记等待与实际阻塞，需要和唤醒方形成匹配的原子协议。',true,'否则释放方可能在等待者真正入队/睡眠前完成通知，造成丢失唤醒。',40),
+      tf('等待者先发现资源不可用，稍后再入队睡眠，这两个动作可以随意分开。',false,'这正是丢失唤醒的来源之一，不能把普通入队与 sleep 随意拼接。',40),
+      fill('访问共享资源、需要互斥执行的那一段代码称为 ____。',['临界区','critical section'],'共享对象是临界资源，需要互斥执行的代码是临界区。',8),
+      fill('使用 flag 和 turn 协调两个线程进入临界区的经典算法是 ____ 算法。',['Peterson','彼得森'],'Peterson 在经典原子读写与顺序一致模型下证明正确，现实实现要考虑内存序。',25),
+      fill('Test-and-Set 的常用缩写是 ____。',['TAS','TS'],'TAS 原子地返回旧值并设置新值，可用于构造自旋锁。',29),
+      fill('本应发生的通知落在登记等待之前，导致等待者可能一直睡眠，这叫丢失 ____。',['唤醒','wakeup','唤醒信号'],'关键是检查、登记、阻塞与通知之间的竞态。',40)
+    ],
+    [
+      mc('统一按资源编号递增申请锁，主要破坏哪个死锁必要条件？',['互斥','环路等待','进程存在','程序运行'],1,'所有请求遵守严格递增顺序，就不能形成首尾闭合的资源等待环。',34),
+      mc('非安全状态意味着什么？',['必然已经死锁','没有任何任务存在','不能保证存在满足全部最大需求的安全完成序列','全部资源都空闲'],2,'不安全是缺少最坏需求下的安全保证，不等于已经发生死锁。',15),
+      mc('银行家算法中 Need 应如何计算？',['Max-Allocation','Allocation-Max','Available+Max','Request+PID'],0,'Need 是尚可能需要的最大资源量，不是本次实际请求。',19),
+      mc('安全性检测中，一个任务假想完成后，Work 应增加什么？',['Need','Max 和 Need','原 Allocation','当前 PID'],2,'Work += Allocation。模拟借出的 Need 已归还，净增加的是原持有量。',16),
+      tf('每类资源有多个实例时，资源分配图只要有环就必然死锁。',false,'多实例图中有环通常只是必要条件，不能单凭有环断定死锁。',14),
+      tf('消除了死锁，就一定同时保证所有任务不会饥饿。',false,'无死锁不等于无饥饿，还需考虑公平性和有限等待等属性。',9),
+      tf('银行家算法试分配不安全时，必须回滚 Available、Allocation 和 Need。',true,'试分配不是已经批准，失败必须恢复真实资源状态。',20),
+      tf('因为 CPU 可抢占，所以任何锁和设备状态都可以随意强行剥夺。',false,'CPU 抢占与资源是否能安全抢占不同；随意夺锁可能破坏数据一致性。',32),
+      fill('死锁的四个必要条件之一：占有资源的同时申请其他资源，称为占有且 ____。',['等待','wait'],'另外三个是互斥、不可抢占、环路等待。',9),
+      fill('安全性算法的完成标记 Finish，开始时应初始化为 ____（true/false）。',['false','假'],'尚未模拟任何任务完成，因此应为 false；课件该处初值有笔误。',16),
+      fill('课件矩阵例题中，初始可用量为 (0,1,1)，唯一首先可完成的是 T____。',['2','T2'],'T2 的 Need=(0,0,1)，不超过 Available；其他任务都暂不满足。',21),
+      fill('在分配前进行试分配并检查安全状态的经典方法叫 ____ 算法。',['银行家','银行家算法','banker','bankers'],'银行家算法属于动态避免，依赖最大需求等信息。',18)
+    ],
+    [
+      mc('有界缓冲区容量 N，empty、full、mutex 的正确初值是？',['0,N,0','N,0,1','1,1,N','N,N,N'],1,'empty 是空槽数量，full 是已有数据数量，mutex 保护缓冲区结构。',10),
+      mc('Mesa 条件变量 wait 返回后，为什么通常要用 while 检查谓词？',['通知保证资源永久存在','其他线程可能先改变了条件，或发生伪唤醒','while 可以代替锁','wait 从不释放锁'],1,'唤醒后仍需重新竞争锁，并重新检查共享状态。',31),
+      mc('条件变量 signal 与信号量 V 的重要区别是？',['两者都永远累积通知','signal 无等待者时通常不保留许可，V 可增加计数','V 永远只操作布尔值','signal 必定立即移交 CPU'],1,'条件变量没有资源许可计数，状态由共享谓词记录。',19),
+      mc('哪种机制使固定一组线程到达某阶段后再一起继续？',['exec','关闭文件','屏障','只读映射'],2,'屏障是阶段会合；join 通常是在等待指定线程结束。',40),
+      tf('条件变量 wait 应原子地释放关联锁并进入等待，返回前重新持有锁。',true,'这使等待方与改变条件/通知的一方形成正确协议。',20),
+      tf('消费者先 P(mutex)，再在空缓冲区上 P(full)，一定安全。',false,'消费者持锁等数据，生产者却要锁才能放数据，可能形成死锁。',10),
+      tf('Mesa 管程中，signal 后发送者可以继续执行，被唤醒者不必立即运行。',true,'这也是需要在 wait 返回后重查谓词的原因。',31),
+      tf('读者优先的读写方案，一定能保证写者永不饥饿。',false,'持续到来的读者可加入已有读者群，使写者长期等待。',17),
+      fill('表达“先完成 A，再执行 B”的信号量，通常初始为 ____。',['0','零'],'A 完成后 V，B 先 P。许可可保留，即使通知先发生也有效。',6),
+      fill('Mesa 风格中，检查条件后等待，常使用 ____ 循环，而不是 if。',['while'],'循环用于处理被其他线程改变的条件和伪唤醒。',33),
+      fill('信号量中获取一个许可、必要时等待的操作，记为 ____。',['P','wait','down'],'P 获取许可；V 增加许可并按实现唤醒等待者。',5),
+      fill('复习提纲的可复用屏障中，arrived 表示已到达人数，其初值应为 ____。',['0','零'],'固定参与人数为 N，已到达计数从 0 起；剩余人数计数则从 N 起。',41)
+    ],
+    [
+      mc('需要在本机两个进程间频繁交换大量数据，并自行同步，优先考虑什么？',['只发 SIGTERM','共享内存','每个字节启动一个进程','只修改本进程栈'],1,'共享内存映射相同物理区域，减少反复传递拷贝，但仍要同步。',24),
+      mc('pipe(fd) 中，fd[0] 和 fd[1] 分别是什么？',['写端、读端','读端、写端','两个都只能读','两个都只能监听'],1,'fd[0] 读，fd[1] 写；fork 后应关闭各自不用的端点。',17),
+      mc('缓冲区为空且所有写端引用均关闭时，管道 read 通常返回什么？',['永远等待','自动生成新数据','0，表示 EOF','新进程 PID'],2,'若有未读数据会先读数据，空且无写者时才返回 EOF。',18),
+      mc('TCP 服务端接受一条连接的典型调用链是？',['socket→bind→listen→accept','fork→malloc→free','connect→exec→wait','read→bootloader'],0,'accept 返回本次连接的新描述符，监听描述符可继续接受连接。',28),
+      tf('SIGKILL 和 SIGSTOP 可以由应用自定义捕获函数来拦截。',false,'它们不能被捕获、忽略或屏蔽。',12),
+      tf('共享内存建立后，复合读写操作就自动具备互斥和有序性。',false,'共享只使双方访问同一存储，仍需要锁、信号量或其他正确同步协议。',24),
+      tf('TCP 的一次 write，必然对应对方一次等长的 read。',false,'TCP 是字节流，需要应用自己处理消息边界及短读短写。',28),
+      tf('消息重传必须考虑重复处理，不能只考虑消息丢失。',true,'ACK 丢失也会导致重传，应使用请求标识、序列号、去重或幂等操作。',38),
+      fill('可让无亲缘关系进程通过文件路径找到的命名管道，常称为 ____。',['FIFO','命名管道'],'命名管道用路径标识，匿名管道则常通过继承文件描述符使用。',16),
+      fill('给指定进程发送信号的常见函数名是 ____。',['kill','kill()'],'kill 发送信号，不意味着每一种信号都要杀死进程。',6),
+      fill('共享内存 API 中，把共享段附接到本进程地址空间的函数是 ____。',['shmat','shmat()'],'shmget 创建/取得共享段，shmat 附接，shmdt 解除本进程映射。',25),
+      fill('接收方发送给发送方、用于确认消息已收到的应答，常用缩写是 ____。',['ACK'],'ACK 配合超时和重传，还要处理 ACK 丢失及重复消息。',38)
+    ]
+  ];
+  const questions = banks.flatMap((bank,chapter) => bank.map((q,i) => ({...q,id:`c${chapter+1}-${String(i+1).padStart(2,'0')}`,chapter,file:q.file||sourceFiles[chapter],difficulty:Math.floor(i/4)+1})));
+  const data = {chapters,questions};
+  if (typeof module !== 'undefined' && module.exports) module.exports = data;
+  else root.OSQuestData = data;
+})(typeof globalThis !== 'undefined' ? globalThis : this);
+</script>
+  <script>(function (root) {
+  'use strict';
+  const data = typeof module !== 'undefined' && module.exports ? require('./questions.js') : root.OSQuestData;
+  const byId = new Map(data.questions.map(q => [q.id,q]));
+  const LIMIT = 50;
+  const clamp = (n,min,max) => Math.max(min,Math.min(max,n));
+  const need = level => 45 + level * 15;
+  const stats = level => ({maxHp:100+(level-1)*12,attack:17+(level-1)*3,defense:3+(level-1),maxFocus:5});
+  function monster(chapter,encounter) {
+    const boss = encounter === 2;
+    return {name:boss?data.chapters[chapter].boss:data.chapters[chapter].enemy,maxHp:46+chapter*13+(boss?40:encounter*10),attack:12+chapter*3+(boss?4:0),defense:2+chapter,boss};
+  }
+  function create() {
+    return {version:1,name:'见习守护者',level:1,xp:0,hp:100,focus:3,chapter:0,encounter:0,unlocked:0,completed:[],monsterHp:46,phase:'question',questionId:null,action:'strike',mode:'battle',history:[],records:{},correct:0,answered:0,combo:0,bestCombo:0,kills:0,log:[],last:null,sound:false};
+  }
+  function normalize(value) {return String(value).normalize('NFKC').trim().toLowerCase().replace(/\s+/g,'');}
+  function isCorrect(q,input) {return q.type==='fill'?q.answers.some(a=>normalize(a)===normalize(input)):String(input)===q.answer;}
+  function wrongIds(s) {return Object.keys(s.records).filter(id=>byId.has(id)&&s.records[id].wrong>0&&s.records[id].streak<2);}
+  function pick(s,rng=Math.random) {
+    let pool = s.mode==='review'?wrongIds(s).map(id=>byId.get(id)):data.questions.filter(q=>q.chapter===s.chapter);
+    if (!pool.length) return null;
+    const fresh=pool.filter(q=>!s.history.slice(-6).includes(q.id));
+    if(fresh.length) pool=fresh;
+    const weights=pool.map(q=>1+Math.min(3,s.records[q.id]?.wrong||0));
+    let ticket=clamp(rng(),0,0.999999)*weights.reduce((a,b)=>a+b,0), chosen=pool[0];
+    for(let i=0;i<pool.length;i++){ticket-=weights[i];if(ticket<0){chosen=pool[i];break;}}
+    return chosen;
+  }
+  function prepare(s,rng) {
+    if(s.phase!=='question') return null;
+    if(s.questionId&&byId.has(s.questionId)) return byId.get(s.questionId);
+    const q=pick(s,rng);
+    s.questionId=q?.id||null;
+    return q;
+  }
+  function addLog(s,text,tone='neutral') {s.log.unshift({text,tone});s.log=s.log.slice(0,12);}
+  function gain(s,xp) {
+    s.xp+=xp;let levels=0;
+    while(s.level<LIMIT&&s.xp>=need(s.level)){s.xp-=need(s.level);s.level++;levels++;s.hp=Math.min(stats(s.level).maxHp,s.hp+28);}
+    if(s.level===LIMIT)s.xp=Math.min(s.xp,need(LIMIT));
+    return levels;
+  }
+  function setAction(s,action){if(s.phase!=='question'||!['strike','heavy','guard'].includes(action))return false;const cost=action==='heavy'?2:action==='guard'?1:0;if(s.focus<cost)return false;s.action=action;return true;}
+  function answer(s,input) {
+    if(s.phase!=='question'||!s.questionId||!byId.has(s.questionId))return null;
+    const q=byId.get(s.questionId);
+    if(q.type==='fill'&&!normalize(input))return null;
+    if(q.type==='choice'&&!['0','1','2','3'].includes(String(input)))return null;
+    if(q.type==='boolean'&&!['true','false'].includes(String(input)))return null;
+    const correct=isCorrect(q,input), st=stats(s.level), enemy=monster(s.chapter,s.encounter);
+    const r=s.records[q.id]||{right:0,wrong:0,streak:0};
+    if(correct){r.right++;r.streak++;}else{r.wrong++;r.streak=0;}
+    s.records[q.id]=r;s.answered++;s.correct+=Number(correct);s.combo=correct?s.combo+1:0;s.bestCombo=Math.max(s.bestCombo,s.combo);
+    s.history.push(q.id);s.history=s.history.slice(-24);
+    let damage=0,incoming=0,xp=0,levels=0,cost=0;
+    if(correct){
+      xp=s.mode==='review'?10:({choice:18,boolean:16,fill:22}[q.type]+Math.min(10,(s.combo-1)*2));
+      if(s.mode==='battle'){
+        cost=s.action==='heavy'?2:s.action==='guard'?1:0;
+        // Recheck cost at the transaction boundary; UI cannot grant free skills.
+        if(s.focus<cost){s.action='strike';cost=0;}
+        damage=Math.max(1,Math.round(st.attack*(s.action==='heavy'?1.8:s.action==='guard'?0.8:1))-enemy.defense);
+        s.monsterHp=Math.max(0,s.monsterHp-damage);
+        s.focus=clamp(s.focus-cost+(s.action==='strike'?1:0),0,5);
+        if(s.action==='guard')s.hp=Math.min(st.maxHp,s.hp+8+s.level*2);
+      }
+      levels=gain(s,xp);
+    }
+    const killed=s.mode==='battle'&&s.monsterHp===0;
+    if(s.mode==='battle'&&!killed){
+      incoming=Math.max(2,enemy.attack-stats(s.level).defense+(correct?0:4));
+      if(correct&&s.action==='guard')incoming=Math.ceil(incoming*0.4);
+      s.hp=Math.max(0,s.hp-incoming);
+    }
+    if(killed){s.kills++;s.focus=Math.min(5,s.focus+1);}
+    s.last={questionId:q.id,input:String(input),correct,damage,incoming,xp,levels,killed,defeated:s.hp===0,mode:s.mode};
+    s.phase='feedback';
+    addLog(s,correct?`${s.mode==='review'?'复习正确':'命中'} · ${q.type==='fill'?'填空':q.type==='boolean'?'判断':'选择'}题 +${xp} EXP${damage?`，造成 ${damage} 伤害`:''}`:`答错了，已记入错题本${incoming?`，受到 ${incoming} 伤害`:''}`,correct?'good':'bad');
+    if(levels)addLog(s,`等级提升至 Lv.${s.level}！攻击、防御、生命上限提高。`,'gold');
+    if(killed)addLog(s,`击败 ${enemy.name}！`,'gold');
+    return s.last;
+  }
+  function advance(s,rng) {
+    if(s.phase!=='feedback')return false;
+    const last=s.last;
+    if(last?.mode==='battle'){
+      if(last.defeated){s.hp=stats(s.level).maxHp;s.focus=3;s.monsterHp=monster(s.chapter,s.encounter).maxHp;addLog(s,'在营地恢复体力。保留等级与学习记录，重新挑战当前敌人。');}
+      else if(last.killed){
+        s.encounter++;
+        if(s.encounter===3){
+          if(!s.completed.includes(s.chapter))s.completed.push(s.chapter);
+          s.unlocked=Math.min(7,Math.max(s.unlocked,s.chapter+1));
+          if(s.chapter===7){s.encounter=2;s.phase='victory';s.questionId=null;return true;}
+          s.chapter++;s.encounter=0;s.hp=stats(s.level).maxHp;s.focus=3;
+          addLog(s,`抵达${data.chapters[s.chapter].name}。`,'gold');
+        }
+        s.monsterHp=monster(s.chapter,s.encounter).maxHp;
+      }
+    }
+    s.phase='question';s.last=null;s.questionId=null;s.action='strike';prepare(s,rng);return true;
+  }
+  function travel(s,chapter,rng){if(!Number.isInteger(chapter)||chapter<0||chapter>s.unlocked||s.phase==='feedback')return false;s.chapter=chapter;s.encounter=0;s.mode='battle';s.phase='question';s.questionId=null;s.last=null;s.action='strike';s.monsterHp=monster(chapter,0).maxHp;prepare(s,rng);return true;}
+  function review(s,rng){if(s.phase==='feedback'||!wrongIds(s).length)return false;s.mode='review';s.phase='question';s.questionId=null;s.last=null;s.action='strike';prepare(s,rng);return true;}
+  function rest(s,rng){if(s.phase==='feedback')return false;s.mode='battle';s.hp=stats(s.level).maxHp;s.focus=3;s.monsterHp=monster(s.chapter,s.encounter).maxHp;s.phase='question';s.questionId=null;s.last=null;s.action='strike';addLog(s,'营地休整完成，当前敌人也已恢复。');prepare(s,rng);return true;}
+  function mastery(s,chapter){const pool=data.questions.filter(q=>q.chapter===chapter);return {seen:pool.filter(q=>s.records[q.id]).length,learned:pool.filter(q=>(s.records[q.id]?.streak||0)>=2).length,total:pool.length};}
+  function restore(value){
+    let x;try{x=typeof value==='string'?JSON.parse(value):value;}catch{return null;}
+    if(!x||x.version!==1||!Number.isInteger(x.level)||x.level<1||x.level>LIMIT)return null;
+    const s=create(), int=(v,min,max)=>Number.isInteger(v)&&v>=min&&v<=max;
+    if(!int(x.unlocked,0,7)||!int(x.chapter,0,x.unlocked)||!int(x.encounter,0,2)||!int(x.xp,0,need(x.level)))return null;
+    Object.assign(s,{level:x.level,xp:x.xp,chapter:x.chapter,unlocked:x.unlocked,encounter:x.encounter});
+    const st=stats(s.level),mo=monster(s.chapter,s.encounter);
+    if(!int(x.hp,0,st.maxHp)||!int(x.focus,0,5)||!int(x.monsterHp,0,mo.maxHp))return null;
+    s.hp=x.hp;s.focus=x.focus;s.monsterHp=x.monsterHp;s.name=typeof x.name==='string'?x.name.slice(0,16):s.name;s.sound=x.sound===true;
+    s.completed=Array.isArray(x.completed)?[...new Set(x.completed.filter(v=>int(v,0,7)&&v<=s.unlocked))]:[];
+    for(const k of ['correct','answered','bestCombo','combo','kills'])s[k]=int(x[k],0,1000000)?x[k]:0;
+    if(s.correct>s.answered)return null;
+    if(x.records&&typeof x.records==='object')for(const [id,r] of Object.entries(x.records))if(byId.has(id)&&r&&['right','wrong','streak'].every(k=>int(r[k],0,1000000)))s.records[id]={right:r.right,wrong:r.wrong,streak:r.streak};
+    s.history=Array.isArray(x.history)?x.history.filter(id=>byId.has(id)).slice(-24):[];
+    s.log=Array.isArray(x.log)?x.log.slice(0,12).filter(v=>v&&typeof v.text==='string').map(v=>({text:v.text.slice(0,180),tone:['good','bad','gold'].includes(v.tone)?v.tone:'neutral'})):[];
+    s.mode=x.mode==='review'?'review':'battle';
+    // Persist the feedback phase so reloading cannot redeem a submitted answer twice.
+    if(x.phase==='feedback'&&x.last&&byId.has(x.last.questionId)&&typeof x.last.correct==='boolean'){
+      const l=x.last;
+      if(!['damage','incoming','xp','levels'].every(k=>int(l[k],0,100000)))return null;
+      s.phase='feedback';s.questionId=l.questionId;s.last={questionId:l.questionId,input:String(l.input||'').slice(0,120),correct:l.correct,damage:l.damage,incoming:l.incoming,xp:l.xp,levels:l.levels,killed:l.killed===true,defeated:s.hp===0,mode:s.mode};
+    }else if(x.phase==='victory'&&s.completed.includes(7)){s.phase='victory';}
+    else{
+      if(s.hp===0||s.monsterHp===0)return null;
+      const q=byId.get(x.questionId);
+      if(q&&(s.mode==='review'||q.chapter===s.chapter))s.questionId=q.id;
+    }
+    if(['strike','heavy','guard'].includes(x.action))s.action=x.action;
+    return s;
+  }
+  const api={data,byId,create,stats,need,monster,normalize,isCorrect,prepare,answer,advance,setAction,travel,rest,review,wrongIds,mastery,restore};
+  if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.OSQuestEngine=api;
+})(typeof globalThis!=='undefined'?globalThis:this);
+</script>
+  <script>(function () {
+  'use strict';
+  const E=window.OSQuestEngine, {chapters,questions}=E.data, KEY='os-quest-v1';
+  const root=document.getElementById('app'), dialog=document.getElementById('dialog');
+  let state, view='battle', selected=null, filter='all', libraryChapter=0, toastTimer, audio, fillDraft='', renderedQuestionId=null;
+  const SOURCE_ROOT='https://github.com/zxymao/Chatgpt/blob/main/OS-course/';
+  let storageOK=true, loaded=false;
+  try{const raw=localStorage.getItem(KEY);if(raw){state=E.restore(raw);loaded=!!state;if(!state)try{localStorage.setItem(KEY+'-backup',raw);}catch{}}}catch{storageOK=false;}
+  state=state||E.create();E.prepare(state);
+  const esc=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const icon=(name,size=20)=>{const paths={sword:'M4 20l5-5m-3-3l6 6M8 14L18 4l3-1-1 3-10 10M4 17l3 3',leaf:'M20 4C8 2 3 7 5 15c8 4 15-1 15-11ZM6 17L16 7',map:'m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2V5Zm6-2v16m6-14v16',book:'M4 3h6a3 3 0 0 1 3 3v15a4 4 0 0 0-4-2H4V3Zm16 0h-4a3 3 0 0 0-3 3v15a4 4 0 0 1 4-2h3V3Z',repeat:'m17 2 4 4-4 4M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4m14-1v2a3 3 0 0 1-3 3H3',shield:'m12 3 8 3v6c0 4-5 7-8 9-3-2-8-5-8-9V6l8-3Z',heart:'M20 5a5 5 0 0 0-8 1 5 5 0 0 0-8 6l8 9 8-9a5 5 0 0 0 0-7Z',star:'m12 2 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1 3-6Z',bolt:'m13 2-9 12h7l-1 8 10-13h-7l0-7Z',arrow:'M4 12h15m-6-6 6 6-6 6',check:'m5 12 4 4L19 6',close:'m6 6 12 12M18 6 6 18',sound:'m4 9 4 0 5-4v14l-5-4H4V9Zm12-1q5 4 0 8',help:'M9 9a3 3 0 1 1 4 3c-1 0-1 2-1 2m0 3v.1M22 12A10 10 0 1 1 2 12a10 10 0 0 1 20 0Z',download:'M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5',upload:'M12 16V4m-5 5 5-5 5 5M4 16v5h16v-5',camp:'m12 3 10 17H2L12 3Zm0 0v17m-4 0 4-7 4 7',lock:'M6 10V7a6 6 0 0 1 12 0v3M4 10h16v12H4V10Z'};return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name]?`<path d="${paths[name]}"/>`:'<circle cx="12" cy="12" r="8"/>'}</svg>`;};
+  function sprite(kind='hero',color='#b1bcf1'){
+    const hero=['.......kkkk........','......kggggk.......','......kggggk.......','.....kkggggkk......','....kkssssssk.....','.....ksskskssk.....','......ksssskk......','.....kkbbbbkk.....','...kkbbbbbbbbkk...','..kkbbbbbbbbbbkk..','..kskbbbbbbbbksk..','..kskbbbbbbbbksk..','...kkbbwwbbkk.....','.....kbbwwbbk.....','.....kbbbbbbk.....','....kbbbbbbbbk....','...kkkkkkkkkkkk...','......krrkrrk......','......krrkrrk......','.....krrrkrrrk.....','.....kkkkkkkkk.....'];
+    const beast=['.......pppp.......','.....pppppppp.....','....pppppppppp....','...pppppppppppp...','..pppppppppppppp..','..pppppppppppppp..','.pppppppppppppppp.','.pppeeeppppeeeppp.','.pppekeppppekeppp.','.pppeeeppppeeeppp.','.pppppppppppppppp.','..ppppkkppkkpppp..','..pppppkkkkppppp..','...pppppppppppp...','..pppppppppppppp..','.ppppppp..ppppppp.','..ppppp....ppppp..'];
+    const rows=kind==='hero'?hero:beast, colors={k:'#182b25',g:'#c9df9b',s:'#e8c798',b:'#8fb6a0',w:'#e9eee0',r:'#566f64',p:color,e:'#f7ead9'};
+    let rects='';rows.forEach((row,y)=>[...row].forEach((p,x)=>{if(colors[p])rects+=`<rect x="${x}" y="${y}" width="1" height="1" fill="${colors[p]}"/>`;}));
+    return `<svg viewBox="0 0 22 23" class="sprite ${kind==='hero'?'hero-sprite':'enemy-sprite'}" shape-rendering="crispEdges" aria-hidden="true">${rects}</svg>`;
+  }
+  function scenery(){return `<svg class="scenery" viewBox="0 0 800 360" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><circle cx="613" cy="73" r="27" fill="#dfd8ad" opacity=".75"/><path d="m0 180 80-70 80 42 100-90 115 100 90-62 155 95 80-100 100 55v210H0Z" fill="#24463d"/><path d="m0 236 95-77 80 79 110-92 100 70 90-34 140 90 90-91 95 55v124H0Z" fill="#1d3b32"/>${[18,66,117,190,654,703,752,790].map((x,i)=>`<g fill="${i%2?'#122a24':'#183229'}"><path d="m${x} ${122+i%3*19} -29 72h13l-26 45h22l-25 45h90l-25-45h22l-26-45h13Z"/><path d="M${x-4} 260h8v70h-8Z"/></g>`).join('')}<path d="M0 319q160-28 305 8t495-4v40H0" fill="#284238"/><path d="M0 337q250-20 410 0t390-5v30H0" fill="#203a30"/></svg>`;}
+  function toast(text){const el=document.getElementById('toast');el.textContent=text;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),3200);}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(state));storageOK=true;}catch{storageOK=false;}}
+  function beep(correct){if(!state.sound)return;try{audio=audio||new (window.AudioContext||window.webkitAudioContext)();audio.resume();const o=audio.createOscillator(),g=audio.createGain();o.connect(g);g.connect(audio.destination);o.type='triangle';o.frequency.value=correct?660:170;g.gain.setValueAtTime(.07,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.2);o.start();o.stop(audio.currentTime+.2);}catch{}}
+  function showDialog(title,html){dialog.innerHTML=`<div class="dialog-head"><h2 id="dialog-title">${esc(title)}</h2><button class="icon-button" data-do="close-dialog" aria-label="关闭">${icon('close')}</button></div>${html}`;dialog.showModal();}
+  function hud(){const st=E.stats(state.level),acc=state.answered?Math.round(state.correct/state.answered*100):0;return `<aside class="hero-panel"><div class="profile-art">${sprite()}<span class="rank-seal">${icon('leaf',17)} 守护者</span></div><div class="hero-identity"><span class="eyebrow">YOUR ADVENTURER</span><button class="name-button" data-do="rename" title="修改角色名">${esc(state.name)} <span>↗</span></button><p><span class="level-tag">Lv.${state.level}</span> ${state.level<5?'初出茅庐':state.level<12?'内核行者':'知识守望者'}</p></div><div class="hero-vitals"><div class="meter-label"><span>${icon('heart',14)} 生命</span><b>${state.hp}<small> / ${st.maxHp}</small></b></div><div class="meter health"><i style="width:${state.hp/st.maxHp*100}%"></i></div><div class="meter-label"><span>${icon('star',14)} 经验</span><b>${state.xp}<small> / ${E.need(state.level)}</small></b></div><div class="meter xp"><i style="width:${state.xp/E.need(state.level)*100}%"></i></div></div><div class="stat-grid"><div>${icon('sword')}<span>攻击</span><b>${st.attack}</b></div><div>${icon('shield')}<span>防御</span><b>${st.defense}</b></div></div><div class="focus-row"><span>${icon('bolt',16)} 灵感</span><span aria-label="${state.focus}点灵感">${Array.from({length:5},(_,i)=>`<i class="focus-dot ${i<state.focus?'filled':''}"></i>`).join('')}</span></div><div class="learning-mini"><div><b>${state.correct}</b><span>答对题目</span></div><div><b>${acc}<small>%</small></b><span>正确率</span></div></div><button class="camp-button" data-do="rest" ${state.phase==='feedback'?'disabled':''}>${icon('camp',18)} 营地休整</button><p class="camp-note">恢复体力，当前敌人也会重置。</p><div class="save-tools"><button data-do="export">${icon('download',15)} 导出存档</button><button data-do="import">${icon('upload',15)} 导入</button></div></aside>`;}
+  function battle(){const c=chapters[state.chapter],m=E.monster(state.chapter,state.encounter),last=state.phase==='feedback'?state.last:null;return `<section class="adventure-column"><div class="stage-card ${last?(last.correct?'hit':'miss'):''}" style="--chapter-color:${c.color}"><div class="stage-top"><span><i class="live-dot"></i> ${state.mode==='review'?'修炼模式 · 不受伤害':m.boss?'BOSS CHALLENGE':'WILD ENCOUNTER'}</span><span>第 ${state.encounter+1} / 3 战</span></div><div class="scene">${scenery()}<div class="firefly f1"></div><div class="firefly f2"></div><div class="firefly f3"></div><div class="fighter player"><div class="fighter-name">${esc(state.name)}</div>${sprite()}<span class="ground-shadow"></span></div><span class="versus">VS</span><div class="fighter enemy ${m.boss?'boss':''}"><div class="fighter-name">${m.boss?'<span class="boss-mark">♛</span> ':''}${esc(m.name)}</div><div class="enemy-hp"><i style="width:${state.monsterHp/m.maxHp*100}%"></i></div>${sprite('monster',c.color)}<span class="ground-shadow"></span></div>${last&&state.mode==='battle'?`<span class="floating-damage ${last.correct?'positive':'negative'}">${last.correct?'-'+last.damage:'未命中'}</span>`:''}<div class="scene-caption">${state.mode==='review'?'重温错题，也是一种成长。':c.description}</div></div><div class="enemy-strip"><span>${icon('heart',15)} ${state.monsterHp} / ${m.maxHp}</span><span>${icon('sword',15)} ${m.attack}</span><span>${icon('shield',15)} ${m.defense}</span><span class="enemy-label">${m.boss?'章节首领':'游荡怪物'}</span></div></div><div class="skills-heading"><h3>选择你的招式</h3><span>答对才发动 · 普攻恢复灵感</span></div><div class="skills">${[['strike','sword','知识斩击','普通攻击','0'],['heavy','bolt','灵感爆发','1.8 倍攻击','2'],['guard','shield','稳固壁垒','回复生命 · 减伤','1']].map(([id,ico,title,desc,cost])=>`<button data-action="${id}" class="skill ${state.action===id?'active':''}" aria-pressed="${state.action===id}" ${state.phase!=='question'||state.mode==='review'||state.focus<Number(cost)?'disabled':''}>${icon(ico,22)}<strong>${title}</strong><small>${desc}</small><span class="skill-cost">${cost==='0'?'免费':cost+' 灵感'}</span></button>`).join('')}</div><div class="battle-log"><div class="section-title"><h3>${icon('book',16)} 远征手记</h3><span>每一题都算数</span></div><ol>${state.log.length?state.log.slice(0,4).map(l=>`<li class="${esc(l.tone)}"><span>·</span>${esc(l.text)}</li>`).join(''):'<li><span>·</span>准备好了吗？回答右侧的问题，挥出第一剑。</li><li><span>·</span>每个章节有两场遭遇战与一场首领战。</li>'}</ol></div></section>`;}
+  function question(){
+    if(state.phase==='victory')return `<section id="question-panel" class="question-card end-card"><span class="eyebrow">CAMPAIGN COMPLETE</span><div class="victory-icon">${icon('star',64)}</div><h2>内核守护者，<br>是你了。</h2><p>八个章节已全部通关。<br>从懵懂的第一题，到属于你的知识之剑。</p><div class="end-stats"><span>${state.correct} 次正确</span><span>${state.kills} 场胜利</span></div><button class="primary" data-do="continue">继续探索 ${icon('arrow')}</button><button class="text-button" data-view="wrong">去巩固错题</button></section>`;
+    const q=E.byId.get(state.questionId);
+    if(!q)return `<section id="question-panel" class="question-card end-card"><span class="eyebrow">WELL DONE</span>${icon('check',56)}<h2>错题已巩固</h2><p>连续答对两次的错题会从待复习列表移出。<br>去远征中遇见新的知识吧。</p><button class="primary" data-do="return">返回远征 ${icon('arrow')}</button></section>`;
+    const last=state.phase==='feedback'?state.last:null,type=q.type==='choice'?'选择题':q.type==='boolean'?'判断题':'填空题';
+    const choices=q.type==='choice'?q.options:q.type==='boolean'?['正确','错误']:null;
+    const answerLabel=q.type==='choice'?q.options[Number(q.answer)]:q.type==='boolean'?(q.answer==='true'?'正确':'错误'):q.answer;
+    return `<section id="question-panel" class="question-card" aria-labelledby="question-title"><div class="question-meta"><span class="type-badge">${type}</span><span>${state.mode==='review'?'错题修炼':chapters[q.chapter].topic} <i>·</i> ${q.difficulty===3?'进阶':'基础'}</span></div><div class="question-reward">${icon('star',15)} 答对获得经验 · ${state.mode==='review'?'复习奖励 10':q.type==='fill'?'基础奖励 22':q.type==='boolean'?'基础奖励 16':'基础奖励 18'} EXP</div><h2 id="question-title">${esc(q.prompt)}</h2>${choices?`<div class="answer-options">${choices.map((label,i)=>{const value=q.type==='boolean'?String(i===0):String(i),chosen=last?last.input===value:selected===value;return `<button class="option ${chosen?'selected':''} ${last&&value===q.answer?'correct-option':''} ${last&&chosen&&!last.correct?'wrong-option':''}" data-answer="${value}" aria-pressed="${chosen}" ${last?'disabled':''}><span class="option-letter">${q.type==='choice'?String.fromCharCode(65+i):i===0?'✓':'×'}</span><span>${esc(label)}</span>${last&&value===q.answer?icon('check',17):''}</button>`;}).join('')}</div>`:`<label class="fill-label" for="fill-answer">写下你的答案</label><input id="fill-answer" class="fill-input" autocomplete="off" spellcheck="false" placeholder="支持中英文及常见等价写法" maxlength="100" ${last?'disabled':''} value="${last?esc(last.input):esc(fillDraft)}"><p class="input-note">英文不区分大小写，忽略空格。</p>`}${last?`<div class="feedback ${last.correct?'success':'failure'}" role="status"><strong>${icon(last.correct?'check':'close',19)} ${last.correct?'回答正确，知识化为力量！':'这次没答对，记住它再出发。'}</strong>${!last.correct?`<p class="correct-answer">正确答案：${esc(answerLabel)}</p>`:''}<p>${esc(q.explanation)}</p><div class="feedback-numbers">${last.correct?`<span>+${last.xp} EXP</span>${last.damage?`<span>伤害 ${last.damage}</span>`:''}`:'<span>已加入错题本</span>'}${last.incoming?`<span>受到 ${last.incoming} 伤害</span>`:''}${last.levels?`<span>升级 ↑ Lv.${state.level}</span>`:''}</div><a class="source-link" href="${SOURCE_ROOT}${encodeURIComponent(q.file)}#page=${q.page}" target="_blank" rel="noopener">回看课件 · 第 ${q.page} 页 ↗</a></div><button class="primary next-button" data-do="next">${last.defeated?'回营恢复，再次挑战':last.killed?(state.encounter===2?'开启下一章':'挑战下一个敌人'):'下一回合'} ${icon('arrow')}</button>`:`<div class="question-bottom"><button id="submit-answer" class="primary" data-do="answer" disabled>确认答案，发动招式 ${icon('arrow')}</button><p class="keyboard-note">${q.type==='fill'?'输入答案后按 Enter':'数字键选择 · Enter 确认'}</p></div>`}<div class="question-footer"><span>${icon('book',14)} 来源于你的 OS 复习提纲</span><span>${state.combo>1?'连对 '+state.combo+' 题 🔥':'知识之路，慢慢走'}</span></div></section>`;
+  }
+  function mapView(){return `<section class="wide-view"><div class="view-intro"><span class="eyebrow">THE JOURNEY</span><h2>八个章节，一场成长。</h2><p>击败本章首领，解锁下一片土地。已解锁的章节可以随时重访。</p></div><div class="chapter-grid">${chapters.map(c=>{const locked=c.id>state.unlocked,done=state.completed.includes(c.id),ma=E.mastery(state,c.id);return `<button data-chapter="${c.id}" class="chapter-tile ${locked?'locked':''} ${state.chapter===c.id?'current':''}" style="--tile-color:${c.color}" ${locked?'disabled':''}><span class="chapter-number">${String(c.id+1).padStart(2,'0')}</span><span class="chapter-symbol">${icon(locked?'lock':done?'check':'leaf',35)}</span><h3>${c.name}</h3><p>${c.topic}</p><div class="tile-progress"><i style="width:${ma.learned/ma.total*100}%"></i></div><small>${locked?'等待解锁':done?'已通关':'已解锁'} · 巩固 ${ma.learned}/${ma.total}</small></button>`;}).join('')}</div></section>`;}
+  function wrongView(){const ids=E.wrongIds(state),list=ids.map(id=>E.byId.get(id)).filter(q=>filter==='all'||String(q.chapter)===filter);return `<section class="wide-view"><div class="view-intro"><span class="eyebrow">GROW THROUGH MISTAKES</span><h2>失误，是下一次命中的开始。</h2><p>连续答对两次，错题就会从待复习列表移出。修炼中答对获 10 EXP，不受伤害。</p><button class="primary small-primary" data-do="review" ${!ids.length?'disabled':''}>${icon('repeat',18)} 开始错题修炼 · ${ids.length} 题</button></div><div class="filter-row"><label for="wrong-filter">筛选章节</label><select id="wrong-filter"><option value="all">全部章节</option>${chapters.map(c=>`<option value="${c.id}" ${filter===String(c.id)?'selected':''}>${c.name}</option>`).join('')}</select><span>${list.length} 道待巩固</span></div><div class="study-list">${list.length?list.map(q=>`<article class="study-item"><span class="study-tag">${chapters[q.chapter].topic} · 错 ${state.records[q.id].wrong} 次 · 连对 ${state.records[q.id].streak}/2</span><h3>${esc(q.prompt)}</h3><details><summary>查看答案与解析</summary><p><b>答案：</b>${esc(q.type==='choice'?q.options[Number(q.answer)]:q.type==='boolean'?(q.answer==='true'?'正确':'错误'):q.answer)}</p><p>${esc(q.explanation)}</p><a href="${SOURCE_ROOT}${encodeURIComponent(q.file)}#page=${q.page}" target="_blank" rel="noopener">原课件第 ${q.page} 页 ↗</a></details></article>`).join(''):`<div class="empty-state">${icon('leaf',44)}<h3>${ids.length?'这个章节暂无错题':'还没有待巩固的错题'}</h3><p>去远征中挑战自己，答错的知识会在这里等待重逢。</p><button class="text-button" data-view="battle">返回战斗 →</button></div>`}</div></section>`;}
+  function library(){const list=questions.filter(q=>q.chapter===libraryChapter),ma=E.mastery(state,libraryChapter);return `<section class="wide-view"><div class="view-intro"><span class="eyebrow">CODEX OF KNOWLEDGE</span><h2>你的知识图鉴</h2><p>96 道原创复习题 · 8 个模块 · 每道题都有解析与课件定位。连续答对两次记为已巩固。</p></div><div class="library-tabs">${chapters.map(c=>`<button data-library="${c.id}" class="${libraryChapter===c.id?'active':''}">${c.topic}</button>`).join('')}</div><div class="library-summary"><b>${chapters[libraryChapter].name}</b><span>已接触 ${ma.seen}/${ma.total} · 已巩固 ${ma.learned}/${ma.total}</span></div><div class="study-list">${list.map(q=>`<article class="study-item"><span class="study-tag">${q.type==='choice'?'选择':q.type==='boolean'?'判断':'填空'} · ${(state.records[q.id]?.streak||0)>=2?'已巩固':'待探索'}</span><h3>${esc(q.prompt)}</h3><details><summary>展开答案与解析</summary><p><b>答案：</b>${esc(q.type==='choice'?q.options[Number(q.answer)]:q.type==='boolean'?(q.answer==='true'?'正确':'错误'):q.answer)}</p><p>${esc(q.explanation)}</p><a href="${SOURCE_ROOT}${encodeURIComponent(q.file)}#page=${q.page}" target="_blank" rel="noopener">${esc(q.file)} · 第 ${q.page} 页 ↗</a></details></article>`).join('')}</div></section>`;}
+  function render(){if(renderedQuestionId!==state.questionId){selected=null;fillDraft='';renderedQuestionId=state.questionId;}const c=chapters[state.chapter];root.innerHTML=`<div class="app-shell"><header class="site-header"><a class="brand" href="#" data-view="battle"><span class="brand-icon">${icon('leaf',25)}</span><span>内核远征<small>KERNEL QUEST</small></span></a><nav aria-label="主导航">${[['battle','sword','远征'],['map','map','世界地图'],['wrong','repeat','错题本'],['library','book','知识图鉴']].map(([id,ico,label])=>`<button data-view="${id}" class="nav-link ${view===id?'active':''}" ${view===id?'aria-current="page"':''}>${icon(ico,17)}${label}${id==='wrong'&&E.wrongIds(state).length?`<span class="nav-count">${E.wrongIds(state).length}</span>`:''}</button>`).join('')}</nav><div class="header-tools"><span class="saved-state"><i class="live-dot"></i>${storageOK?'本地存档':'临时游玩'}</span><button class="icon-button ${state.sound?'sound-on':''}" data-do="sound" aria-label="${state.sound?'关闭':'开启'}音效" aria-pressed="${state.sound}">${icon('sound')}</button><button class="icon-button" data-do="help" aria-label="游戏玩法">${icon('help')}</button></div></header><main><div class="page-heading"><div><div class="breadcrumb"><span>CHAPTER ${String(state.chapter+1).padStart(2,'0')}</span><i>/</i>${c.name}</div><h1>${view==='battle'?'以知识为剑，向未知进发。':view==='map'?'远征地图':view==='wrong'?'错题回响':'知识图鉴'}</h1></div><div class="chapter-pips" aria-label="已通关 ${state.completed.length} / 8 章">${chapters.map(ch=>`<i class="${state.completed.includes(ch.id)?'done':ch.id===state.chapter?'here':''}"></i>`).join('')}<span>${state.completed.length} / 8</span></div></div>${view==='battle'?`<div class="game-layout">${hud()}${battle()}${question()}</div>`:view==='map'?mapView():view==='wrong'?wrongView():library()}<footer class="site-footer"><span>${icon('leaf',13)} 学一点，再向前一步。</span><a href="https://github.com/zxymao/Chatgpt/blob/main/OS-course/复习资料/操作系统期中复习提纲.pdf" target="_blank" rel="noopener">打开期中复习提纲 ↗</a><span>选择 · 判断 · 填空 / 进度仅保存在当前浏览器</span></footer></main></div>`;updateSubmit();}
+  function updateSubmit(){const btn=document.getElementById('submit-answer');if(btn)btn.disabled=state.phase!=='question'||(E.byId.get(state.questionId)?.type==='fill'?!document.getElementById('fill-answer')?.value.trim():selected===null);}
+  function submit(){const q=E.byId.get(state.questionId);if(!q||state.phase!=='question')return;const input=q.type==='fill'?document.getElementById('fill-answer')?.value:selected;if(input===null||input===undefined)return;const result=E.answer(state,input);if(!result)return;save();beep(result.correct);selected=null;render();document.querySelector('.next-button')?.focus({preventScroll:true});}
+  function exportSave(){save();const a=document.createElement('a');const url=URL.createObjectURL(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}));a.href=url;a.download='内核远征-存档.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),500);toast('存档已导出，请妥善保存。');}
+  function requireReady(){if(state.phase==='feedback'){toast('先点击“下一回合”，完成这一回合的结算。');return false;}return true;}
+  document.addEventListener('click',event=>{
+    const el=event.target.closest('button,a');if(!el)return;
+    if(el.dataset.view){event.preventDefault();view=el.dataset.view;render();return;}
+    if(el.hasAttribute('data-answer')){selected=el.dataset.answer;document.querySelectorAll('.option').forEach(b=>{b.classList.toggle('selected',b.dataset.answer===selected);b.setAttribute('aria-pressed',String(b.dataset.answer===selected));});updateSubmit();return;}
+    if(el.dataset.action){if(E.setAction(state,el.dataset.action)){save();render();}return;}
+    if(el.hasAttribute('data-chapter')){if(!requireReady())return;if(E.travel(state,Number(el.dataset.chapter))){view='battle';selected=null;save();render();}return;}
+    if(el.hasAttribute('data-library')){libraryChapter=Number(el.dataset.library);render();return;}
+    switch(el.dataset.do){
+      case 'answer':submit();break;
+      case 'next':if(E.advance(state)){selected=null;save();render();document.getElementById('fill-answer')?.focus({preventScroll:true});}break;
+      case 'rest':if(!requireReady())return;showDialog('在营地休整',`<p>恢复全部生命与 3 点灵感，当前敌人也会恢复全部生命。等级、经验、错题和章节解锁会保留。</p><button class="primary" data-do="confirm-rest">休整并重新挑战</button>`);break;
+      case 'confirm-rest':E.rest(state);selected=null;dialog.close();save();render();toast('体力恢复了，再出发吧。');break;
+      case 'review':if(!requireReady())return;if(E.review(state)){view='battle';selected=null;save();render();}else toast('目前没有待复习的错题。');break;
+      case 'return':case 'continue':E.travel(state,state.chapter);view='battle';selected=null;save();render();break;
+      case 'export':exportSave();break;
+      case 'import':document.getElementById('import-file').click();break;
+      case 'sound':state.sound=!state.sound;save();render();if(state.sound)beep(true);toast(state.sound?'音效已开启':'音效已关闭');break;
+      case 'close-dialog':dialog.close();break;
+      case 'rename':showDialog('你的冒险者名字',`<form id="rename-form"><label for="hero-name">最多 16 个字符</label><input id="hero-name" maxlength="16" value="${esc(state.name)}" required><button class="primary" type="submit">保存名字</button></form>`);break;
+      case 'help':showDialog('知识，就是你的战斗力。',`<div class="help-copy"><p><b>01 · 选招式，答题出击</b><br>右侧回答选择、判断或填空题。答对才发动招式并获得经验；答错后敌人会反击，解析会帮你补上知识。</p><p><b>02 · 成长与远征</b><br>升级自动增加攻击、防御和生命上限。普通攻击恢复灵感，灵感爆发与稳固壁垒消耗灵感。每章击败两个怪物和一个首领，解锁下一章。</p><p><b>03 · 从错题中成长</b><br>错题本里可以进行无伤修炼，答对获 10 EXP。连续答对两次，移出待复习列表。知识图鉴可直接查阅所有题目。</p><p><b>04 · 休整和存档</b><br>战败保留等级与知识记录。可在营地重新挑战；进度保存在当前浏览器，导出/导入可迁移存档。</p><p class="muted">快捷键：1–4 选择答案，Enter 确认；填空题输入后按 Enter。无时间限制，慢慢思考。</p></div>`);break;
+    }
+  });
+  document.addEventListener('input',e=>{if(e.target.id==='fill-answer'){fillDraft=e.target.value;updateSubmit();}});
+  document.addEventListener('change',e=>{if(e.target.id==='wrong-filter'){filter=e.target.value;render();}});
+  document.addEventListener('submit',e=>{if(e.target.id==='rename-form'){e.preventDefault();state.name=document.getElementById('hero-name').value.trim().slice(0,16)||'见习守护者';save();dialog.close();render();}});
+  document.addEventListener('keydown',e=>{
+    if(dialog.open||view!=='battle'||e.ctrlKey||e.metaKey||e.altKey)return;
+    if(e.key==='Enter'&&(document.activeElement.matches('.option,#fill-answer')||!['BUTTON','A','SUMMARY'].includes(document.activeElement.tagName))){e.preventDefault();if(state.phase==='feedback')document.querySelector('[data-do="next"]')?.click();else submit();}
+    if(/^[1-4]$/.test(e.key)&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)){const btn=document.querySelectorAll('.option')[Number(e.key)-1];if(btn&&!btn.disabled){e.preventDefault();btn.click();btn.focus({preventScroll:true});}}
+  });
+  document.getElementById('import-file').addEventListener('change',async e=>{
+    const file=e.target.files[0];e.target.value='';if(!file)return;if(file.size>500000){toast('文件过大，请选择游戏导出的 JSON 存档。');return;}
+    let restored;try{restored=E.restore(await file.text());}catch{}if(!restored){toast('存档无效或版本不兼容，当前进度未改变。');return;}
+    showDialog('载入这份存档？',`<p>角色：${esc(restored.name)} · Lv.${restored.level}<br>章节：${chapters[restored.chapter].name}</p><p>将替换当前浏览器的进度。建议先导出当前存档备份。</p><button class="primary" id="confirm-import">确认载入</button>`);
+    document.getElementById('confirm-import').addEventListener('click',()=>{state=restored;E.prepare(state);view='battle';selected=null;save();dialog.close();render();toast('存档已载入。');},{once:true});
+  });
+  save();render();
+  if(!storageOK)toast('浏览器限制了存档，请在离开前导出进度。');
+  else if(loaded&&state.phase==='feedback')toast('已恢复上一回合，请先查看结算。');
+})();
+</script>
+</body>
+</html>
