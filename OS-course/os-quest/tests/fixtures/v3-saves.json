@@ -1,0 +1,142 @@
+{
+  "generatedFrom": "14d99c4 (unmodified anime-world release)",
+  "saves": {
+    "exploration": {
+      "version": 1,
+      "contentRevision": 3,
+      "name": "前版地图角色",
+      "level": 7,
+      "xp": 33,
+      "hp": 130,
+      "focus": 3,
+      "chapter": 3,
+      "encounter": 1,
+      "unlocked": 4,
+      "completed": [
+        0,
+        1,
+        2
+      ],
+      "monsterHp": 50,
+      "phase": "question",
+      "questionId": "c4-16",
+      "action": "strike",
+      "mode": "battle",
+      "training": "mixed",
+      "flowDraft": {
+        "questionId": "c4-16",
+        "slots": [
+          "b0",
+          null,
+          null,
+          null
+        ],
+        "order": [
+          "b1",
+          "b2",
+          "b3",
+          "b4",
+          "b0"
+        ],
+        "active": 1
+      },
+      "world": {
+        "version": 1,
+        "zone": 3,
+        "x": 17,
+        "y": 6,
+        "facing": "down",
+        "active": true,
+        "met": [
+          "3:engineer"
+        ],
+        "quests": {
+          "3": {
+            "accepted": true,
+            "insight": false,
+            "claimed": false
+          }
+        },
+        "dialog": {
+          "npcId": "engineer",
+          "node": "problem"
+        }
+      },
+      "history": [],
+      "records": {},
+      "correct": 44,
+      "answered": 60,
+      "combo": 0,
+      "bestCombo": 0,
+      "kills": 0,
+      "log": [],
+      "last": null,
+      "sound": false
+    },
+    "feedback": {
+      "version": 1,
+      "contentRevision": 3,
+      "name": "见习守护者",
+      "level": 1,
+      "xp": 18,
+      "hp": 91,
+      "focus": 4,
+      "chapter": 0,
+      "encounter": 0,
+      "unlocked": 0,
+      "completed": [],
+      "monsterHp": 31,
+      "phase": "feedback",
+      "questionId": "c1-01",
+      "action": "strike",
+      "mode": "battle",
+      "training": "mixed",
+      "flowDraft": null,
+      "world": {
+        "version": 1,
+        "zone": 0,
+        "x": 3,
+        "y": 8,
+        "facing": "down",
+        "active": false,
+        "met": [],
+        "quests": {},
+        "dialog": null
+      },
+      "history": [
+        "c1-01"
+      ],
+      "records": {
+        "c1-01": {
+          "right": 1,
+          "wrong": 0,
+          "streak": 1
+        }
+      },
+      "correct": 1,
+      "answered": 1,
+      "combo": 1,
+      "bestCombo": 1,
+      "kills": 0,
+      "log": [
+        {
+          "text": "命中 · 选择题 +18 EXP，造成 15 伤害",
+          "tone": "good"
+        }
+      ],
+      "last": {
+        "questionId": "c1-01",
+        "input": "1",
+        "correct": true,
+        "damage": 15,
+        "incoming": 9,
+        "xp": 18,
+        "levels": 0,
+        "killed": false,
+        "defeated": false,
+        "mode": "battle"
+      },
+      "sound": false
+    }
+  }
+}

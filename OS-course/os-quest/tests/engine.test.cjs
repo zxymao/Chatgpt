@@ -67,7 +67,7 @@ test('unmodified original v1 saves preserve all progression, feedback, review an
   for(const [name,legacy] of Object.entries(require('./fixtures/v1-saves.json').saves)){
     const loaded=E.restore(JSON.stringify(legacy));assert.ok(loaded,name);
     for(const key of Object.keys(legacy))assert.deepEqual(loaded[key],legacy[key],`${name}: ${key}`);
-    assert.equal(loaded.version,1);assert.equal(loaded.contentRevision,3);assert.equal(loaded.training,'mixed');
+    assert.equal(loaded.version,1);assert.equal(loaded.contentRevision,4);assert.equal(loaded.training,'mixed');
     assert.deepEqual(E.wrongIds(loaded),E.wrongIds(legacy));
     if(loaded.phase==='feedback'){const before=JSON.stringify(loaded);assert.equal(E.answer(loaded,E.byId.get(loaded.questionId).answer),null);assert.equal(JSON.stringify(loaded),before);}
   }
@@ -155,4 +155,44 @@ test('flow-release v2 saves and all 128 questions stay compatible with the new e
   const fixture=require('./fixtures/v2-saves.json'),crypto=require('node:crypto');
   assert.equal(crypto.createHash('sha256').update(JSON.stringify(E.data.questions)).digest('hex'),fixture.questionsSha256);
   for(const old of Object.values(fixture.saves)){const loaded=E.restore(old);assert.ok(loaded);for(const key of Object.keys(old))if(key!=='contentRevision')assert.deepEqual(loaded[key],old[key],key);assert.equal(loaded.world.zone,old.chapter);assert.equal(loaded.world.active,false);}
+});
+const P=require('../src/poetry.js');
+test('12 Tang/Song writers each recite 3 of their own works, with 72 unique answerable questions',()=>{
+  assert.equal(P.authors.length,12);assert.equal(P.works.length,36);assert.equal(P.questions.length,72);assert.equal(P.questionById.size,72);assert.equal(P.authors.filter(a=>a.gender==='female').map(a=>a.name).join(','),'李清照');
+  for(const a of P.authors){assert.equal(P.works.filter(p=>p.author===a.id).length,3);assert.ok(a.sheet>=0&&a.sheet<3&&a.portrait>=0&&a.portrait<4);}
+  for(const p of P.works){assert.ok(P.authorById.has(p.author));assert.ok(p.lines.length>=2);assert.ok(p.source.startsWith('https://zh.wikisource.org/'));for(const q of p.questions){assert.ok(P.correct(q,q.answer));if(q.type==='fill'){const reconstructed=q.prompt.split('：').slice(1).join('：').replace('____',q.answer);assert.ok(P.normalize(p.lines.join('')).includes(P.normalize(reconstructed)),p.title);}else assert.equal(q.options.length,4);}}
+});
+test('poet encounters randomize among own works and avoid an immediate identical poem',()=>{
+  const s=E.create(),seen=new Set();for(let i=0;i<9;i++){const old=s.poetry.encounter?.poemId;const e=P.begin(s,'libai',()=>i/9);assert.equal(e.authorId,'libai');assert.equal(P.poemById.get(e.poemId).author,'libai');assert.notEqual(e.poemId,old);seen.add(e.poemId);}assert.equal(seen.size,3);assert.equal(s.poetry.met.length,1);assert.equal(s.poetry.collected.length,3);
+});
+test('poetry answers award first-correct XP once, preserve combat context and reject duplicate submission',()=>{
+  const s=ready(),before={hp:s.hp,monsterHp:s.monsterHp,questionId:s.questionId,records:structuredClone(s.records),answered:s.answered};P.begin(s,'libai',()=>0);P.ask(s);const q=P.questionById.get(s.poetry.encounter.questionId),r=E.answerPoetry(s,q.answer);assert.equal(r.xp,12);assert.equal(s.xp,12);for(const[k,v]of Object.entries(before))assert.deepEqual(s[k],v);assert.equal(E.answerPoetry(s,q.answer),null);
+  s.poetry.encounter.phase='question';const again=E.answerPoetry(s,q.answer);assert.equal(again.xp,0);assert.equal(s.xp,12);assert.equal(s.poetry.records[q.id].right,2);
+});
+test('wrong and invalid poem answers have no combat effects; fill normalization ignores punctuation',()=>{
+  const s=ready();P.begin(s,'libai',()=>0);P.ask(s);const q=P.questionById.get(s.poetry.encounter.questionId);assert.equal(q.type,'fill');assert.equal(E.answerPoetry(s,'  '),null);assert.equal(s.poetry.answered,0);const r=E.answerPoetry(s,'错误答案');assert.equal(r.correct,false);assert.equal(s.xp,0);assert.equal(s.hp,100);assert.equal(s.monsterHp,46);assert.equal(s.answered,0);assert.equal(s.poetry.records[q.id].wrong,1);assert.ok(P.correct(q,' '+q.answer.split('').join(' ')+'。'));
+});
+test('poetry cannot alter an unacknowledged combat feedback phase and first-correct XP can level up',()=>{
+  const s=ready();E.answer(s,q.answer);P.begin(s,'dufu',()=>0);assert.equal(P.ask(s),false);assert.equal(E.answerPoetry(s,'anything'),null);const old=structuredClone(s.last);E.advance(s);s.xp=E.need(s.level)-1;P.ask(s);const x=P.questionById.get(s.poetry.encounter.questionId);assert.equal(E.answerPoetry(s,x.answer).levels,1);assert.equal(s.level,2);assert.ok(old.correct);
+});
+test('poet selection changes only persona, preserving existing progress and allowing the original avatar',()=>{
+  const s=E.restore(require('./fixtures/v1-saves.json').saves.active),before=structuredClone(s);assert.ok(E.chooseHero(s,'sushi'));assert.equal(s.poetry.heroId,'sushi');before.poetry.heroId='sushi';assert.deepEqual(s,before);assert.equal(E.chooseHero(s,'unknown'),false);assert.ok(E.chooseHero(s,null));assert.equal(s.poetry.heroId,null);
+});
+test('poetry garden collisions and all 12 approach points are reachable',()=>{
+  const seen=new Set([`${P.SPAWN.x},${P.SPAWN.y}`]),queue=[P.SPAWN];while(queue.length){const p=queue.shift();for(const[dx,dy]of[[0,1],[0,-1],[1,0],[-1,0]]){const x=p.x+dx,y=p.y+dy,key=`${x},${y}`;if(!seen.has(key)&&P.walkable(x,y)){seen.add(key);queue.push({x,y});}}}for(const n of P.npcs){assert.equal(P.walkable(n.x,n.y),false);assert.ok([[0,1],[0,-1],[1,0],[-1,0]].some(([dx,dy])=>seen.has(`${n.x+dx},${n.y+dy}`)),n.name);}assert.equal(P.walkable(0,4),false);assert.equal(P.walkable(10,3),false);assert.ok(P.walkable(10,4));
+});
+test('approaching, leaving and reapproaching a poet triggers a fresh recital and blocks movement during dialogue',()=>{
+  const s=E.create(),w=s.poetry.realm;w.x=5;w.y=5;assert.ok(P.move(s,'up',()=>0));assert.equal(w.openId,'libai');const poem=s.poetry.encounter.poemId;assert.equal(P.move(s,'left'),false);P.close(s);assert.ok(P.move(s,'down'));assert.ok(P.move(s,'up',()=>0));assert.equal(w.openId,'libai');assert.notEqual(s.poetry.encounter.poemId,poem);
+});
+test('persona, poetry draft and feedback lock survive reload without redeeming XP twice',()=>{
+  const s=ready();E.chooseHero(s,'liqingzhao');Object.assign(s.poetry.realm,{x:5,y:4});P.open(s,'libai',()=>0);P.ask(s);s.poetry.encounter.draft='低头思故乡';let restored=E.restore(JSON.stringify(s));assert.deepEqual(restored.poetry,s.poetry);E.answerPoetry(restored,P.questionById.get(restored.poetry.encounter.questionId).answer);const xp=restored.xp;restored=E.restore(JSON.stringify(restored));assert.equal(restored.poetry.encounter.phase,'feedback');assert.equal(E.answerPoetry(restored,'低头思故乡'),null);assert.equal(restored.xp,xp);
+});
+test('collecting all 36 works remains recorded beyond the short random-selection history',()=>{
+  const s=ready();for(const a of P.authors)for(let i=0;i<3;i++)P.begin(s,a.id,()=>.99);assert.equal(s.poetry.collected.length,36);assert.equal(s.poetry.history.length,24);assert.equal(E.restore(s).poetry.collected.length,36);
+});
+test('malformed optional poetry data cannot erase existing OS and world progress',()=>{
+  const s=E.restore(require('./fixtures/v1-saves.json').saves.active);s.poetry={heroId:'nope',active:true,realm:{x:0,y:0,openId:'libai'},encounter:{authorId:'dufu',poemId:'libai-1',questionId:'libai-1-fill',phase:'question'},records:{fake:{right:999999,wrong:0}}};const r=E.restore(s);assert.ok(r);assert.equal(r.level,s.level);assert.deepEqual(r.records,s.records);assert.deepEqual(r.world,s.world);assert.equal(r.poetry.heroId,null);assert.equal(r.poetry.encounter,null);assert.equal(r.poetry.realm.openId,null);
+});
+test('the real prior world release preserves active NPC dialogue, quest flags, flow draft and combat feedback',()=>{
+ for(const old of Object.values(require('./fixtures/v3-saves.json').saves)){const s=E.restore(JSON.stringify(old));assert.ok(s);for(const k of Object.keys(old))if(k!=='contentRevision')assert.deepEqual(s[k],old[k],k);assert.equal(s.contentRevision,4);assert.equal(s.poetry.heroId,null);assert.equal(s.poetry.active,false);}
 });

@@ -16,7 +16,7 @@ const server=http.createServer((req,res)=>{res.setHeader('Content-Type','text/ht
     await ctx.addInitScript(({s,olderBackup})=>{if(!localStorage.getItem('os-quest-v1'))localStorage.setItem('os-quest-v1',JSON.stringify(s));if(!localStorage.getItem('os-quest-v1-before-flow-update'))localStorage.setItem('os-quest-v1-before-flow-update',JSON.stringify(olderBackup));},{s,olderBackup});
     const saved=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('os-quest-v1')));
     await page.goto(url);await page.locator('[data-view="world"]').click();await page.locator('#world-canvas').waitFor();
-    assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem('os-quest-v1-before-world-update'))),s);
+    assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem('os-quest-v1-before-poetry-update'))),s);
     assert.deepEqual(await page.evaluate(()=>JSON.parse(localStorage.getItem('os-quest-v1-before-flow-update'))),olderBackup);
     assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
     await page.locator('#world-canvas').focus();

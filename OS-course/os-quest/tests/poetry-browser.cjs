@@ -1,0 +1,57 @@
+const assert=require('node:assert/strict'),http=require('node:http'),fs=require('node:fs'),path=require('node:path'),{chromium}=require('playwright');
+const E=require('../src/engine.js'),P=require('../src/poetry.js');
+const out=process.env.SCREENSHOT_DIR||'/tmp/poetry-screenshots',html=fs.readFileSync(path.resolve(__dirname,'../index.html'));
+const server=http.createServer((q,r)=>{r.setHeader('Content-Type','text/html; charset=utf-8');r.end(html);});
+function route(from,to){const queue=[{...from,path:[]}],seen=new Set([`${from.x},${from.y}`]);while(queue.length){const p=queue.shift();if(p.x===to.x&&p.y===to.y)return p.path;for(const[dir,dx,dy]of[['right',1,0],['down',0,1],['left',-1,0],['up',0,-1]]){const x=p.x+dx,y=p.y+dy,k=`${x},${y}`;if(P.walkable(x,y)&&!seen.has(k)){seen.add(k);queue.push({x,y,path:[...p.path,dir]});}}}throw Error('No route');}
+(async()=>{
+ fs.mkdirSync(out,{recursive:true});await new Promise(r=>server.listen(0,'127.0.0.1',r));const url=`http://127.0.0.1:${server.address().port}/`;
+ const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH||'/usr/bin/chromium',args:['--no-sandbox','--disable-dev-shm-usage']});
+ try{
+  // A save from the previous shipped release keeps its world conversation and raw update backup.
+  const legacy=require('./fixtures/v3-saves.json').saves.exploration,oldBackup=require('./fixtures/v2-saves.json').saves.feedback;
+  const legacyCtx=await browser.newContext(),legacyPage=await legacyCtx.newPage();
+  await legacyCtx.addInitScript(({legacy,oldBackup})=>{if(!localStorage.getItem('os-quest-v1'))localStorage.setItem('os-quest-v1',JSON.stringify(legacy));if(!localStorage.getItem('os-quest-v1-before-world-update'))localStorage.setItem('os-quest-v1-before-world-update',JSON.stringify(oldBackup));},{legacy,oldBackup});
+  await legacyPage.goto(url);await legacyPage.locator('#npc-dialog[open]').waitFor();
+  const migrated=await legacyPage.evaluate(()=>JSON.parse(localStorage.getItem('os-quest-v1')));for(const key of ['level','xp','hp','monsterHp','world','flowDraft','records'])assert.deepEqual(migrated[key],legacy[key],key);
+  assert.deepEqual(await legacyPage.evaluate(()=>JSON.parse(localStorage.getItem('os-quest-v1-before-poetry-update'))),legacy);assert.deepEqual(await legacyPage.evaluate(()=>JSON.parse(localStorage.getItem('os-quest-v1-before-world-update'))),oldBackup);await legacyCtx.close();
+  const ctx=await browser.newContext({viewport:{width:1440,height:1080}}),page=await ctx.newPage(),errors=[];page.on('pageerror',e=>errors.push(String(e)));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
+  const s=E.create();s.questionId='c1-15';E.flowDraft(s,()=>0);E.placeBlock(s,'b0');
+  await ctx.addInitScript(s=>{if(!localStorage.getItem('os-quest-v1'))localStorage.setItem('os-quest-v1',JSON.stringify(s));},s);
+  const saved=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('os-quest-v1')));
+  await page.goto(url);await page.locator('[data-do="choose-hero"]').first().click();assert.equal(await page.locator('[data-hero]:not([data-hero="original"])').count(),12);await page.screenshot({path:path.join(out,'poet-selector.png')});
+  await page.locator('[data-hero="libai"]').click();let now=await saved();assert.equal(now.poetry.heroId,'libai');for(const k of ['level','xp','hp','monsterHp','questionId','flowDraft','records','world'])assert.deepEqual(now[k],s[k],k);assert.ok((await page.locator('.name-button').textContent()).includes('李白'));
+  await page.reload();assert.equal((await saved()).poetry.heroId,'libai');assert.ok(await page.locator('.anime-character .npc-art').first().evaluate(el=>getComputedStyle(el).backgroundImage!=='none'));
+  await page.locator('[data-view="poetry"]').click();await page.locator('#poetry-canvas').waitFor();assert.equal((await saved()).unlocked,0);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  await page.waitForTimeout(150);await page.screenshot({path:path.join(out,'poetry-garden.png'),fullPage:true});
+  // Follow a real walkable path to Li Bai. Other poets encountered on the way can be greeted and dismissed.
+  const target={x:5,y:4},keys={up:'ArrowUp',down:'ArrowDown',left:'ArrowLeft',right:'ArrowRight'};
+  for(const dir of route((await saved()).poetry.realm,target)){
+   await page.locator('#poetry-canvas').focus();await page.keyboard.press(keys[dir]);
+   if((await saved()).poetry.realm.openId&&((await saved()).poetry.realm.x!==target.x||(await saved()).poetry.realm.y!==target.y))await page.locator('[data-poetry-action="close"]').click();
+  }
+  if(!(await saved()).poetry.realm.openId){await page.locator('#poet-interact').click();}
+  await page.locator('#poet-dialog[open]').waitFor();assert.ok((await page.locator('#poet-name').textContent()).includes('李白'));
+  now=await saved();const recited=P.poemById.get(now.poetry.encounter.poemId);assert.equal(recited.author,'libai');assert.ok((await page.locator('.poem-lines').first().textContent()).includes(recited.lines[0]));
+  await page.screenshot({path:path.join(out,'poet-recital.png')});await page.reload();assert.equal((await saved()).poetry.encounter.poemId,recited.id);await page.locator('#poet-dialog[open]').waitFor();
+  // The optional read-aloud button invokes Chinese speech without a remote audio service.
+  await page.evaluate(()=>{window.speechSynthesis.cancel=()=>{};window.speechSynthesis.speak=u=>{window.testRecited={text:u.text,lang:u.lang};};});await page.locator('#read-poem').click();assert.equal(await page.evaluate(()=>window.testRecited.lang),'zh-CN');assert.ok((await page.evaluate(()=>window.testRecited.text)).includes(recited.lines[0]));
+  await page.locator('[data-poetry-action="ask"]').click();now=await saved();let q=P.questionById.get(now.poetry.encounter.questionId);
+  if(q.type==='fill'){await page.locator('#poetry-answer').fill(q.answer.slice(0,2));await page.reload();assert.equal(await page.locator('#poetry-answer').inputValue(),q.answer.slice(0,2));await page.locator('#poetry-answer').fill(q.answer+'。');}
+  else await page.locator(`[data-poet-option="${q.answer}"]`).click();
+  const combatBefore=await saved();await page.locator('#submit-poetry').click();await page.locator('.poem-feedback.right').waitFor();now=await saved();assert.equal(now.xp,combatBefore.xp+12);assert.equal(now.monsterHp,combatBefore.monsterHp);assert.equal(now.questionId,combatBefore.questionId);assert.deepEqual(now.flowDraft,combatBefore.flowDraft);assert.equal(now.answered,combatBefore.answered);
+  await page.screenshot({path:path.join(out,'poetry-question.png')});const xp=now.xp;await page.reload();await page.locator('.poem-feedback.right').waitFor();assert.equal((await saved()).xp,xp);assert.equal(await page.locator('#submit-poetry').count(),0);await page.locator('[data-poetry-action="close"]').last().click();
+  // Reapproaching causes another recital, rather than silently repeating the same work.
+  await page.locator('#poetry-canvas').focus();await page.keyboard.press('ArrowDown');await page.keyboard.press('ArrowUp');await page.locator('#poet-dialog[open]').waitFor();assert.notEqual((await saved()).poetry.encounter.poemId,recited.id);await page.keyboard.press('Escape');assert.equal((await saved()).poetry.realm.openId,null);
+  // Controlled choice and fill encounters exercise failure/review feedback and arbitrary writer art sheets.
+  const controlled=await saved();Object.assign(controlled.poetry.realm,{x:20,y:8,openId:'liqingzhao',nearId:'liqingzhao'});P.begin(controlled,'liqingzhao',()=>.99);P.ask(controlled);await page.evaluate(s=>localStorage.setItem('os-quest-v1',JSON.stringify(s)),controlled);await page.reload();q=P.questionById.get((await saved()).poetry.encounter.questionId);assert.equal(q.type,'choice');const wrong=String((Number(q.answer)+1)%4);await page.locator(`[data-poet-option="${wrong}"]`).click();const beforeWrong=(await saved()).xp;await page.locator('#submit-poetry').click();await page.locator('.poem-feedback.wrong').waitFor();assert.equal((await saved()).xp,beforeWrong);assert.ok((await page.locator('.poem-feedback').textContent()).includes(q.explanation));await page.keyboard.press('Escape');
+  await page.locator('[data-do="choose-hero"]').first().click();await page.locator('[data-hero="liqingzhao"]').click();assert.equal((await saved()).poetry.heroId,'liqingzhao');await page.locator('[data-view="battle"]').first().click();assert.ok((await page.locator('.name-button').textContent()).includes('李清照'));await page.locator('[data-view="world"]').click();await page.locator('#world-canvas').waitFor();assert.equal((await saved()).poetry.heroId,'liqingzhao');
+  // Import/export restores the literary persona, collection and active recital.
+  await page.locator('[data-view="poetry"]').click();const exportState=await saved();await page.locator('[data-view="battle"]').first().click();await page.locator('#import-file').setInputFiles({name:'poetry-save.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(exportState))});await page.locator('#confirm-import').click();await page.locator('#poetry-canvas').waitFor();assert.equal((await saved()).poetry.heroId,'liqingzhao');assert.deepEqual((await saved()).poetry.collected,exportState.poetry.collected);
+  assert.deepEqual(errors,[]);await ctx.close();
+  const mobile=await browser.newContext({viewport:{width:390,height:844},isMobile:true,hasTouch:true}),mp=await mobile.newPage();mp.on('pageerror',e=>errors.push(String(e)));await mp.goto(url);await mp.locator('[data-view="poetry"]').tap();await mp.locator('[data-do="choose-hero"]').first().tap();await mp.locator('[data-hero="dufu"]').tap();assert.ok(await mp.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  // The nearest poet to the entrance can be reached using touch controls only.
+  const mobileState=await mp.evaluate(()=>JSON.parse(localStorage.getItem('os-quest-v1'))),goal={x:15,y:13};for(const dir of route(mobileState.poetry.realm,goal)){await mp.locator(`[data-poet-move="${dir}"]`).tap();if(await mp.locator('#poet-dialog').isVisible()){const pos=await mp.evaluate(()=>JSON.parse(localStorage.getItem('os-quest-v1')).poetry.realm);if(pos.x!==goal.x||pos.y!==goal.y)await mp.locator('[data-poetry-action="close"]').click();}}
+  await mp.locator('#poet-dialog[open]').waitFor();assert.ok(await mp.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));await mp.screenshot({path:path.join(out,'poet-recital-mobile.png')});await mp.locator('[data-poetry-action="ask"]').tap();const mobileSave=await mp.evaluate(()=>JSON.parse(localStorage.getItem('os-quest-v1'))),mq=P.questionById.get(mobileSave.poetry.encounter.questionId);if(mq.type==='fill')await mp.locator('#poetry-answer').fill(mq.answer);else await mp.locator(`[data-poet-option="${mq.answer}"]`).tap();await mp.locator('#submit-poetry').tap();await mp.locator('.poem-feedback.right').waitFor();await mobile.close();assert.deepEqual(errors,[]);
+  console.log('PASS: 12 personas, shared avatar across battle/world, retained combat drafts, keyboard/touch garden movement, randomized own-work recital, Chinese read-aloud control, fill/choice feedback, first-correct XP and reload lock, notebook, import, mobile layout, no console errors.');console.log(`Poetry screenshots: ${out}`);
+ }finally{await browser.close();server.close();}
+})().catch(e=>{console.error(e);server.close();process.exitCode=1;});
