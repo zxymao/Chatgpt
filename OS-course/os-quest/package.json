@@ -1,6 +1,6 @@
 {
   "name": "kernel-quest",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "private": true,
   "description": "An offline OS-knowledge turn-based RPG",
   "scripts": {

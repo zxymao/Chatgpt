@@ -20,7 +20,7 @@ function route(from,to){const queue=[{...from,path:[]}],seen=new Set([`${from.x}
   const saved=()=>page.evaluate(()=>JSON.parse(localStorage.getItem('os-quest-v1')));
   await page.goto(url);await page.locator('[data-do="choose-hero"]').first().click();assert.equal(await page.locator('[data-hero]:not([data-hero="original"])').count(),12);await page.screenshot({path:path.join(out,'poet-selector.png')});
   await page.locator('[data-hero="libai"]').click();let now=await saved();assert.equal(now.poetry.heroId,'libai');for(const k of ['level','xp','hp','monsterHp','questionId','flowDraft','records','world'])assert.deepEqual(now[k],s[k],k);assert.ok((await page.locator('.name-button').textContent()).includes('李白'));
-  await page.reload();assert.equal((await saved()).poetry.heroId,'libai');assert.ok(await page.locator('.anime-character .npc-art').first().evaluate(el=>getComputedStyle(el).backgroundImage!=='none'));
+  await page.reload();assert.equal((await saved()).poetry.heroId,'libai');assert.ok(await page.locator('svg.hero-sprite').first().evaluate(el=>el.querySelectorAll('rect').length>100),'choosing a writer keeps the original pixel adventurer');
   await page.locator('[data-view="poetry"]').click();await page.locator('#poetry-canvas').waitFor();assert.equal((await saved()).unlocked,0);assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
   await page.waitForTimeout(150);await page.screenshot({path:path.join(out,'poetry-garden.png'),fullPage:true});
   // Follow a real walkable path to Li Bai. Other poets encountered on the way can be greeted and dismissed.

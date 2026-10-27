@@ -21,7 +21,7 @@ const serve=http.createServer((req,res)=>{
     const initial=E.create();initial.questionId='c1-01';delete initial.contentRevision;delete initial.training;delete initial.flowDraft;
     await ctx.addInitScript(s=>{if(!localStorage.getItem('os-quest-v1'))localStorage.setItem('os-quest-v1',JSON.stringify(s));},initial);
     await page.goto(url);await page.locator('#question-title').waitFor();assert.equal(await page.locator('.option').count(),4);
-    assert.ok(await page.locator('.anime-character .npc-art').first().evaluate(el=>{const r=el.getBoundingClientRect();return getComputedStyle(el).backgroundImage!=='none'&&r.width>0&&r.height>0;}),'player portrait must display the character atlas');
+    assert.ok(await page.locator('svg.hero-sprite').first().evaluate(el=>{const r=el.getBoundingClientRect();return el.querySelectorAll('rect').length>100&&r.width>0&&r.height>0;}),'player portrait must display the original pixel adventurer');
     const backupKey='os-quest-v1-before-poetry-update';
     assert.deepEqual(await page.evaluate(k=>JSON.parse(localStorage.getItem(k)),backupKey),initial);
     const beforeBackupDownload=await page.evaluate(()=>localStorage.getItem('os-quest-v1'));
