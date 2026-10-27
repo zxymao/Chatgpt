@@ -2,6 +2,11 @@ name: Deploy OS Quest to GitHub Pages
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'OS-course/os-quest/**'
+      - '.github/workflows/deploy-os-quest.yml'
 
 permissions:
   contents: read

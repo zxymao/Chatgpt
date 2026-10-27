@@ -1,0 +1,205 @@
+{
+  "generatedFrom": "fafd39d (original unmodified engine)",
+  "originalQuestionsSha256": "1d3f7d7898cec593a77ceddb73a927b642343972eada64b001c3651c7b22e632",
+  "saves": {
+    "active": {
+      "version": 1,
+      "name": "原版冒险者",
+      "level": 9,
+      "xp": 67,
+      "hp": 150,
+      "focus": 2,
+      "chapter": 4,
+      "encounter": 1,
+      "unlocked": 5,
+      "completed": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "monsterHp": 51,
+      "phase": "question",
+      "questionId": "c5-09",
+      "action": "guard",
+      "mode": "battle",
+      "history": [
+        "c3-04",
+        "c1-01"
+      ],
+      "records": {
+        "c1-01": {
+          "right": 3,
+          "wrong": 0,
+          "streak": 3
+        },
+        "c3-04": {
+          "right": 1,
+          "wrong": 2,
+          "streak": 1
+        },
+        "c5-09": {
+          "right": 0,
+          "wrong": 1,
+          "streak": 0
+        }
+      },
+      "correct": 83,
+      "answered": 101,
+      "combo": 4,
+      "bestCombo": 9,
+      "kills": 16,
+      "log": [
+        {
+          "text": "原版远征记录",
+          "tone": "gold"
+        }
+      ],
+      "last": null,
+      "sound": true
+    },
+    "feedback": {
+      "version": 1,
+      "name": "见习守护者",
+      "level": 1,
+      "xp": 18,
+      "hp": 91,
+      "focus": 4,
+      "chapter": 0,
+      "encounter": 0,
+      "unlocked": 0,
+      "completed": [],
+      "monsterHp": 31,
+      "phase": "feedback",
+      "questionId": "c1-01",
+      "action": "strike",
+      "mode": "battle",
+      "history": [
+        "c1-01"
+      ],
+      "records": {
+        "c1-01": {
+          "right": 1,
+          "wrong": 0,
+          "streak": 1
+        }
+      },
+      "correct": 1,
+      "answered": 1,
+      "combo": 1,
+      "bestCombo": 1,
+      "kills": 0,
+      "log": [
+        {
+          "text": "命中 · 选择题 +18 EXP，造成 15 伤害",
+          "tone": "good"
+        }
+      ],
+      "last": {
+        "questionId": "c1-01",
+        "input": "1",
+        "correct": true,
+        "damage": 15,
+        "incoming": 9,
+        "xp": 18,
+        "levels": 0,
+        "killed": false,
+        "defeated": false,
+        "mode": "battle"
+      },
+      "sound": false
+    },
+    "review": {
+      "version": 1,
+      "name": "原版冒险者",
+      "level": 9,
+      "xp": 67,
+      "hp": 150,
+      "focus": 2,
+      "chapter": 4,
+      "encounter": 1,
+      "unlocked": 5,
+      "completed": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "monsterHp": 51,
+      "phase": "question",
+      "questionId": "c3-04",
+      "action": "guard",
+      "mode": "review",
+      "history": [
+        "c3-04",
+        "c1-01"
+      ],
+      "records": {
+        "c1-01": {
+          "right": 3,
+          "wrong": 0,
+          "streak": 3
+        },
+        "c3-04": {
+          "right": 1,
+          "wrong": 2,
+          "streak": 1
+        },
+        "c5-09": {
+          "right": 0,
+          "wrong": 1,
+          "streak": 0
+        }
+      },
+      "correct": 83,
+      "answered": 101,
+      "combo": 4,
+      "bestCombo": 9,
+      "kills": 16,
+      "log": [
+        {
+          "text": "原版远征记录",
+          "tone": "gold"
+        }
+      ],
+      "last": null,
+      "sound": true
+    },
+    "victory": {
+      "version": 1,
+      "name": "见习守护者",
+      "level": 18,
+      "xp": 122,
+      "hp": 200,
+      "focus": 4,
+      "chapter": 7,
+      "encounter": 2,
+      "unlocked": 7,
+      "completed": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "monsterHp": 0,
+      "phase": "victory",
+      "questionId": null,
+      "action": "strike",
+      "mode": "battle",
+      "history": [],
+      "records": {},
+      "correct": 400,
+      "answered": 432,
+      "combo": 0,
+      "bestCombo": 0,
+      "kills": 24,
+      "log": [],
+      "last": null,
+      "sound": false
+    }
+  }
+}

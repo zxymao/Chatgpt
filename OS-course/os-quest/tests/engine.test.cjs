@@ -3,10 +3,10 @@ const assert=require('node:assert/strict');
 const E=require('../src/engine.js');
 const q=E.data.questions[0];
 function ready(id=q.id){const s=E.create();s.questionId=id;return s;}
-test('96 unique questions: each of 8 chapters has 4 choice / boolean / fill',()=>{
-  assert.equal(E.byId.size,96);
-  for(let c=0;c<8;c++)for(const type of ['choice','boolean','fill'])assert.equal(E.data.questions.filter(q=>q.chapter===c&&q.type===type).length,4);
-  for(const x of E.data.questions){assert.ok(x.prompt&&x.explanation&&x.file.endsWith('.pdf')&&x.page>0);assert.equal(E.isCorrect(x,x.answer),true);assert.equal(E.isCorrect(x,'not-an-answer'),false);if(x.type==='choice')assert.equal(x.options.length,4);}
+test('128 unique questions: each chapter has 4 choice / boolean / fill / flow',()=>{
+  assert.equal(E.byId.size,128);
+  for(let c=0;c<8;c++)for(const type of ['choice','boolean','fill','flow'])assert.equal(E.data.questions.filter(q=>q.chapter===c&&q.type===type).length,4);
+  for(const x of E.data.questions){assert.ok(x.prompt&&x.explanation&&x.file.endsWith('.pdf')&&x.page>0);assert.equal(E.isCorrect(x,x.answer),true);assert.equal(E.isCorrect(x,'not-an-answer'),false);if(x.type==='choice')assert.equal(x.options.length,4);if(x.type==='flow'){assert.equal(x.layout.filter(r=>typeof r==='object').length,x.answer.length);assert.equal(new Set(x.blocks.map(b=>b.id)).size,x.blocks.length);assert.ok(x.blocks.every(b=>b.text));assert.ok(['sequence','code'].includes(x.variant));}}
 });
 test('fill accepts declared aliases, case / whitespace / full-width normalization',()=>{
   const pcb=E.data.questions.find(q=>q.type==='fill'&&q.answer==='PCB');
@@ -58,4 +58,55 @@ test('a full all-correct campaign is playable and victory can be reloaded',()=>{
   const s=E.create();E.prepare(s,()=>0);let turns=0;
   while(s.phase!=='victory'&&turns++<1000){const x=E.byId.get(s.questionId);assert.ok(x);if(s.focus>=1)E.setAction(s,'guard');const r=E.answer(s,x.answer);assert.equal(r.defeated,false);E.advance(s,()=>0);}
   assert.equal(s.phase,'victory');assert.equal(s.completed.length,8);assert.equal(s.kills,24);assert.ok(s.level>1);assert.ok(E.restore(s));assert.equal(E.restore(s).phase,'victory');assert.ok(E.travel(s,0));assert.equal(s.phase,'question');
+});
+test('original 96 questions keep every ID and content field for existing study records',()=>{
+  const crypto=require('node:crypto'),fixture=require('./fixtures/v1-saves.json');
+  assert.equal(crypto.createHash('sha256').update(JSON.stringify(E.data.questions.filter(q=>q.type!=='flow'))).digest('hex'),fixture.originalQuestionsSha256);
+});
+test('unmodified original v1 saves preserve all progression, feedback, review and victory fields',()=>{
+  for(const [name,legacy] of Object.entries(require('./fixtures/v1-saves.json').saves)){
+    const loaded=E.restore(JSON.stringify(legacy));assert.ok(loaded,name);
+    for(const key of Object.keys(legacy))assert.deepEqual(loaded[key],legacy[key],`${name}: ${key}`);
+    assert.equal(loaded.version,1);assert.equal(loaded.contentRevision,2);assert.equal(loaded.training,'mixed');
+    assert.deepEqual(E.wrongIds(loaded),E.wrongIds(legacy));
+    if(loaded.phase==='feedback'){const before=JSON.stringify(loaded);assert.equal(E.answer(loaded,E.byId.get(loaded.questionId).answer),null);assert.equal(JSON.stringify(loaded),before);}
+  }
+});
+test('all 32 flow questions support atomic full-answer rewards and exact positional validation',()=>{
+  for(const q of E.data.questions.filter(q=>q.type==='flow')){
+    const s=ready(q.id);s.chapter=s.unlocked=q.chapter;s.monsterHp=E.monster(q.chapter,0).maxHp;
+    const invalids=[null,'b0',[],q.answer.slice(1),Array(q.answer.length).fill('b0'),[...q.answer.slice(0,-1),'unknown']];
+    for(const invalid of invalids){assert.equal(E.answer(s,invalid),null,q.id);assert.equal(s.answered,0);}
+    const r=E.answer(s,q.answer);assert.equal(r.correct,true,q.id);assert.equal(r.xp,28);assert.ok(r.damage>0);assert.deepEqual(s.last.input,q.answer);
+    const loaded=E.restore(JSON.stringify(s));assert.deepEqual(loaded.last,s.last);assert.equal(E.answer(loaded,q.answer),null);
+    const wrong=ready(q.id);wrong.chapter=wrong.unlocked=q.chapter;wrong.monsterHp=E.monster(q.chapter,0).maxHp;
+    const swapped=[...q.answer];[swapped[0],swapped[1]]=[swapped[1],swapped[0]];
+    const fail=E.answer(wrong,swapped);assert.equal(fail.correct,false,q.id);assert.equal(wrong.xp,0);assert.equal(fail.damage,0);assert.ok(E.wrongIds(wrong).includes(q.id));
+    if(q.blocks.length>q.answer.length){const distract=[...q.answer];distract[0]=q.blocks.at(-1).id;assert.equal(E.isCorrect(q,distract),false);}
+  }
+});
+test('flow placement supports shuffled blocks, replacement, clearing, reset and reload',()=>{
+  const q=E.byId.get('c1-15'),s=ready(q.id);const d=E.flowDraft(s,()=>0);assert.notDeepEqual(d.order,q.blocks.map(b=>b.id));
+  E.placeBlock(s,'b0');assert.equal(d.active,1);assert.equal(d.slots[0],'b0');assert.equal(E.placeBlock(s,'b0'),false);
+  E.placeBlock(s,'b1');E.selectSlot(s,0);E.placeBlock(s,'b2');assert.equal(d.slots[0],'b2');assert.ok(!d.slots.includes('b0'));
+  E.selectSlot(s,0,true);assert.equal(d.slots[0],null);E.placeBlock(s,'b0');
+  const loaded=E.restore(JSON.stringify(s));assert.deepEqual(loaded.flowDraft,d);assert.deepEqual(E.flowDraft(loaded).order,d.order);
+  E.setAction(loaded,'guard');assert.deepEqual(loaded.flowDraft,d);assert.equal(E.selectSlot(loaded,-1),false);assert.equal(E.selectSlot(loaded,999),false);
+  E.resetFlow(loaded);assert.deepEqual(loaded.flowDraft.slots,Array(q.answer.length).fill(null));assert.deepEqual(loaded.flowDraft.order,d.order);
+});
+test('invalid optional flow drafts cannot erase existing character progression',()=>{
+  const s=ready('c1-15');E.flowDraft(s);s.flowDraft.slots[0]='unknown';const loaded=E.restore(s);assert.ok(loaded);assert.equal(loaded.xp,s.xp);assert.equal(loaded.flowDraft,null);assert.ok(E.flowDraft(loaded));
+  const wrongFeedback=ready('c1-15');E.answer(wrongFeedback,E.byId.get('c1-15').answer);wrongFeedback.last.input=['b0'];assert.equal(E.restore(wrongFeedback),null);
+});
+test('flow-only training filters questions while keeping HP, enemy, XP and records',()=>{
+  const s=E.restore(require('./fixtures/v1-saves.json').saves.active);const prior={hp:s.hp,xp:s.xp,level:s.level,monsterHp:s.monsterHp,records:structuredClone(s.records),completed:[...s.completed]};
+  assert.ok(E.setTraining(s,'flow',()=>0));assert.equal(E.byId.get(s.questionId).type,'flow');assert.equal(E.byId.get(s.questionId).chapter,s.chapter);
+  for(const [k,v]of Object.entries(prior))assert.deepEqual(s[k],v);
+  assert.equal(E.restore(s).training,'flow');E.answer(s,E.byId.get(s.questionId).answer);assert.equal(E.setTraining(s,'mixed'),false);
+  E.advance(s,()=>0);assert.equal(E.byId.get(s.questionId).type,'flow');assert.ok(E.setTraining(s,'mixed',()=>0));assert.equal(E.byId.get(s.questionId).type,'choice');
+});
+test('wrong flow questions support two-step review with saved feedback and no damage',()=>{
+  const q=E.byId.get('c1-13'),s=ready(q.id),wrong=[...q.answer].reverse();E.answer(s,wrong);E.advance(s);E.review(s,()=>0);
+  const hp=s.hp;for(let i=0;i<2;i++){assert.equal(s.questionId,q.id);const r=E.answer(s,q.answer);assert.ok(r.correct);assert.equal(r.xp,10);assert.equal(s.hp,hp);const loaded=E.restore(JSON.stringify(s));assert.deepEqual(loaded.last.input,q.answer);E.advance(s,()=>0);}
+  assert.deepEqual(E.wrongIds(s),[]);
 });

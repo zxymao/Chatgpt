@@ -14,6 +14,13 @@
   const mc = (prompt,options,answer,explanation,page) => ({type:'choice',prompt,options,answer:String(answer),explanation,page});
   const tf = (prompt,answer,explanation,page) => ({type:'boolean',prompt,answer:String(answer),explanation,page});
   const fill = (prompt,answers,explanation,page) => ({type:'fill',prompt,answers,answer:answers[0],explanation,page});
+  // Strings in layout are fixed context; objects are slots. IDs stay independent of shuffled display order.
+  const flow = (variant,prompt,steps,explanation,page,layout=null,distractors=[]) => ({
+    type:'flow',variant,prompt,explanation,page,
+    blocks:[...steps,...distractors].map((text,i)=>({id:`b${i}`,text})),
+    answer:steps.map((_,i)=>`b${i}`),
+    layout:layout||steps.map((_,i)=>({slot:`第 ${i+1} 步`}))
+  });
   const banks = [
     [
       mc('操作系统对应用最重要的作用是什么？',['让应用直接修改所有硬件','提供抽象与接口，并管理、共享和隔离资源','替代 CPU 执行所有指令','只负责显示桌面'],1,'OS 承上启下：向上提供抽象和服务，向下管理资源、实现保护与隔离。',2),
@@ -128,7 +135,146 @@
       fill('接收方发送给发送方、用于确认消息已收到的应答，常用缩写是 ____。',['ACK'],'ACK 配合超时和重传，还要处理 ACK 丢失及重复消息。',38)
     ]
   ];
-  const questions = banks.flatMap((bank,chapter) => bank.map((q,i) => ({...q,id:`c${chapter+1}-${String(i+1).padStart(2,'0')}`,chapter,file:q.file||sourceFiles[chapter],difficulty:Math.floor(i/4)+1})));
+  const flowBanks = [
+    [
+      flow('sequence','按本课的典型启动流程排列，从计算机上电到内核开始运行。',[
+        '计算机上电，处理器复位','执行 ROM 中的固件，初始化启动必需设备','固件从启动介质加载 Bootloader','Bootloader 加载操作系统内核','内核初始化并开始运行'
+      ],'这是课件中的概念流程；真实平台可能使用 UEFI 等固件，启动链也可能包含多级引导。',7),
+      flow('sequence','假定本次系统调用不阻塞，按从用户程序发起到返回的顺序排列。',[
+        '用户态按 ABI 设置系统调用号与参数','执行系统调用指令，进入受控内核入口','内核按调用号分派并检查请求参数','内核完成相应服务，设置返回值','恢复用户态上下文，从调用后继续执行'
+      ],'系统调用通过受控入口跨越特权边界。它不必切换到另一个进程。此题省略具体体系结构的入口细节。',27),
+      flow('code','补全“不阻塞的系统调用”概念伪代码，只填空缺步骤。',[
+        '设置系统调用号和参数','通过受控陷入进入内核','检查参数并执行目标服务','恢复用户态并返回结果'
+      ],'用户程序准备请求；内核验证并执行服务后返回。应用不能自行把 CPU 特权级改成内核态。',23,[
+        '应用程序：',{slot:'准备请求'}, {slot:'跨越特权边界'},'内核处理程序：',{slot:'处理请求'}, {slot:'返回应用'}
+      ],['用户代码直接修改特权级，再跳入任意内核地址']),
+      flow('sequence','设备发出可响应的 I/O 完成中断；假设处理完恢复原进程，排列概念步骤。',[
+        '设备完成 I/O，发出中断请求','CPU 在可响应边界保存必要返回现场并转入中断入口','内核处理程序确认中断来源并处理完成事件','内核完成返回所需的现场恢复','执行中断返回，原进程继续运行'
+      ],'外部中断与当前指令通常没有直接因果关系。此题固定“返回原进程”路径，不考虑中断后调度其他进程。',20)
+    ],
+    [
+      flow('sequence','进程从发起一次必须等待的 I/O，到完成 I/O 后再次使用 CPU，依次发生什么？',[
+        '进程正在运行，提交 I/O 请求','所需 I/O 尚未完成，进程转为阻塞','I/O 完成，进程被唤醒进入就绪队列','调度器选中该进程','恢复该进程上下文，转入运行态'
+      ],'唤醒使阻塞进程变为就绪，并不保证它立刻获得 CPU。',28),
+      flow('code','补全父进程“创建子进程 → 子进程执行新程序 → 父进程回收”的骨架。exec 成功时不返回；省略错误处理。',[
+        'pid = fork();','exec(new_program);','waitpid(pid, &status, 0);'
+      ],'fork 创建子进程，exec 替换子进程的程序映像，waitpid 由父进程回收指定子进程。两条分支可交错运行，槽位表示代码结构。',34,[
+        {slot:'创建子进程'},'if (pid == 0) {',{slot:'子进程分支'},'} else if (pid > 0) {',{slot:'父进程分支'},'}'
+      ],['pid = exec(new_program);']),
+      flow('sequence','把 A 切换到已选定的就绪进程 B，按概念上的数据依赖顺序排列。',[
+        '保存 A 的 PC、SP 和寄存器等执行上下文','从 B 的管理结构取得待恢复的上下文','切换到 B 所需的地址空间环境（若不同）','恢复 B 的寄存器、栈和恢复执行位置','B 从其恢复位置继续运行'
+      ],'这是教学用概念分解，不规定机器指令级顺序；实际切换会组合部分步骤，不需要把全部进程内存写入磁盘。',31),
+      flow('sequence','采用写时复制的 fork 后，子进程首次写入一张尚未分离的私有页。无并发修改时排列此路径。',[
+        'fork 后父子逻辑地址空间独立，暂共享受写保护的物理页','子进程尝试写入该页，触发写保护故障','内核为子进程分配新页并复制原内容','更新子进程页映射，使新页可写','重试写指令，修改子进程的新页'
+      ],'复习提纲拓展：COW 的物理共享不等于私有变量可跨进程共享更新。真实实现还要考虑引用计数、同步和失败处理。',34)
+    ],
+    [
+      flow('code','主线程创建一个工作线程，等待它结束后再读取结果。补全骨架，假定调用均成功。',[
+        'pthread_create(&tid, NULL, worker, &result);','pthread_join(tid, NULL);','use(result);'
+      ],'create 之后工作线程与主线程可并发。join 成功返回说明目标线程已结束，此时才能按此协议读取其最终结果。',14,[
+        'main() {',{slot:'创建工作线程'},'    // worker 将计算结果写入 result',{slot:'等待工作结束'}, {slot:'读取最终结果'},'}'
+      ],['use(result); /* 在 join 之前无同步读取 */']),
+      flow('sequence','在不讨论弱内存重排的教学模型中，x 初值为 0；T1 先完成 x++，T2 再完成 x++。排出这条指定执行轨迹。',[
+        'T1 读取 x=0 到自己的寄存器','T1 将寄存器值加一，写回 x=1','T2 读取 x=1 到自己的寄存器','T2 将寄存器值加一，写回 x=2'
+      ],'这是明确指定的串行执行轨迹，不代表 x++ 天生原子。若两个线程同时读到 0，可能丢失一次更新。',30),
+      flow('sequence','两个线程发生丢失更新：x 初值为 0，T1 先读、T2 后读，随后 T1 先写、T2 后写。排列指定轨迹。',[
+        'T1 读取 x=0，保存在 r1','T2 读取 x=0，保存在 r2','T1 计算 r1+1 并写回 x=1','T2 计算 r2+1 并写回 x=1'
+      ],'两次加一最终只有 1，原因是复合读改写缺少正确同步。题干指定读写先后，避免把其他合法交错判错。',30),
+      flow('sequence','M:1 模型只有一个承载内核线程；它发起阻塞式 I/O，且无异步包装。按发生顺序排列。',[
+        '某个用户线程发起阻塞式 I/O 系统调用','唯一承载内核线程进入阻塞状态','同组其他用户线程暂时无法获得 CPU 执行','I/O 完成，承载内核线程重新具备运行条件','承载实体再次获调度后，用户线程库继续推进线程'
+      ],'此结论有 M:1 与阻塞调用前提。1:1 模型或异步 I/O 设计不能直接套用该结论。',20)
+    ],
+    [
+      flow('sequence','P1=24、P2=3、P3=3 同时到达，按 P1、P2、P3 的顺序进入 FCFS 队列；无 I/O、无切换开销。排列运行和结束时刻。',[
+        'P1 运行：0 → 24','P1 结束，P2 运行：24 → 27','P2 结束，P3 运行：27 → 30','P3 结束，全部任务完成'
+      ],'等待时间为 0、24、27，平均 17；周转时间为 24、27、30，平均 27。',12),
+      flow('sequence','按本课非抢占 STCF：P1=6、P2=8、P3=7、P4=3，均在时刻 0 到达。排列执行片段。',[
+        'P4：0 → 3','P1：3 → 9','P3：9 → 16','P2：16 → 24'
+      ],'所有作业同时到达时，按所需 CPU 时间从短到长执行。本课 STCF 对应非抢占的 SJF。',14),
+      flow('sequence','RR 时间片为 2：A 需 3，B 需 2；同时到达，初始队列 A、B，无 I/O 与切换开销。排出执行顺序。',[
+        'A：0 → 2，剩余 1，回队尾','B：2 → 4，运行结束','A：4 → 5，运行结束'
+      ],'A 用完时间片后进入队尾，B 正好用满 2 个时间单位结束，不再入队。',17),
+      flow('code','补全简化 RR 的“时间片用完、任务仍可运行”路径，当前任务记为 p。',[
+        '保存 p 的上下文；将 p 标记为就绪','将 p 加入就绪队列尾部','从就绪队列头部取出 next','恢复 next 的上下文并运行'
+      ],'这里固定队列操作为“先入队再取队头”。该分支不处理阻塞或已经结束的任务。',17,[
+        'on_quantum_expired(p):',{slot:'保存被抢占任务'}, {slot:'重新排队'}, {slot:'选择下一任务'}, {slot:'移交 CPU'}
+      ],['把 p 标记为阻塞，等待 I/O 完成'])
+    ],
+    [
+      flow('code','补全课件 Peterson 中线程 i 的代码。j 是另一个线程；采用经典原子读写、顺序一致模型。',[
+        'flag[i] = true;','turn = j;','while (flag[j] && turn == j) { }','flag[i] = false;'
+      ],'先表明意愿，再在冲突时让步；退出后撤销意愿。现实 C/C++ 实现还需要合适的原子变量和内存序。',26,[
+        'do {',{slot:'申请进入'}, {slot:'冲突时让步'}, {slot:'忙等条件'},'    critical_section();',{slot:'退出临界区'},'    remainder_section();','} while (true);'
+      ],['while (flag[j] || turn == j) { }']),
+      flow('code','补全 TAS 自旋锁的调用骨架；TAS(lock) 原子返回旧值并置 true，锁初始为 false。',[
+        'while (TAS(&lock)) { }','critical_section();','atomic_store_release(&lock, false);'
+      ],'观察到旧值 false 的线程取得锁。释放时写 false；实际实现需采用匹配的 acquire/release 内存序，不能用普通共享布尔变量替代。',29,[
+        '// TAS 的成功获取具有 acquire 语义',{slot:'获取锁'}, {slot:'受保护操作'}, {slot:'释放锁'}
+      ],['lock = true; /* 普通赋值就算取得锁 */']),
+      flow('sequence','复习提纲拓展：固定两个并发更新线程都使用同一把互斥锁。排列一次受保护的 counter++。',[
+        '成功获取 mutex','在临界区读取 counter','计算新值并写回 counter','释放 mutex'
+      ],'锁须覆盖完整读—改—写，并由所有冲突访问者遵守。只锁住写回而不锁读取，仍可能丢失更新。',8),
+      {...flow('sequence','RCU 更新：构造新版本时旧对象已存在；按“构造 → 发布 → 回收”排列。',[
+        '分配并构造完整的新版本对象','原子发布指向新版本的共享指针','等待适当宽限期，确保旧版本读者退出','回收旧版本对象'
+      ],'新读者转向新版本，但发布前进入的读者可能仍持有旧指针。宽限期结束前不能回收旧对象。',5),file:'Sync01 临界区与锁-扩展.pdf'}
+    ],
+    [
+      flow('sequence','按银行家算法课件的检查次序，排列一次可以进入安全性检测的资源请求。',[
+        '检查 Request ≤ Need；否则拒绝超额请求','检查 Request ≤ Available；否则等待','对 Available、Allocation、Need 进行试分配','在试分配状态上执行安全性检测','安全则批准；不安全则回滚并等待'
+      ],'Request、Need、Available 均为逐分量比较。试分配失败时不能留下被修改的资源状态。',20),
+      flow('code','补全安全性检测：初始尚无任务假想完成，找到可完成任务后更新 Work 与 Finish。',[
+        'Work = Available; Finish[:] = false;','寻找 Finish[i] == false 且 Need[i] ≤ Work 的 i','Work += Allocation[i]; Finish[i] = true;','全部 Finish 为 true 才返回安全'
+      ],'Finish 初值应为 false。模拟完成后净释放的是原 Allocation，不是 Max 或 Need。课件对应页的初值笔误已更正。',16,[
+        'is_safe():',{slot:'初始化'},'    repeat:',{slot:'寻找可完成任务'},'        找不到则退出循环；找到则：',{slot:'模拟完成'}, {slot:'判断结果'}
+      ],['Work += Need[i]; Finish[i] = true;']),
+      flow('sequence','课件矩阵例题 Available=(0,1,1)。已确定选 T2，再按编号从小到大选择下一个可完成任务，排列安全序列。',[
+        'T2 完成：Work=(6,2,3)','T1 完成：Work=(7,2,3)','T3 完成：Work=(9,3,4)','T4 完成：Work=(9,3,6)'
+      ],'T2 首先可完成。之后可能有多个安全选择，题干以编号从小到大规定唯一轨迹；序列不是所有安全序列的全集。',21),
+      flow('code','复习提纲拓展：两把锁编号 L1<L2，所有线程按编号升序获取；按给定栈式释放骨架补空。',[
+        'lock(L1);','lock(L2);','unlock(L2);','unlock(L1);'
+      ],'统一升序获取可以破坏环路等待。此题指定按获取的逆序释放；逆序释放本身不是避免死锁的必要条件。',34,[
+        {slot:'获取较小编号锁'}, {slot:'获取较大编号锁'},'critical_section();',{slot:'先释放后获取的锁'}, {slot:'最后释放先获取的锁'}
+      ],['lock(L2); lock(L1);'])
+    ],
+    [
+      flow('code','补全课件生产者 Deposit(c)。empty=N、full=0、mutex=1；按课件先释放互斥、后通知的顺序。',[
+        'P(empty);','P(mutex);','V(mutex);','V(full);'
+      ],'先取得空槽许可，再持互斥锁修改缓冲区；修改完成后先释放锁，再增加已填充槽许可。避免持锁等待空槽。',10,[
+        'Deposit(c) {',{slot:'等待空槽'}, {slot:'进入临界区'},'    add_to_buffer(c);',{slot:'退出临界区'}, {slot:'通知有数据'},'}'
+      ],['P(full);']),
+      flow('code','补全课件消费者 Remove()。empty=N、full=0、mutex=1；按课件先释放互斥、后通知的顺序。',[
+        'P(full);','P(mutex);','V(mutex);','V(empty);'
+      ],'先取得已有数据许可，再取互斥锁。取走数据后释放互斥并归还空槽许可。',10,[
+        'Remove() {',{slot:'等待数据'}, {slot:'进入临界区'},'    item = remove_from_buffer();',{slot:'退出临界区'}, {slot:'通知有空槽'},'    return item;','}'
+      ],['P(empty);']),
+      flow('code','补全 Mesa 条件变量消费者。hasData 与缓冲区均受 m 保护；wait 原子释放 m 并等待，返回前重新持锁。',[
+        'lock(m);','while (!hasData()) { cv.wait(m); }','item = remove_from_buffer();','unlock(m);'
+      ],'先持锁再检查；wait 返回后重查谓词。这里省略有界容量下生产者等待空槽的另一条件变量。',33,[
+        'consume() {',{slot:'保护共享谓词'}, {slot:'必要时反复等待'}, {slot:'消费数据'}, {slot:'结束临界区'},'}'
+      ],['if (!hasData()) { cv.wait(m); }']),
+      flow('sequence','复习提纲拓展：可复用屏障 arrived=0、generation=0。某线程是本轮最后到达者；以下操作均在锁内，按指定先更新代号再重置计数的版本排列。',[
+        'arrived++，发现 arrived == N','generation++，进入下一代','arrived = 0，为下一轮重置计数','broadcast 唤醒等待本轮完成的线程','释放屏障锁，继续后续计算'
+      ],'其他线程保存进入时的代号，并在 while(myGeneration == generation) 中等待；generation 防止不同轮次混淆。计数重置与代号更新均在同一锁内，此题指定二者次序。',41)
+    ],
+    [
+      flow('sequence','按 TCP 服务端“创建到接收首条连接”的典型顺序排列；省略错误处理与选项设置。',[
+        'socket() 创建监听套接字','bind() 绑定本地地址与端口','listen() 进入监听状态','accept() 接收连接，返回已连接描述符'
+      ],'accept 返回新连接描述符，监听描述符可继续接受其他连接。客户端对应 socket→connect。',28),
+      flow('code','父进程经匿名管道向子进程发送一条短消息。补全骨架；假定系统调用成功并且读写完整。',[
+        'pipe(fd);','close(fd[1]);','close(fd[0]);','write(fd[1], msg, n);'
+      ],'先创建管道再 fork 以继承描述符。子进程只读，关闭写端；父进程只写，关闭读端。真实程序还要循环处理短读短写与错误。',17,[
+        {slot:'fork 前建立管道'},'pid = fork();','if (pid == 0) {',{slot:'子进程关闭不用的一端'},'    read(fd[0], buf, n); close(fd[0]);','} else if (pid > 0) {',{slot:'父进程关闭不用的一端'}, {slot:'父进程发送数据'},'    close(fd[1]); waitpid(pid, NULL, 0);','}'
+      ],['close(fd[0]); close(fd[1]);']),
+      flow('sequence','System V 共享内存由本进程独自创建使用，确认无其他使用者后清理；按指定“先脱离，再标记删除”顺序排列。',[
+        'shmget() 创建共享段并取得 shmid','shmat() 映射共享段，检查附接是否成功','通过返回的地址读写共享数据','shmdt() 解除本进程映射','shmctl(IPC_RMID) 标记删除共享段'
+      ],'题目指定清理次序以避免多种合法实现。IPC_RMID 标记后通常要等全部附接脱离才实际销毁；多进程共享访问还需要同步。',25),
+      flow('sequence','复习提纲拓展：带请求 ID 的可靠消息传输。第一次 ACK 丢失，发送方超时后重传，排出指定轨迹。',[
+        '发送方发送带唯一请求 ID 的消息','接收方处理请求、记录 ID 并发送 ACK，但 ACK 丢失','发送方等待超时，重传相同 ID 的请求','接收方识别重复，不重复执行业务，重新发送 ACK','发送方收到匹配 ACK，完成本次发送'
+      ],'请求 ID 与去重记录用于避免重复业务执行。该轨迹不包含崩溃恢复，也不意味着仅靠超时重传就能无条件保证恰好一次。',38)
+    ]
+  ];
+  // Append new questions without renumbering any of the original 96 IDs (save compatibility).
+  const questions = banks.flatMap((bank,chapter) => [...bank,...flowBanks[chapter]].map((q,i) => ({...q,id:`c${chapter+1}-${String(i+1).padStart(2,'0')}`,chapter,file:q.file||sourceFiles[chapter],difficulty:Math.min(3,Math.floor(i/4)+1)})));
   const data = {chapters,questions};
   if (typeof module !== 'undefined' && module.exports) module.exports = data;
   else root.OSQuestData = data;
