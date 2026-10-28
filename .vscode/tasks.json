@@ -2,6 +2,42 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "喵核宠物店: 启动网页",
+      "type": "process",
+      "command": "python3",
+      "args": ["-m", "http.server", "8000", "--directory", "os-lab/game"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "TinyRV: 运行我的练习内核",
+      "type": "process",
+      "command": "make",
+      "args": ["-C", "os-lab", "run"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": ["$gcc"],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "TinyRV: 运行完整参考内核",
+      "type": "process",
+      "command": "make",
+      "args": ["-C", "os-lab", "run", "MODE=reference"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": ["$gcc"],
+      "presentation": { "reveal": "always", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "TinyRV: 检查当前关卡",
+      "type": "process",
+      "command": "make",
+      "args": ["-C", "os-lab", "check", "LAB=${input:tinyrvLab}"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": ["$gcc"],
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
       "label": "A-Core: 实时运行课程任务",
       "type": "process",
       "command": "python3",
@@ -18,6 +54,15 @@
       "options": { "cwd": "${workspaceFolder}" },
       "problemMatcher": [],
       "presentation": { "reveal": "always", "panel": "dedicated" }
+    }
+  ],
+  "inputs": [
+    {
+      "id": "tinyrvLab",
+      "type": "pickString",
+      "description": "选择练习关卡；all 需要先完成六关",
+      "options": ["boot", "1", "2", "3", "4", "5", "6", "all"],
+      "default": "1"
     }
   ]
 }

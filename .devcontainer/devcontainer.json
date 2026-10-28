@@ -1,8 +1,10 @@
 {
-  "name": "A-Core RISC-V + QEMU",
+  "name": "OS Lab / TinyRV + A-Core",
   "build": { "dockerfile": "Dockerfile" },
   "remoteUser": "vscode",
-  "postCreateCommand": "python3 scripts/acore.py setup && python3 scripts/acore.py build && python3 scripts/acore.py image-test",
+  "postCreateCommand": "make -C os-lab doctor && make -C os-lab boot-check && node --test os-lab/game/tests/engine.test.cjs && python3 scripts/acore.py setup && python3 scripts/acore.py build && python3 scripts/acore.py image-test",
+  "forwardPorts": [8000],
+  "portsAttributes": { "8000": { "label": "喵核宠物工坊", "onAutoForward": "notify" } },
   "customizations": {
     "vscode": {
       "settings": {

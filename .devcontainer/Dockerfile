@@ -5,7 +5,7 @@ RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.l
     && apt-get install -y --no-install-recommends \
        ca-certificates git sudo bash less procps python3 build-essential \
        gcc-riscv64-linux-gnu binutils-riscv64-linux-gnu \
-       gdb-multiarch qemu-system-misc \
+       gdb-multiarch qemu-system-misc opensbi nodejs \
     && rm -rf /var/lib/apt/lists/* \
     && useradd --create-home --shell /bin/bash --uid 1000 vscode \
     && printf 'vscode ALL=(root) NOPASSWD:ALL\n' > /etc/sudoers.d/vscode \

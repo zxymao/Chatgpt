@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - 'OS-course/os-quest/**'
+      - 'os-lab/game/**'
       - '.github/workflows/deploy-os-quest.yml'
 
 permissions:
@@ -29,11 +30,17 @@ jobs:
       - name: Test game rules and question bank
         working-directory: OS-course/os-quest
         run: npm test
+      - name: Test pet workshop rules and build
+        run: |
+          node --test os-lab/game/tests/engine.test.cjs
+          node os-lab/game/build.mjs --check
       - name: Build the standalone game
         run: |
           node OS-course/os-quest/build.mjs
           mkdir -p _site
           cp OS-course/os-quest/index.html _site/index.html
+          mkdir -p _site/pet-kernel
+          cp os-lab/game/index.html _site/pet-kernel/index.html
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -1,0 +1,10 @@
+{
+  "name": "pet-kernel-workshop",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test tests/engine.test.cjs",
+    "test:browser": "node tests/browser.cjs"
+  }
+}

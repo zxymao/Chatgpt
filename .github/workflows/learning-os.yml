@@ -1,0 +1,71 @@
+name: Learning OS / QEMU
+on:
+  push:
+    branches: [main]
+    paths: ['os-lab/**', '.devcontainer/**', '.github/workflows/learning-os.yml']
+  pull_request:
+    paths: ['os-lab/**', '.devcontainer/**', '.github/workflows/learning-os.yml']
+  workflow_dispatch:
+    inputs:
+      lab:
+        description: 'Check YOUR student implementation (all requires all six lessons)'
+        required: true
+        default: boot
+        type: choice
+        options: [boot, '1', '2', '3', '4', '5', '6', all]
+permissions:
+  contents: read
+jobs:
+  pet-workshop:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test os-lab/game/tests/engine.test.cjs
+      - run: node os-lab/game/build.mjs --check
+  baseline:
+    name: '${{ matrix.mode }} / ${{ matrix.lab }}'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {mode: student, lab: boot}
+          - {mode: reference, lab: all}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install signed distribution packages
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends gcc-riscv64-linux-gnu binutils-riscv64-linux-gnu qemu-system-misc opensbi make python3
+      - run: make -C os-lab doctor
+      - run: make -C os-lab check MODE=${{ matrix.mode }} LAB=${{ matrix.lab }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: 'qemu-${{ matrix.mode }}-${{ matrix.lab }}'
+          path: os-lab/build/${{ matrix.mode }}/
+          if-no-files-found: ignore
+  student-lesson:
+    if: github.event_name == 'workflow_dispatch'
+    name: 'Your exercise / ${{ inputs.lab }}'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends gcc-riscv64-linux-gnu binutils-riscv64-linux-gnu qemu-system-misc opensbi make python3
+      - name: Check the selected student lesson
+        env:
+          SELECTED_LAB: '${{ inputs.lab }}'
+        run: make -C os-lab check LAB="$SELECTED_LAB"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: student-lesson-log
+          path: os-lab/build/student/
+          if-no-files-found: ignore

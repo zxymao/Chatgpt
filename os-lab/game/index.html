@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f7f4e9">
+<title>喵核宠物工坊 · 写代码，养一店小伙伴</title>
+<style>:root{--paper:#f7f4e9;--ink:#293f37;--muted:#748279;--mint:#dcebdc;--green:#315e49;--line:#e1e5d9;--orange:#e7a06b;--white:#fffef9}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.6 system-ui,-apple-system,"Noto Sans CJK SC",sans-serif}button,a,input,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:10px;min-height:40px;padding:8px 14px;font-weight:650}button:disabled{cursor:not-allowed;opacity:.47}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--orange);outline-offset:3px}a{color:var(--green)}.topbar{max-width:1450px;margin:auto;padding:23px 38px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);gap:20px}.brand{display:flex;align-items:center;gap:12px;color:var(--ink);font-size:23px;font-weight:800;text-decoration:none}.brand-mark{display:grid;place-items:center;width:47px;height:47px;background:var(--green);color:var(--paper);border-radius:15px;font-size:34px}.brand-sub{display:block;font-size:9px;letter-spacing:1.5px;color:var(--muted)}.top-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.pill{border:1px solid var(--line);padding:7px 12px;border-radius:30px;background:var(--white);white-space:nowrap;font-size:13px}.quiet{background:transparent;color:var(--muted);font-size:12px}.primary{background:var(--green);color:white;box-shadow:0 3px 0 #203f32}.primary:hover:not(:disabled){background:#244c3a;transform:translateY(-1px)}.secondary{background:#edf2e8;color:var(--green);border:1px solid #d6e0d0}.secondary:hover{background:var(--mint)}main{max-width:1450px;margin:auto;padding:30px 38px 0}.intro{display:flex;justify-content:space-between;gap:25px;align-items:center;margin:5px 0 29px}.eyebrow{font-size:11px;letter-spacing:1.5px;color:var(--muted)}h1{font-size:clamp(26px,3vw,40px);line-height:1.4;letter-spacing:-1.5px;margin:7px 0}h2{font-size:22px;line-height:1.4;margin:7px 0 12px}h3{font-size:14px;margin:0}.intro p{margin:9px 0 0;color:var(--muted);font-size:13px}.intro-tip{display:flex;align-items:center;gap:13px;font-size:11px;color:#69756c}.intro-tip span{padding:11px 14px;border-radius:10px;background:#eeeee3}.intro-tip i{font-style:normal}.chapters{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;margin-bottom:23px}.chapter{display:flex;gap:9px;align-items:center;text-align:left;background:#eeeee4;border:1px solid #e0e4d5;padding:11px;min-width:0;color:var(--ink)}.chapter.active{background:var(--green);color:white;border-color:var(--green)}.chapter.completed:not(.active){background:#e1edde}.chapter-index{font-size:20px;opacity:.65;font-weight:500}.chapter span:last-child{font-size:12px;line-height:1.4}.workspace{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:22px;align-items:start}.card{background:var(--white);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 9px 24px #314c3510}.panel-heading{display:flex;justify-content:space-between;align-items:center;padding:24px 25px 10px}.panel-heading h2{font-size:20px}.live-dot{font-size:11px;color:var(--green);white-space:nowrap}.live-dot:before{content:"";display:inline-block;width:6px;height:6px;background:#79a676;border-radius:50%;margin-right:6px}.scene-wrap{position:relative;margin:0 15px;border-radius:13px;overflow:hidden;background:#e5e7ce}canvas{display:block;width:100%;height:auto;image-rendering:pixelated;cursor:pointer}.scene-caption{position:absolute;bottom:12px;left:14px;right:14px;text-align:center;font-size:11px;color:#3e5946;background:#fffff7de;border:1px solid #ffffffa0;border-radius:8px;padding:7px;pointer-events:none}.care-bar{margin:20px 24px 0;display:flex;justify-content:space-between;gap:12px;align-items:center;padding-bottom:21px;border-bottom:1px dashed var(--line)}.care-bar strong{font-size:17px}.pet-vitals{display:flex;gap:13px;font-size:10px;color:var(--muted);margin-top:6px}.pet-vitals label{display:flex;align-items:center;gap:5px}meter{width:61px;height:10px;accent-color:#83ab74}.care-buttons{display:flex;gap:7px}.care-buttons button{font-size:11px;padding:8px 11px}.collection-heading{display:flex;justify-content:space-between;align-items:center;padding:20px 24px 9px}.collection-heading span{font-size:10px;color:var(--muted)}.pet-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:3px 24px 14px}.pet-card{position:relative;min-width:0;text-align:center;padding:10px 3px;border:1px solid var(--line);border-radius:11px;background:#fbfbf3}.pet-card.selected{outline:2px solid #84a787;border-color:transparent}.pet-card.locked{background:#f1f1e9}.pet-card .pet-name{font-size:10px;font-weight:700;margin:2px 0 4px}.pet-card .pet-status{font-size:9px;color:var(--muted)}.pet-card button{font-size:10px;min-height:28px;padding:4px 9px;margin-top:4px}.avatar{width:56px;height:50px;margin:auto;display:block}.gentle-note{font-size:10px;line-height:1.8;color:var(--muted);margin:0;padding:0 24px 19px}.lesson-panel{padding:24px}.lesson-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.lesson-tag{background:#e3eedb;color:var(--green);padding:3px 9px;border-radius:5px;font-size:10px;font-weight:700}.language-tag{font-size:10px;color:var(--muted)}.lesson-panel h2{font-size:25px;margin:0 0 6px}.concept{font-size:10px;color:#9a754f;border:1px solid #e4dac5;border-radius:20px;padding:3px 9px}.lesson-panel>p{font-size:12px;color:#69796d;margin:15px 0}.goal{background:#f2f5e9;border-left:3px solid #9db48d;border-radius:0 8px 8px 0;padding:11px 13px;margin:14px 0 17px;font-size:12px}.goal strong{font-size:11px}.goal p{margin:5px 0 0;font-size:11px;line-height:1.8}.editor-label{display:flex;justify-content:space-between;font-size:11px;font-weight:650;margin:10px 0 8px}.editor-label span{font-weight:400;font-size:9px;color:var(--muted)}.editor-wrap{display:flex;background:#263e35;border:1px solid #304d40;border-radius:11px;overflow:hidden;height:235px}#line-numbers{padding:16px 8px 16px 12px;color:#879d8c;font:12px/1.8 ui-monospace,monospace;text-align:right;user-select:none;min-width:33px;white-space:pre;overflow:hidden}textarea{padding:16px 12px 16px 2px;resize:vertical;flex:1;min-width:0;border:0;outline:none;background:transparent;color:#e3edcc;font:12px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:2;white-space:pre;overflow:auto;min-height:100%;max-height:100%}.code-actions{display:flex;gap:7px;align-items:center;margin:13px 0}.code-actions button{font-size:11px}.code-actions .quiet{margin-left:auto;padding:5px}.hint-panel{background:#fff2d9;border:1px solid #ecdcb7;border-radius:8px;padding:10px 12px;margin:9px 0;font-size:11px}.result{border:1px solid var(--line);border-radius:10px;padding:11px 13px;background:#fbfcf7;font-size:11px}.result>p{margin:0;color:var(--muted)}.result.success{background:#edf5e8;border-color:#b2c7a4}.result.failed{border-color:#e0b9a3}.result h3{font-size:12px;margin-bottom:5px}.test-row{display:flex;align-items:baseline;gap:7px;margin:5px 0}.test-row b{color:#5d8c4f}.test-row.bad b{color:#b36b50}.test-detail{display:block;font:10px/1.7 ui-monospace,monospace;color:#8e6d57;overflow-wrap:anywhere}.next-lesson{width:100%;margin:12px 0 0;background:#e6b17a;color:#513a24}.kernel-link{margin-top:19px;border-top:1px dashed var(--line);padding-top:13px;font-size:11px;color:var(--muted)}summary{cursor:pointer;color:var(--green);font-size:11px}.kernel-link p{font-size:10px}.kernel-link code{font:10px ui-monospace,monospace;overflow-wrap:anywhere}.kernel-link pre{background:#f1f2e9;border-radius:6px;padding:10px;font:10px/1.8 ui-monospace,monospace;overflow:auto}.kernel-link button,.kernel-link a{font-size:10px;margin-right:8px}.kernel-link a{display:inline-block;margin-top:8px}.notice{padding:10px;background:#fff2d9;border-radius:9px;font-size:12px;margin-bottom:15px}.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);padding:12px 20px;max-width:90vw;border-radius:12px;background:#2d4b3d;color:white;opacity:0;transition:.2s;pointer-events:none;z-index:10;font-size:13px;box-shadow:0 4px 25px #0002}.toast.show{opacity:1;transform:translate(-50%,0)}footer{display:flex;justify-content:space-between;gap:15px;font-size:10px;color:var(--muted);padding:26px 0}.mobile-break{display:none}[hidden]{display:none!important}@media(min-width:1600px){main,.topbar{max-width:1500px}.editor-wrap{height:270px}}@media(max-width:1100px){.intro-tip{display:none}.topbar,main{padding-left:22px;padding-right:22px}.chapter{padding:8px}.chapter-index{font-size:16px}.chapter span:last-child{font-size:10px}.workspace{gap:15px}.lesson-panel{padding:18px}.pet-list{padding-left:16px;padding-right:16px}.care-bar{margin-left:16px;margin-right:16px;flex-wrap:wrap}.care-buttons button{font-size:10px}.editor-wrap{height:240px}}@media(max-width:800px){.workspace{grid-template-columns:1fr}.chapters{grid-template-columns:repeat(3,minmax(0,1fr))}.topbar{padding-top:15px;padding-bottom:15px;align-items:flex-start}.brand{font-size:19px}.brand-mark{width:37px;height:37px;font-size:26px}.brand-sub{font-size:7px}.top-actions{justify-content:flex-end;max-width:220px;gap:5px}.pill{font-size:10px;padding:5px 8px}.top-actions .quiet{font-size:10px;padding:3px 7px;min-height:27px}.intro{margin-top:0;margin-bottom:20px}.intro p{font-size:11px}.chapter{min-height:48px}.chapter span:last-child{font-size:11px}.intro h1{letter-spacing:-.5px}.scene-wrap{margin-left:12px;margin-right:12px}.panel-heading{padding:18px 18px 8px}.pet-list{grid-template-columns:repeat(4,minmax(0,1fr))}.pet-card{padding:8px 2px}.care-buttons button{font-size:11px}.lesson-panel h2{font-size:23px}.code-actions{flex-wrap:wrap}.editor-label span{font-size:8px}footer{flex-direction:column;gap:5px;padding:20px 0}.shop-panel .gentle-note{padding-bottom:15px}.mobile-break{display:block}}@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="topbar"><a class="brand" href="#"><span class="brand-mark">⌘</span><span>喵核<span class="brand-sub">PET KERNEL WORKSHOP</span></span></a><div class="top-actions"><span class="pill">🌾 饲料 <b id="food-count">8</b></span><span class="pill"><b id="progress-count">0 / 6</b> 关</span><button id="export-save" class="quiet">导出存档</button><button id="import-save" class="quiet">导入</button><input id="save-file" type="file" accept="application/json,.json" hidden></div></header>
+<main>
+  <section class="intro"><div><div class="eyebrow">你的第一家，会被代码改变的店</div><h1>写一点代码，<br class="mobile-break">迎接一位小伙伴。</h1><p>从一袋猫粮开始，把内存、调度和系统调用变成看得见的小故事。</p></div><div class="intro-tip"><span>01 写函数</span><i>→</i><span>02 运行检查</span><i>→</i><span>03 领养 & 喂食</span></div></section>
+  <div id="storage-note" class="notice" hidden></div>
+  <section class="chapters" id="chapters" aria-label="关卡选择"></section>
+  <div class="workspace">
+    <section class="shop-panel card"><div class="panel-heading"><div><span class="eyebrow">小码的宠物店</span><h2>今天，也要好好开店。</h2></div><span class="live-dot">营业中</span></div><div class="scene-wrap"><canvas id="shop" width="960" height="520" aria-label="像素宠物店，点击宠物可以选中它">宠物店画面；也可用下方宠物卡片选择。</canvas><div class="scene-caption" id="scene-caption">小码正在等你写出第一段代码。</div></div><div class="care-bar"><div><strong id="selected-name">小码</strong><div class="pet-vitals"><label>饱腹 <meter id="full-meter" min="0" max="100" value="60"></meter></label><label>亲密 <meter id="bond-meter" min="0" max="100" value="30"></meter></label></div></div><div class="care-buttons"><button id="feed" class="primary">喂一份粮 · 1 🌾</button><button id="pat" class="secondary">摸摸它 ♡</button></div></div><div class="collection-heading"><h3>小伙伴橱窗</h3><span id="adopted-count">已领养 1 / 7</span></div><div class="pet-list" id="pet-list"></div><p class="gentle-note">不在线也不会挨饿或失去宠物。按自己的节奏学，进度会保存在当前浏览器。</p></section>
+    <section class="lesson-panel card"><div class="lesson-heading"><span class="lesson-tag" id="lesson-number">第 1 关</span><span class="language-tag">JavaScript · OS 算法模型</span></div><h2 id="lesson-title"></h2><span class="concept" id="lesson-concept"></span><p id="lesson-story"></p><div class="goal"><strong>这一关要做什么</strong><p id="lesson-goal"></p></div><label class="editor-label" for="editor">你的代码 <span>Ctrl / ⌘ + Enter 运行</span></label><div class="editor-wrap"><div id="line-numbers" aria-hidden="true"></div><textarea id="editor" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="编写关卡函数"></textarea></div><div class="code-actions"><button id="run" class="primary">▶ 运行 & 检查</button><button id="hint" class="secondary">给我一点提示</button><button id="reset-code" class="quiet">重置本关代码</button></div><div id="hint-panel" class="hint-panel" hidden></div><div id="result" class="result" aria-live="polite"><p>先试着运行一次，看看哪些情况还需要处理。</p></div><button id="next-lesson" class="next-lesson" hidden>去下一关 →</button><details class="kernel-link"><summary>把这一关带进真正的 OS 内核 ↗</summary><p>上面运行的是浏览器算法练习。下面的 C 练习会启动真实的 RISC-V 内核，结果单独验收。</p><code id="kernel-file"></code><pre id="kernel-command"></pre><button id="copy-command" class="secondary">复制检查命令</button><a href="https://github.com/zxymao/Chatgpt/blob/main/os-lab/docs/LESSONS.md" target="_blank" rel="noopener">打开手把手内核教程</a></details></section>
+  </div>
+  <footer><span>喵核工坊 · TinyRV 的游戏入口</span><span>浏览器六关 ≠ 内核六关。小伙伴陪你学，真正的 OS 由你来补全。</span></footer>
+</main>
+<div id="toast" class="toast" role="status"></div>
+<script>(function (root) {
+  'use strict';
+  const pets = [
+    {id:0,name:'小码',species:'cat',color:'#e6ab72',title:'你的第一位店员',lesson:0},
+    {id:1,name:'串口奶猫',species:'cat',color:'#f0ce8e',title:'听见你的第一行代码',lesson:1},
+    {id:2,name:'页页仓鼠',species:'hamster',color:'#c6a17c',title:'每颗粮都有自己的格子',lesson:2},
+    {id:3,name:'轮转柯基',species:'dog',color:'#cb824a',title:'轮到每一位小伙伴',lesson:3},
+    {id:4,name:'守门兔',species:'rabbit',color:'#dcc6de',title:'检查每一个服务请求',lesson:4},
+    {id:5,name:'时钟狐狸',species:'fox',color:'#ec8c5d',title:'到时间就醒来',lesson:5},
+    {id:6,name:'内核小龙',species:'dragon',color:'#78b7a1',title:'把所有能力连在一起',lesson:6}
+  ];
+  const lessons = [
+    {id:1,title:'数一袋猫粮',concept:'字符串与结束符',entry:'measure',pet:1,file:'01_strings.c',
+      story:'第一袋猫粮上的标签坏了。写一个函数数出有效字节，让小码知道要准备多少份粮。',
+      goal:'返回字符串第一个 \\0 之前的长度；没有 \\0 就数到末尾。练习输入只使用 ASCII。',
+      starter:'function measure(text) {\n  // 从 0 开始，遇到 "\\0" 或字符串末尾就停\n  return 0;\n}',
+      hints:['准备一个计数器，从第一个位置开始。','同时检查是否到达末尾，以及当前字符是否为 "\\0"。','每前进一步加一；结束后返回计数。对应 C 内核里的 lab_strlen。'],
+      tests:[{name:'空袋标签',args:[''],want:0},{name:'三份猫粮',args:['cat'],want:3},{name:'提前出现结束符',args:['ab\0cd'],want:2},{name:'首字节就是结束符',args:['\0milk'],want:0},{name:'标签包含空格',args:['pet food'],want:8}]},
+    {id:2,title:'整理粮仓格子',concept:'物理页分配模型',entry:'takePage',pet:2,file:'02_pages.c',
+      story:'仓鼠把粮仓分成了小格子。0 表示空闲，1 表示占用，不能把同一个格子重复发给两只宠物。',
+      goal:'找到第一个 0，把它改成 1 并返回下标；没有空位返回 -1，且不改动数组。',
+      starter:'function takePage(used) {\n  // 找到空格子后，别忘记标记为占用\n  return -1;\n}',
+      hints:['从下标 0 开始扫描数组。','发现 used[i] === 0 时，先写入 1，再返回 i。','扫完仍未找到，才返回 -1。真实内核还要验证页对齐、清零和释放。'],
+      tests:[{name:'第一格空闲',args:[[0,0,0]],want:0,after:[1,0,0]},{name:'跳过已占用格子',args:[[1,0,1]],want:1,after:[1,1,1]},{name:'只剩最后一格',args:[[1,1,0]],want:2,after:[1,1,1]},{name:'粮仓已满',args:[[1,1]],want:-1,after:[1,1]},{name:'空粮仓',args:[[]],want:-1,after:[]}]},
+    {id:3,title:'轮流开饭',concept:'READY 与轮转调度',entry:'chooseNext',pet:3,file:'03_scheduler.c',
+      story:'柯基总想第一个吃饭。请让 READY 的宠物轮流吃，睡着或正在忙的宠物暂时跳过。',
+      goal:'从 current 的后一位循环查找 READY，最多看一圈；current=-1 从 0 开始；没有就返回 -1。',
+      starter:'function chooseNext(states, current) {\n  // 只选择 "READY"，记得绕回数组开头\n  return -1;\n}',
+      hints:['先处理空数组，避免对 0 求余。','检查 (起点 + 偏移) % states.length，偏移最多到长度减一。','只有一个 READY 时，也可以再次选择它；不能选择 BLOCKED。'],
+      tests:[{name:'第一次调度',args:[['READY','READY'],-1],want:0},{name:'让下一位先来',args:[['READY','READY','READY'],0],want:1},{name:'跳过睡着的伙伴',args:[['READY','BLOCKED','READY'],0],want:2},{name:'绕回开头',args:[['READY','BLOCKED','READY'],2],want:0},{name:'只有自己就绪',args:[['BLOCKED','READY'],1],want:1},{name:'没有就绪宠物',args:[['BLOCKED','DONE'],0],want:-1},{name:'没有宠物',args:[[],-1],want:-1}]},
+    {id:4,title:'兔子的服务窗口',concept:'系统调用与参数检查',entry:'service',pet:4,file:'04_syscall.c',
+      story:'守门兔只接受合法的喂食请求。宠物不能跳过服务窗口，直接拿走别人的粮。',
+      goal:'调用号 1 是喂食：petId 必须是 0～2 的整数，返回 "feed:编号"；坏参数返回 -14；未知调用号返回 -38。先判断调用号。',
+      starter:'function service(number, petId) {\n  // 先分发，再检查参数\n  return -38;\n}',
+      hints:['number !== 1 时立即返回 -38。','使用 Number.isInteger 检查整数，再检查范围。','返回值是 "feed:" + petId。真实内核还会发生 ecall 和特权级切换。'],
+      tests:[{name:'合法喂食请求',args:[1,0],want:'feed:0'},{name:'最后一只宠物',args:[1,2],want:'feed:2'},{name:'负数编号',args:[1,-1],want:-14},{name:'越界编号',args:[1,3],want:-14},{name:'小数不是编号',args:[1,1.5],want:-14},{name:'未知调用',args:[99,0],want:-38},{name:'先检查调用号',args:[99,-1],want:-38}]},
+    {id:5,title:'叫醒午睡狐狸',concept:'时间与唤醒条件',entry:'canWake',pet:5,file:'05_timer.c',
+      story:'狐狸想睡到约定时刻。你要判断何时可以叫醒它，既不能提前，也不能错过刚好到点。',
+      goal:'now 和 deadline 是同一时钟下的非负计数；到达或超过 deadline 返回 true，否则 false。本模型不考虑计数器回绕。',
+      starter:'function canWake(now, deadline) {\n  // 刚好到点，也应该醒来\n  return false;\n}',
+      hints:['比较的是绝对时刻，不是要再等待多久。','now 小于 deadline 表示尚未到期。','边界必须包含相等；真实内核第五关还要设置硬件定时器并处理中断。'],
+      tests:[{name:'还没到点',args:[4,5],want:false},{name:'刚好到点',args:[5,5],want:true},{name:'已经超过时间',args:[7,5],want:true},{name:'从零开始',args:[0,0],want:true},{name:'较大时钟计数',args:[4294967300,4294967301],want:false}]},
+    {id:6,title:'宠物店指令台',concept:'命令行解析',entry:'parseCommand',pet:6,file:'06_shell.c',
+      story:'小龙要把宠物店变成能听懂文字的工坊。把一行文字解析成命令和参数，完成你的第一套指令台。',
+      goal:'返回 {command, argument}。支持 feed 名字、echo 文本、help。忽略首尾空格；feed/echo 要有参数，help 不接受参数；其他返回 {command:"unknown",argument:""}。',
+      starter:'function parseCommand(line) {\n  return {command: "unknown", argument: ""};\n}',
+      hints:['先 trim()，再区分第一个单词和后面的文本。','必须匹配整个命令词，不能把 feedback 当作 feed。','保留参数内部空格；help extra 应判为 unknown。'],
+      tests:[{name:'给小码喂食',args:['feed 小码'],want:{command:'feed',argument:'小码'}},{name:'忽略外侧空格',args:['  feed   小码  '],want:{command:'feed',argument:'小码'}},{name:'保留文本内部空格',args:['echo hello  pet'],want:{command:'echo',argument:'hello  pet'}},{name:'打开帮助',args:[' help '],want:{command:'help',argument:''}},{name:'缺少名字',args:['feed'],want:{command:'unknown',argument:''}},{name:'命令边界',args:['feedback cat'],want:{command:'unknown',argument:''}},{name:'多余参数',args:['help cat'],want:{command:'unknown',argument:''}},{name:'空命令',args:[''],want:{command:'unknown',argument:''}}]}
+  ];
+  function create() {
+    return {version:1,food:8,completed:[],adopted:[0],selected:0,lesson:1,drafts:{},stats:{0:{full:60,bond:30}}};
+  }
+  function normalize(raw) {
+    const s=create();
+    if(!raw || typeof raw!=='object' || raw.version!==1) return s;
+    s.food=Number.isFinite(raw.food)?Math.max(0,Math.min(999,Math.floor(raw.food))):8;
+    s.completed=[...new Set((Array.isArray(raw.completed)?raw.completed:[]).filter(n=>Number.isInteger(n)&&n>=1&&n<=6))].sort((a,b)=>a-b);
+    // Unlocks must form a consecutive progression.
+    s.completed=s.completed.filter((n,i)=>n===i+1);
+    s.adopted=[0,...new Set((Array.isArray(raw.adopted)?raw.adopted:[]).filter(n=>Number.isInteger(n)&&n>0&&s.completed.includes(n)))];
+    s.selected=s.adopted.includes(raw.selected)?raw.selected:0;
+    s.lesson=Number.isInteger(raw.lesson)&&raw.lesson>=1&&raw.lesson<=Math.min(6,s.completed.length+1)?raw.lesson:Math.min(6,s.completed.length+1);
+    for(const l of lessons) if(typeof raw.drafts?.[l.id]==='string')s.drafts[l.id]=raw.drafts[l.id].slice(0,12000);
+    for(const id of s.adopted){const st=raw.stats?.[id]||{};s.stats[id]={full:Number.isFinite(st.full)?Math.max(0,Math.min(100,st.full)):60,bond:Number.isFinite(st.bond)?Math.max(0,Math.min(100,st.bond)):30};}
+    return s;
+  }
+  function unlocked(s,id){return id>=1&&id<=6&&(id===1||s.completed.includes(id-1));}
+  function reward(s,id){
+    if(!unlocked(s,id))return {ok:false,message:'先完成前一关。'};
+    const first=!s.completed.includes(id);
+    if(first)s.completed.push(id);
+    s.completed.sort((a,b)=>a-b);s.food=Math.min(999,s.food+(first?8:2));
+    return {ok:true,first,message:first?`解锁 ${pets[id].name}！获得 8 份饲料。`:'再次验证成功，获得 2 份练习饲料。'};
+  }
+  function adopt(s,id){
+    if(!Number.isInteger(id)||id<1||id>6||!s.completed.includes(id))return {ok:false,message:'完成对应关卡后才能领养。'};
+    if(s.adopted.includes(id))return {ok:false,message:'它已经在你的店里啦。'};
+    s.adopted.push(id);s.stats[id]={full:60,bond:30};s.selected=id;
+    return {ok:true,message:`${pets[id].name} 搬进宠物店啦！`};
+  }
+  function feed(s,id){
+    if(!s.adopted.includes(id))return {ok:false,message:'先领养这只宠物。'};
+    if(s.food<1)return {ok:false,message:'饲料用完了，运行一关正确代码再赚一些。'};
+    if(s.stats[id].full>=100)return {ok:false,message:'已经吃饱啦，可以摸摸它。'};
+    s.food--;s.stats[id].full=Math.min(100,s.stats[id].full+15);s.stats[id].bond=Math.min(100,s.stats[id].bond+5);
+    return {ok:true,message:`${pets[id].name} 开心地吃掉一份粮！`};
+  }
+  function pet(s,id){
+    if(!s.adopted.includes(id))return {ok:false,message:'先领养它。'};
+    s.stats[id].bond=Math.min(100,s.stats[id].bond+3);
+    return {ok:true,message:`${pets[id].name} 蹭了蹭你的手。`};
+  }
+  // Run only in a disposable browser Worker (or controlled Node test process).
+  // This checks behavior on multiple inputs, never source keywords or fixed PASS text.
+  function grade(source,lesson){
+    const rows=[];
+    let fn;
+    try { fn=new Function('"use strict";\n'+source+'\nreturn typeof '+lesson.entry+' === "function" ? '+lesson.entry+' : null;')(); }
+    catch(e){return {passed:false,rows:[{name:'代码能否运行',ok:false,detail:String(e.message)}]};}
+    if(!fn)return {passed:false,rows:[{name:'找到指定函数',ok:false,detail:'请保留函数名 '+lesson.entry}]};
+    const same=(a,b)=>{
+      if(Object.is(a,b))return true;
+      if(!a||!b||typeof a!=='object'||typeof b!=='object')return false;
+      const ak=Object.keys(a).sort(),bk=Object.keys(b).sort();
+      return ak.length===bk.length&&ak.every((k,i)=>k===bk[i]&&same(a[k],b[k]));
+    };
+    for(const test of lesson.tests){
+      const args=structuredClone(test.args);
+      try{
+        const got=fn(...args);
+        const ok=same(got,test.want)&&(test.after===undefined||same(args[0],test.after));
+        rows.push({name:test.name,ok,detail:ok?'通过':`输入 ${JSON.stringify(test.args)}；期望 ${JSON.stringify(test.want)}，得到 ${String(JSON.stringify(got))}`+(test.after===undefined?'':`；数组应为 ${JSON.stringify(test.after)}，实际 ${JSON.stringify(args[0])}`)});
+      }catch(e){rows.push({name:test.name,ok:false,detail:String(e.message)});}
+    }
+    return {passed:rows.length===lesson.tests.length&&rows.every(r=>r.ok),rows};
+  }
+  const api={pets,lessons,create,normalize,unlocked,reward,adopt,feed,pet,grade};
+  if(typeof module!=='undefined'&&module.exports)module.exports=api;
+  else root.PetKernel=api;
+})(globalThis);
+</script>
+<script>(() => {
+  'use strict';
+  const E=globalThis.PetKernel, $=id=>document.getElementById(id), KEY='pet-kernel-v1';
+  let state=E.create(), hintCount=0, worker=null, running=false, toastTimer, sparkle=0;
+  try{const raw=localStorage.getItem(KEY);if(raw)state=E.normalize(JSON.parse(raw));}
+  catch{ $('storage-note').hidden=false;$('storage-note').textContent='存档暂时无法读取，本次可以继续玩；导出存档可保存进度。'; }
+  const lesson=()=>E.lessons[state.lesson-1];
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch{$('storage-note').hidden=false;$('storage-note').textContent='浏览器不允许自动存档，请使用“导出存档”保存进度。';}}
+  function toast(text){$('toast').textContent=text;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),3500);$('scene-caption').textContent=text;}
+  function drawPet(ctx,x,y,scale,p,selected=false){
+    ctx.save();ctx.translate(x,y);ctx.scale(scale,scale);
+    ctx.fillStyle=selected?'#6a957e55':'#494b3820';ctx.beginPath();ctx.ellipse(0,18,20,6,0,0,Math.PI*2);ctx.fill();
+    const color=p.color, dark=p.species==='dragon'?'#538f7c':'#8f6c51';
+    ctx.fillStyle=dark;
+    if(p.species==='dragon'){ctx.beginPath();ctx.moveTo(-13,1);ctx.lineTo(-28,-10);ctx.lineTo(-21,10);ctx.closePath();ctx.fill();ctx.beginPath();ctx.moveTo(13,1);ctx.lineTo(28,-10);ctx.lineTo(21,10);ctx.closePath();ctx.fill();}
+    else {ctx.fillRect(12,4,10,5);ctx.fillRect(18,-2,5,9);}
+    ctx.fillStyle=color;ctx.fillRect(-13,-2,26,19);ctx.fillRect(-15,-21,30,25);
+    if(p.species==='rabbit'){ctx.fillRect(-12,-44,8,25);ctx.fillRect(4,-44,8,25);ctx.fillStyle='#e9a7a3';ctx.fillRect(-10,-40,4,16);ctx.fillRect(6,-40,4,16);}
+    else if(p.species==='dog'){ctx.fillStyle=dark;ctx.fillRect(-19,-23,9,19);ctx.fillRect(10,-23,9,19);}
+    else if(p.species==='hamster'){ctx.fillRect(-17,-26,10,10);ctx.fillRect(7,-26,10,10);}
+    else{ctx.beginPath();ctx.moveTo(-15,-18);ctx.lineTo(-13,-33);ctx.lineTo(-2,-21);ctx.closePath();ctx.fill();ctx.beginPath();ctx.moveTo(15,-18);ctx.lineTo(13,-33);ctx.lineTo(2,-21);ctx.closePath();ctx.fill();}
+    ctx.fillStyle='#fff4dc';ctx.fillRect(-9,-1,18,11);ctx.fillRect(-8,10,16,5);
+    ctx.fillStyle='#344438';ctx.fillRect(-9,-13,4,5);ctx.fillRect(5,-13,4,5);ctx.fillRect(-2,-5,4,3);
+    ctx.fillStyle='#ffffff';ctx.fillRect(-9,-13,1,2);ctx.fillRect(5,-13,1,2);
+    ctx.fillStyle='#eeb7a1';ctx.fillRect(-13,-6,5,3);ctx.fillRect(8,-6,5,3);
+    ctx.fillStyle=dark;ctx.fillRect(-11,15,7,4);ctx.fillRect(4,15,7,4);
+    if(selected){ctx.fillStyle='#52765c';ctx.font='11px sans-serif';ctx.textAlign='center';ctx.fillText('♥',0,-50);}
+    ctx.restore();
+  }
+  function avatar(p){const c=document.createElement('canvas');c.width=112;c.height=100;c.className='avatar';drawPet(c.getContext('2d'),56,62,1.5,p);return c;}
+  function renderShop(){
+    $('food-count').textContent=state.food;$('progress-count').textContent=`${state.completed.length} / 6`;
+    $('adopted-count').textContent=`已领养 ${state.adopted.length} / 7`;
+    const p=E.pets[state.selected],st=state.stats[state.selected];
+    $('selected-name').textContent=p.name;$('full-meter').value=st.full;$('bond-meter').value=st.bond;
+    $('feed').disabled=state.food<1||st.full>=100;
+    $('pet-list').replaceChildren();
+    for(const pet of E.pets){
+      const adopted=state.adopted.includes(pet.id), unlocked=pet.id===0||state.completed.includes(pet.id);
+      const card=document.createElement('div');card.className='pet-card'+(adopted&&state.selected===pet.id?' selected':'')+(!unlocked?' locked':'');card.dataset.pet=pet.id;
+      card.append(avatar(pet));
+      const name=document.createElement('div');name.className='pet-name';name.textContent=pet.name;card.append(name);
+      const status=document.createElement('div');status.className='pet-status';status.textContent=adopted?'已在店里':unlocked?'等你接回家':`第 ${pet.lesson} 关解锁`;card.append(status);
+      if(unlocked){const b=document.createElement('button');b.className=adopted?'quiet':'secondary';b.textContent=adopted?'选中它':'领养';b.dataset.action=adopted?'select':'adopt';b.dataset.pet=pet.id;b.addEventListener('click',()=>{if(adopted){state.selected=pet.id;toast(`${pet.name} 正看着你。`);}else{const r=E.adopt(state,pet.id);toast(r.message);sparkle=performance.now();}save();renderShop();});card.append(b);}
+      $('pet-list').append(card);
+    }
+    renderChapters();
+  }
+  function renderChapters(){
+    $('chapters').replaceChildren();
+    for(const l of E.lessons){const b=document.createElement('button');b.className='chapter'+(state.lesson===l.id?' active':'')+(state.completed.includes(l.id)?' completed':'');b.disabled=!E.unlocked(state,l.id)||running;b.setAttribute('aria-current',state.lesson===l.id?'step':'false');
+      const n=document.createElement('span');n.className='chapter-index';n.textContent=state.completed.includes(l.id)?'✓':String(l.id).padStart(2,'0');
+      const t=document.createElement('span');t.textContent=l.title;b.append(n,t);b.addEventListener('click',()=>selectLesson(l.id));$('chapters').append(b);}
+  }
+  function lineNumbers(){$('line-numbers').textContent=$('editor').value.split('\n').map((_,i)=>i+1).join('\n');}
+  function selectLesson(id){
+    if(running||!E.unlocked(state,id))return;
+    state.drafts[state.lesson]=$('editor').value;
+    state.lesson=id;hintCount=0;save();renderLesson();renderChapters();
+  }
+  function renderLesson(){
+    const l=lesson();$('lesson-number').textContent=`第 ${l.id} 关 / 6`;$('lesson-title').textContent=l.title;$('lesson-concept').textContent=l.concept;$('lesson-story').textContent=l.story;$('lesson-goal').textContent=l.goal;
+    $('editor').value=state.drafts[l.id]??l.starter;lineNumbers();$('hint-panel').hidden=true;
+    $('result').className='result';$('result').replaceChildren();const p=document.createElement('p');p.textContent=state.completed.includes(l.id)?'这一关已经通过。可以再改进代码，运行后还能获得练习饲料。':'先试着运行一次，看看哪些情况还需要处理。';$('result').append(p);
+    $('next-lesson').hidden=!state.completed.includes(l.id)||l.id===6;
+    $('kernel-file').textContent=`os-lab/exercises/${l.file}`;$('kernel-command').textContent=`cd os-lab\nmake check LAB=${l.id}`;
+  }
+  function showResult(result){
+    $('result').className='result '+(result.passed?'success':'failed');$('result').replaceChildren();
+    const title=document.createElement('h3');title.textContent=result.passed?'全部检查通过，小伙伴听懂了！':'还差一点，看看下面的具体情况';$('result').append(title);
+    for(const row of result.rows){const box=document.createElement('div');box.className='test-row'+(row.ok?'':' bad');const mark=document.createElement('b');mark.textContent=row.ok?'✓':'×';const text=document.createElement('span');text.textContent=row.name;if(!row.ok){const detail=document.createElement('span');detail.className='test-detail';detail.textContent=row.detail;text.append(detail);}box.append(mark,text);$('result').append(box);}
+  }
+  function run(){
+    if(running)return;
+    const l=lesson();state.drafts[l.id]=$('editor').value;save();running=true;$('run').disabled=true;$('run').textContent='正在检查…';renderChapters();
+    $('result').className='result';$('result').replaceChildren();const pending=document.createElement('p');pending.textContent='正在运行多个测试输入…';$('result').append(pending);
+    for(const id of ['editor','import-save','reset-code'])$(id).disabled=true;
+    const source=`const grade=${E.grade.toString()}; const reply=self.postMessage.bind(self); self.onmessage=e=>{const result=grade(e.data.source,e.data.lesson);reply(result);};`;
+    const url=URL.createObjectURL(new Blob([source],{type:'text/javascript'}));
+    try{worker=new Worker(url);}catch(e){URL.revokeObjectURL(url);running=false;$('run').disabled=false;$('run').textContent='▶ 运行 & 检查';for(const id of ['editor','import-save','reset-code'])$(id).disabled=false;renderChapters();showResult({passed:false,rows:[{name:'浏览器运行环境',ok:false,detail:'无法启动练习，请使用较新的 Chrome、Edge 或 Firefox 打开此页面。'}]});return;}
+    URL.revokeObjectURL(url);
+    let ended=false;
+    const finish=result=>{
+      if(ended)return;ended=true;clearTimeout(timer);worker.terminate();worker=null;running=false;$('run').disabled=false;$('run').textContent='▶ 运行 & 检查';
+      for(const id of ['editor','import-save','reset-code'])$(id).disabled=false;
+      showResult(result);
+      if(result.passed){const reward=E.reward(state,l.id);toast(reward.message);sparkle=performance.now();save();$('next-lesson').hidden=l.id===6;}
+      renderShop();
+    };
+    const timer=setTimeout(()=>finish({passed:false,rows:[{name:'在限定时间内完成',ok:false,detail:'代码运行超过 1.2 秒，已停止。检查循环条件和计数器是否向前推进。'}]}),1200);
+    worker.onmessage=e=>finish(e.data);
+    worker.onerror=e=>{e.preventDefault();finish({passed:false,rows:[{name:'代码可以运行',ok:false,detail:e.message||'运行异常'}]});};
+    worker.postMessage({source:$('editor').value,lesson:structuredClone(l)});
+  }
+  $('run').addEventListener('click',run);
+  $('editor').addEventListener('input',()=>{state.drafts[state.lesson]=$('editor').value;lineNumbers();save();});
+  $('editor').addEventListener('scroll',()=>{$('line-numbers').scrollTop=$('editor').scrollTop;});
+  $('editor').addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();const t=e.target,start=t.selectionStart,end=t.selectionEnd;t.setRangeText('  ',start,end,'end');t.dispatchEvent(new Event('input'));}if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();run();}});
+  $('hint').addEventListener('click',()=>{const hints=lesson().hints;$('hint-panel').hidden=false;$('hint-panel').textContent=hints[Math.min(hintCount++,hints.length-1)];});
+  $('reset-code').addEventListener('click',()=>{if(confirm('只重置这一关的代码？宠物和已通过的关卡会保留。')){$('editor').value=lesson().starter;state.drafts[state.lesson]=lesson().starter;save();lineNumbers();}});
+  $('next-lesson').addEventListener('click',()=>{selectLesson(Math.min(6,state.lesson+1));$('lesson-title').scrollIntoView({behavior:'smooth',block:'center'});});
+  $('feed').addEventListener('click',()=>{const r=E.feed(state,state.selected);toast(r.message);if(r.ok)sparkle=performance.now();save();renderShop();});
+  $('pat').addEventListener('click',()=>{toast(E.pet(state,state.selected).message);sparkle=performance.now();save();renderShop();});
+  $('copy-command').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('kernel-command').textContent);toast('已复制，在 Codespaces 的 Linux 终端执行。');}catch{toast('浏览器未允许复制，请选中上面的命令手动复制。');}});
+  $('export-save').addEventListener('click',()=>{state.drafts[state.lesson]=$('editor').value;const url=URL.createObjectURL(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='pet-kernel-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('存档已导出，包含宠物和代码草稿。');});
+  $('import-save').addEventListener('click',()=>$('save-file').click());
+  $('save-file').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;try{if(file.size>200000)throw Error();const raw=JSON.parse(await file.text());if(raw.version!==1||!Array.isArray(raw.completed)||!Array.isArray(raw.adopted))throw Error();if(!confirm('导入会替换当前进度和代码草稿，确定继续吗？'))return;state=E.normalize(raw);save();renderLesson();renderShop();toast('存档已恢复，欢迎回店。');}catch{toast('存档格式无效，当前进度已保留。');}finally{e.target.value='';}});
+  const canvas=$('shop'),ctx=canvas.getContext('2d');let petPositions=[];
+  function scene(time){
+    const w=960,h=520;ctx.clearRect(0,0,w,h);
+    ctx.fillStyle='#dfe8cf';ctx.fillRect(0,0,w,235);ctx.fillStyle='#b2c3a1';ctx.fillRect(0,222,w,15);
+    ctx.fillStyle='#e6cda7';ctx.fillRect(0,237,w,h-237);
+    for(let y=240;y<h;y+=45){ctx.fillStyle='#d4b993';ctx.fillRect(0,y,w,2);for(let x=(y/45%2)*60;x<w;x+=120)ctx.fillRect(x,y,2,45);}
+    ctx.fillStyle='#fbf4dc';ctx.fillRect(622,38,250,150);ctx.fillStyle='#98b6a1';ctx.fillRect(632,48,230,130);ctx.fillStyle='#e9eacc';ctx.fillRect(644,60,206,106);ctx.fillStyle='#a8c0a0';ctx.fillRect(644,129,206,37);ctx.fillStyle='#f0cb80';ctx.beginPath();ctx.arc(798,86,21,0,Math.PI*2);ctx.fill();ctx.fillStyle='#fbf4dc';ctx.fillRect(740,48,8,130);
+    ctx.fillStyle='#819974';ctx.fillRect(59,72,254,16);ctx.fillRect(59,148,254,13);
+    const bags=['#e4aa7b','#b4c6a2','#e6ca85','#d8afa0'];for(let i=0;i<4;i++){ctx.fillStyle=bags[i];ctx.fillRect(74+i*57,94,39,54);ctx.fillStyle='#fff0d2';ctx.fillRect(82+i*57,109,23,17);ctx.fillStyle='#7f8b66';ctx.fillRect(92+i*57,112,5,10);}
+    ctx.fillStyle='#f9f4df';ctx.fillRect(365,49,177,96);ctx.strokeStyle='#a9b58d';ctx.lineWidth=5;ctx.strokeRect(365,49,177,96);ctx.fillStyle='#46664c';ctx.font='bold 25px sans-serif';ctx.textAlign='center';ctx.fillText('小 码 的 店',453,92);ctx.font='12px sans-serif';ctx.fillText('CODE · CARE · GROW',453,120);
+    ctx.fillStyle='#87966a';ctx.fillRect(75,183,65,55);ctx.fillStyle='#c9a580';ctx.fillRect(87,221,41,40);ctx.fillStyle='#7eaa7c';for(let i=0;i<4;i++){ctx.beginPath();ctx.ellipse(106+(i-1.5)*12,190+(i%2)*15,15,30,(i-1.5)*.4,0,Math.PI*2);ctx.fill();}
+    ctx.fillStyle='#c5b390';ctx.fillRect(719,194,160,60);ctx.fillStyle='#f1dfbd';ctx.fillRect(709,184,180,35);ctx.fillStyle='#687f62';ctx.fillRect(785,162,45,27);ctx.fillStyle='#374f3e';ctx.fillRect(789,166,37,18);
+    ctx.fillStyle='#c9d0a7';ctx.beginPath();ctx.ellipse(475,354,265,103,0,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#edf0d5';ctx.lineWidth=4;ctx.beginPath();ctx.ellipse(475,354,246,87,0,0,Math.PI*2);ctx.stroke();
+    if(state.completed.length>=2){ctx.fillStyle='#b79870';ctx.fillRect(37,359,93,78);ctx.fillStyle='#e9cf9d';ctx.fillRect(43,365,81,28);ctx.fillRect(43,400,81,29);ctx.fillStyle='#886e50';ctx.font='13px sans-serif';ctx.textAlign='center';ctx.fillText('粮仓',83,386);ctx.fillText('PAGE',83,420);}
+    if(state.completed.length>=4){ctx.fillStyle='#faf3d8';ctx.fillRect(353,162,198,34);ctx.fillStyle='#6b8c6b';ctx.font='12px sans-serif';ctx.fillText('✓ 服务窗口已开放',452,184);}
+    if(state.completed.length>=5){ctx.fillStyle='#f9f3dc';ctx.beginPath();ctx.arc(570,92,23,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#6b8c6b';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(570,76);ctx.lineTo(570,92);ctx.lineTo(581,98);ctx.stroke();}
+    if(state.completed.length>=6){ctx.fillStyle='#cfa77b';ctx.fillRect(816,347,106,58);ctx.fillStyle='#a5c2a4';ctx.fillRect(822,340,94,30);ctx.fillStyle='#f6ebc9';ctx.font='12px sans-serif';ctx.fillText('内核小龙之家',869,361);}
+    petPositions=[];
+    for(let index=0;index<state.adopted.length;index++){
+      const id=state.adopted[index],p=E.pets[id];
+      const x=state.adopted.length===1?475:230+(index%4)*160;
+      const y=state.adopted.length===1?354:310+Math.floor(index/4)*110;
+      const bob=matchMedia('(prefers-reduced-motion: reduce)').matches?0:Math.sin(time/430+id)*3;
+      drawPet(ctx,x,y+bob,1.65,p,id===state.selected);petPositions.push({id,x,y});
+      ctx.fillStyle='#4a6750';ctx.font='12px sans-serif';ctx.textAlign='center';ctx.fillText(p.name,x,y+46);
+      if(time-sparkle<1600&&id===state.selected){ctx.fillStyle='#d77f73';ctx.font='22px sans-serif';ctx.fillText('♥',x+35,y-60-(time-sparkle)/65);}
+    }
+    requestAnimationFrame(scene);
+  }
+  canvas.addEventListener('click',e=>{const r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)*960/r.width,y=(e.clientY-r.top)*520/r.height;const p=petPositions.find(p=>Math.abs(p.x-x)<55&&Math.abs(p.y-y)<65);if(p){state.selected=p.id;toast(`${E.pets[p.id].name}：今天也一起写代码吧！`);save();renderShop();}});
+  renderLesson();renderShop();requestAnimationFrame(scene);
+})();
+</script>
+</body></html>
