@@ -1,0 +1,76 @@
+{
+  "scope": "第一至四章",
+  "slide_numbering": "PPTX内实际幻灯片页序，从1开始，不使用旧页脚编号",
+  "total_slides": 410,
+  "chapters": [
+    {
+      "file": "第1章 概述（1）.pptx",
+      "slides": 66,
+      "chars": 13936,
+      "sha256": "f93b13769c5cc24a456b796b2a67aa071729c6e27b729967acce2f652abf1d9c",
+      "id": "1A"
+    },
+    {
+      "file": "第1章 概述（2）.pptx",
+      "slides": 29,
+      "chars": 7620,
+      "sha256": "f71f72e9854b92c28219e5da2ce4e45c3ca47d4a1c0c2c764665090a6a02683d",
+      "id": "1B"
+    },
+    {
+      "file": "第2章 直连网络（1） (1).pptx",
+      "slides": 37,
+      "chars": 6668,
+      "sha256": "e6223f413579a748b5c7f631537d464e45569daed5978f906ac6521814a12920",
+      "id": "2A"
+    },
+    {
+      "file": "第2章 直连网络（2） (1).pptx",
+      "slides": 51,
+      "chars": 10641,
+      "sha256": "32ec5b07eff865b69727614a9d43b6221b347bf45d4798675176518becb46810",
+      "id": "2B"
+    },
+    {
+      "file": "第2章 直连网络（3）.pptx",
+      "slides": 71,
+      "chars": 12367,
+      "sha256": "33041d813f69854f178ff1c279af6948027517d47ff174a0a1f9935b7119a2d3",
+      "id": "2C"
+    },
+    {
+      "file": "第3章 交换网络.pptx",
+      "slides": 28,
+      "chars": 4629,
+      "sha256": "d11a7f121e1e3e6dc6ab0f12078afdf18a5f1ddb3618519e2d79f6d7a2827446",
+      "id": "3"
+    },
+    {
+      "file": "第4章 网络互联（1）.pptx",
+      "slides": 41,
+      "chars": 10239,
+      "sha256": "68436fad624854af2e327d482da726234e64e9fbdf2f940224f8271cf09b4496",
+      "id": "4A"
+    },
+    {
+      "file": "第4章 网络互联（2）.pptx",
+      "slides": 44,
+      "chars": 12596,
+      "sha256": "eafaf076852292c44f9021a5895073e260cba718876345079913be16859eefb7",
+      "id": "4B"
+    },
+    {
+      "file": "第4章 网络互联（3）.pptx",
+      "slides": 43,
+      "chars": 15639,
+      "sha256": "8b31382f83cb2cba2bd69c271cd8a7debbef47b8001b634cc19dccc412b3ba6f",
+      "id": "4C"
+    }
+  ],
+  "supplemental_homework": {
+    "file": "26秋第一次作业讲解 - 国科大在线.pptx",
+    "slides": 15,
+    "chars": 4466,
+    "sha256": "1e1bf545c6095d81a27d4635b98451369c0b65e47904f6f7bfd71134a277b353"
+  }
+}
