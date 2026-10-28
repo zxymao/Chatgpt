@@ -13,6 +13,12 @@ on:
         default: boot
         type: choice
         options: [boot, '1', '2', '3', '4', '5', '6', all]
+      project2_stage:
+        description: 'Optional: check YOUR Project 2 C/assembly (cumulative stages)'
+        required: true
+        default: none
+        type: choice
+        options: [none, '1', '2', '3', '4']
 permissions:
   contents: read
 jobs:
@@ -48,6 +54,41 @@ jobs:
         with:
           name: 'qemu-${{ matrix.mode }}-${{ matrix.lab }}'
           path: os-lab/build/${{ matrix.mode }}/
+          if-no-files-found: ignore
+  project2-reference:
+    name: 'Project 2 / reference / tasks 1-4'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends gcc-riscv64-linux-gnu binutils-riscv64-linux-gnu qemu-system-misc opensbi make python3
+      - run: make -C os-lab/project2 check MODE=reference STAGE=4
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: project2-reference-log
+          path: os-lab/build/project2-reference-4/
+          if-no-files-found: ignore
+  project2-student:
+    if: github.event_name == 'workflow_dispatch' && inputs.project2_stage != 'none'
+    name: 'Project 2 / YOUR implementation'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends gcc-riscv64-linux-gnu binutils-riscv64-linux-gnu qemu-system-misc opensbi make python3
+      - env:
+          SELECTED_STAGE: '${{ inputs.project2_stage }}'
+        run: make -C os-lab/project2 check MODE=student STAGE="$SELECTED_STAGE"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: project2-student-log
+          path: os-lab/build/project2-student-*/
           if-no-files-found: ignore
   student-lesson:
     if: github.event_name == 'workflow_dispatch'

@@ -1,7 +1,7 @@
 import {readFile,writeFile} from 'node:fs/promises';
 const url=name=>new URL(name,import.meta.url);
 let html=await readFile(url('src/template.html'),'utf8');
-for(const [marker,path] of [['STYLES','src/style.css'],['ENGINE','src/engine.js'],['APP','src/app.js']]){
+for(const [marker,path] of [['STYLES','src/style.css'],['PROJECT2','src/project2.js'],['ENGINE','src/engine.js'],['APP','src/app.js']]){
   let source=await readFile(url(path),'utf8');
   if(marker!=='STYLES')source=source.replace(/<\/script/gi,'<\\/script');
   html=html.replace(`/* ${marker} */`,()=>source);

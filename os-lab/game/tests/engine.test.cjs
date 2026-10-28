@@ -1,44 +1,49 @@
-const test=require('node:test');
-const assert=require('node:assert/strict');
-const E=require('../src/engine.js');
-const solutions=[
-  'function measure(s){let n=0;while(n<s.length&&s[n]!=="\\0")n++;return n;}',
-  'function takePage(a){for(let i=0;i<a.length;i++)if(a[i]===0){a[i]=1;return i;}return -1;}',
-  'function chooseNext(s,c){if(!s.length)return -1;for(let n=1;n<=s.length;n++){let i=(c+n)%s.length;if(s[i]==="READY")return i;}return -1;}',
-  'function service(n,p){if(n!==1)return -38;if(!Number.isInteger(p)||p<0||p>2)return -14;return "feed:"+p;}',
-  'function canWake(n,d){return n>=d;}',
-  'function parseCommand(line){const s=line.trim(),i=s.indexOf(" "),c=i<0?s:s.slice(0,i),a=i<0?"":s.slice(i+1).trim();if((c==="feed"||c==="echo")&&a)return {command:c,argument:a};if(c==="help"&&!a)return {command:c,argument:""};return {command:"unknown",argument:""};}'
-];
-module.exports={solutions};
-test('all six starter functions fail behavioral checks',()=>{
-  for(const l of E.lessons){const r=E.grade(l.starter,l);assert.equal(r.passed,false,l.title);assert.ok(r.rows.some(row=>!row.ok));}
+const test=require('node:test'),assert=require('node:assert/strict');
+const E=require('../src/engine.js'),{solutions}=require('./solutions.cjs');
+test('24 unfinished starters fail and 24 independent implementations pass',()=>{
+ assert.equal(E.lessons.length,24);
+ for(const l of E.lessons){assert.equal(E.grade(l.starter,l).passed,false,l.title);const r=E.grade(solutions[l.id-1],l);assert.equal(r.passed,true,JSON.stringify(r));assert.equal(r.rows.length,l.tests.length);assert.equal(r.traces.length,l.tests.length);}
 });
-test('all six independent working solutions pass',()=>{
-  for(const l of E.lessons){const r=E.grade(solutions[l.id-1],l);assert.equal(r.passed,true,JSON.stringify(r));assert.equal(r.rows.length,l.tests.length);}
+test('syntax errors and wrong function names are reported',()=>{
+ assert.equal(E.grade('function {',E.lessons[0]).passed,false);assert.equal(E.grade('function wrong(){return 0}',E.lessons[0]).passed,false);
 });
-test('syntax errors and wrong names are reported as failures',()=>{
-  assert.equal(E.grade('function {',E.lessons[0]).passed,false);
-  assert.equal(E.grade('function wrong(){return 0}',E.lessons[0]).passed,false);
+test('missing mutation, aliases, blocked requeue, broken handoff and bad sepc fail',()=>{
+ const faults=[
+ [2,'function takePage(a){return a.indexOf(0)}'],
+ [8,'function saveContext(cpu){return {ra:cpu.ra,sp:cpu.sp,s:cpu.s}}'],
+ [9,solutions[8].replace('nextPCB.context.s.slice()','nextPCB.context.s')],
+ [11,solutions[10].replace("m.tasks[m.current].state==='RUNNING'",'true')],
+ [15,solutions[14].replace('lock.owner=next===undefined?null:next','lock.owner=null')],
+ [17,'function saveTrap(cpu){return cpu}'],
+ [19,solutions[18].replace('frame.sepc+=4','frame.sepc+=8')],
+ [22,solutions[21].replace('<=m.now','<m.now')],
+ [23,solutions[22].replace('m.ticks++','m.sepc+=4;m.ticks++')],
+ [24,solutions[23].replace('ready.push(pid)','ready.unshift(pid)')]];
+ for(const [id,source] of faults)assert.equal(E.grade(source,E.lessons[id-1]).passed,false,'missed fault at '+id);
 });
-test('the allocator must mutate state, not merely return a plausible number',()=>{
-  assert.equal(E.grade('function takePage(a){return a.indexOf(0)}',E.lessons[1]).passed,false);
+test('mainline starts at PCB; six warmups are independently optional',()=>{
+ const s=E.create();assert.equal(s.lesson,7);assert.equal(E.unlocked(s,7),true);
+ for(let n=1;n<=6;n++)assert.equal(E.unlocked(s,n),true);
+ assert.equal(E.reward(s,8).ok,false);assert.equal(E.adopt(s,7).ok,false);
+ for(let n=7;n<=11;n++)assert.equal(E.reward(s,n).ok,true);
+ assert.equal(E.adopt(s,7).ok,true);assert.equal(s.selected,7);assert.equal(s.completed.some(n=>n<=6),false);
 });
-test('rewards, adoption, feeding and capped fullness use real state changes',()=>{
-  const s=E.create();assert.equal(E.reward(s,2).ok,false);assert.equal(E.adopt(s,1).ok,false);
-  const r=E.reward(s,1);assert.equal(r.first,true);assert.equal(s.food,16);assert.deepEqual(s.completed,[1]);
-  assert.equal(E.adopt(s,1).ok,true);assert.equal(s.selected,1);assert.equal(E.adopt(s,1).ok,false);
-  assert.equal(E.feed(s,1).ok,true);assert.equal(s.food,15);assert.equal(s.stats[1].full,75);
-  E.feed(s,1);E.feed(s,1);assert.equal(s.stats[1].full,100);
-  const food=s.food;assert.equal(E.feed(s,1).ok,false);assert.equal(s.food,food);
-  assert.equal(E.reward(s,1).first,false);assert.equal(s.completed.length,1);assert.equal(s.food,food+2);
+test('economy and milestone adoption retain real state and capped fullness',()=>{
+ const s=E.create();assert.equal(E.adopt(s,1).ok,false);assert.equal(E.reward(s,1).first,true);assert.equal(s.food,16);
+ assert.equal(E.adopt(s,1).ok,true);assert.equal(E.adopt(s,1).ok,false);assert.equal(E.feed(s,1).ok,true);assert.equal(s.food,15);assert.equal(s.stats[1].full,75);
+ E.feed(s,1);E.feed(s,1);assert.equal(s.stats[1].full,100);const food=s.food;assert.equal(E.feed(s,1).ok,false);assert.equal(s.food,food);
+ assert.equal(E.reward(s,1).first,false);assert.equal(s.food,food+2);
 });
-test('all pets unlock only after sequential lessons and valid save round-trip',()=>{
-  const s=E.create();for(let id=1;id<=6;id++){assert.equal(E.unlocked(s,id),true);E.reward(s,id);E.adopt(s,id);}
-  s.drafts[1]='my code';const restored=E.normalize(JSON.parse(JSON.stringify(s)));
-  assert.deepEqual(restored,s);assert.equal(restored.adopted.length,7);
+test('all 11 pets and 24 lessons survive save round trip',()=>{
+ const s=E.create();for(let id=1;id<=24;id++)E.reward(s,id);for(const p of E.pets.slice(1))assert.equal(E.adopt(s,p.id).ok,true);
+ s.lesson=24;s.drafts[24]='draft';assert.deepEqual(E.normalize(structuredClone(s)),s);assert.equal(s.adopted.length,11);
 });
-test('invalid and nonconsecutive saves cannot produce invalid pets or counters',()=>{
-  const s=E.normalize({version:1,food:-40,completed:[1,3,4,999],adopted:[0,3,999],selected:999,lesson:6,stats:{0:{full:999,bond:-1}}});
-  assert.deepEqual(s.completed,[1]);assert.deepEqual(s.adopted,[0]);assert.equal(s.selected,0);assert.equal(s.food,0);assert.equal(s.stats[0].full,100);assert.equal(s.stats[0].bond,0);
-  assert.equal(E.feed(s,0).ok,false);assert.equal(E.unlocked(s,3),false);
+test('version1 migration preserves previous progress and drafts',()=>{
+ const s=E.normalize({version:1,food:40,completed:[1,2,3,4,5,6],adopted:[0,6],selected:6,lesson:6,drafts:{3:'old draft'},stats:{}});
+ assert.equal(s.version,2);assert.equal(s.food,40);assert.deepEqual(s.completed,[1,2,3,4,5,6]);assert.deepEqual(s.adopted,[0,6]);assert.equal(s.drafts[3],'old draft');assert.equal(E.unlocked(s,7),true);
+});
+test('malformed saves cannot skip mainline prerequisites or adopt locked pets',()=>{
+ const s=E.normalize({version:2,food:-40,completed:[7,9,24,999],adopted:[0,7,10,999],selected:999,lesson:24,stats:{0:{full:999,bond:-1}}});
+ assert.deepEqual(s.completed,[7]);assert.deepEqual(s.adopted,[0]);assert.equal(s.selected,0);assert.equal(s.food,0);assert.equal(s.stats[0].full,100);assert.equal(s.stats[0].bond,0);
+ assert.equal(s.lesson,24);assert.equal(E.feed(s,0).ok,false);assert.equal(E.unlocked(s,9),false);
 });

@@ -19,6 +19,19 @@
 | Task2 锁与阻塞队列 | 后续扩展目标 | TinyRV 起步版没有实现通用阻塞互斥锁；可在理解调度后迁入算法并新增测试 |
 | 课程 `do_sleep/check_sleeping` | 简单 `sleep_ticks` 演示 | 起步版的命令行等待 tick，不是每个进程独立的睡眠队列 |
 
+## 新增 Project 2 主线：这些部分现在由你亲手实现
+
+上表描述原六关起步版。新增 [`project2/`](../project2/README.md) 是单独编译的内核练习，覆盖此前被提前给出或留作扩展的机制：
+
+| 学校 Task | 独立内核练习入口 | 网页推演 | 验收 |
+| --- | --- | --- | --- |
+| 1 `init_pcb/switch_to/do_scheduler` | `project2/exercises/task1.c` 与 `context.S` | 7～11 | 真实线程轮转、独立栈、s0～s11哨兵、tp=当前PCB |
+| 2 `do_block/do_unblock/do_mutex_*` | `project2/exercises/task2.c` | 12～15 | 持锁时主动切换、实际阻塞与FIFO交接 |
+| 3 `SAVE/RESTORE_CONTEXT/handle_syscall` | `project2/exercises/trap.S` 与 `task3.c` | 16～20 | 真正U→S→U、ecall参数与错误值、sret |
+| 3睡眠基础、4时钟抢占 | `project2/exercises/task4.c` | 21～24 | 每线程睡眠队列、全部到期者唤醒、无yield抢占 |
+
+对应关系是机制与不变量，不是相同接口。课程采用链表队列及 BIOS 跳转表；新内核使用小型FIFO数组、OpenSBI，省略 jmptable 过渡阶段。睡眠概念在网页归入课程Task3；这个独立内核在 STAGE=4 用硬件时钟统一动态验证睡眠与抢占。
+
 ## 建议的阅读方法
 
 一次只比一个函数。先写出输入、输出和必须保持的不变量，再读已有实现：
@@ -32,4 +45,4 @@
 
 ## 六关之后如何往自己的 OS 扩展
 
-先完成当前练习，再将课程锁的状态机迁入一个新模块；为它添加两个线程持锁 yield 的测试。接着增加 BLOCKED 状态和等待队列，再做每个线程独立的睡眠。最后才扩展为多个 U 进程，并为每个进程建立地址空间。这样每次失败都能对应到一个新概念。
+先完成新增 Project 2 主线，亲手写阻塞锁、就绪/等待队列和每线程睡眠；对应测试已提供。之后再扩展为多个 U 进程，并为每个进程建立独立地址空间。这样每次失败都能对应到一个新概念。

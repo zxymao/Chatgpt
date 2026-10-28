@@ -2,7 +2,7 @@
   "name": "OS Lab / TinyRV + A-Core",
   "build": { "dockerfile": "Dockerfile" },
   "remoteUser": "vscode",
-  "postCreateCommand": "make -C os-lab doctor && make -C os-lab boot-check && node --test os-lab/game/tests/engine.test.cjs && python3 scripts/acore.py setup && python3 scripts/acore.py build && python3 scripts/acore.py image-test",
+  "postCreateCommand": "make -C os-lab doctor && make -C os-lab boot-check && make -C os-lab/project2 check MODE=reference STAGE=4 && node --test os-lab/game/tests/engine.test.cjs && python3 scripts/acore.py setup && python3 scripts/acore.py build && python3 scripts/acore.py image-test",
   "forwardPorts": [8000],
   "portsAttributes": { "8000": { "label": "喵核宠物工坊", "onAutoForward": "notify" } },
   "customizations": {

@@ -2,6 +2,24 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "Project2: 检查我的C与汇编",
+      "type": "process",
+      "command": "make",
+      "args": ["-C", "os-lab/project2", "check", "MODE=student", "STAGE=${input:project2Stage}"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": ["$gcc"],
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "Project2: 运行完整参考验收",
+      "type": "process",
+      "command": "make",
+      "args": ["-C", "os-lab/project2", "check", "MODE=reference", "STAGE=4"],
+      "options": { "cwd": "${workspaceFolder}" },
+      "problemMatcher": ["$gcc"],
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
       "label": "喵核宠物店: 启动网页",
       "type": "process",
       "command": "python3",
@@ -57,6 +75,13 @@
     }
   ],
   "inputs": [
+    {
+      "id": "project2Stage",
+      "type": "pickString",
+      "description": "选择Project2累积阶段；初始骨架应失败，完成C/汇编后验收",
+      "options": ["1", "2", "3", "4"],
+      "default": "1"
+    },
     {
       "id": "tinyrvLab",
       "type": "pickString",

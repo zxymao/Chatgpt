@@ -5,23 +5,244 @@
 <meta name="theme-color" content="#f7f4e9">
 <title>喵核宠物工坊 · 写代码，养一店小伙伴</title>
 <style>:root{--paper:#f7f4e9;--ink:#293f37;--muted:#748279;--mint:#dcebdc;--green:#315e49;--line:#e1e5d9;--orange:#e7a06b;--white:#fffef9}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.6 system-ui,-apple-system,"Noto Sans CJK SC",sans-serif}button,a,input,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:10px;min-height:40px;padding:8px 14px;font-weight:650}button:disabled{cursor:not-allowed;opacity:.47}button:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid var(--orange);outline-offset:3px}a{color:var(--green)}.topbar{max-width:1450px;margin:auto;padding:23px 38px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);gap:20px}.brand{display:flex;align-items:center;gap:12px;color:var(--ink);font-size:23px;font-weight:800;text-decoration:none}.brand-mark{display:grid;place-items:center;width:47px;height:47px;background:var(--green);color:var(--paper);border-radius:15px;font-size:34px}.brand-sub{display:block;font-size:9px;letter-spacing:1.5px;color:var(--muted)}.top-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}.pill{border:1px solid var(--line);padding:7px 12px;border-radius:30px;background:var(--white);white-space:nowrap;font-size:13px}.quiet{background:transparent;color:var(--muted);font-size:12px}.primary{background:var(--green);color:white;box-shadow:0 3px 0 #203f32}.primary:hover:not(:disabled){background:#244c3a;transform:translateY(-1px)}.secondary{background:#edf2e8;color:var(--green);border:1px solid #d6e0d0}.secondary:hover{background:var(--mint)}main{max-width:1450px;margin:auto;padding:30px 38px 0}.intro{display:flex;justify-content:space-between;gap:25px;align-items:center;margin:5px 0 29px}.eyebrow{font-size:11px;letter-spacing:1.5px;color:var(--muted)}h1{font-size:clamp(26px,3vw,40px);line-height:1.4;letter-spacing:-1.5px;margin:7px 0}h2{font-size:22px;line-height:1.4;margin:7px 0 12px}h3{font-size:14px;margin:0}.intro p{margin:9px 0 0;color:var(--muted);font-size:13px}.intro-tip{display:flex;align-items:center;gap:13px;font-size:11px;color:#69756c}.intro-tip span{padding:11px 14px;border-radius:10px;background:#eeeee3}.intro-tip i{font-style:normal}.chapters{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;margin-bottom:23px}.chapter{display:flex;gap:9px;align-items:center;text-align:left;background:#eeeee4;border:1px solid #e0e4d5;padding:11px;min-width:0;color:var(--ink)}.chapter.active{background:var(--green);color:white;border-color:var(--green)}.chapter.completed:not(.active){background:#e1edde}.chapter-index{font-size:20px;opacity:.65;font-weight:500}.chapter span:last-child{font-size:12px;line-height:1.4}.workspace{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:22px;align-items:start}.card{background:var(--white);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 9px 24px #314c3510}.panel-heading{display:flex;justify-content:space-between;align-items:center;padding:24px 25px 10px}.panel-heading h2{font-size:20px}.live-dot{font-size:11px;color:var(--green);white-space:nowrap}.live-dot:before{content:"";display:inline-block;width:6px;height:6px;background:#79a676;border-radius:50%;margin-right:6px}.scene-wrap{position:relative;margin:0 15px;border-radius:13px;overflow:hidden;background:#e5e7ce}canvas{display:block;width:100%;height:auto;image-rendering:pixelated;cursor:pointer}.scene-caption{position:absolute;bottom:12px;left:14px;right:14px;text-align:center;font-size:11px;color:#3e5946;background:#fffff7de;border:1px solid #ffffffa0;border-radius:8px;padding:7px;pointer-events:none}.care-bar{margin:20px 24px 0;display:flex;justify-content:space-between;gap:12px;align-items:center;padding-bottom:21px;border-bottom:1px dashed var(--line)}.care-bar strong{font-size:17px}.pet-vitals{display:flex;gap:13px;font-size:10px;color:var(--muted);margin-top:6px}.pet-vitals label{display:flex;align-items:center;gap:5px}meter{width:61px;height:10px;accent-color:#83ab74}.care-buttons{display:flex;gap:7px}.care-buttons button{font-size:11px;padding:8px 11px}.collection-heading{display:flex;justify-content:space-between;align-items:center;padding:20px 24px 9px}.collection-heading span{font-size:10px;color:var(--muted)}.pet-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:3px 24px 14px}.pet-card{position:relative;min-width:0;text-align:center;padding:10px 3px;border:1px solid var(--line);border-radius:11px;background:#fbfbf3}.pet-card.selected{outline:2px solid #84a787;border-color:transparent}.pet-card.locked{background:#f1f1e9}.pet-card .pet-name{font-size:10px;font-weight:700;margin:2px 0 4px}.pet-card .pet-status{font-size:9px;color:var(--muted)}.pet-card button{font-size:10px;min-height:28px;padding:4px 9px;margin-top:4px}.avatar{width:56px;height:50px;margin:auto;display:block}.gentle-note{font-size:10px;line-height:1.8;color:var(--muted);margin:0;padding:0 24px 19px}.lesson-panel{padding:24px}.lesson-heading{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.lesson-tag{background:#e3eedb;color:var(--green);padding:3px 9px;border-radius:5px;font-size:10px;font-weight:700}.language-tag{font-size:10px;color:var(--muted)}.lesson-panel h2{font-size:25px;margin:0 0 6px}.concept{font-size:10px;color:#9a754f;border:1px solid #e4dac5;border-radius:20px;padding:3px 9px}.lesson-panel>p{font-size:12px;color:#69796d;margin:15px 0}.goal{background:#f2f5e9;border-left:3px solid #9db48d;border-radius:0 8px 8px 0;padding:11px 13px;margin:14px 0 17px;font-size:12px}.goal strong{font-size:11px}.goal p{margin:5px 0 0;font-size:11px;line-height:1.8}.editor-label{display:flex;justify-content:space-between;font-size:11px;font-weight:650;margin:10px 0 8px}.editor-label span{font-weight:400;font-size:9px;color:var(--muted)}.editor-wrap{display:flex;background:#263e35;border:1px solid #304d40;border-radius:11px;overflow:hidden;height:235px}#line-numbers{padding:16px 8px 16px 12px;color:#879d8c;font:12px/1.8 ui-monospace,monospace;text-align:right;user-select:none;min-width:33px;white-space:pre;overflow:hidden}textarea{padding:16px 12px 16px 2px;resize:vertical;flex:1;min-width:0;border:0;outline:none;background:transparent;color:#e3edcc;font:12px/1.8 ui-monospace,SFMono-Regular,Consolas,monospace;tab-size:2;white-space:pre;overflow:auto;min-height:100%;max-height:100%}.code-actions{display:flex;gap:7px;align-items:center;margin:13px 0}.code-actions button{font-size:11px}.code-actions .quiet{margin-left:auto;padding:5px}.hint-panel{background:#fff2d9;border:1px solid #ecdcb7;border-radius:8px;padding:10px 12px;margin:9px 0;font-size:11px}.result{border:1px solid var(--line);border-radius:10px;padding:11px 13px;background:#fbfcf7;font-size:11px}.result>p{margin:0;color:var(--muted)}.result.success{background:#edf5e8;border-color:#b2c7a4}.result.failed{border-color:#e0b9a3}.result h3{font-size:12px;margin-bottom:5px}.test-row{display:flex;align-items:baseline;gap:7px;margin:5px 0}.test-row b{color:#5d8c4f}.test-row.bad b{color:#b36b50}.test-detail{display:block;font:10px/1.7 ui-monospace,monospace;color:#8e6d57;overflow-wrap:anywhere}.next-lesson{width:100%;margin:12px 0 0;background:#e6b17a;color:#513a24}.kernel-link{margin-top:19px;border-top:1px dashed var(--line);padding-top:13px;font-size:11px;color:var(--muted)}summary{cursor:pointer;color:var(--green);font-size:11px}.kernel-link p{font-size:10px}.kernel-link code{font:10px ui-monospace,monospace;overflow-wrap:anywhere}.kernel-link pre{background:#f1f2e9;border-radius:6px;padding:10px;font:10px/1.8 ui-monospace,monospace;overflow:auto}.kernel-link button,.kernel-link a{font-size:10px;margin-right:8px}.kernel-link a{display:inline-block;margin-top:8px}.notice{padding:10px;background:#fff2d9;border-radius:9px;font-size:12px;margin-bottom:15px}.toast{position:fixed;bottom:24px;left:50%;transform:translate(-50%,20px);padding:12px 20px;max-width:90vw;border-radius:12px;background:#2d4b3d;color:white;opacity:0;transition:.2s;pointer-events:none;z-index:10;font-size:13px;box-shadow:0 4px 25px #0002}.toast.show{opacity:1;transform:translate(-50%,0)}footer{display:flex;justify-content:space-between;gap:15px;font-size:10px;color:var(--muted);padding:26px 0}.mobile-break{display:none}[hidden]{display:none!important}@media(min-width:1600px){main,.topbar{max-width:1500px}.editor-wrap{height:270px}}@media(max-width:1100px){.intro-tip{display:none}.topbar,main{padding-left:22px;padding-right:22px}.chapter{padding:8px}.chapter-index{font-size:16px}.chapter span:last-child{font-size:10px}.workspace{gap:15px}.lesson-panel{padding:18px}.pet-list{padding-left:16px;padding-right:16px}.care-bar{margin-left:16px;margin-right:16px;flex-wrap:wrap}.care-buttons button{font-size:10px}.editor-wrap{height:240px}}@media(max-width:800px){.workspace{grid-template-columns:1fr}.chapters{grid-template-columns:repeat(3,minmax(0,1fr))}.topbar{padding-top:15px;padding-bottom:15px;align-items:flex-start}.brand{font-size:19px}.brand-mark{width:37px;height:37px;font-size:26px}.brand-sub{font-size:7px}.top-actions{justify-content:flex-end;max-width:220px;gap:5px}.pill{font-size:10px;padding:5px 8px}.top-actions .quiet{font-size:10px;padding:3px 7px;min-height:27px}.intro{margin-top:0;margin-bottom:20px}.intro p{font-size:11px}.chapter{min-height:48px}.chapter span:last-child{font-size:11px}.intro h1{letter-spacing:-.5px}.scene-wrap{margin-left:12px;margin-right:12px}.panel-heading{padding:18px 18px 8px}.pet-list{grid-template-columns:repeat(4,minmax(0,1fr))}.pet-card{padding:8px 2px}.care-buttons button{font-size:11px}.lesson-panel h2{font-size:23px}.code-actions{flex-wrap:wrap}.editor-label span{font-size:8px}footer{flex-direction:column;gap:5px;padding:20px 0}.shop-panel .gentle-note{padding-bottom:15px}.mobile-break{display:block}}@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+.groups{display:flex;flex-wrap:wrap;gap:8px}.groups button{font-size:12px;background:#e9ecdf;color:var(--ink);border:1px solid var(--line)}.groups .active{background:var(--green);color:white}.group-description{font-size:12px;color:var(--muted);margin:10px 0 16px}.chapters{grid-template-columns:repeat(auto-fit,minmax(125px,1fr))}.chapter.preview{border-style:dashed}.invariant{font-size:11px;background:#f9efdf;padding:10px 13px;border-radius:8px;margin:12px 0}.sample{font-size:11px;margin:12px 0}.sample pre,.trace-panel pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:260px;overflow:auto;font:11px/1.7 ui-monospace,monospace;background:#f1f3ea;border-radius:8px;padding:12px}.oral-question{font-size:12px!important;color:#7c6548!important;border-left:3px solid #cfaa76;padding:8px 12px}.trace-panel{margin-top:15px;border:1px solid #bbcdb3;border-radius:10px;padding:12px;min-width:0}.trace-panel h3{font-size:12px}.trace-panel label{display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:11px;margin:10px 0}.trace-panel select{max-width:100%;min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:7px;font-size:11px}.trace-lanes{display:flex;flex-wrap:wrap;gap:7px}.trace-lanes>div{flex:1 1 100%;min-width:0;background:#f1f5e9;padding:7px;border-radius:6px;font-size:10px}.trace-lanes code{display:block;overflow-wrap:anywhere;font-size:10px}.pcb-state{border-radius:5px;background:#e3eadc;padding:4px 7px;font-size:10px}.state-RUNNING{background:#315e49;color:white}.state-BLOCKED,.state-SLEEPING{background:#e4d4c0}.trace-timeline{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}.trace-timeline .tick{font-size:10px;min-height:30px;padding:5px 8px;background:#e6ecdd}.trace-timeline .tick.active{background:var(--green);color:white}#trace-caption{font-size:10px;color:var(--muted)}.editor-wrap{height:300px}@media(max-width:800px){.groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.groups button{padding:9px 5px;font-size:11px;min-width:0}.chapters{grid-template-columns:repeat(3,minmax(0,1fr))}.chapter{min-width:0}.group-description{font-size:10px}.editor-wrap{height:290px}}
 </style>
 </head>
 <body>
-<header class="topbar"><a class="brand" href="#"><span class="brand-mark">⌘</span><span>喵核<span class="brand-sub">PET KERNEL WORKSHOP</span></span></a><div class="top-actions"><span class="pill">🌾 饲料 <b id="food-count">8</b></span><span class="pill"><b id="progress-count">0 / 6</b> 关</span><button id="export-save" class="quiet">导出存档</button><button id="import-save" class="quiet">导入</button><input id="save-file" type="file" accept="application/json,.json" hidden></div></header>
+<header class="topbar"><a class="brand" href="#"><span class="brand-mark">⌘</span><span>喵核<span class="brand-sub">PET KERNEL WORKSHOP</span></span></a><div class="top-actions"><span class="pill">🌾 饲料 <b id="food-count">8</b></span><span class="pill"><b id="progress-count">0 / 24</b> 关</span><button id="export-save" class="quiet">导出存档</button><button id="import-save" class="quiet">导入</button><input id="save-file" type="file" accept="application/json,.json" hidden></div></header>
 <main>
-  <section class="intro"><div><div class="eyebrow">你的第一家，会被代码改变的店</div><h1>写一点代码，<br class="mobile-break">迎接一位小伙伴。</h1><p>从一袋猫粮开始，把内存、调度和系统调用变成看得见的小故事。</p></div><div class="intro-tip"><span>01 写函数</span><i>→</i><span>02 运行检查</span><i>→</i><span>03 领养 & 喂食</span></div></section>
+  <section class="intro"><div><div class="eyebrow">6 关选修热身 · 18 关 OS 主线 · 4 组真实内核验收</div><h1>为宠物店，<br class="mobile-break">写一个调度内核。</h1><p>从 PCB 和寄存器开始，让等待饭碗、睡眠和抢占真正改变每只宠物的执行状态。</p></div><div class="intro-tip"><span>建模并观察状态</span><i>→</i><span>补 C / 汇编</span><i>→</i><span>QEMU 验收</span></div></section>
   <div id="storage-note" class="notice" hidden></div>
+  <nav class="groups" id="groups" aria-label="课程章节"></nav><p id="group-description" class="group-description"></p>
   <section class="chapters" id="chapters" aria-label="关卡选择"></section>
   <div class="workspace">
     <section class="shop-panel card"><div class="panel-heading"><div><span class="eyebrow">小码的宠物店</span><h2>今天，也要好好开店。</h2></div><span class="live-dot">营业中</span></div><div class="scene-wrap"><canvas id="shop" width="960" height="520" aria-label="像素宠物店，点击宠物可以选中它">宠物店画面；也可用下方宠物卡片选择。</canvas><div class="scene-caption" id="scene-caption">小码正在等你写出第一段代码。</div></div><div class="care-bar"><div><strong id="selected-name">小码</strong><div class="pet-vitals"><label>饱腹 <meter id="full-meter" min="0" max="100" value="60"></meter></label><label>亲密 <meter id="bond-meter" min="0" max="100" value="30"></meter></label></div></div><div class="care-buttons"><button id="feed" class="primary">喂一份粮 · 1 🌾</button><button id="pat" class="secondary">摸摸它 ♡</button></div></div><div class="collection-heading"><h3>小伙伴橱窗</h3><span id="adopted-count">已领养 1 / 7</span></div><div class="pet-list" id="pet-list"></div><p class="gentle-note">不在线也不会挨饿或失去宠物。按自己的节奏学，进度会保存在当前浏览器。</p></section>
-    <section class="lesson-panel card"><div class="lesson-heading"><span class="lesson-tag" id="lesson-number">第 1 关</span><span class="language-tag">JavaScript · OS 算法模型</span></div><h2 id="lesson-title"></h2><span class="concept" id="lesson-concept"></span><p id="lesson-story"></p><div class="goal"><strong>这一关要做什么</strong><p id="lesson-goal"></p></div><label class="editor-label" for="editor">你的代码 <span>Ctrl / ⌘ + Enter 运行</span></label><div class="editor-wrap"><div id="line-numbers" aria-hidden="true"></div><textarea id="editor" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="编写关卡函数"></textarea></div><div class="code-actions"><button id="run" class="primary">▶ 运行 & 检查</button><button id="hint" class="secondary">给我一点提示</button><button id="reset-code" class="quiet">重置本关代码</button></div><div id="hint-panel" class="hint-panel" hidden></div><div id="result" class="result" aria-live="polite"><p>先试着运行一次，看看哪些情况还需要处理。</p></div><button id="next-lesson" class="next-lesson" hidden>去下一关 →</button><details class="kernel-link"><summary>把这一关带进真正的 OS 内核 ↗</summary><p>上面运行的是浏览器算法练习。下面的 C 练习会启动真实的 RISC-V 内核，结果单独验收。</p><code id="kernel-file"></code><pre id="kernel-command"></pre><button id="copy-command" class="secondary">复制检查命令</button><a href="https://github.com/zxymao/Chatgpt/blob/main/os-lab/docs/LESSONS.md" target="_blank" rel="noopener">打开手把手内核教程</a></details></section>
+    <section class="lesson-panel card"><div class="lesson-heading"><span class="lesson-tag" id="lesson-number">第 1 关</span><span class="language-tag">JavaScript · OS 算法模型</span></div><h2 id="lesson-title"></h2><span class="concept" id="lesson-concept"></span><p id="lesson-story"></p><div class="goal"><strong>这一关要做什么</strong><p id="lesson-goal"></p></div><div class="invariant" id="invariant"></div><details class="sample"><summary>查看输入示例与期望返回</summary><pre id="sample"></pre></details><label class="editor-label" for="editor">你的代码 <span>Ctrl / ⌘ + Enter 运行</span></label><div class="editor-wrap"><div id="line-numbers" aria-hidden="true"></div><textarea id="editor" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="编写关卡函数"></textarea></div><div class="code-actions"><button id="run" class="primary">▶ 运行 & 检查</button><button id="hint" class="secondary">给我一点提示</button><button id="reset-code" class="quiet">重置本关代码</button></div><div id="hint-panel" class="hint-panel" hidden></div><div id="result" class="result" aria-live="polite"><p>先试着运行一次，看看哪些情况还需要处理。</p></div><section id="trace-panel" class="trace-panel" hidden><h3>OS 状态观察台 · 你的代码实际产生的结果</h3><label>测试场景 <select id="trace-case" aria-label="选择运行轨迹"></select></label><div id="trace-lanes" class="trace-lanes"></div><div id="trace-timeline" class="trace-timeline"></div><p id="trace-caption"></p><details open><summary>调用前 / 返回值 / 调用后</summary><pre id="trace-data"></pre></details></section><p id="oral-question" class="oral-question"></p><button id="next-lesson" class="next-lesson" hidden>去下一关 →</button><details class="kernel-link"><summary>下一步：补 C / 汇编，运行真实 QEMU 验收 ↗</summary><p>上面运行的是浏览器算法练习。下面的 C 练习会启动真实的 RISC-V 内核，结果单独验收。</p><p id="kernel-note"></p><a id="kernel-source" target="_blank" rel="noopener"><code id="kernel-file"></code></a><pre id="kernel-command"></pre><button id="copy-command" class="secondary">复制检查命令</button><a href="https://github.com/zxymao/Chatgpt/blob/main/os-lab/docs/LESSONS.md" target="_blank" rel="noopener">打开手把手内核教程</a></details></section>
   </div>
-  <footer><span>喵核工坊 · TinyRV 的游戏入口</span><span>浏览器六关 ≠ 内核六关。小伙伴陪你学，真正的 OS 由你来补全。</span></footer>
+  <footer><span>喵核工坊 · Project 2 内核实验入口</span><span>网页检查算法与状态；C / 汇编在 Codespaces + QEMU 中单独验收。</span></footer>
 </main>
 <div id="toast" class="toast" role="status"></div>
+<script>(function(root){
+  'use strict';
+  const ctx=(ra=100,sp=8192,n=0)=>({ra,sp,s:Array.from({length:12},(_,i)=>n+i)});
+  const pcb=(pid,state='READY')=>({pid,state,context:ctx(100+pid,8192+pid*4096),deadline:0});
+  const frame=(patch={},sepc=4096,sstatus=32)=>{
+    const x=Array.from({length:32},(_,i)=>i*7);x[0]=0;
+    for(const [i,n] of Object.entries(patch))x[i]=n;
+    return {x,sepc,sstatus};
+  };
+  const t=(name,args,want,after)=>({name,args,want,...(after===undefined?{}:{after})});
+  const machine=(states,current,ready,wait=[])=>({tasks:states.map((s,i)=>pcb(i,s)),current,ready,wait});
+  const lock=(owner=null,waiters=[],states=['RUNNING','RUNNING','RUNNING'])=>({owner,waiters,states});
+  const lessons=[];
+  function add(id,title,concept,entry,signature,goal,invariant,question,hints,tests,extra={}){
+    const stage=id<=11?1:id<=15?2:id<=22?3:4;
+    const files=id<=7?'task1.c':id<=9?'context.S':id<=11?'task1.c':id<=15?'task2.c':id===16||id===17||id===20?'trap.S':id<=19?'task3.c':'task4.c';
+    lessons.push({id,title,concept,entry,pet:null,stage,group:'p2-'+stage,
+      file:'project2/exercises/'+files,
+      story:extra.story||'宠物店里的每只宠物代表一条执行流。你写的状态转换将决定谁使用 CPU、谁等待、谁被唤醒。',
+      goal,invariant,question,hints,tests,
+      starter:`function ${entry}(${signature}) {\n  // TODO: ${concept}\n  throw new Error("请实现这一关的 OS 规则");\n}`,
+      ...extra});
+  }
+  add(7,'给新店员建立 PCB','PCB、入口与栈对齐','initPCB','pid, entry, stackTop',
+    '返回 {pid,state:"READY",context:{ra:entry,sp:向下按16字节对齐的stackTop,s:12个0}}。输入是安全整数。不要把栈顶当成入口地址。',
+    '首次切入依靠 ra 找到入口；sp 必须对齐；每个 PCB 拥有独立 context。',
+    '新任务从未调用 switch_to，为什么仍能通过 ret 进入任务函数？',
+    ['先创建全新的 context 对象。','sp = Math.floor(stackTop / 16) * 16；不要对地址用 32 位按位运算。','C 中 ra/sp 对应 struct context 的前两个 uint64_t，s0～s11 清零。'],[
+      t('对齐的栈',[2,4096,12288],{pid:2,state:'READY',context:{ra:4096,sp:12288,s:Array(12).fill(0)}}),
+      t('栈顶向下对齐',[0,8192,12303],{pid:0,state:'READY',context:{ra:8192,sp:12288,s:Array(12).fill(0)}}),
+      t('不能截断为32位',[1,4294971392,4294975503],{pid:1,state:'READY',context:{ra:4294971392,sp:4294975488,s:Array(12).fill(0)}})
+    ],{story:'新来的边牧需要一张“工作档案”和自己的栈。初始化错一个地址，它就无法开始工作。'});
+  add(8,'把寄存器装进背包','ABI 与 callee-saved 上下文','saveContext','cpu',
+    'cpu={ra,sp,s:[12项],a:[8项],t:[7项],tp}。返回独立副本 {ra,sp,s}，不修改 cpu，不共享数组；此处是普通函数调用式切换，不是异常现场。',
+    '协作式 context 保存 ra/sp/s0～s11；完整 trap frame 还需要 caller-saved 寄存器。',
+    '为什么 switch_to 可以只保存一部分寄存器，而中断入口不可以？',
+    ['只取 context 所需的三个字段。','数组要复制，不能让 PCB.s 与 CPU.s 指向同一个数组。','RISC-V sd/ld 每次处理 8 字节，s0 的偏移是 16，s11 是 104。'],[
+      {...t('保存12个s寄存器',[{...ctx(91,8000,10),a:[1,2],t:[3,4],tp:2}],ctx(91,8000,10)),detached:true},
+      {...t('所有寄存器都可为0',[{ra:0,sp:0,s:Array(12).fill(0),a:[],t:[],tp:0}],{ra:0,sp:0,s:Array(12).fill(0)}),detached:true}
+    ]);
+  {
+    const cpu={...ctx(900,16384,20),tp:0},old=pcb(0,'RUNNING'),next=pcb(1);
+    const saved={...old,context:ctx(900,16384,20)};
+    add(9,'切换背包，接着执行','switch_to：先存后取','switchContext','cpu, oldPCB, nextPCB',
+      '原地把 cpu 的 ra/sp/s 保存到 oldPCB.context，再恢复 nextPCB.context 到 cpu，cpu.tp=nextPCB.pid。返回 nextPCB.pid；不能修改 nextPCB 或共享 s 数组。tp 在模型中用 PID 表示，真实 C 中是 PCB 指针。',
+      '先保存旧现场，再加载新现场；tp 必须与 current_running 对应。',
+      '恢复 sp 后，代码正在使用谁的栈？ret 会回到哪一条指令？',
+      ['保存阶段不能先覆盖 CPU。','oldPCB.context.s 和 cpu.s 都要使用副本。','真实汇编恢复 sp、ra、s0～s11，最后 ret；调度器先设置 tp。'],[
+        {...t('完整切换',[cpu,old,next],1),afters:[{...next.context,tp:1},saved,next],separate:true},
+        {...t('目标PID为0',[{...ctx(44,9008,5),tp:0},pcb(0),pcb(0)],0),afters:[{...ctx(100,8192),tp:0},{...pcb(0),context:ctx(44,9008,5)},pcb(0)],separate:true}
+      ]);
+  }
+  add(10,'维护就绪队列','FIFO 与队列唯一性','enqueueReady','tasks, ready, pid',
+    'tasks 下标等于 PID。仅当对应任务为 READY 且 ready 中不存在它时，追加 PID 并返回 true；否则返回 false，保持队列不变。任务本身不应被修改。',
+    '一个 PCB 不能同时出现在多个队列，也不能在同一就绪队列重复出现。',
+    '仅修改 PCB 的状态而不把它加入就绪队列，会出现什么现象？',
+    ['先判断 PID 是否存在，再判断 state。','重复入队也要拒绝。','课程链表中的 node 同时挂入两个队列会破坏链表；数组模型也应保持同一不变量。'],[
+      {...t('合法加入队尾',[[pcb(0),pcb(1)], [0],1],true),afters:[[pcb(0),pcb(1)],[0,1],1]},
+      {...t('重复入队拒绝',[[pcb(0)],[0],0],false),afters:[[pcb(0)],[0],0]},
+      {...t('睡眠任务不能就绪',[[pcb(0,'SLEEPING')],[],0],false),afters:[[pcb(0,'SLEEPING')],[],0]},
+      t('无效PID',[[pcb(0)],[],5],false)
+    ]);
+  {
+    const a=machine(['RUNNING','READY','BLOCKED'],0,[1]);
+    const b=machine(['READY','RUNNING','BLOCKED'],1,[0]);
+    const blocked=machine(['BLOCKED','READY'],null,[1]);
+    const out=machine(['BLOCKED','RUNNING'],1,[]);
+    add(11,'让调度器真正轮转','do_scheduler 状态机','schedule','m',
+      'm={tasks,current,ready,wait}，current 为 PID 或 null。仅将当前 RUNNING 任务改为 READY 并入队尾；弹出就绪队头，改 RUNNING、更新 current 并返回 PID。无人可运行时 current=null，返回 -1。原地更新 m。',
+      'BLOCKED/SLEEPING/DONE 不得重新入队；RUNNING 在单核上至多一个。',
+      '为什么 do_block 后调用调度器时，不能无条件把原任务放回就绪队列？',
+      ['先处理旧 current，再选择队头。','已经 BLOCKED 的 current 不能入 ready。','只有一个可运行任务时可以再次选中自己。'],[
+        t('RUNNING排到队尾',[a],1,b),t('被阻塞任务不入队',[blocked],1,out),
+        t('只有自己',[machine(['RUNNING'],0,[])],0,machine(['RUNNING'],0,[])),
+        t('空队列进入idle',[machine(['BLOCKED'],null,[])],-1,machine(['BLOCKED'],null,[])),
+        t('DONE任务不能复活',[machine(['DONE','READY'],0,[1])],1,machine(['DONE','RUNNING'],1,[]))
+      ],{story:'通过本关，边牧才能让三名店员依次工作。真实验收要得到 012012012，且每条线程从原来暂停的位置继续。'});
+  }
+  add(12,'等饭时离开 CPU','do_block 与等待队列','blockCurrent','m',
+    '若 current 指向 RUNNING 任务：改为 BLOCKED，加入 wait 队尾，current=null，返回 PID。没有运行任务返回 -1。这里只建模挂起步骤，下一次调度由调用者触发。',
+    '阻塞的执行流离开 CPU，等待期间不消耗自旋时间。',
+    '阻塞是线程自己停在那里循环，还是内核保存现场后让另一条线程执行？',
+    ['取得当前 PID 后再清空 current。','状态、等待队列和 current 三者都要更新。','真实 p2_block 还要调用 p2_schedule 保存当前内核栈。'],[
+      t('阻塞当前任务',[machine(['RUNNING','READY'],0,[1])],0,machine(['BLOCKED','READY'],null,[1],[0])),
+      t('追加到等待队尾',[machine(['BLOCKED','RUNNING'],1,[],[0])],1,machine(['BLOCKED','BLOCKED'],null,[],[0,1])),
+      t('idle不能阻塞',[machine(['BLOCKED'],null,[],[0])],-1,machine(['BLOCKED'],null,[],[0]))
+    ]);
+  add(13,'叫醒队头等待者','do_unblock：就绪不等于运行','wakeOne','m',
+    '从 wait 队头取一个 PID，状态改 READY 并加到 ready 队尾，返回 PID；空 wait 返回 -1。不要改变 current，也不要立即把被唤醒任务改为 RUNNING。',
+    '唤醒只获得被调度资格，不保证立即占用 CPU。',
+    'do_unblock 为什么通常不直接调用 switch_to？',
+    ['wait.shift() 取得最早等待者。','更新 state 后追加 ready。','保持当前 RUNNING 不变。'],[
+      t('FIFO唤醒',[machine(['BLOCKED','BLOCKED','RUNNING'],2,[],[0,1])],0,machine(['READY','BLOCKED','RUNNING'],2,[0],[1])),
+      t('保持原就绪队列',[machine(['BLOCKED','READY'],null,[1],[0])],0,machine(['READY','READY'],null,[1,0],[])),
+      t('无等待者',[machine(['RUNNING'],0,[])],-1,machine(['RUNNING'],0,[]))
+    ]);
+  add(14,'一只饭碗只能一只占用','阻塞式互斥锁 acquire','acquire','lock, pid',
+    'lock={owner:null或PID,waiters:[],states:按PID索引}。空闲则 owner=pid 返回 true；被别人持有则将 pid 置 BLOCKED、只入队一次，返回 false；owner===pid 时拒绝递归请求，返回 false 且不改动。',
+    '互斥保护整个临界区；拿不到锁的线程必须离开就绪队列，而非忙等。',
+    '单核上关闭中断是否等价于“任何时候都不需要锁”？',
+    ['先判断 owner 是否为空。','重复请求不能在 waiters 中重复插入同一个 PID。','真实实现必须把判锁、入队和状态更新放在一个原子区间。'],[
+      t('首次获得锁',[lock(),0],true,lock(0)),
+      t('竞争失败并阻塞',[lock(0),1],false,lock(0,[1],['RUNNING','BLOCKED','RUNNING'])),
+      t('重复等待不入两次',[lock(0,[1],['RUNNING','BLOCKED','RUNNING']),1],false,lock(0,[1],['RUNNING','BLOCKED','RUNNING'])),
+      t('非递归锁不自锁',[lock(0),0],false,lock(0))
+    ]);
+  add(15,'把饭碗直接交给队头','release 与锁所有权移交','release','lock, pid',
+    '只有 owner 能释放。非 owner 返回 false，不改动。合法释放返回 true：若有人等，先出队并将 owner 直接交给它，状态改 READY；无人等待则 owner=null。不要将新 owner 直接改 RUNNING。',
+    '唤醒者获得锁的所有权，但仍需要等待 CPU 调度；新来的请求不能插队偷锁。',
+    '先解锁再唤醒，和直接移交所有权，各自需要什么额外处理？',
+    ['验证调用者是 owner。','新 owner 是 waiters.shift()，不是释放者。','直接交接策略下，acquire 从阻塞返回后已经拥有锁。'],[
+      t('交给最早等待者',[lock(0,[1,2],['RUNNING','BLOCKED','BLOCKED']),0],true,lock(1,[2],['RUNNING','READY','BLOCKED'])),
+      t('没有等待者则空闲',[lock(0),0],true,lock()),
+      t('非所有者不能释放',[lock(0,[1]),2],false,lock(0,[1]))
+    ],{story:'真实 QEMU 测试会在持锁时故意 yield，让其他线程争抢。正确代码应维持临界区互斥，并按 012012 的顺序交接饭碗。'});
+  add(16,'看懂异常门牌号','RV64 scause 的中断位','decodeCause','hex',
+    '输入 RV64 scause 的十六进制字符串。返回 {interrupt:Boolean,code:Number}；最高位 bit63 表示中断，其余63位是原因。测试原因号较小。请用 BigInt，避免 JS 32位位运算截断。',
+    'ecall 是同步异常；Supervisor timer 是中断，不能仅比较低位。',
+    'scause=8 与 0x8000000000000005 分别代表什么？',
+    ['BigInt(hex) 转换完整64位整数。','1n << 63n 得到中断标志位。','真实 C 用 uint64_t；trap.S 要保留完整 scause。'],[
+      t('U态ecall',['0x8'],{interrupt:false,code:8}),t('S态定时器中断',['0x8000000000000005'],{interrupt:true,code:5}),
+      t('非法指令不是中断',['0x2'],{interrupt:false,code:2}),t('外部中断',['0x8000000000000009'],{interrupt:true,code:9})
+    ]);
+  add(17,'完整保存突发中断现场','SAVE_CONTEXT 与 trap frame','saveTrap','cpu',
+    '返回独立副本 {x:[32个通用寄存器],sepc,sstatus}；x[0] 必须为0，不修改 cpu，也不能共享 x 数组。t/a 寄存器同样必须保存。浏览器省略 stval/scause 字段；真实汇编两者也要保存。',
+    '异步中断可以出现在任意指令之间，不能依赖函数调用 ABI 帮你保住 caller-saved 寄存器。',
+    '在保存 t0 之前，先用 t0 读取 sstatus，会丢掉什么？',
+    ['复制全部32项，而不是只保存 s 寄存器。','把副本 x[0] 改为0。','先保存临时寄存器，再拿它读取 CSR。'],[
+      {...t('完整现场',[frame({0:99,5:12345,10:600})],frame({5:12345,10:600})),detached:true},
+      {...t('保存不同异常地址',[frame({31:8765},8192,256)],frame({31:8765},8192,256)),detached:true}
+    ]);
+  add(18,'把 ecall 参数交给内核','a7 调用号与 a0～a4 参数','syscallArgs','frame',
+    '读取 frame.x，返回 {number:x[17],args:[x[10],x[11],x[12],x[13],x[14]]}，不要改动 frame。RISC-V ABI 中 a7=x17，a0=x10；返回值写回 a0。',
+    '陷入内核时，必须从保存的用户寄存器中读取参数。',
+    '为什么不能在 interrupt_helper 中随意读取“现在 CPU 的 a0”来当用户参数？',
+    ['数组下标就是寄存器编号。','args 包含5项，不能把调用号混在里面。','C 与汇编必须约定同一个 trap frame 偏移布局。'],[
+      t('提取调用号与5参数',[frame({17:1,10:4096,11:12,12:7,13:8,14:9})],{number:1,args:[4096,12,7,8,9]}),
+      t('零值参数也须保留',[frame({17:99,10:0,11:0,12:0,13:0,14:0})],{number:99,args:[0,0,0,0,0]})
+    ]);
+  {
+    const cases=[
+      ['合法write',frame({17:1,10:5000,11:16}),4096,8192,100,16],
+      ['边界长度为0',frame({17:1,10:8192,11:0}),4096,8192,100,0],
+      ['起点越界',frame({17:1,10:1,11:5}),4096,8192,100,-14],
+      ['长度越界',frame({17:1,10:8190,11:3}),4096,8192,100,-14],
+      ['负长度',frame({17:1,10:4096,11:-1}),4096,8192,100,-14],
+      ['读当前时钟',frame({17:2}),4096,8192,12345,12345],
+      ['先识别调用号',frame({17:99,10:1,11:-1}),4096,8192,100,-38]
+    ];
+    add(19,'检查参数并越过 ecall','系统调用分发与 sepc+4','handleSyscall','frame, begin, end, now',
+      '调用1=WRITE：a0地址和a1长度均须非负安全整数，要求 begin<=地址<=end 且 长度<=end-地址；合法返回长度，否则-14。调用2=TIME返回 now；其他-38。所有情况将结果写 frame.x[10]，sepc+=4，返回结果。只允许修改这两处。',
+      '先检号再验参，检查在访问内存之前；ecall 地址必须前进一次，否则反复陷入。',
+      '为何用 length <= end-address 检查范围，优于直接计算 address+length？',
+      ['先 switch 调用号，未知号直接产生 -38。','只有 WRITE 才检查指针，TIME 不应被旧的 a0/a1 拦住。','最后统一写回 x[10]，把 sepc 加4；不要改其他寄存器。'],cases.map(([name,f,b,e,n,r])=>t(name,[f,b,e,n],r,{...f,x:f.x.map((v,i)=>i===10?r:v),sepc:f.sepc+4})));
+  }
+  add(20,'把结果带回用户态','RESTORE_CONTEXT、SPP 与 SPIE','userReturn','frame',
+    '返回新的 {x,sepc,sstatus}：复制全部 x 并将 x0置0，sepc保持不变，sstatus清除SPP(bit8)、置SPIE(bit5)，保留其他位；不修改 frame，不共享数组。本题状态值小于2^31。真正改变特权级的是 sret。',
+    '返回 U 态应有 SPP=0；SPIE 决定 sret 后的中断使能，不能把 sepc 再加4。',
+    'sret 和普通 ret 在 PC、特权级与中断状态上有哪些区别？',
+    ['status & ~(1<<8) 清除 SPP。','再 | (1<<5) 设置 SPIE。','恢复 a0 的系统调用返回值，包括负错误码。'],[
+      {...t('清SPP保留其他位',[frame({10:-14},4100,0x502)],frame({10:-14},4100,0x422)),detached:true},
+      {...t('已是U返回状态',[frame({10:12},9000,32)],frame({10:12},9000,32)),detached:true}
+    ]);
+  {
+    const m={...machine(['RUNNING','READY'],0,[1]),now:10,sleepers:[]};
+    const a=structuredClone(m);a.tasks[0].state='SLEEPING';a.tasks[0].deadline=13;a.sleepers=[0];a.current=null;
+    const z=structuredClone(m);z.tasks[0].state='READY';z.ready.push(0);z.current=null;
+    add(21,'安排睡眠，不空转等待','do_sleep 与绝对唤醒时刻','sleepTask','m, delay',
+      '输入 m 含 now/tasks/current/ready/sleepers。正整数 delay：当前 RUNNING 改 SLEEPING，deadline=now+delay，加入 sleepers，current=null，返回0。delay=0：改 READY 放队尾并清 current。负数/非整数/无当前任务返回-22且不改动。',
+      'sleep 的线程等待时不应占用 CPU；deadline 是绝对时刻。',
+      '把 while(now<deadline) 放在用户代码里，与系统调用 sleep 有什么区别？',
+      ['先验证全部输入，再改变状态。','睡眠者不放在 ready 队列。','课程 Task3 可以在调度时扫描唤醒，Task4 再由时钟触发调度。'],[
+        t('睡3个tick',[m,3],0,a),t('零延迟只让出CPU',[m,0],0,z),t('拒绝负数',[m,-1],-22,m),
+        t('拒绝小数',[m,1.5],-22,m),t('idle不可sleep',[{...m,current:null},1],-22,{...m,current:null})
+      ]);
+  }
+  {
+    const m={...machine(['SLEEPING','SLEEPING','SLEEPING','READY'],null,[3]),now:10,sleepers:[0,1,2]};
+    m.tasks[0].deadline=10;m.tasks[1].deadline=14;m.tasks[2].deadline=8;
+    const out=structuredClone(m);out.sleepers=[1];out.ready=[3,0,2];out.tasks[0].state=out.tasks[2].state='READY';
+    add(22,'一次叫醒所有到期者','check_sleeping 与安全遍历','wakeExpired','m',
+      '按 sleepers 的原顺序扫描全部睡眠者，将 deadline<=now 的任务改 READY 并加 ready 队尾；未来任务保留原次序。返回本次唤醒的 PID 数组；不改变 current。',
+      '同一时刻到期的任务必须全部唤醒；删除队列节点不能漏掉紧随的下一个节点。',
+      '遍历链表时先删除当前节点再取 next，可能造成什么错误？',
+      ['构造一个新的 remaining 列表保存未到期者。','等于 deadline 就应唤醒；不能只判断大于。','不要找到一个就 return；扫描所有人。'],[
+        t('未排序队列也全部唤醒',[m],[0,2],out),t('无睡眠者',[{...machine(['RUNNING'],0,[]),now:0,sleepers:[]}],[],{...machine(['RUNNING'],0,[]),now:0,sleepers:[]})
+      ]);
+  }
+  add(23,'时间片到期再抢占','定时器重设与中断返回地址','timerEvent','m',
+    'm={now,interval,ticks,remaining,quantum,needResched,sepc}。每次定时中断 ticks++、nextTimer=now+interval、remaining--；若减到0，重置为 quantum 且 needResched=true。其他情况保留 needResched。原地更新并返回 needResched；sepc绝不可增加。',
+    '时钟中断是触发机制，时间片耗尽是调度策略；重新设置下一次硬件中断。',
+    '为什么系统调用返回需要 sepc+=4，而时钟中断返回不能这样做？',
+    ['先更新 tick 和 nextTimer。','remaining 耗尽时才设置调度标志。','这里没有 ecall 指令需要跳过。'],[
+      t('尚未耗尽时间片',[{now:100,interval:10,ticks:7,remaining:2,quantum:3,needResched:false,sepc:8192}],false,{now:100,interval:10,ticks:8,remaining:1,quantum:3,needResched:false,sepc:8192,nextTimer:110}),
+      t('时间片耗尽',[{now:150,interval:10,ticks:9,remaining:1,quantum:3,needResched:false,sepc:8194}],true,{now:150,interval:10,ticks:10,remaining:3,quantum:3,needResched:true,sepc:8194,nextTimer:160})
+    ]);
+  add(24,'没有 yield 也能轮流开店','综合：抢占、睡眠与就绪队列','runShop','tasks, budget',
+    '每 tick 一个时间片，t=0..budget-1。tasks 含 {pid,state,remaining,wakeAt}。初始 READY 按数组顺序入队；每 tick 开始按数组顺序唤醒所有 wakeAt<=t 的 SLEEPING；运行队头一单位，remaining--；为0改 DONE，否则 READY 并排到队尾。无人运行记录 "idle"。原地更新 tasks，返回逐 tick PID/"idle" 数组。不要修改 wakeAt。',
+    'CPU-bound 任务无需主动 yield；睡眠者不能被提前运行；每 tick 至多一个 RUNNING。',
+    '模型里的一次 tick，在真实 OS 中对应哪条硬件中断路径？如何证明代码真的被抢占了？',
+    ['初始化一次 FIFO ready 队列，不要每 tick 重建。','先唤醒，再运行；排队与任务完成都要更新状态。','真实 QEMU 用两个不调用 yield 的计算线程，验证所有任务在首个任务结束前就已开始。'],[
+      t('两个计算任务轮转',[[{pid:0,state:'READY',remaining:2,wakeAt:0},{pid:1,state:'READY',remaining:2,wakeAt:0}],4],[0,1,0,1],[{pid:0,state:'DONE',remaining:0,wakeAt:0},{pid:1,state:'DONE',remaining:0,wakeAt:0}]),
+      t('睡眠者到期加入队尾',[[{pid:0,state:'READY',remaining:3,wakeAt:0},{pid:1,state:'SLEEPING',remaining:1,wakeAt:2}],5],[0,0,0,1,'idle'],[{pid:0,state:'DONE',remaining:0,wakeAt:0},{pid:1,state:'DONE',remaining:0,wakeAt:2}]),
+      t('同tick醒来不能漏人',[[{pid:0,state:'SLEEPING',remaining:1,wakeAt:1},{pid:1,state:'SLEEPING',remaining:1,wakeAt:1}],4],['idle',0,1,'idle'],[{pid:0,state:'DONE',remaining:0,wakeAt:1},{pid:1,state:'DONE',remaining:0,wakeAt:1}]),
+      t('不能复活已完成任务',[[{pid:0,state:'DONE',remaining:0,wakeAt:0}],2],['idle','idle'],[{pid:0,state:'DONE',remaining:0,wakeAt:0}]),
+      t('预算耗尽保留未完成任务',[[{pid:0,state:'READY',remaining:5,wakeAt:0}],2],[0,0],[{pid:0,state:'READY',remaining:3,wakeAt:0}])
+    ],{story:'最后验收：三个班次中，有人一直计算、有人睡觉，到点后仍应继续营业。测试看的是你代码产生的执行时间线，不能用固定输出代替调度。'});
+  const groups=[
+    {id:'warmup',name:'选修热身 · 1–6',description:'字符串、页分配、选择器；不作为主线通关前提。'},
+    {id:'p2-1',name:'Task 1 · 7–11',description:'PCB → 保存/恢复寄存器 → 就绪队列 → 协作调度'},
+    {id:'p2-2',name:'Task 2 · 12–15',description:'挂起 → 唤醒 → 竞争锁 → FIFO 所有权交接'},
+    {id:'p2-3',name:'Task 3 · 16–22',description:'异常现场 → ecall ABI → 参数检查 → sret → 阻塞睡眠'},
+    {id:'p2-4',name:'Task 4 · 23–24',description:'定时器中断 → 时间片 → 无 yield 抢占综合验收'}
+  ];
+  const api={lessons,groups};
+  if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.PetCoreLessons=api;
+})(globalThis);
+</script>
 <script>(function (root) {
   'use strict';
+  const core=typeof module!=='undefined'&&module.exports?require('./project2.js'):root.PetCoreLessons;
   const pets = [
     {id:0,name:'小码',species:'cat',color:'#e6ab72',title:'你的第一位店员',lesson:0},
     {id:1,name:'串口奶猫',species:'cat',color:'#f0ce8e',title:'听见你的第一行代码',lesson:1},
@@ -29,7 +250,11 @@
     {id:3,name:'轮转柯基',species:'dog',color:'#cb824a',title:'轮到每一位小伙伴',lesson:3},
     {id:4,name:'守门兔',species:'rabbit',color:'#dcc6de',title:'检查每一个服务请求',lesson:4},
     {id:5,name:'时钟狐狸',species:'fox',color:'#ec8c5d',title:'到时间就醒来',lesson:5},
-    {id:6,name:'内核小龙',species:'dragon',color:'#78b7a1',title:'把所有能力连在一起',lesson:6}
+    {id:6,name:'内核小龙',species:'dragon',color:'#78b7a1',title:'热身毕业的小伙伴',lesson:6},
+    {id:7,name:'上下文边牧',species:'dog',color:'#8293a1',title:'真正轮转，不丢现场',lesson:11},
+    {id:8,name:'锁锁浣熊',species:'hamster',color:'#9ca29a',title:'等到饭碗再开饭',lesson:15},
+    {id:9,name:'异常守门兔',species:'rabbit',color:'#ceb3cb',title:'安全地走进内核，再返回',lesson:22},
+    {id:10,name:'抢占星龙',species:'dragon',color:'#8b91c3',title:'没有 yield 也能公平营业',lesson:24}
   ];
   const lessons = [
     {id:1,title:'数一袋猫粮',concept:'字符串与结束符',entry:'measure',pet:1,file:'01_strings.c',
@@ -69,33 +294,37 @@
       hints:['先 trim()，再区分第一个单词和后面的文本。','必须匹配整个命令词，不能把 feedback 当作 feed。','保留参数内部空格；help extra 应判为 unknown。'],
       tests:[{name:'给小码喂食',args:['feed 小码'],want:{command:'feed',argument:'小码'}},{name:'忽略外侧空格',args:['  feed   小码  '],want:{command:'feed',argument:'小码'}},{name:'保留文本内部空格',args:['echo hello  pet'],want:{command:'echo',argument:'hello  pet'}},{name:'打开帮助',args:[' help '],want:{command:'help',argument:''}},{name:'缺少名字',args:['feed'],want:{command:'unknown',argument:''}},{name:'命令边界',args:['feedback cat'],want:{command:'unknown',argument:''}},{name:'多余参数',args:['help cat'],want:{command:'unknown',argument:''}},{name:'空命令',args:[''],want:{command:'unknown',argument:''}}]}
   ];
+  for(const l of lessons)l.group='warmup';
+  lessons.push(...core.lessons);
   function create() {
-    return {version:1,food:8,completed:[],adopted:[0],selected:0,lesson:1,drafts:{},stats:{0:{full:60,bond:30}}};
+    return {version:2,food:8,completed:[],adopted:[0],selected:0,lesson:7,drafts:{},stats:{0:{full:60,bond:30}}};
   }
   function normalize(raw) {
     const s=create();
-    if(!raw || typeof raw!=='object' || raw.version!==1) return s;
+    if(!raw || typeof raw!=='object' || ![1,2].includes(raw.version)) return s;
     s.food=Number.isFinite(raw.food)?Math.max(0,Math.min(999,Math.floor(raw.food))):8;
-    s.completed=[...new Set((Array.isArray(raw.completed)?raw.completed:[]).filter(n=>Number.isInteger(n)&&n>=1&&n<=6))].sort((a,b)=>a-b);
-    // Unlocks must form a consecutive progression.
-    s.completed=s.completed.filter((n,i)=>n===i+1);
-    s.adopted=[0,...new Set((Array.isArray(raw.adopted)?raw.adopted:[]).filter(n=>Number.isInteger(n)&&n>0&&s.completed.includes(n)))];
+    const allowed=new Set((Array.isArray(raw.completed)?raw.completed:[]).filter(n=>Number.isInteger(n)&&n>=1&&n<=lessons.length));
+    // Optional warmups are independent; the Project 2 mainline starts at 7.
+    s.completed=[...allowed].filter(n=>n<=6).sort((a,b)=>a-b);
+    for(let n=7;n<=lessons.length&&allowed.has(n);n++)s.completed.push(n);
+    s.adopted=[0,...new Set((Array.isArray(raw.adopted)?raw.adopted:[]).filter(n=>Number.isInteger(n)&&n>0&&pets[n]&&s.completed.includes(pets[n].lesson)))];
     s.selected=s.adopted.includes(raw.selected)?raw.selected:0;
-    s.lesson=Number.isInteger(raw.lesson)&&raw.lesson>=1&&raw.lesson<=Math.min(6,s.completed.length+1)?raw.lesson:Math.min(6,s.completed.length+1);
+    s.lesson=Number.isInteger(raw.lesson)&&raw.lesson>=1&&raw.lesson<=lessons.length?raw.lesson:Math.min(24,7+s.completed.filter(n=>n>=7).length);
     for(const l of lessons) if(typeof raw.drafts?.[l.id]==='string')s.drafts[l.id]=raw.drafts[l.id].slice(0,12000);
     for(const id of s.adopted){const st=raw.stats?.[id]||{};s.stats[id]={full:Number.isFinite(st.full)?Math.max(0,Math.min(100,st.full)):60,bond:Number.isFinite(st.bond)?Math.max(0,Math.min(100,st.bond)):30};}
     return s;
   }
-  function unlocked(s,id){return id>=1&&id<=6&&(id===1||s.completed.includes(id-1));}
+  function unlocked(s,id){return Number.isInteger(id)&&id>=1&&id<=lessons.length&&(id<=7||s.completed.includes(id-1));}
   function reward(s,id){
     if(!unlocked(s,id))return {ok:false,message:'先完成前一关。'};
     const first=!s.completed.includes(id);
     if(first)s.completed.push(id);
     s.completed.sort((a,b)=>a-b);s.food=Math.min(999,s.food+(first?8:2));
-    return {ok:true,first,message:first?`解锁 ${pets[id].name}！获得 8 份饲料。`:'再次验证成功，获得 2 份练习饲料。'};
+    const pet=pets.find(p=>p.lesson===id);
+    return {ok:true,first,message:first?(pet?`解锁 ${pet.name}！`:'OS 主线推进一步！')+'获得 8 份饲料。':'再次验证成功，获得 2 份练习饲料。'};
   }
   function adopt(s,id){
-    if(!Number.isInteger(id)||id<1||id>6||!s.completed.includes(id))return {ok:false,message:'完成对应关卡后才能领养。'};
+    if(!Number.isInteger(id)||id<1||!pets[id]||!s.completed.includes(pets[id].lesson))return {ok:false,message:'完成对应关卡后才能领养。'};
     if(s.adopted.includes(id))return {ok:false,message:'它已经在你的店里啦。'};
     s.adopted.push(id);s.stats[id]={full:60,bond:30};s.selected=id;
     return {ok:true,message:`${pets[id].name} 搬进宠物店啦！`};
@@ -115,7 +344,7 @@
   // Run only in a disposable browser Worker (or controlled Node test process).
   // This checks behavior on multiple inputs, never source keywords or fixed PASS text.
   function grade(source,lesson){
-    const rows=[];
+    const rows=[],traces=[];
     let fn;
     try { fn=new Function('"use strict";\n'+source+'\nreturn typeof '+lesson.entry+' === "function" ? '+lesson.entry+' : null;')(); }
     catch(e){return {passed:false,rows:[{name:'代码能否运行',ok:false,detail:String(e.message)}]};}
@@ -126,17 +355,30 @@
       const ak=Object.keys(a).sort(),bk=Object.keys(b).sort();
       return ak.length===bk.length&&ak.every((k,i)=>k===bk[i]&&same(a[k],b[k]));
     };
+    const objects=value=>{
+      const found=new Set();
+      function walk(v){if(v&&typeof v==='object'&&!found.has(v)){found.add(v);for(const x of Object.values(v))walk(x);}}
+      walk(value);return found;
+    };
     for(const test of lesson.tests){
       const args=structuredClone(test.args);
       try{
         const got=fn(...args);
-        const ok=same(got,test.want)&&(test.after===undefined||same(args[0],test.after));
-        rows.push({name:test.name,ok,detail:ok?'通过':`输入 ${JSON.stringify(test.args)}；期望 ${JSON.stringify(test.want)}，得到 ${String(JSON.stringify(got))}`+(test.after===undefined?'':`；数组应为 ${JSON.stringify(test.after)}，实际 ${JSON.stringify(args[0])}`)});
+        const expected=structuredClone(test.afters??test.args);
+        if(test.after!==undefined)expected[0]=test.after;
+        let isolated=true;
+        if(test.detached){const inputs=objects(args);isolated=![...objects(got)].some(v=>inputs.has(v));}
+        if(test.separate)for(let i=0;i<args.length;i++)for(let j=i+1;j<args.length;j++){
+          const left=objects(args[i]);if([...objects(args[j])].some(v=>left.has(v)))isolated=false;
+        }
+        const ok=same(got,test.want)&&same(args,expected)&&isolated;
+        rows.push({name:test.name,ok,detail:ok?'通过':`输入 ${JSON.stringify(test.args)}；期望返回 ${JSON.stringify(test.want)}，实际 ${String(JSON.stringify(got))}`+(!same(args,expected)?`；期望执行后参数 ${JSON.stringify(expected)}，实际 ${JSON.stringify(args)}`:'')+(!isolated?'；出现了不允许的共享对象/数组引用':'')});
+        traces.push({name:test.name,before:structuredClone(test.args),output:structuredClone(got),after:structuredClone(args),ok});
       }catch(e){rows.push({name:test.name,ok:false,detail:String(e.message)});}
     }
-    return {passed:rows.length===lesson.tests.length&&rows.every(r=>r.ok),rows};
+    return {passed:rows.length===lesson.tests.length&&rows.every(r=>r.ok),rows,traces};
   }
-  const api={pets,lessons,create,normalize,unlocked,reward,adopt,feed,pet,grade};
+  const api={pets,lessons,groups:core.groups,create,normalize,unlocked,reward,adopt,feed,pet,grade};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   else root.PetKernel=api;
 })(globalThis);
@@ -144,10 +386,11 @@
 <script>(() => {
   'use strict';
   const E=globalThis.PetKernel, $=id=>document.getElementById(id), KEY='pet-kernel-v1';
-  let state=E.create(), hintCount=0, worker=null, running=false, toastTimer, sparkle=0;
+  let state=E.create(), hintCount=0, worker=null, running=false, toastTimer, sparkle=0, traces=[];
   try{const raw=localStorage.getItem(KEY);if(raw)state=E.normalize(JSON.parse(raw));}
   catch{ $('storage-note').hidden=false;$('storage-note').textContent='存档暂时无法读取，本次可以继续玩；导出存档可保存进度。'; }
   const lesson=()=>E.lessons[state.lesson-1];
+  let activeGroup=lesson().group;
   function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch{$('storage-note').hidden=false;$('storage-note').textContent='浏览器不允许自动存档，请使用“导出存档”保存进度。';}}
   function toast(text){$('toast').textContent=text;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),3500);$('scene-caption').textContent=text;}
   function drawPet(ctx,x,y,scale,p,selected=false){
@@ -172,14 +415,14 @@
   }
   function avatar(p){const c=document.createElement('canvas');c.width=112;c.height=100;c.className='avatar';drawPet(c.getContext('2d'),56,62,1.5,p);return c;}
   function renderShop(){
-    $('food-count').textContent=state.food;$('progress-count').textContent=`${state.completed.length} / 6`;
-    $('adopted-count').textContent=`已领养 ${state.adopted.length} / 7`;
+    $('food-count').textContent=state.food;$('progress-count').textContent=`${state.completed.length} / ${E.lessons.length}`;
+    $('adopted-count').textContent=`已领养 ${state.adopted.length} / ${E.pets.length}`;
     const p=E.pets[state.selected],st=state.stats[state.selected];
     $('selected-name').textContent=p.name;$('full-meter').value=st.full;$('bond-meter').value=st.bond;
     $('feed').disabled=state.food<1||st.full>=100;
     $('pet-list').replaceChildren();
     for(const pet of E.pets){
-      const adopted=state.adopted.includes(pet.id), unlocked=pet.id===0||state.completed.includes(pet.id);
+      const adopted=state.adopted.includes(pet.id), unlocked=pet.id===0||state.completed.includes(pet.lesson);
       const card=document.createElement('div');card.className='pet-card'+(adopted&&state.selected===pet.id?' selected':'')+(!unlocked?' locked':'');card.dataset.pet=pet.id;
       card.append(avatar(pet));
       const name=document.createElement('div');name.className='pet-name';name.textContent=pet.name;card.append(name);
@@ -190,33 +433,62 @@
     renderChapters();
   }
   function renderChapters(){
+    $('groups').replaceChildren();
+    for(const group of E.groups){const b=document.createElement('button');b.textContent=group.name;b.className=activeGroup===group.id?'active':'';b.disabled=running;b.setAttribute('aria-pressed',String(activeGroup===group.id));b.addEventListener('click',()=>{activeGroup=group.id;renderChapters();});$('groups').append(b);}
+    $('group-description').textContent=E.groups.find(g=>g.id===activeGroup).description+' · 可点任一关预习；主线按顺序领取通关奖励。';
     $('chapters').replaceChildren();
-    for(const l of E.lessons){const b=document.createElement('button');b.className='chapter'+(state.lesson===l.id?' active':'')+(state.completed.includes(l.id)?' completed':'');b.disabled=!E.unlocked(state,l.id)||running;b.setAttribute('aria-current',state.lesson===l.id?'step':'false');
+    for(const l of E.lessons.filter(l=>l.group===activeGroup)){const b=document.createElement('button');b.className='chapter'+(state.lesson===l.id?' active':'')+(state.completed.includes(l.id)?' completed':'')+(!E.unlocked(state,l.id)?' preview':'');b.disabled=running;b.dataset.lesson=l.id;b.title=E.unlocked(state,l.id)?'编写并验证':'可预习；完成前一关后可领取通关奖励';b.setAttribute('aria-current',state.lesson===l.id?'step':'false');
       const n=document.createElement('span');n.className='chapter-index';n.textContent=state.completed.includes(l.id)?'✓':String(l.id).padStart(2,'0');
       const t=document.createElement('span');t.textContent=l.title;b.append(n,t);b.addEventListener('click',()=>selectLesson(l.id));$('chapters').append(b);}
   }
   function lineNumbers(){$('line-numbers').textContent=$('editor').value.split('\n').map((_,i)=>i+1).join('\n');}
   function selectLesson(id){
-    if(running||!E.unlocked(state,id))return;
+    if(running||!E.lessons[id-1])return;
     state.drafts[state.lesson]=$('editor').value;
-    state.lesson=id;hintCount=0;save();renderLesson();renderChapters();
+    state.lesson=id;activeGroup=lesson().group;hintCount=0;save();renderLesson();renderChapters();
   }
   function renderLesson(){
-    const l=lesson();$('lesson-number').textContent=`第 ${l.id} 关 / 6`;$('lesson-title').textContent=l.title;$('lesson-concept').textContent=l.concept;$('lesson-story').textContent=l.story;$('lesson-goal').textContent=l.goal;
+    const l=lesson();$('lesson-number').textContent=`${l.id<=6?'选修热身':'OS 主线'} · ${l.id} / ${E.lessons.length}`;$('lesson-title').textContent=l.title;$('lesson-concept').textContent=l.concept;$('lesson-story').textContent=l.story;$('lesson-goal').textContent=l.goal;
+    $('invariant').hidden=!l.invariant;$('invariant').textContent=l.invariant?'必须保持：'+l.invariant:'';
+    $('oral-question').hidden=!l.question;$('oral-question').textContent=l.question?'验收追问：'+l.question:'';
+    $('sample').textContent=JSON.stringify({arguments:l.tests[0].args,return:l.tests[0].want,expectedFirstArgumentAfter:l.tests[0].after},null,2);
+    $('trace-panel').hidden=true;traces=[];
     $('editor').value=state.drafts[l.id]??l.starter;lineNumbers();$('hint-panel').hidden=true;
     $('result').className='result';$('result').replaceChildren();const p=document.createElement('p');p.textContent=state.completed.includes(l.id)?'这一关已经通过。可以再改进代码，运行后还能获得练习饲料。':'先试着运行一次，看看哪些情况还需要处理。';$('result').append(p);
-    $('next-lesson').hidden=!state.completed.includes(l.id)||l.id===6;
-    $('kernel-file').textContent=`os-lab/exercises/${l.file}`;$('kernel-command').textContent=`cd os-lab\nmake check LAB=${l.id}`;
+    $('next-lesson').hidden=!state.completed.includes(l.id)||l.id===E.lessons.length;
+    const path=l.id<=6?`os-lab/exercises/${l.file}`:`os-lab/${l.file}`;
+    $('kernel-file').textContent=path;$('kernel-source').href='https://github.com/zxymao/Chatgpt/blob/main/'+path;
+    $('kernel-command').textContent=l.id<=6?`cd os-lab\nmake check LAB=${l.id}`:`cd os-lab/project2\nmake check MODE=student STAGE=${l.id>=21?4:l.stage}`;
+    $('kernel-note').textContent=l.id<=6?'热身只对应基础练习。想实现完整的 Project 2 机制，请从第7关主线开始。':`先完成 Task ${l.stage} 的 C / 汇编练习，再运行整组验收；前置任务也会检查。${l.id===21||l.id===22?'本内核的睡眠动态测试与 Task 4 的时钟一起验收。':''}网页通过不会自动补全内核。`;
+    const guide=l.id<=6?'docs/LESSONS.md':'project2/README.md';
+    document.querySelector('.kernel-link > a:last-child').href='https://github.com/zxymao/Chatgpt/blob/main/os-lab/'+guide;
   }
+  function renderTrace(){
+    const trace=traces[Number($('trace-case').value)||0];if(!trace)return;
+    $('trace-data').textContent=JSON.stringify({before:trace.before,returned:trace.output,after:trace.after},null,2);
+    $('trace-lanes').replaceChildren();$('trace-timeline').replaceChildren();$('trace-caption').textContent='这份快照来自你的函数调用，不是预设的正确动画。';
+    const before=trace.before[0],after=trace.after[0];
+    if(after&&typeof after==='object'&&!Array.isArray(after)){
+      const fields=after.tasks?['current','ready','wait','sleepers']:after.waiters?['owner','waiters','states']:after.context?['pid','state','context']:after.s?['ra','sp','s']:after.x?['sepc','sstatus']:['ticks','remaining','nextTimer','needResched'];
+      for(const field of fields)if(field in after){const box=document.createElement('div'),label=document.createElement('strong'),value=document.createElement('code');label.textContent=field;value.textContent=JSON.stringify(before?.[field])+' → '+JSON.stringify(after[field]);box.append(label,value);$('trace-lanes').append(box);}
+      if(after.tasks)for(const p of after.tasks){const chip=document.createElement('span');chip.className='pcb-state state-'+p.state;chip.textContent=`宠物 ${p.pid} · ${p.state}`;$('trace-lanes').append(chip);}
+    }
+    if(lesson().id===24&&Array.isArray(trace.output))for(const [tick,pid] of trace.output.entries()){
+      const b=document.createElement('button');b.className='tick';b.textContent=`${tick}: ${pid==='idle'?'idle':'宠物 '+pid}`;b.addEventListener('click',()=>{for(const n of $('trace-timeline').children)n.classList.remove('active');b.classList.add('active');$('trace-caption').textContent=`tick ${tick}：${pid==='idle'?'没有就绪任务，CPU idle。':`宠物 ${pid} 获得这一时间片。`}`;});$('trace-timeline').append(b);
+    }
+  }
+  $('trace-case').addEventListener('change',renderTrace);
   function showResult(result){
     $('result').className='result '+(result.passed?'success':'failed');$('result').replaceChildren();
     const title=document.createElement('h3');title.textContent=result.passed?'全部检查通过，小伙伴听懂了！':'还差一点，看看下面的具体情况';$('result').append(title);
     for(const row of result.rows){const box=document.createElement('div');box.className='test-row'+(row.ok?'':' bad');const mark=document.createElement('b');mark.textContent=row.ok?'✓':'×';const text=document.createElement('span');text.textContent=row.name;if(!row.ok){const detail=document.createElement('span');detail.className='test-detail';detail.textContent=row.detail;text.append(detail);}box.append(mark,text);$('result').append(box);}
+    traces=result.traces||[];$('trace-panel').hidden=traces.length===0;$('trace-case').replaceChildren();
+    traces.forEach((trace,i)=>{const option=document.createElement('option');option.value=i;option.textContent=(trace.ok?'✓ ':'× ')+trace.name;$('trace-case').append(option);});renderTrace();
   }
   function run(){
     if(running)return;
     const l=lesson();state.drafts[l.id]=$('editor').value;save();running=true;$('run').disabled=true;$('run').textContent='正在检查…';renderChapters();
-    $('result').className='result';$('result').replaceChildren();const pending=document.createElement('p');pending.textContent='正在运行多个测试输入…';$('result').append(pending);
+    $('result').className='result';$('result').replaceChildren();$('trace-panel').hidden=true;const pending=document.createElement('p');pending.textContent='正在运行多个测试输入并记录状态变化…';$('result').append(pending);
     for(const id of ['editor','import-save','reset-code'])$(id).disabled=true;
     const source=`const grade=${E.grade.toString()}; const reply=self.postMessage.bind(self); self.onmessage=e=>{const result=grade(e.data.source,e.data.lesson);reply(result);};`;
     const url=URL.createObjectURL(new Blob([source],{type:'text/javascript'}));
@@ -227,7 +499,7 @@
       if(ended)return;ended=true;clearTimeout(timer);worker.terminate();worker=null;running=false;$('run').disabled=false;$('run').textContent='▶ 运行 & 检查';
       for(const id of ['editor','import-save','reset-code'])$(id).disabled=false;
       showResult(result);
-      if(result.passed){const reward=E.reward(state,l.id);toast(reward.message);sparkle=performance.now();save();$('next-lesson').hidden=l.id===6;}
+      if(result.passed){const reward=E.reward(state,l.id);toast(reward.message);sparkle=performance.now();save();$('next-lesson').hidden=!reward.ok||l.id===E.lessons.length;}
       renderShop();
     };
     const timer=setTimeout(()=>finish({passed:false,rows:[{name:'在限定时间内完成',ok:false,detail:'代码运行超过 1.2 秒，已停止。检查循环条件和计数器是否向前推进。'}]}),1200);
@@ -241,13 +513,13 @@
   $('editor').addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();const t=e.target,start=t.selectionStart,end=t.selectionEnd;t.setRangeText('  ',start,end,'end');t.dispatchEvent(new Event('input'));}if(e.key==='Enter'&&(e.ctrlKey||e.metaKey)){e.preventDefault();run();}});
   $('hint').addEventListener('click',()=>{const hints=lesson().hints;$('hint-panel').hidden=false;$('hint-panel').textContent=hints[Math.min(hintCount++,hints.length-1)];});
   $('reset-code').addEventListener('click',()=>{if(confirm('只重置这一关的代码？宠物和已通过的关卡会保留。')){$('editor').value=lesson().starter;state.drafts[state.lesson]=lesson().starter;save();lineNumbers();}});
-  $('next-lesson').addEventListener('click',()=>{selectLesson(Math.min(6,state.lesson+1));$('lesson-title').scrollIntoView({behavior:'smooth',block:'center'});});
+  $('next-lesson').addEventListener('click',()=>{selectLesson(Math.min(E.lessons.length,state.lesson+1));$('lesson-title').scrollIntoView({behavior:'smooth',block:'center'});});
   $('feed').addEventListener('click',()=>{const r=E.feed(state,state.selected);toast(r.message);if(r.ok)sparkle=performance.now();save();renderShop();});
   $('pat').addEventListener('click',()=>{toast(E.pet(state,state.selected).message);sparkle=performance.now();save();renderShop();});
   $('copy-command').addEventListener('click',async()=>{try{await navigator.clipboard.writeText($('kernel-command').textContent);toast('已复制，在 Codespaces 的 Linux 终端执行。');}catch{toast('浏览器未允许复制，请选中上面的命令手动复制。');}});
   $('export-save').addEventListener('click',()=>{state.drafts[state.lesson]=$('editor').value;const url=URL.createObjectURL(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='pet-kernel-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('存档已导出，包含宠物和代码草稿。');});
   $('import-save').addEventListener('click',()=>$('save-file').click());
-  $('save-file').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;try{if(file.size>200000)throw Error();const raw=JSON.parse(await file.text());if(raw.version!==1||!Array.isArray(raw.completed)||!Array.isArray(raw.adopted))throw Error();if(!confirm('导入会替换当前进度和代码草稿，确定继续吗？'))return;state=E.normalize(raw);save();renderLesson();renderShop();toast('存档已恢复，欢迎回店。');}catch{toast('存档格式无效，当前进度已保留。');}finally{e.target.value='';}});
+  $('save-file').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;try{if(file.size>500000)throw Error();const raw=JSON.parse(await file.text());if(![1,2].includes(raw.version)||!Array.isArray(raw.completed)||!Array.isArray(raw.adopted))throw Error();if(!confirm('导入会替换当前进度和代码草稿，确定继续吗？'))return;state=E.normalize(raw);activeGroup=lesson().group;save();renderLesson();renderShop();toast('存档已恢复，欢迎回店。');}catch{toast('存档格式无效，当前进度已保留。');}finally{e.target.value='';}});
   const canvas=$('shop'),ctx=canvas.getContext('2d');let petPositions=[];
   function scene(time){
     const w=960,h=520;ctx.clearRect(0,0,w,h);
@@ -261,15 +533,15 @@
     ctx.fillStyle='#87966a';ctx.fillRect(75,183,65,55);ctx.fillStyle='#c9a580';ctx.fillRect(87,221,41,40);ctx.fillStyle='#7eaa7c';for(let i=0;i<4;i++){ctx.beginPath();ctx.ellipse(106+(i-1.5)*12,190+(i%2)*15,15,30,(i-1.5)*.4,0,Math.PI*2);ctx.fill();}
     ctx.fillStyle='#c5b390';ctx.fillRect(719,194,160,60);ctx.fillStyle='#f1dfbd';ctx.fillRect(709,184,180,35);ctx.fillStyle='#687f62';ctx.fillRect(785,162,45,27);ctx.fillStyle='#374f3e';ctx.fillRect(789,166,37,18);
     ctx.fillStyle='#c9d0a7';ctx.beginPath();ctx.ellipse(475,354,265,103,0,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#edf0d5';ctx.lineWidth=4;ctx.beginPath();ctx.ellipse(475,354,246,87,0,0,Math.PI*2);ctx.stroke();
-    if(state.completed.length>=2){ctx.fillStyle='#b79870';ctx.fillRect(37,359,93,78);ctx.fillStyle='#e9cf9d';ctx.fillRect(43,365,81,28);ctx.fillRect(43,400,81,29);ctx.fillStyle='#886e50';ctx.font='13px sans-serif';ctx.textAlign='center';ctx.fillText('粮仓',83,386);ctx.fillText('PAGE',83,420);}
-    if(state.completed.length>=4){ctx.fillStyle='#faf3d8';ctx.fillRect(353,162,198,34);ctx.fillStyle='#6b8c6b';ctx.font='12px sans-serif';ctx.fillText('✓ 服务窗口已开放',452,184);}
-    if(state.completed.length>=5){ctx.fillStyle='#f9f3dc';ctx.beginPath();ctx.arc(570,92,23,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#6b8c6b';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(570,76);ctx.lineTo(570,92);ctx.lineTo(581,98);ctx.stroke();}
-    if(state.completed.length>=6){ctx.fillStyle='#cfa77b';ctx.fillRect(816,347,106,58);ctx.fillStyle='#a5c2a4';ctx.fillRect(822,340,94,30);ctx.fillStyle='#f6ebc9';ctx.font='12px sans-serif';ctx.fillText('内核小龙之家',869,361);}
+    if(state.completed.includes(2)){ctx.fillStyle='#b79870';ctx.fillRect(37,359,93,78);ctx.fillStyle='#e9cf9d';ctx.fillRect(43,365,81,28);ctx.fillRect(43,400,81,29);ctx.fillStyle='#886e50';ctx.font='13px sans-serif';ctx.textAlign='center';ctx.fillText('粮仓',83,386);ctx.fillText('PAGE',83,420);}
+    if(state.completed.includes(19)){ctx.fillStyle='#faf3d8';ctx.fillRect(353,162,198,34);ctx.fillStyle='#6b8c6b';ctx.font='12px sans-serif';ctx.fillText('✓ 内核服务窗口已开放',452,184);}
+    if(state.completed.includes(23)){ctx.fillStyle='#f9f3dc';ctx.beginPath();ctx.arc(570,92,23,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#6b8c6b';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(570,76);ctx.lineTo(570,92);ctx.lineTo(581,98);ctx.stroke();}
+    if(state.completed.includes(24)){ctx.fillStyle='#cfa77b';ctx.fillRect(816,347,106,58);ctx.fillStyle='#a5c2a4';ctx.fillRect(822,340,94,30);ctx.fillStyle='#f6ebc9';ctx.font='12px sans-serif';ctx.fillText('抢占内核之家',869,361);}
     petPositions=[];
     for(let index=0;index<state.adopted.length;index++){
       const id=state.adopted[index],p=E.pets[id];
       const x=state.adopted.length===1?475:230+(index%4)*160;
-      const y=state.adopted.length===1?354:310+Math.floor(index/4)*110;
+      const y=state.adopted.length===1?354:state.adopted.length>8?280+Math.floor(index/4)*80:310+Math.floor(index/4)*110;
       const bob=matchMedia('(prefers-reduced-motion: reduce)').matches?0:Math.sin(time/430+id)*3;
       drawPet(ctx,x,y+bob,1.65,p,id===state.selected);petPositions.push({id,x,y});
       ctx.fillStyle='#4a6750';ctx.font='12px sans-serif';ctx.textAlign='center';ctx.fillText(p.name,x,y+46);

@@ -3,7 +3,7 @@ My place for codex
 
 ## 从零写自己的教学 OS：TinyRV
 
-**想用宠物店闯关的方式入门？** 打开 [喵核宠物工坊](os-lab/game/README.md)：写代码、过检查、解锁猫猫/仓鼠/柯基/兔子/狐狸/小龙，赚饲料并照顾它们。游戏里理解算法，Codespaces 里补全对应的 C 内核代码。
+**想用宠物店闯关的方式写 OS？** 打开 [喵核宠物工坊](os-lab/game/README.md)：6关选修热身＋18关 Project 2 主线，从 PCB、寄存器切换走到阻塞锁、ecall 和时钟抢占。模型代码产生可查看的队列/PCB快照，11只宠物可领养喂食；对应的 [C/汇编主线](os-lab/project2/README.md) 在 Codespaces＋QEMU 中按四阶段单独验收。新玩家直接从第7关开始。
 
 游戏文件：[下载或打开独立页面](os-lab/game/index.html)。GitHub Pages 默认域名部署成功后的地址为 [喵核宠物工坊](https://zxymao.github.io/Chatgpt/pet-kernel/)。
 

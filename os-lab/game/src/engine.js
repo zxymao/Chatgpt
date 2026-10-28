@@ -1,5 +1,6 @@
 (function (root) {
   'use strict';
+  const core=typeof module!=='undefined'&&module.exports?require('./project2.js'):root.PetCoreLessons;
   const pets = [
     {id:0,name:'小码',species:'cat',color:'#e6ab72',title:'你的第一位店员',lesson:0},
     {id:1,name:'串口奶猫',species:'cat',color:'#f0ce8e',title:'听见你的第一行代码',lesson:1},
@@ -7,7 +8,11 @@
     {id:3,name:'轮转柯基',species:'dog',color:'#cb824a',title:'轮到每一位小伙伴',lesson:3},
     {id:4,name:'守门兔',species:'rabbit',color:'#dcc6de',title:'检查每一个服务请求',lesson:4},
     {id:5,name:'时钟狐狸',species:'fox',color:'#ec8c5d',title:'到时间就醒来',lesson:5},
-    {id:6,name:'内核小龙',species:'dragon',color:'#78b7a1',title:'把所有能力连在一起',lesson:6}
+    {id:6,name:'内核小龙',species:'dragon',color:'#78b7a1',title:'热身毕业的小伙伴',lesson:6},
+    {id:7,name:'上下文边牧',species:'dog',color:'#8293a1',title:'真正轮转，不丢现场',lesson:11},
+    {id:8,name:'锁锁浣熊',species:'hamster',color:'#9ca29a',title:'等到饭碗再开饭',lesson:15},
+    {id:9,name:'异常守门兔',species:'rabbit',color:'#ceb3cb',title:'安全地走进内核，再返回',lesson:22},
+    {id:10,name:'抢占星龙',species:'dragon',color:'#8b91c3',title:'没有 yield 也能公平营业',lesson:24}
   ];
   const lessons = [
     {id:1,title:'数一袋猫粮',concept:'字符串与结束符',entry:'measure',pet:1,file:'01_strings.c',
@@ -47,33 +52,37 @@
       hints:['先 trim()，再区分第一个单词和后面的文本。','必须匹配整个命令词，不能把 feedback 当作 feed。','保留参数内部空格；help extra 应判为 unknown。'],
       tests:[{name:'给小码喂食',args:['feed 小码'],want:{command:'feed',argument:'小码'}},{name:'忽略外侧空格',args:['  feed   小码  '],want:{command:'feed',argument:'小码'}},{name:'保留文本内部空格',args:['echo hello  pet'],want:{command:'echo',argument:'hello  pet'}},{name:'打开帮助',args:[' help '],want:{command:'help',argument:''}},{name:'缺少名字',args:['feed'],want:{command:'unknown',argument:''}},{name:'命令边界',args:['feedback cat'],want:{command:'unknown',argument:''}},{name:'多余参数',args:['help cat'],want:{command:'unknown',argument:''}},{name:'空命令',args:[''],want:{command:'unknown',argument:''}}]}
   ];
+  for(const l of lessons)l.group='warmup';
+  lessons.push(...core.lessons);
   function create() {
-    return {version:1,food:8,completed:[],adopted:[0],selected:0,lesson:1,drafts:{},stats:{0:{full:60,bond:30}}};
+    return {version:2,food:8,completed:[],adopted:[0],selected:0,lesson:7,drafts:{},stats:{0:{full:60,bond:30}}};
   }
   function normalize(raw) {
     const s=create();
-    if(!raw || typeof raw!=='object' || raw.version!==1) return s;
+    if(!raw || typeof raw!=='object' || ![1,2].includes(raw.version)) return s;
     s.food=Number.isFinite(raw.food)?Math.max(0,Math.min(999,Math.floor(raw.food))):8;
-    s.completed=[...new Set((Array.isArray(raw.completed)?raw.completed:[]).filter(n=>Number.isInteger(n)&&n>=1&&n<=6))].sort((a,b)=>a-b);
-    // Unlocks must form a consecutive progression.
-    s.completed=s.completed.filter((n,i)=>n===i+1);
-    s.adopted=[0,...new Set((Array.isArray(raw.adopted)?raw.adopted:[]).filter(n=>Number.isInteger(n)&&n>0&&s.completed.includes(n)))];
+    const allowed=new Set((Array.isArray(raw.completed)?raw.completed:[]).filter(n=>Number.isInteger(n)&&n>=1&&n<=lessons.length));
+    // Optional warmups are independent; the Project 2 mainline starts at 7.
+    s.completed=[...allowed].filter(n=>n<=6).sort((a,b)=>a-b);
+    for(let n=7;n<=lessons.length&&allowed.has(n);n++)s.completed.push(n);
+    s.adopted=[0,...new Set((Array.isArray(raw.adopted)?raw.adopted:[]).filter(n=>Number.isInteger(n)&&n>0&&pets[n]&&s.completed.includes(pets[n].lesson)))];
     s.selected=s.adopted.includes(raw.selected)?raw.selected:0;
-    s.lesson=Number.isInteger(raw.lesson)&&raw.lesson>=1&&raw.lesson<=Math.min(6,s.completed.length+1)?raw.lesson:Math.min(6,s.completed.length+1);
+    s.lesson=Number.isInteger(raw.lesson)&&raw.lesson>=1&&raw.lesson<=lessons.length?raw.lesson:Math.min(24,7+s.completed.filter(n=>n>=7).length);
     for(const l of lessons) if(typeof raw.drafts?.[l.id]==='string')s.drafts[l.id]=raw.drafts[l.id].slice(0,12000);
     for(const id of s.adopted){const st=raw.stats?.[id]||{};s.stats[id]={full:Number.isFinite(st.full)?Math.max(0,Math.min(100,st.full)):60,bond:Number.isFinite(st.bond)?Math.max(0,Math.min(100,st.bond)):30};}
     return s;
   }
-  function unlocked(s,id){return id>=1&&id<=6&&(id===1||s.completed.includes(id-1));}
+  function unlocked(s,id){return Number.isInteger(id)&&id>=1&&id<=lessons.length&&(id<=7||s.completed.includes(id-1));}
   function reward(s,id){
     if(!unlocked(s,id))return {ok:false,message:'先完成前一关。'};
     const first=!s.completed.includes(id);
     if(first)s.completed.push(id);
     s.completed.sort((a,b)=>a-b);s.food=Math.min(999,s.food+(first?8:2));
-    return {ok:true,first,message:first?`解锁 ${pets[id].name}！获得 8 份饲料。`:'再次验证成功，获得 2 份练习饲料。'};
+    const pet=pets.find(p=>p.lesson===id);
+    return {ok:true,first,message:first?(pet?`解锁 ${pet.name}！`:'OS 主线推进一步！')+'获得 8 份饲料。':'再次验证成功，获得 2 份练习饲料。'};
   }
   function adopt(s,id){
-    if(!Number.isInteger(id)||id<1||id>6||!s.completed.includes(id))return {ok:false,message:'完成对应关卡后才能领养。'};
+    if(!Number.isInteger(id)||id<1||!pets[id]||!s.completed.includes(pets[id].lesson))return {ok:false,message:'完成对应关卡后才能领养。'};
     if(s.adopted.includes(id))return {ok:false,message:'它已经在你的店里啦。'};
     s.adopted.push(id);s.stats[id]={full:60,bond:30};s.selected=id;
     return {ok:true,message:`${pets[id].name} 搬进宠物店啦！`};
@@ -93,7 +102,7 @@
   // Run only in a disposable browser Worker (or controlled Node test process).
   // This checks behavior on multiple inputs, never source keywords or fixed PASS text.
   function grade(source,lesson){
-    const rows=[];
+    const rows=[],traces=[];
     let fn;
     try { fn=new Function('"use strict";\n'+source+'\nreturn typeof '+lesson.entry+' === "function" ? '+lesson.entry+' : null;')(); }
     catch(e){return {passed:false,rows:[{name:'代码能否运行',ok:false,detail:String(e.message)}]};}
@@ -104,17 +113,30 @@
       const ak=Object.keys(a).sort(),bk=Object.keys(b).sort();
       return ak.length===bk.length&&ak.every((k,i)=>k===bk[i]&&same(a[k],b[k]));
     };
+    const objects=value=>{
+      const found=new Set();
+      function walk(v){if(v&&typeof v==='object'&&!found.has(v)){found.add(v);for(const x of Object.values(v))walk(x);}}
+      walk(value);return found;
+    };
     for(const test of lesson.tests){
       const args=structuredClone(test.args);
       try{
         const got=fn(...args);
-        const ok=same(got,test.want)&&(test.after===undefined||same(args[0],test.after));
-        rows.push({name:test.name,ok,detail:ok?'通过':`输入 ${JSON.stringify(test.args)}；期望 ${JSON.stringify(test.want)}，得到 ${String(JSON.stringify(got))}`+(test.after===undefined?'':`；数组应为 ${JSON.stringify(test.after)}，实际 ${JSON.stringify(args[0])}`)});
+        const expected=structuredClone(test.afters??test.args);
+        if(test.after!==undefined)expected[0]=test.after;
+        let isolated=true;
+        if(test.detached){const inputs=objects(args);isolated=![...objects(got)].some(v=>inputs.has(v));}
+        if(test.separate)for(let i=0;i<args.length;i++)for(let j=i+1;j<args.length;j++){
+          const left=objects(args[i]);if([...objects(args[j])].some(v=>left.has(v)))isolated=false;
+        }
+        const ok=same(got,test.want)&&same(args,expected)&&isolated;
+        rows.push({name:test.name,ok,detail:ok?'通过':`输入 ${JSON.stringify(test.args)}；期望返回 ${JSON.stringify(test.want)}，实际 ${String(JSON.stringify(got))}`+(!same(args,expected)?`；期望执行后参数 ${JSON.stringify(expected)}，实际 ${JSON.stringify(args)}`:'')+(!isolated?'；出现了不允许的共享对象/数组引用':'')});
+        traces.push({name:test.name,before:structuredClone(test.args),output:structuredClone(got),after:structuredClone(args),ok});
       }catch(e){rows.push({name:test.name,ok:false,detail:String(e.message)});}
     }
-    return {passed:rows.length===lesson.tests.length&&rows.every(r=>r.ok),rows};
+    return {passed:rows.length===lesson.tests.length&&rows.every(r=>r.ok),rows,traces};
   }
-  const api={pets,lessons,create,normalize,unlocked,reward,adopt,feed,pet,grade};
+  const api={pets,lessons,groups:core.groups,create,normalize,unlocked,reward,adopt,feed,pet,grade};
   if(typeof module!=='undefined'&&module.exports)module.exports=api;
   else root.PetKernel=api;
 })(globalThis);

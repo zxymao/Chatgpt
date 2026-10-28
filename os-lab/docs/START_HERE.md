@@ -1,5 +1,7 @@
 # 第一次：从打开 GitHub 到补完第一关
 
+**现在的主线从网页第7关 PCB 开始。** 环境开好后，直接按 [Project 2 手把手实验](../project2/README.md) 补 C/汇编并逐阶段验收。下文的六关属于基础路线，仍保留给需要字符串、页分配等预习的同学；不需要先完成它们才能进入新主线。
+
 ## 1. 打开正确的环境
 
 在 `zxymao/Chatgpt` 仓库首页，点击绿色 **Code → Codespaces → Create codespace on main**。不用在学校的 SSH:oslab 中执行这份教程，也不用把它复制进学校提交仓库。
