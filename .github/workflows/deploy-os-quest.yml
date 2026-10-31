@@ -47,6 +47,7 @@ jobs:
         run: |
           python3 cncourse/network-lab/build.py
           node cncourse/network-lab/engine.test.cjs
+          node cncourse/network-lab/journeys.test.cjs
           mkdir -p _site/cncourse/network-lab
           cp cncourse/network-lab/index.html _site/cncourse/network-lab/index.html
           cp cncourse/network-lab/terms.json _site/cncourse/network-lab/terms.json

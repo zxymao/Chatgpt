@@ -49,6 +49,6 @@ glossary+='## 大写缩写审计\n\n对源文件大写词法扫描后逐项归�
 payload=dict(sourceText=raw,terms=rows,sourceHash=source_hash,sourcePath=str(SOURCE.relative_to(ROOT.parents[1])),glossary=glossary,audit=dict(covered=covered,excluded=excluded))
 (ROOT/'terms.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2)+'\n')
 (ROOT/'术语清单.md').write_text(glossary)
-s=(ROOT/'template.html').read_text().replace('__DATA__',json.dumps(payload,ensure_ascii=False).replace('</','<\\/')).replace('__ENGINE__',(ROOT/'engine.js').read_text()).replace('__APP__',(ROOT/'app.js').read_text())
+s=(ROOT/'template.html').read_text().replace('__DATA__',json.dumps(payload,ensure_ascii=False).replace('</','<\\/')).replace('__ENGINE__',(ROOT/'engine.js').read_text()).replace('__JOURNEYS__',(ROOT/'journeys.js').read_text()).replace('__APP__',(ROOT/'app.js').read_text())
 (ROOT/'index.html').write_text(s)
 print(f'Built {len(rows)} term cards, {len(covered)} acronym tokens, {len(s.encode())} bytes; source {source_hash[:12]}')

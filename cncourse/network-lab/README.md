@@ -4,6 +4,10 @@
 
 ## 打开与使用
 
+默认进入“按传输模型学习”：选择一条完整模型 → 阅读整体流程和示例 → 单步或自动看全程 3D → 点击某环节“细看” → 改参数操作细节。模型总览使用固定示例，细节参数可以独立实验；返回整体视图会保留所在环节。下方术语按首次出现的环节分组，相关原理与背景另外列出，点击术语可跳到解释及原文。8 个模型合计可以访问全部 337 张术语卡。
+
+模型包括：跨子网分组传输、带丢失的可靠链路、多用户无线发送、带 VLAN 的交换网络、C/S 与 P2P 文件分发、私网通信与边界转换、直连链路信号传输、先算路再转发。每个模型有整体叙述、完整拓扑、阶段动作、为什么需要此环节及关联实验。“按术语检索”保留原来的直接查词方式，两种模式可随时切换。学习模式、模型、环节和细节参数可在刷新后恢复；旧版保存的术语选择仍兼容。
+
 直接用现代浏览器打开 **[index.html](index.html)**，无需安装依赖或联网。所有 CSS、脚本、术语及原提纲文本已内嵌。若浏览器限制直接打开本地文件，可从仓库根目录运行：
 
 ```sh
@@ -50,9 +54,10 @@ python3 -m http.server 8000
 ```sh
 python3 cncourse/network-lab/build.py
 node cncourse/network-lab/engine.test.cjs
+node cncourse/network-lab/journeys.test.cjs
 ```
 
-源码是 `terms.tsv`、`engine.js`、`app.js`、`template.html`；构建产物为 `index.html`、`terms.json`、`术语清单.md`。源文 SHA-256、每条精确行号与片段随产物保存，可检查提纲更新。
+源码是 `terms.tsv`、`engine.js`、`journeys.js`、`app.js`、`template.html`；构建产物为 `index.html`、`terms.json`、`术语清单.md`。源文 SHA-256、每条精确行号与片段随产物保存，可检查提纲更新。
 
 浏览器测试使用开发环境已提供的 Playwright 与 Chromium，不是网站运行依赖：
 
@@ -61,6 +66,6 @@ node cncourse/network-lab/engine.test.cjs
 node cncourse/network-lab/browser-test.cjs
 ```
 
-22 项算法/来源测试及真实浏览器检查覆盖 16 个实验切换、错误输入、参数修改、搜索、原文、自动播放、下载、相机旋转、刷新续用和 390px 手机布局。截图默认保存到 `/tmp/net-field-{desktop,mobile}.png`。测试不修改用户数据；浏览器使用独立测试上下文。
+27 项算法、来源和模型关联测试及真实浏览器检查覆盖 8 个模型的全程/细节导航、模型内术语、模式切换、参数恢复，以及原有 16 个实验切换、错误输入、参数修改、搜索、原文、自动播放、下载、相机旋转、刷新续用和 390px 手机布局。截图默认保存到 `/tmp/net-field-{desktop,mobile}.png` 和 `/tmp/net-field-model-{desktop,mobile}.png`。测试不修改用户数据；浏览器使用独立测试上下文。
 
 当前云端 Chromium 管理策略禁止 `file://` 导航，直接文件打开检查记为跳过；另以阻断全部外部请求后注入完整独立 HTML，验证离线渲染与 CRC 操作。HTTP 页面交互正常；没有修改受管浏览器策略。

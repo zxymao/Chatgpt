@@ -3,7 +3,7 @@ My place for codex
 
 ## 计网期中：3D 交互实验室
 
-[打开 NET / FIELD](cncourse/network-lab/index.html) · [术语清单](cncourse/network-lab/术语清单.md) · [操作与维护说明](cncourse/network-lab/README.md)。从计网期中复习提纲提取 337 张术语/别名卡，配套 16 个可旋转、可单步操作的 3D 教学实验；支持修改参数、丢包、翻转比特、查看 FDB/路由状态与下载实验轨迹。独立 HTML 无需联网。GitHub Pages 工作流已接入此页面，发布后路径为 `cncourse/network-lab/`。
+[打开 NET / FIELD](cncourse/network-lab/index.html) · [术语清单](cncourse/network-lab/术语清单.md) · [操作与维护说明](cncourse/network-lab/README.md)。从计网期中复习提纲提取 337 张术语/别名卡，配套 16 个可旋转、可单步操作的 3D 教学实验；支持修改参数、丢包、翻转比特、查看 FDB/路由状态与下载实验轨迹。新增“按传输模型学习”：8 条完整流程先看整体 3D，再逐环节深入并查看关联术语；也可切换原有术语检索。独立 HTML 无需联网。GitHub Pages 工作流已接入此页面，发布后路径为 `cncourse/network-lab/`。
 
 ## 从零写自己的教学 OS：TinyRV
 
