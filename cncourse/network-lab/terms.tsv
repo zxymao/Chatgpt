@@ -1,0 +1,251 @@
+# 章节|术语（英文全称）|中文解释|实验|原文定位词
+1.1|电路交换|先建立连接并保留通信资源，空闲也占用资源。|pipeline|电路交换
+1.1|报文交换|整个报文在中间结点收齐后才转发。|pipeline|报文交换
+1.1|分组交换|分段携带控制信息，允许多个分组在不同链路流水推进。|pipeline|分组交换
+1.1|存储转发|收齐一个转发单位之后，才发往下一跳。|pipeline|存储转发
+1.1|报文|应用产生的一整份信息；可以分割为多个分组。|pipeline|完整报文
+1.1|分组|网络逐跳转发的数据单位，带有控制首部。|pipeline|分组
+1.1|首部|放在数据前的协议控制字段，消耗额外带宽。|encap|首部
+1.1|流水线|不同分组在不同链路并行传输，并非同包瞬时越过所有跳。|pipeline|流水线
+1.1|链路|连接相邻结点的通信通道。|pipeline|链路
+1.1|路由器|按网络层目的前缀决定出接口的设备。|route|路由器
+1.1|缓存|暂存尚不能发送或处理的数据；有限容量可能导致丢包。|pipeline|缓存
+1.1|排队|多个包争用输出资源而等待，增加时延。|pipeline|排队
+1.1|丢失|数据或确认没有到达；上层可能通过超时重传恢复。|arq|丢失
+1.1|乱序|到达顺序不同于发送顺序，需按协议缓存或丢弃。|arq|乱序
+1.1|重组|将属于同一原数据报的分片按偏移还原。|fragment|重组
+1.2|C/S（Client/Server）|客户进程请求、服务器进程提供服务。|distribution|C/S
+1.2|P2P（Peer-to-Peer）|对等结点既请求又提供服务，用户可上传缓存片段。|distribution|P2P
+1.2|网络边缘|端系统及接入部分，产生和消费应用数据。|encap|网络边缘
+1.2|端系统|运行网络应用的主机或设备。|encap|端系统
+1.2|网络核心|分组交换结点与互连链路，负责连通和转发。|route|网络核心
+1.2|云计算|将计算和存储资源集中到远端。|distribution|云计算
+1.2|边缘计算|将计算放到接近用户的位置，以缩短远端访问时延。|distribution|边缘计算
+1.2|上传带宽|结点向外发送数据的速率上限，服务器出站可能成为瓶颈。|distribution|上传带宽
+1.2|下载|从远端接收数据，同样受端点与路径能力限制。|distribution|下载
+1.2|DSL（Digital Subscriber Line）|利用电话双绞线接入网络的数字用户线路。|encoding|DSL
+1.2|DSLAM（Digital Subscriber Line Access Multiplexer）|汇聚多条 DSL 用户线路的接入复用设备。|multiplex|DSLAM
+1.2|Cable（Cable Internet Access）|利用有线电视设施接入网络，共享部分接入资源。|multiplex|Cable
+1.2|FTTH（Fiber to the Home）|光纤到户，光纤延伸至用户住所。|encoding|FTTH
+1.2|以太网（Ethernet）|常见局域网技术，帧携带 MAC 地址并以 FCS 检错。|switch|以太网
+1.2|Wi-Fi|无线局域网技术族的品牌名，并非某个英文短语的正式缩写，也不等于 Internet。|access|Wi-Fi
+1.2|蜂窝网络|按小区覆盖、通过基站提供移动接入的网络。|multiplex|蜂窝网络
+1.2|Internet|通过 IP 互联的全球网络系统。|route|Internet
+1.3|带宽|数字链路语境中常指容量或额定速率；信道公式的带宽单位是 Hz。|pipeline|带宽
+1.3|吞吐量|成功交付数据量除以总用时，可能远低于额定带宽。|pipeline|吞吐量
+1.3|发送时延|把 L bit 全部推入速率 R 链路的时间 L/R。|pipeline|发送时延
+1.3|传播时延|信号跨过距离 d 所需时间 d/v，增大带宽不会缩短它。|pipeline|传播时延
+1.3|处理时延|处理首部、校验与查表等耗时。|pipeline|处理
+1.3|排队时延|在缓存中等待输出资源的时间。|pipeline|排队时延
+1.3|总时延|沿路径的发送、传播、排队、处理时间之和；多包还需考虑流水线。|pipeline|总时延
+1.3|瓶颈速率|理想长流吞吐量不超过路径中最慢链路的速率。|pipeline|瓶颈速率
+1.3|时延带宽积|速率乘单程传播时间，表示链路中在途比特量。|pipeline|时延带宽积
+1.3|RTT（Round-Trip Time）|往返时间，不应和单程传播时间混用。|arq|RTT
+1.3|利用率|资源被有效使用的比例，窗口和往返等待会限制它。|arq|利用率
+1.3|bit / B（bit / Byte）|比特与字节，1 B=8 bit。|pipeline|1\text{ B}
+1.3|Mb/s / Gb/s / kb/s（megabits / gigabits / kilobits per second）|十进制速率，分别为 10⁶、10⁹、10³ bit/s。|pipeline|Mb/s
+1.3|MB / KB（megabyte / kilobyte）|本提纲按十进制字节计算：10⁶ B、10³ B。|pipeline|MB
+1.3|MiB / KiB（mebibyte / kibibyte）|二进制字节单位：2²⁰ B、2¹⁰ B。|pipeline|MiB
+1.3|ms / μs / ns（millisecond / microsecond / nanosecond）|毫秒、微秒、纳秒，分别为 10⁻³、10⁻⁶、10⁻⁹ 秒。|pipeline|ms
+1.4|分层|用稳定接口把复杂网络功能拆开，各层通过下层服务运行。|encap|分层
+1.4|协议|不同系统对等实体间遵守的通信规则。|encap|协议
+1.4|服务|下层通过接口为本系统上层提供的能力。|encap|服务
+1.4|接口|同一系统中相邻层交互的边界。|encap|接口
+1.4|对等实体|不同系统中遵守同层协议的实体，逻辑通信仍需下层传递。|encap|对等实体
+1.4|语法|协议报文的格式规则。|encap|语法
+1.4|语义|字段的含义及应采取的动作。|encap|语义
+1.4|同步|协议事件的先后顺序与时序约束。|encap|同步
+1.4|OSI（Open Systems Interconnection）|开放系统互连参考模型，有七层。|encap|OSI
+1.4|应用层|面向网络应用功能。|encap|应用层
+1.4|表示层|OSI 中处理数据表示、编码转换等功能。|encap|表示
+1.4|会话层|OSI 中组织会话对话等功能。|encap|会话
+1.4|传输层|提供进程之间的数据传输功能。|encap|传输层
+1.4|网络层|负责跨网络的逻辑编址和转发。|encap|网络层
+1.4|数据链路层|负责相邻结点间的帧传输。|encap|数据链路
+1.4|物理层|在介质中传输信号和比特。|encoding|物理
+1.4|TCP（Transmission Control Protocol）|传输控制协议；本次只认识层次与 IP Protocol=6，不展开第五章机制。|encap|TCP
+1.4|UDP（User Datagram Protocol）|用户数据报协议；本次只认识层次与 IP Protocol=17。|encap|UDP
+1.4|TCP/IP（Transmission Control Protocol / Internet Protocol）|互联网协议族；课件用应用、传输、IP、子网四层。|encap|TCP/IP
+1.4|IP（Internet Protocol）|互联网协议，提供无连接尽力交付的数据报服务。|route|IP
+1.4|封装 / 解封|发送端逐层增加控制信息，接收端逆向取出；路由器重建链路封装。|encap|封装
+1.4|帧|链路层传送单位，通常有首部、载荷和校验尾部。|encap|帧
+1.4|TCP 段 / UDP 数据报|传输层数据单元名称，不能与链路帧混淆。|encap|TCP 段
+1.4|Protocol|IPv4 首部的上层协议编号字段，不是端口号。|encap|Protocol
+1.4|端口号|传输层区分应用进程端点的编号，NAPT 也会改写它。|nat|端口号
+1.5|ARPANET（Advanced Research Projects Agency Network）|早期分组交换网络，1969 年初始四结点。|encap|ARPANET
+1.5|NSFNET（National Science Foundation Network）|美国国家科学基金会网络，提纲介绍其历史三级结构。|encap|NSFNET
+1.5|ISP（Internet Service Provider）|互联网服务提供商，多个层次互联构成接入与骨干。|route|ISP
+1.5|ISOC（Internet Society）|互联网协会，推动互联网发展与开放。|encap|ISOC
+1.5|IAB（Internet Architecture Board）|互联网体系结构委员会，承担架构协调等工作。|encap|IAB
+1.5|IETF（Internet Engineering Task Force）|互联网工程任务组，开展互联网工程标准工作。|encap|IETF
+1.5|IRTF（Internet Research Task Force）|互联网研究任务组，关注长期研究。|encap|IRTF
+1.5|RFC（Request for Comments）|互联网技术文档系列，不是每份 RFC 都是正式标准。|encap|RFC
+1.5|Proposed Standard / Internet Standard / Draft Standard|建议标准、互联网标准与已停止新晋级使用的历史草案标准级别。|encap|Proposed Standard
+2.1|数据 / 信号 / 码元|信息符号、介质中的物理表现与一次选择的基本信号状态，是不同对象。|encoding|码元
+2.1|单工 / 半双工 / 全双工|仅单向、可双向但不能同时、可同时双向。|access|单工
+2.1|Baud（baud）|波特，码元每秒速率单位；不一定等于 bit/s。|encoding|Baud
+2.1|比特率 / 码元速率|每秒比特数与每秒码元数，理想映射 Rb=Rs·log₂M。|encoding|码元速率
+2.1|基带编码|把数据直接映射为基带信号波形。|encoding|基带编码
+2.1|载波调制|改变高频载波的幅度、频率或相位承载信息。|encoding|载波调制
+2.1|ASK（Amplitude-Shift Keying）|幅移键控，用不同幅度表示数据。|encoding|ASK
+2.1|FSK（Frequency-Shift Keying）|频移键控，用不同频率表示数据。|encoding|FSK
+2.1|PSK（Phase-Shift Keying）|相移键控，用不同相位表示数据。|encoding|PSK
+2.1|信道容量 / 香农公式|C=W·log₂(1+S/N)，带宽 W 用 Hz，信噪比使用线性功率比。|encoding|香农
+2.1|SNR / S/N（Signal-to-Noise Ratio）|信噪比，信号功率与噪声功率之比。|encoding|SNR
+2.1|dB（decibel）|分贝，功率比的对数表示：10·log₁₀(S/N)。|encoding|dB
+2.1|Hz（hertz）|赫兹，频率及信道带宽的单位，不是 bit/s。|encoding|Hz
+2.1|奈奎斯特上限|理想无噪声带限信道的 Rb≤2W·log₂M；提纲标为延伸。|encoding|奈奎斯特
+2.1|冗余编码 / 信息速率|加入辅助位会使线路传输速率与有效信息速率不同。|encoding|冗余编码
+2.2|NRZ（Non-Return-to-Zero）|不归零编码，位内保持电平，长串同值不利时钟恢复。|encoding|NRZ
+2.2|NRZI（Non-Return-to-Zero Inverted）|差分不归零编码，用是否跳变表达比特，需给初始电平与约定。|encoding|NRZI
+2.2|NRZ(M) / NRZ(S)（Mark / Space）|分别以 1 或 0 触发边界跳变，不能混用规则。|encoding|NRZ(M)
+2.2|Manchester（曼彻斯特编码）|每比特中点跳变；课件采用 1 高到低、0 低到高。|encoding|Manchester
+2.2|差分 Manchester|位中点必跳变，课件以位起点跳变表示 0。|encoding|差分 Manchester
+2.2|自同步 / 时钟恢复|接收方借助规律跳变定位比特边界。|encoding|自同步
+2.2|直流分量 / 极性|信号平均电平与高低方向；差分编码不依赖绝对极性。|encoding|直流分量
+2.3|双绞线 / 串扰|绞合的金属线对降低外界干扰及线对间耦合。|encoding|双绞线
+2.3|同轴电缆|同轴导体和屏蔽层组成的传输介质。|encoding|同轴电缆
+2.3|光纤 / 单模 / 多模 / 模间色散|以光传输；多模的不同模式到达时间差造成展宽，单模适合长距离。|encoding|模间色散
+2.3|无线 / 干扰 / 衰落|无线传播不需铺线，但信号会受其他发送及传播环境影响。|access|衰落
+2.3|NIC（Network Interface Card）|网络接口卡，与驱动协作完成信号、帧、校验和介质接入处理。|encap|NIC
+2.3|LAN（Local Area Network）|局域网，连接有限地理范围内设备。|switch|LAN
+2.3|PPP（Point-to-Point Protocol）|点对点协议，典型用于点对点链路。|framing|PPP
+2.3|HDLC（High-Level Data Link Control）|高级数据链路控制协议，面向比特组帧，典型用于点对点链路。|framing|HDLC
+2.3|点对点链路 / 共享链路|两个端点专用的链路与多个结点共同竞争的链路。|access|点对点
+2.4|组帧 / 帧定界|在比特或字节流中识别每一帧的起止。|framing|组帧
+2.4|起止标记 / 字节计数|用特殊符号或首部长度界定帧边界；长度出错会失步。|framing|字节计数
+2.4|透明传输 / 转义符 / 字符填充|数据即使和控制标志相同，也能通过转义传送；转义符本身也要转义。|framing|透明传输
+2.4|比特填充|帧内容每遇连续五个 1 插入 0，接收方删除这些填充位。|framing|比特填充
+2.4|标志字段 01111110|面向比特组帧的边界标志，标志本身不参与填充。|framing|01111110
+2.5|奇偶校验 / 偶校验位|增加一位使 1 的总数满足奇偶规则；可能漏掉偶数次翻转。|crc|奇偶校验
+2.5|二维奇偶校验|按行列分别校验，可定位单比特错，矩形四角翻转可能漏检。|crc|二维奇偶
+2.5|Internet 校验和 / 回卷求和|16 位字反码求和，最高进位加回最低位，再取反。|crc|Internet 校验和
+2.5|CRC（Cyclic Redundancy Check）|循环冗余校验，用生成多项式作模 2 除法得到余数。|crc|CRC
+2.5|XOR（Exclusive OR）|异或，相同为 0，不同为 1；CRC 除法中替代减法。|crc|XOR
+2.5|生成多项式 / 模 2 除法|次数 r 的生成式有 r+1 位，CRC 余数 r 位。|crc|生成多项式
+2.5|突发差错 / 漏检|突发长度从首错误位算至末错误位；错误多项式被生成式整除时可能漏检。|crc|突发差错
+2.5|前向纠错|加入可恢复一定错误的冗余，适合长 RTT 或难以重传的链路。|crc|前向纠错
+2.6|ARQ（Automatic Repeat reQuest）|自动重传请求，结合确认、序号和超时处理丢失。|arq|ARQ
+2.6|ACK（Acknowledgment）|确认；本课累计 ACK 表示最后连续收到的帧序号。|arq|ACK
+2.6|停等 / 交替位协议|每次一帧未确认；用 0、1 交替序号识别相邻新旧帧。|arq|停等
+2.6|超时 / 重传 / 去重|未及时收到确认则重发，接收方不重复交付但再次确认。|arq|超时
+2.6|滑动窗口 / 序号空间|容许多帧未确认，确认后窗口右移；有限位数导致回绕。|arq|滑动窗口
+2.6|SWS（Send Window Size）|发送窗口大小，限制尚未确认的帧数。|arq|SWS
+2.6|RWS（Receive Window Size）|接收窗口大小，限制可接受的序号区间。|arq|RWS
+2.6|LAR（Last Acknowledgment Received）|最后累计确认的序号，确认推进后更新。|arq|LAR
+2.6|LFS（Last Frame Sent）|最后发送帧的序号，未回绕时 LFS−LAR≤SWS。|arq|LFS
+2.6|LFR（Last Frame Received）|最后连续收到的帧序号，不等于最大的乱序序号。|arq|LFR
+2.6|LAF（Largest Acceptable Frame）|最大可接受帧序号，通常 LAF=LFR+RWS。|arq|LAF
+2.6|SeqNum（Sequence Number）|序号字段，用于区分新帧、旧帧与重复帧。|arq|SeqNum
+2.6|GBN（Go-Back-N）|回退 N，标准接收窗为 1；丢帧后从未确认首帧起重传一批。|arq|GBN
+2.6|SR（Selective Repeat）|选择重传，缓存窗口内乱序帧并仅重传缺失帧；等大窗口不能超过序号空间一半。|arq|SR
+2.6|累计确认 / 选择确认|报告连续接收边界或更细的接收信息；选择确认并不自动等同所有 SR 实现。|arq|累计
+2.6|流量控制 / 拥塞|前者避免接收方被淹没，后者是网络资源拥挤，二者不同。|arq|流量控制
+2.7|FDM（Frequency-Division Multiplexing）|频分复用，不同用户同时占不同频带。|multiplex|FDM
+2.7|TDM（Time-Division Multiplexing）|时分复用，周期固定时隙，空闲用户的时隙可能浪费。|multiplex|TDM
+2.7|STDM（Statistical Time-Division Multiplexing）|统计时分复用，按需分配时隙，需标识数据归属。|multiplex|STDM
+2.7|WDM（Wavelength-Division Multiplexing）|波分复用，在光纤中用不同波长承载多路信息。|multiplex|WDM
+2.7|CDM / CDMA（Code-Division Multiplexing / Multiple Access）|码分复用或多址，用码片相关运算从叠加信号分离用户。|multiplex|CDMA
+2.7|码片 / 正交 / 相关运算|码片向量归一化自相关为 1，理想正交用户互相关为 0。|multiplex|码片
+2.7|同步 / 近远效应|CDMA 实际解码受时序失配与用户功率差异影响，理想演示不模拟无线传播细节。|multiplex|近远效应
+2.7|ALOHA / 时隙 ALOHA|随机接入方案名称，并非英文首字母缩写；时隙版仅在时隙边界发送。|access|ALOHA
+2.8|MAC（Media Access Control）|介质访问控制，也指链路层地址；不要与 IP 地址混淆。|switch|MAC
+2.8|CSMA（Carrier Sense Multiple Access）|载波侦听多址，发送前听本地信道；传播延迟仍可能导致碰撞。|access|CSMA
+2.8|非持续 / 1-坚持 / p-坚持 CSMA|忙后随机再听、空闲立即发、或在空闲时隙以概率 p 发送的三种策略。|access|非持续
+2.8|CSMA/CD（Carrier Sense Multiple Access with Collision Detection）|载波侦听多址与碰撞检测，适用于传统共享半双工以太网。|access|CSMA/CD
+2.8|CD / CA（Collision Detection / Collision Avoidance）|碰撞检测与碰撞避免；避免不意味着绝对无碰撞。|access|CD 表示
+2.8|CSMA/CA（Carrier Sense Multiple Access with Collision Avoidance）|无线接入通过帧间间隔、竞争退避和确认降低冲突概率。|access|CSMA/CA
+2.8|争用期 / 二进制指数退避 / 干扰信号|最远端往返传播期内检测碰撞，碰撞后停止并随机等待重试。|access|争用期
+2.8|DIFS（Distributed Interframe Space）|分布式帧间间隔，竞争发送前需满足相应空闲间隔。|access|DIFS
+2.8|RTS/CTS（Request to Send / Clear to Send）|请求发送与允许发送，可选预约握手，帮助缓解隐藏终端。|access|RTS/CTS
+2.8|隐藏终端|A、C 互相听不到，却向同一 B 发送；本地空闲不代表 B 处无冲突。|access|隐藏终端
+2.8|Ethernet II / EtherType|以太网 II 帧类型字段：IPv4 为 0x0800，ARP 为 0x0806。|encap|EtherType
+2.8|FCS（Frame Check Sequence）|帧校验序列，普通以太网尾部 4 B，基于 CRC 检错。|crc|FCS
+2.8|MTU（Maximum Transmission Unit）|最大传输单元，普通以太网承载的 IP 包通常最多 1500 B，不含链路头尾。|fragment|MTU
+2.8|前导码 / 帧开始定界符|以太网前 7 B 同步码与 1 B 起始标志，不计入 64–1518 B MAC 帧。|encap|前导码
+2.8|填充|以太网数据不足 46 B 时补齐；不计入 IP 总长度。|encap|填充
+2.8|MAC 地址 / 广播 MAC|48 bit 链路地址，广播为 FF:FF:FF:FF:FF:FF；本地管理地址可改变。|switch|MAC 地址
+2.8|Hub（集线器）/ 中继器|物理层复制再生信号，不读取目的 MAC，不是应用服务器。|switch|Hub
+3.1|网桥 / 二层交换机|按 MAC 和 VLAN 转发，交换机可视为多端口网桥。|switch|网桥
+3.1|FDB（Filtering Database）|过滤数据库，记录 MAC→端口及老化信息；学习源地址，查询目的地址。|switch|FDB
+3.1|老化时间|长时间未刷新时删除动态学习表项，避免旧映射长期保留。|switch|老化时间
+3.1|未知单播 / 泛洪 / 过滤|未知目的向同 VLAN 其他端口复制；同入出口过滤，不把目的 MAC 改成广播。|switch|未知单播
+3.1|单播 / 广播|发送给一个接收者或当前广播域中的所有接收者。|switch|单播
+3.2|广播风暴 / MAC 表项震荡|环路导致帧反复复制、重复到达及源地址端口映射变化。|stp|广播风暴
+3.2|STP（Spanning Tree Protocol）|生成树协议，保留物理冗余并阻塞部分端口，形成无环活动拓扑。|stp|STP
+3.2|根桥 / 根端口 / 指派端口|最小桥标识选根，非根桥选最佳根路径端口，每段选最佳发送桥端口。|stp|根桥
+3.2|桥标识 / 配置消息 / 字典序|课件消息按根标识、根距离、发送桥标识逐项比较，越小越优。|stp|字典序
+3.2|Forwarding / Blocking / Disabled|转发、阻塞、禁用端口状态；不同标准的状态分类不应混用。|stp|Forwarding
+3.2|RSTP（Rapid Spanning Tree Protocol）|快速生成树协议，状态分类与传统 STP 不同；提纲只作辨析。|stp|RSTP
+3.2|最小生成树 / Kruskal|图论中的最小总边权生成树算法，不等于以根为中心选端口的 STP。|stp|Kruskal
+3.3|碰撞域 / 广播域|共享碰撞范围与二层广播传播范围不同；交换机隔离端口，VLAN 分隔广播。|switch|碰撞域
+3.3|VLAN（Virtual Local Area Network）|虚拟局域网，按逻辑组限制二层转发与广播范围，跨 VLAN 需三层转发。|switch|VLAN
+3.3|802.1Q / VID（VLAN Identifier）|4 B VLAN 标签，VID 为 12 bit，普通 VLAN 常用 1–4094，0 与 4095 有特殊含义。|switch|802.1Q
+3.3|接入口 / Trunk|接入口终端帧通常无标签；干道可承载多个 VLAN 的标签帧。|switch|Trunk
+3.3|三层交换 / 交换容量|三层功能可转发 VLAN 间 IP 包；单流仍受单端口速率限制。|switch|三层交换
+4.1|无连接 / 尽力交付|IP 不预先建连接，也不保证不丢失、不乱序或时限。|route|尽最大努力
+4.1|转发 / 路由选择|当前包的局部出接口动作，与计算路径及路由信息的控制过程。|routing|路由选择
+4.1|虚电路 / 数据报|先建立逻辑路径与状态，或各包携目的信息独立转发；虚电路不等于独占物理电路。|route|虚电路
+4.1|IPv4（Internet Protocol version 4）|32 bit 地址的互联网协议第四版。|subnet|IPv4
+4.1|A/B/C/D/E 类地址|历史分类：A /8、B /16、C /24，D 多播，E 保留；给前缀时按前缀。|subnet|传统 /8
+4.1|私有地址 / 公网地址|私网可复用 10/8、172.16/12、192.168/16，公网分配受全局路由和策略约束。|nat|私有地址
+4.1|回环地址 / 有限广播 / 未指定地址|127/8 用于本机；255.255.255.255 为有限广播；0.0.0.0 的含义取决于语境。|subnet|回环
+4.1|网络接口 / 路由域|IP 地址配置在接口上；有效唯一性应限定相应路由域。|route|路由域
+4.2|FIB（Forwarding Information Base）|转发信息库，目的前缀→下一跳或出接口。|route|FIB
+4.2|下一跳 / 默认网关|本链路上接收当前帧的接口；异网通信通常先交给网关。|route|下一跳
+4.2|ARP（Address Resolution Protocol）|地址解析协议，在本地链路查询下一跳 IPv4 地址对应的 MAC。|route|ARP
+4.2|ARP Cache|ARP 缓存表，记录本地链路 IP→MAC，与 FDB 和 FIB 不同。|route|ARP Cache
+4.2|ARP Request / Reply|缓存未命中则广播请求，目标通常单播应答；ARP 直接封装在以太网中。|route|ARP 请求
+4.2|HLen / PLen（Hardware / Protocol Address Length）|ARP 地址长度字段，以太网＋IPv4 时为 6 B 与 4 B。IPv4 IHL 是另一个字段。|route|PLen
+4.3|Version / IHL（Internet Header Length）|IPv4 版本为 4；IHL 首部长以 4 B 为单位，常为 5，即 20 B。|fragment|IHL
+4.3|TOS（Type of Service）/ DS（Differentiated Services）|IPv4 服务相关字段名称，现代解释包含 DSCP 与 ECN。|encap|TOS
+4.3|DSCP（Differentiated Services Code Point）|区分服务代码点，标记分组服务类别，不自动保证带宽。|encap|DSCP
+4.3|ECN（Explicit Congestion Notification）|显式拥塞通知，供支持它的网络和端点反馈拥塞。|encap|ECN
+4.3|Total Length|IPv4 总长度，包含首部与数据，单位 B，16 bit 最大 65535。|fragment|Total Length
+4.3|Identification|IPv4 标识字段，配合源、目的、协议等识别同一原数据报的分片。|fragment|Identification
+4.3|Flags / DF（Don't Fragment）/ MF（More Fragments）|DF 禁止分片；MF 表示后面还有分片，最后原报文分片 MF=0。|fragment|DF
+4.3|Fragment Offset|片偏移，相对于最初数据部分，单位为 8 B。|fragment|Fragment Offset
+4.3|TTL（Time to Live）|生存时间字段，每次路由转发递减，耗尽丢弃以限制环路。|route|TTL
+4.3|Header Checksum|IPv4 首部校验和，仅覆盖首部；TTL 改变也需更新。|crc|Header Checksum
+4.3|Source / Destination|IPv4 源、目的地址，各 32 bit；普通路由保持端点，NAT 是例外。|route|Source
+4.3|Options / Padding|IPv4 可选字段与填充，首部按 4 B 对齐。|fragment|Options
+4.4|IP 分片 / 重组超时|链路 MTU 不足时拆数据，每片带首部；最终端重组，缺片则不能完成。|fragment|分片
+4.4|路径 MTU 发现|利用不能分片等反馈确定路径可承载包大小。|fragment|路径 MTU
+4.4|IPv6（Internet Protocol version 6）|第六版 IP；路由器不分片，源主机仍可使用分片扩展首部。|fragment|IPv6
+4.5|子网 / 子网掩码 / 网络地址|IP 与 mask 做 AND 得网络地址，前缀界定网络部分与主机部分。|subnet|网络地址
+4.5|AND（bitwise AND）|按位与，两位均为 1 时结果为 1，用于前缀匹配与网络地址计算。|subnet|AND
+4.5|前缀长度 / 主机位 / 广播地址|/p 前 p 位属网络，后 32−p 位属主机，主机位全 1 是普通子网广播。|subnet|主机位
+4.5|主机路由 / 点到点 /31|/32 表示单个主机；/31 点对点不能机械套普通子网减二规则。|subnet|/31
+4.5|RFC 950 旧子网规则|课件部分例题排除全 0 和全 1 子网；现代常规 CIDR 允许。|subnet|RFC 950
+4.5|VLSM（Variable Length Subnet Mask）|可变长子网掩码，按需求先大后小分配且保持边界对齐。|subnet|VLSM
+4.6|CIDR（Classless Inter-Domain Routing）|无类别域间路由，用可变长度前缀编址与聚合。|route|CIDR
+4.6|路由聚合 / 超网 / 边界对齐|连续、2 的幂大小且起点对齐的地址块可精确聚合，下一跳需可统一表达。|subnet|聚合
+4.6|最长前缀匹配|筛选所有包含目的 IP 的前缀，再取位数最多者，不是最少跳数。|route|最长前缀
+4.6|默认路由 /0 / 例外路由|/0 最不具体；更长的例外前缀优先。|route|默认路由
+4.6|Mpps（million packets per second）|百万包每秒，100 Gb/s、平均 2000 bit 包对应约 50 Mpps。|pipeline|Mpps
+补充|ICMP（Internet Control Message Protocol）|互联网控制报文协议，由 IP 承载，IPv4 Protocol=1，报告控制和差错，不负责重传。|route|ICMP：
+补充|ping / Echo Request / Reply|用回显请求与应答检查可达性和往返时间；不响应不必然断网。|route|ping
+补充|traceroute / Time Exceeded|逐渐增大 TTL，利用中途超时反馈探测路径。|route|traceroute
+补充|Destination Unreachable|ICMP 目的不可达反馈，不是每种丢包都会生成。|route|Destination Unreachable
+补充|距离向量 / RIP（Routing Information Protocol）|与邻居交换距离信息，RIP 以跳数为典型度量，16 表示不可达。|routing|距离向量／RIP
+补充|链路状态 / OSPF（Open Shortest Path First）|传播链路状态，建立拓扑后计算最短路。|routing|链路状态／OSPF
+补充|Dijkstra|逐轮确定到源距离最小的未确定结点，计算最短路径。|routing|Dijkstra
+补充|路径向量 / BGP（Border Gateway Protocol）|自治系统间交换可达性与 AS 路径等属性，策略优先，不只是最少跳。|routing|路径向量／BGP
+补充|AS（Autonomous System）|自治系统，由同一管理策略协调路由的一组网络。|routing|自治系统
+补充|无穷计数 / AS 路径防环|距离向量可能缓慢抬升错误距离；路径向量拒绝含自身 AS 的通告。|routing|无穷计数
+补充|多播 / IGMP（Internet Group Management Protocol）|多播发给接收组，IPv4 组地址为 224/4；IGMP 管理主机与相邻路由器间的成员关系。|nat|IGMP
+补充|VPN（Virtual Private Network）|虚拟专用网络，在公共或共享设施上构建逻辑专网，是否加密取决于方案。|nat|VPN
+补充|隧道|将内层包封装入外层包跨过中间网络，封装本身不等于加密。|nat|隧道
+补充|NAT（Network Address Translation）|网络地址转换，在边界改写地址；不等于防火墙。|nat|NAT／NAPT
+补充|NAPT（Network Address Port Translation）|网络地址端口转换，用公网地址与不同端口区分内部会话。|nat|NAPT
+1.1|比特流|连续的比特序列，电路交换在保留资源后承载连续流，而非逐跳存储整份报文。|pipeline|连续比特流
+1.3|bit/s / Mbit|每秒比特数与兆比特数据量，不能将容量和数据大小混用。|pipeline|bit/s
+1.4|端到端可靠性|由端点协议处理丢失、重复、顺序等，不由 IP 尽力交付自动保证。|arq|端到端可靠性
+1.4|进程|应用运行实例；传输层端口用于区分通信端点，网络地址不能直接代替进程标识。|encap|进程之间
+2.3|网络适配器|NIC 的中文称呼，与驱动共同完成物理及大部分链路层处理。|encap|网络适配器
+2.5|差错多项式|把翻转位模式写成多项式；若恰为生成多项式的倍数，CRC 可能漏检。|crc|差错多项式
+2.8|星形拓扑 / 共享介质|Hub 布线物理上呈星形，但逻辑上仍共享介质、碰撞域与带宽。|switch|星形
+3.2|802.1D|传统网桥与生成树相关标准；提纲提醒其监听、学习等过渡状态不要与 RSTP 分类混写。|stp|802.1D
+4.2|路由表|用于选择目的网络的下一跳或接口；控制平面产生路由信息，FIB 承担实际转发查询。|route|路由表
+4.3|载荷|首部之后承载的数据。以太网载荷可装 IP 包，IP 载荷可装传输层数据，必须注明层次。|encap|载荷
+4.5|子网号 / 主机号|地址中用于区分子网和子网内接口的部分；旧规则排除子网号全 0/1 与主机地址保留不能混为一谈。|subnet|子网号

@@ -7,6 +7,8 @@ on:
     paths:
       - 'OS-course/os-quest/**'
       - 'os-lab/game/**'
+      - 'cncourse/network-lab/**'
+      - 'cncourse/复习资料/计算机网络期中复习大纲.md'
       - '.github/workflows/deploy-os-quest.yml'
 
 permissions:
@@ -41,6 +43,14 @@ jobs:
           cp OS-course/os-quest/index.html _site/index.html
           mkdir -p _site/pet-kernel
           cp os-lab/game/index.html _site/pet-kernel/index.html
+      - name: Build and verify network lab
+        run: |
+          python3 cncourse/network-lab/build.py
+          node cncourse/network-lab/engine.test.cjs
+          mkdir -p _site/cncourse/network-lab
+          cp cncourse/network-lab/index.html _site/cncourse/network-lab/index.html
+          cp cncourse/network-lab/terms.json _site/cncourse/network-lab/terms.json
+          cp cncourse/network-lab/术语清单.md _site/cncourse/network-lab/术语清单.md
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

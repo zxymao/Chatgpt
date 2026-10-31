@@ -1,6 +1,10 @@
 # Chatgpt
 My place for codex
 
+## 计网期中：3D 交互实验室
+
+[打开 NET / FIELD](cncourse/network-lab/index.html) · [术语清单](cncourse/network-lab/术语清单.md) · [操作与维护说明](cncourse/network-lab/README.md)。从计网期中复习提纲提取 337 张术语/别名卡，配套 16 个可旋转、可单步操作的 3D 教学实验；支持修改参数、丢包、翻转比特、查看 FDB/路由状态与下载实验轨迹。独立 HTML 无需联网。GitHub Pages 工作流已接入此页面，发布后路径为 `cncourse/network-lab/`。
+
 ## 从零写自己的教学 OS：TinyRV
 
 **想用宠物店闯关的方式写 OS？** 打开 [喵核宠物工坊](os-lab/game/README.md)：6关选修热身＋18关 Project 2 主线，从 PCB、寄存器切换走到阻塞锁、ecall 和时钟抢占。模型代码产生可查看的队列/PCB快照，11只宠物可领养喂食；对应的 [C/汇编主线](os-lab/project2/README.md) 在 Codespaces＋QEMU 中按四阶段单独验收。新玩家直接从第7关开始。
