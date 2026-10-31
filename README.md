@@ -1,6 +1,10 @@
 # Chatgpt
 My place for codex
 
+## 计网期中模拟试卷 A
+
+[下载试卷 PDF](cncourse/复习资料/模拟试卷/计网期中模拟卷A-试卷.pdf) · [参考答案与评分标准](cncourse/复习资料/模拟试卷/计网期中模拟卷A-参考答案.pdf) · [完整资料与可编辑文件](cncourse/复习资料/模拟试卷/README.md)。第一至四章，100 分、120 分钟、25 道题；试卷和答案分别为 6 页 A4。
+
 ## 计网期中：3D 交互实验室
 
 [打开 NET / FIELD](cncourse/network-lab/index.html) · [术语清单](cncourse/network-lab/术语清单.md) · [操作与维护说明](cncourse/network-lab/README.md)。从计网期中复习提纲提取 337 张术语/别名卡，配套 16 个可旋转、可单步操作的 3D 教学实验；支持修改参数、丢包、翻转比特、查看 FDB/路由状态与下载实验轨迹。新增“按传输模型学习”：8 条完整流程先看整体 3D，再逐环节深入并查看关联术语；也可切换原有术语检索。独立 HTML 无需联网。GitHub Pages 工作流已接入此页面，发布后路径为 `cncourse/network-lab/`。
