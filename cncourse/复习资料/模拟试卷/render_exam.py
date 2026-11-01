@@ -41,7 +41,7 @@ def doc(meta,style,answers=False):
     content+='<article class="question"><h3><b>'+str(id)+'. '+E(x['key'])+'</b> <span class="points">（'+str(x['score'])+' 分）</span></h3><p style="font-size:8.7pt;margin:3px 0">'+E(' '.join(x['answer']))+'</p></article>'
    else:content+=question(x,answers)
   if answers and pi==len(pages)-1:
-   content+='<div class="notice"><b>按失分环节复盘</b><br>异速流水线 → 时延与交换；反码求和/CRC → CRC 与检错；丢帧过程 → ARQ；码片 → 复用；竞争条件 → 接入竞争；根端口 → 生成树；再次分片 → IPv4 分片。<br>实验入口：https://zxymao.github.io/Chatgpt/cncourse/network-lab/</div><p class="reference">来源：'+E(meta['source'])+'<br>SHA-256：'+meta['source_sha256']+'</p>'
+   content+='<div class="notice"><b>按失分环节复盘</b><br>'+E(meta.get('review_hint','异速流水线 → 时延与交换；反码求和/CRC → CRC 与检错；丢帧过程 → ARQ；码片 → 复用；竞争条件 → 接入竞争；根端口 → 生成树；再次分片 → IPv4 分片。'))+'<br>实验入口：https://zxymao.github.io/Chatgpt/cncourse/network-lab/</div><p class="reference">来源：'+E(meta['source'])+'<br>SHA-256：'+meta['source_sha256']+'</p>'
   all_pages.append('<section class="sheet '+('answer' if answers else '')+(' compact' if pi<2 else '')+(' dense' if pi==4 and not answers else '')+'"><div class="content">'+content+'</div><div class="footer"><span>NET / FIELD · 模拟卷 '+v+(' 参考答案' if answers else ' · 试卷不含答案')+'</span><span>第 '+str(pi+1)+' / '+str(len(pages))+' 页</span></div></section>')
  return '<!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>计网期中模拟卷'+v+('-参考答案' if answers else '-试卷')+'</title><style>'+style+'</style></head><body>'+''.join(all_pages)+'</body></html>'
 def mdtable(t):
@@ -69,7 +69,7 @@ def write_exam(meta,root):
  ids=[x['id'] for x in meta['questions']]
  for key in ['paper_pages','answer_pages']:assert [i for p in meta[key] for i in p]==ids
  (root/('exam-'+meta['variant'].lower()+'.json')).write_text(json.dumps(meta,ensure_ascii=False,indent=2)+'\n')
- style=(root/'exam_print.css').read_text()
+ style=(root/meta.get('style_file','exam_print.css')).read_text()
  for answer in [False,True]:
   stem='计网期中模拟卷'+meta['variant']+('-参考答案' if answer else '-试卷')
   (root/(stem+'.html')).write_text(doc(meta,style,answer))
