@@ -1,0 +1,490 @@
+{
+  "repository": "https://github.com/zxymao/Chatgpt",
+  "commit": "4d6cb77cd2cae538bec76a41cb6beda2846554a3",
+  "archive_sha256": "2ab7415ff127705c660a5ed35255e53beab81bf185b5ddcde4c9556a5cab9a20",
+  "diff_sha256": "fff68828dc2d5a09b0965041e6f2475ff826aaf030989b1d56d50a7c70d4e3df",
+  "project1_origin": "Strict reverse of saved Project1-to-Project2.diff; unchanged files copied from archive. LF/end-of-file newline normalized only.",
+  "roundtrip": "PASS: strict reverse and forward; all patched target files match archive after newline normalization",
+  "files": {
+    "P1:Makefile": {
+      "lines": 370,
+      "sha256": "409ea300fbbdd2a825684b967bde44d3f479c017149c4b8949658d9ecb59aeae"
+    },
+    "P1:README.md": {
+      "lines": 1,
+      "sha256": "59613a715672a62220d938a3928387e2332407e593af19d44730ffd9f9d8d7bc"
+    },
+    "P1:arch/riscv/bios/common.c": {
+      "lines": 40,
+      "sha256": "48226bf02562c1202918db11fd935b3645dd3c54f0f486dc8db6ddb10aac3777"
+    },
+    "P1:arch/riscv/boot/bootblock.S": {
+      "lines": 64,
+      "sha256": "0ca91303affeab2d161a2d416a31b2bbcadc020d0d9f8e33f3934d54d97d13f1"
+    },
+    "P1:arch/riscv/crt0/crt0.S": {
+      "lines": 38,
+      "sha256": "57cc1cf3a180d3b60bba3ebe8fe46a0cd8d4f668e2d9ead26ad403778c2ffc8e"
+    },
+    "P1:arch/riscv/include/asm.h": {
+      "lines": 35,
+      "sha256": "5b343fca2fd7cd38e3144ea2b689c65669a4851de0fb5ab7d652e79877515f54"
+    },
+    "P1:arch/riscv/include/asm/biosdef.h": {
+      "lines": 10,
+      "sha256": "370e0382c0719d3b42e3926b97985b620698200eddc0ceb096d8e41f8978c995"
+    },
+    "P1:arch/riscv/include/common.h": {
+      "lines": 70,
+      "sha256": "ea9dcd1672fddf8ac3119c01c5ca1cfc77c2ad0d375c4d0a62360786ac7876fa"
+    },
+    "P1:arch/riscv/include/csr.h": {
+      "lines": 79,
+      "sha256": "44382e0b876179cec7eb0eab6a37844ac4298c3f635b1ff2bdcbd90e78b7ff19"
+    },
+    "P1:arch/riscv/kernel/head.S": {
+      "lines": 38,
+      "sha256": "1eb65268ea1bcf79ceb5f6755e2dd098a1c6b0cbe3397d354e03b1c2b2a3f658"
+    },
+    "P1:include/os/kernel.h": {
+      "lines": 59,
+      "sha256": "c710287979ecaad9adc2651e8664a5e161731370bf449092df3518555b8c367e"
+    },
+    "P1:include/os/loader.h": {
+      "lines": 10,
+      "sha256": "b04c52cb456558ab38bb9834e334713d21831adf4e1fbf1f24087e6645230f92"
+    },
+    "P1:include/os/sched.h": {
+      "lines": 115,
+      "sha256": "68e2918035126567d3b875189e174b4e8181070123f1164ce4a12003228e52bf"
+    },
+    "P1:include/os/string.h": {
+      "lines": 16,
+      "sha256": "f53b675bb708987dd243885d3d7fa29c15833d3f095bc482f424a852f3cc8c13"
+    },
+    "P1:include/os/task.h": {
+      "lines": 25,
+      "sha256": "f5cb92b090a8b85ce50f9914d079afd41561ea3ee673191b50cc50cddbfea4e9"
+    },
+    "P1:include/type.h": {
+      "lines": 78,
+      "sha256": "f40b7bc9baef7399ac76acc8cd54d81b14f2395ad2b19bced251aca7c0694189"
+    },
+    "P1:init/main.c": {
+      "lines": 145,
+      "sha256": "a9701e3e834689faa1014258d87c84d8f04536e358f1e700008ad326f15ce805"
+    },
+    "P1:kernel/loader/loader.c": {
+      "lines": 55,
+      "sha256": "519551f5dbd96bc263f004389a5ade61c5619d135c9ac8131630384a96c91b23"
+    },
+    "P1:libs/string.c": {
+      "lines": 96,
+      "sha256": "1824adc5120e87653d5f7151b0d844a578cad79b3e070c56256af939e61898c4"
+    },
+    "P1:prelab.lds": {
+      "lines": 34,
+      "sha256": "86756a4aa858c4f01e218f4dce88b8372058840df7772e242436b034b9fae068"
+    },
+    "P1:prime.S": {
+      "lines": 67,
+      "sha256": "dcbb06d84861e1798646d107a75a74852af5753f38d29726032ba41621831677"
+    },
+    "P1:riscv.lds": {
+      "lines": 185,
+      "sha256": "368455a3589db508df98310c3dc7b8b720b3a0f51ce2d6712f33e9515ddafc22"
+    },
+    "P1:test.S": {
+      "lines": 174,
+      "sha256": "38b610d1d248768d3b10e3d27574b2225f5c463733a889cd44f49e1ccecee067"
+    },
+    "P1:test/test_project1/2048.c": {
+      "lines": 405,
+      "sha256": "c084214f030748bd2812523d9fc452fe92044812c90787a123db7e18df55606f"
+    },
+    "P1:test/test_project1/auipc.c": {
+      "lines": 63,
+      "sha256": "4337f9e0a44521fd562829e1f51e6ed8b20ca9287c1200a8086d69ebf3068b59"
+    },
+    "P1:test/test_project1/bss.c": {
+      "lines": 26,
+      "sha256": "55684d2d8062c1c18caae5e9b9f8104da44545b10ebbc53f702af6cfa085ee1b"
+    },
+    "P1:test/test_project1/data.c": {
+      "lines": 20,
+      "sha256": "26d109058a4dbbadeae3687688fdd184e09ed45c7b5d86fdc5897ffdbab74d96"
+    },
+    "P1:tiny_libc/include/kernel.h": {
+      "lines": 36,
+      "sha256": "b56053c9f01f3f87aff0826b7e9af36ba398cbd840f842587e84dd53b16ba60c"
+    },
+    "P1:tools/createimage.c": {
+      "lines": 338,
+      "sha256": "b56761c71c17cc68dbf76ac2b4db4e5be15ef8c085e23065b2a2f8470498d052"
+    },
+    "P2:.gitignore": {
+      "lines": 3,
+      "sha256": "aa56f3033abb64fab25145509d4fa007e88bdc0c05d9d17264739d3cf7ed02ee"
+    },
+    "P2:Makefile": {
+      "lines": 100,
+      "sha256": "6a940754b148b32e6d362f093747b48a135875debd7eccc46cc69e576e58f806"
+    },
+    "P2:README.md": {
+      "lines": 94,
+      "sha256": "6a31fa5ee71dd45298540903db042e2d6ad2d2920595997a4c85b80f0cd176cf"
+    },
+    "P2:arch/riscv/bios/common.c": {
+      "lines": 55,
+      "sha256": "b9195c51c32282985a7c055ed56320c6a92b7523a6e93d2f3bf5c52329b9e1e8"
+    },
+    "P2:arch/riscv/boot/bootblock.S": {
+      "lines": 35,
+      "sha256": "bf1a2a074257397d4fdf1b205a78729c5483c979ee145f9bd9ac5fb4c9228748"
+    },
+    "P2:arch/riscv/crt0/crt0.S": {
+      "lines": 18,
+      "sha256": "50a271db0465f6e0ba0f6acfa04372ebe20ff20b33e7c0e4b0a30b70f9718f25"
+    },
+    "P2:arch/riscv/include/asm/biosdef.h": {
+      "lines": 13,
+      "sha256": "bea8ef2d1aa2018ace954805a95e8bddc21e8887baeb0f67bf2888be62cd5d39"
+    },
+    "P2:arch/riscv/include/asm/regs.h": {
+      "lines": 115,
+      "sha256": "141ee655c0bb78a82373a479d6c3a878376dfa9f3a81cf32e48fbd3707873f56"
+    },
+    "P2:arch/riscv/include/asm/unistd.h": {
+      "lines": 15,
+      "sha256": "aa9b59a6172caa4a6e9dcf140653ef2f0ef238e4075ccea2a5b1a36ba8522b1f"
+    },
+    "P2:arch/riscv/include/asm.h": {
+      "lines": 35,
+      "sha256": "5b343fca2fd7cd38e3144ea2b689c65669a4851de0fb5ab7d652e79877515f54"
+    },
+    "P2:arch/riscv/include/atomic.h": {
+      "lines": 66,
+      "sha256": "0223b8bbec8b2ee7b79a0be719705fb9edbf1f703b7de9ebb2e829fff8773e63"
+    },
+    "P2:arch/riscv/include/common.h": {
+      "lines": 90,
+      "sha256": "076e3ef1677daee686290bc3d38c51431dcb9e360d20bd0529d1943c062a9177"
+    },
+    "P2:arch/riscv/include/csr.h": {
+      "lines": 79,
+      "sha256": "44382e0b876179cec7eb0eab6a37844ac4298c3f635b1ff2bdcbd90e78b7ff19"
+    },
+    "P2:arch/riscv/kernel/entry.S": {
+      "lines": 178,
+      "sha256": "328aaa02c97ab1f44fc689324d3bb88eaea5384837ad6c6a1130002f3bb8ed8a"
+    },
+    "P2:arch/riscv/kernel/head.S": {
+      "lines": 17,
+      "sha256": "2b7272939d13050cdd24c333addd64708d4932495e071b67bd68ddfc1a91da46"
+    },
+    "P2:arch/riscv/kernel/trap.S": {
+      "lines": 11,
+      "sha256": "edf423a6f00d5d02d2645b5863ba371c2f45cf7100f91264e54e0363df8fa44a"
+    },
+    "P2:docs/CHANGES.md": {
+      "lines": 57,
+      "sha256": "debc34f60cb0122e350d3d57b3d35a87754db59787c63cda403880b716813edb"
+    },
+    "P2:docs/VALIDATION.md": {
+      "lines": 57,
+      "sha256": "41e90efdb4395f2c006db12973eda0adccb3a5f40cb01b003fe69c41217cdc21"
+    },
+    "P2:drivers/screen.c": {
+      "lines": 142,
+      "sha256": "883b4a3d6a1b1f238db91c672f58f32b8fbd7b9d690f63d7c41973e967f31047"
+    },
+    "P2:drivers/screen.h": {
+      "lines": 45,
+      "sha256": "511cb3ed80e91ce0de382494006495fdc5464908d2f6d5f3196aa70089d8bba0"
+    },
+    "P2:include/assert.h": {
+      "lines": 20,
+      "sha256": "72d6c5fedac1342c8f0021b7ccd61dd65d6994d04eb08f23c70147cb7a5e2189"
+    },
+    "P2:include/os/config.h": {
+      "lines": 9,
+      "sha256": "7199689d747dfef05323765570726baa0564c8c6167e5393a5e09af554d1827b"
+    },
+    "P2:include/os/irq.h": {
+      "lines": 94,
+      "sha256": "efe33d09effe5c490e69f26a996c38bec0b822be048cca60bda5e1ac5c8f40f6"
+    },
+    "P2:include/os/kernel.h": {
+      "lines": 83,
+      "sha256": "8a8ab09a571305035eabd4f30048cc8362f80cbf4396cd966d0c54b6b6894a1e"
+    },
+    "P2:include/os/list.h": {
+      "lines": 84,
+      "sha256": "c59c443059612c44dc9bd1a794e069fbd0149acb4c9bc7c4ea917ea6768f1554"
+    },
+    "P2:include/os/loader.h": {
+      "lines": 10,
+      "sha256": "cc906e425a5e24ee1c03116439aba86ed49df2bdd966c5775771fce1558ec5c3"
+    },
+    "P2:include/os/lock.h": {
+      "lines": 69,
+      "sha256": "7b1e4d2bbace153ba3cab2da19e879d12e1e2984036fac4707ad1c546e03c7c3"
+    },
+    "P2:include/os/mm.h": {
+      "lines": 45,
+      "sha256": "285ebc2adb2531ca8fa02d85eccce13df9a5c71980fc26c2c8f135fcd46f8c6a"
+    },
+    "P2:include/os/sched.h": {
+      "lines": 117,
+      "sha256": "fabeb6e45521390e02505b52925a6badb16e1a9a895f8ca7fa66876988c7e3e3"
+    },
+    "P2:include/os/string.h": {
+      "lines": 16,
+      "sha256": "f53b675bb708987dd243885d3d7fa29c15833d3f095bc482f424a852f3cc8c13"
+    },
+    "P2:include/os/task.h": {
+      "lines": 25,
+      "sha256": "0d09b5260b10d3f49f93860b56472a35c8946bb6c9b4a434b64db1eac33923f8"
+    },
+    "P2:include/os/time.h": {
+      "lines": 45,
+      "sha256": "e20e8088f9694120fc8d8de6ca4d3f1f7bc9d0375c0c6657636330cbf6b4c98d"
+    },
+    "P2:include/printk.h": {
+      "lines": 15,
+      "sha256": "4c797e5958ec2ebb859fc20bdf74c46a7b66097ea79978ec1c2489b64d3c0f7d"
+    },
+    "P2:include/stdarg.h": {
+      "lines": 52,
+      "sha256": "eda74dc847c66db4a4123a21cf3a8c2402a169346573c7f937488ab32164caf1"
+    },
+    "P2:include/sys/syscall.h": {
+      "lines": 40,
+      "sha256": "24528d8405e92810c55f3b96cbe6da56a1b974b796da860ab20cfc3bd717c716"
+    },
+    "P2:include/type.h": {
+      "lines": 78,
+      "sha256": "f40b7bc9baef7399ac76acc8cd54d81b14f2395ad2b19bced251aca7c0694189"
+    },
+    "P2:init/main.c": {
+      "lines": 219,
+      "sha256": "f27be9d7ff9fd9df9976d6988b29305943a2ca599a4a28fa44c85409eeb58e9b"
+    },
+    "P2:kernel/irq/irq.c": {
+      "lines": 70,
+      "sha256": "22aff063171f4882fe4f26201537634a5ceb121e691414f41f13d9777ade6b0c"
+    },
+    "P2:kernel/loader/loader.c": {
+      "lines": 38,
+      "sha256": "f2cb7257229042b30433dce6a9465c3045b051117814f94fad51506bc20c5663"
+    },
+    "P2:kernel/locking/lock.c": {
+      "lines": 81,
+      "sha256": "3daabc111b96700486ac85bacf6792e0f1a43239c59e14c93e00c403620b5101"
+    },
+    "P2:kernel/mm/mm.c": {
+      "lines": 20,
+      "sha256": "9e9a3cbd1d8c1cd956fa76aa312d9a9af01959270e030790b9bb561cc0d334f0"
+    },
+    "P2:kernel/sched/sched.c": {
+      "lines": 71,
+      "sha256": "55b06ff56869f8e84253af231e007d64b517cf1cdf5875e1c1c8548b69d4244d"
+    },
+    "P2:kernel/sched/time.c": {
+      "lines": 44,
+      "sha256": "c8e5ecf9cbd8f2e928c5332091a10c57565ad5c4a34c0e4c4485b020bccb10ce"
+    },
+    "P2:kernel/syscall/syscall.c": {
+      "lines": 14,
+      "sha256": "997f221e1074513833005edac5acdcbc50837057a0fdd31b310dacecb743485b"
+    },
+    "P2:libs/printk.c": {
+      "lines": 322,
+      "sha256": "7b167d7a343dc09c823e099ff696aa068d5ecbaf2e389dd561db36485bef2187"
+    },
+    "P2:libs/string.c": {
+      "lines": 95,
+      "sha256": "276e3eb054effcf59755466c595927ae611bacadc9d7747811eea212dc17617e"
+    },
+    "P2:riscv.lds": {
+      "lines": 185,
+      "sha256": "368455a3589db508df98310c3dc7b8b720b3a0f51ce2d6712f33e9515ddafc22"
+    },
+    "P2:test/host-qemu/firmware.S": {
+      "lines": 137,
+      "sha256": "31c3e071980c979273f879d95ea4b7135312dc14905469415f494cb3563a4628"
+    },
+    "P2:test/host-qemu/firmware.lds": {
+      "lines": 9,
+      "sha256": "fe8dd884ceb8cfe19bd6c863cb176a2818681e549a35181f3267da2ad12d90dd"
+    },
+    "P2:test/test_project1/2048.c": {
+      "lines": 405,
+      "sha256": "c084214f030748bd2812523d9fc452fe92044812c90787a123db7e18df55606f"
+    },
+    "P2:test/test_project1/auipc.c": {
+      "lines": 63,
+      "sha256": "cf6400c78b49576377af617b8ffa4bec5988f9545d9c04fef26bd01babe430a0"
+    },
+    "P2:test/test_project1/bss.c": {
+      "lines": 26,
+      "sha256": "b0fbd64da773440bbf00ae0a9fa837f3d7618ef0371b81ee096b7d376b85d8cf"
+    },
+    "P2:test/test_project1/data.c": {
+      "lines": 20,
+      "sha256": "cf938c663f568733eb9d1458774241011642abdc75efde932f13fc48e9e0d88f"
+    },
+    "P2:test/test_project2/fly.c": {
+      "lines": 127,
+      "sha256": "d67e0faa5f260eee9a4d50f36d7db6ddaf7f818801043c49c553a71e656ae2e7"
+    },
+    "P2:test/test_project2/fly1.c": {
+      "lines": 52,
+      "sha256": "bdddb97cb2e2cedc551012ca2391da225f4e552638a4de56eeeb7b455f89d25c"
+    },
+    "P2:test/test_project2/fly2.c": {
+      "lines": 52,
+      "sha256": "6ff127d479596d32dce382095cb3af05da76e5f42ab84262cc1dc076f81d9ffc"
+    },
+    "P2:test/test_project2/fly3.c": {
+      "lines": 52,
+      "sha256": "43dbcb4876bf47cbb7aa4e55abff1fad7bc1c66e9ec18d2f55545ff66b7c6a0c"
+    },
+    "P2:test/test_project2/fly4.c": {
+      "lines": 52,
+      "sha256": "d7d2e1256ae565db25613251695c1111a160965c028c5105c04b8c45f6c4afbe"
+    },
+    "P2:test/test_project2/fly5.c": {
+      "lines": 52,
+      "sha256": "9263f959403ebdd80896c51e4ab7c6280a4f6c90b41c13fee8873e351620b1c2"
+    },
+    "P2:test/test_project2/lock1.c": {
+      "lines": 89,
+      "sha256": "ee9528b17b545a285dd2fec5a9a640dbcb9bd007f5825bd2f037a9727083024d"
+    },
+    "P2:test/test_project2/lock2.c": {
+      "lines": 89,
+      "sha256": "321125153b114ad1147b5f1937daa52d78ced8aaa7fa5c12abe5a9412b95ec91"
+    },
+    "P2:test/test_project2/print1.c": {
+      "lines": 27,
+      "sha256": "04bdba837f819e7daf820d05cedc4f14bc00234bbe98e0b1af62566b84d1f762"
+    },
+    "P2:test/test_project2/print2.c": {
+      "lines": 27,
+      "sha256": "1c171476dd7ed207474cf06e9be76162243adafdf1cc43614d4386af6490f194"
+    },
+    "P2:test/test_project2/sleep.c": {
+      "lines": 31,
+      "sha256": "fb0c0a5d7df10332120063d328f794586db57042ca52ad25359d0363cbd818e5"
+    },
+    "P2:test/test_project2/timer.c": {
+      "lines": 20,
+      "sha256": "a619ef4badbf7930598caa55406668e9ef6d39e11fc76f4b0f5c4fa2d05faa84"
+    },
+    "P2:test/validation/coop1.c": {
+      "lines": 10,
+      "sha256": "f9e1bc1202b68b73ce5a08520a78266f0cc06099a7bac6da8db150d0e8df8ada"
+    },
+    "P2:test/validation/coop2.c": {
+      "lines": 10,
+      "sha256": "616e2b8c983f235741126cb433f1d982313948c1db10f0ee34005b8192c283c3"
+    },
+    "P2:test/validation/coop_timer.c": {
+      "lines": 15,
+      "sha256": "638c1a10fb90c27263103f8fb6926b6f2ca930d39c7c3acede089a52c7ce20dd"
+    },
+    "P2:test/validation/mutex1.c": {
+      "lines": 18,
+      "sha256": "a2399cae1364eaf9c240ff07471d0c100e9bfc1679b450d4eaf1e829f94804f3"
+    },
+    "P2:test/validation/mutex2.c": {
+      "lines": 18,
+      "sha256": "745806be8515b8f8b5a43061127cd042947dd7cfc80ea457c6c37c30b45e9122"
+    },
+    "P2:test/validation/probe1.c": {
+      "lines": 46,
+      "sha256": "455504baa17b381c70c3835d4b859cd4681b31288e2f540b681a15826747a877"
+    },
+    "P2:test/validation/probe2.c": {
+      "lines": 46,
+      "sha256": "35c6b430337f0a19f085bbb95c8945434d17bcd33cd27cf4cf1945e39c5f13aa"
+    },
+    "P2:test/validation/register_check.h": {
+      "lines": 132,
+      "sha256": "e7bfb6398f904c8dabc845726f81bcc834da8828e040a895d88c108c5b3e75ac"
+    },
+    "P2:test.S": {
+      "lines": 13,
+      "sha256": "6b147473b41b72a9523e3674bb563fff5761193fc17bf12f47d1d499dd6bba28"
+    },
+    "P2:tiny_libc/include/assert.h": {
+      "lines": 20,
+      "sha256": "2d529df048b3d6f7010d4c0c6ecfbb39e89ee3d08e99f149b193f25aed820309"
+    },
+    "P2:tiny_libc/include/kernel.h": {
+      "lines": 51,
+      "sha256": "564370d03a3b21c25c872272752315af4703c78f827751860bc2e7b1739508b5"
+    },
+    "P2:tiny_libc/include/stdarg.h": {
+      "lines": 52,
+      "sha256": "eda74dc847c66db4a4123a21cf3a8c2402a169346573c7f937488ab32164caf1"
+    },
+    "P2:tiny_libc/include/stdbool.h": {
+      "lines": 12,
+      "sha256": "11989c7a46a06750e08140e4aa762501f3ad213f0d962f082fe05c24ca9a615e"
+    },
+    "P2:tiny_libc/include/stdint.h": {
+      "lines": 151,
+      "sha256": "753f7359c05e8ea499460a4c8b835abc3be5d143c8b0ad46469b2cb5a98a4343"
+    },
+    "P2:tiny_libc/include/stdio.h": {
+      "lines": 9,
+      "sha256": "5cbf4a8a1796b70776c57e2c731f1c653fea89fe37aed22dc29a45480624b5e0"
+    },
+    "P2:tiny_libc/include/string.h": {
+      "lines": 16,
+      "sha256": "94b5d8d6d8461b8a94368660d9765435f94f9fd24f1e502188279cde9c75bddc"
+    },
+    "P2:tiny_libc/include/syscall.h": {
+      "lines": 15,
+      "sha256": "7cc0d1649f65fdc41927ac9513b841768261ca1c313595e33450f73aa0e53125"
+    },
+    "P2:tiny_libc/include/time.h": {
+      "lines": 13,
+      "sha256": "f2efc8236979156bd87c6df5b613125d5deb5d11218dfd8ef5331172c60719d0"
+    },
+    "P2:tiny_libc/include/unistd.h": {
+      "lines": 21,
+      "sha256": "3073c9fc39b46e6a044c3bd491cb97f36e339885e306f81015cd6848dd87986b"
+    },
+    "P2:tiny_libc/printf.c": {
+      "lines": 248,
+      "sha256": "9a35737bf8715aa7d90052290e784dbdb4d3bbf7c7928d3b7724b9d2ace03c22"
+    },
+    "P2:tiny_libc/string.c": {
+      "lines": 95,
+      "sha256": "503ebe570dd692a1797cfa01678a76f144287729d7edf4163b1bd8e368afc583"
+    },
+    "P2:tiny_libc/syscall.c": {
+      "lines": 88,
+      "sha256": "820da821cadd49155fa78873b1cd61d09faddef09445266f535cee8757facfa4"
+    },
+    "P2:tiny_libc/time.c": {
+      "lines": 6,
+      "sha256": "47bd4f68add9129b8a26295f658e28d060d6ffbab7f81b43669efc200baeaf45"
+    },
+    "P2:tools/createimage.c": {
+      "lines": 145,
+      "sha256": "f071c166da813f55dc45ac21e2a8043c0d5457c4e306b32b59efb1d1dc0e6156"
+    },
+    "P2:tools/host_qemu_smoke.py": {
+      "lines": 107,
+      "sha256": "89cf190b56f7a9951375070bc724b7931d7d636dc5f7a60801401cb437d1da5c"
+    },
+    "P2:tools/test_image.py": {
+      "lines": 54,
+      "sha256": "40f6204b7e04c6f069e703b0433e7b3386589eb2aca1e6b111c2c0711035cf0e"
+    }
+  }
+}

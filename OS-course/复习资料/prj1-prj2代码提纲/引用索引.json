@@ -1,0 +1,262 @@
+[
+  {
+    "source": "P1:Makefile",
+    "line": 1,
+    "anchor": "p1-makefile-L1"
+  },
+  {
+    "source": "P1:tools/createimage.c",
+    "line": 87,
+    "anchor": "p1-tools-createimage-c-L87"
+  },
+  {
+    "source": "P2:tools/createimage.c",
+    "line": 51,
+    "anchor": "p2-tools-createimage-c-L51"
+  },
+  {
+    "source": "P1:include/os/task.h",
+    "line": 16,
+    "anchor": "p1-include-os-task-h-L16"
+  },
+  {
+    "source": "P1:arch/riscv/boot/bootblock.S",
+    "line": 17,
+    "anchor": "p1-arch-riscv-boot-bootblock-s-L17"
+  },
+  {
+    "source": "P1:arch/riscv/kernel/head.S",
+    "line": 10,
+    "anchor": "p1-arch-riscv-kernel-head-s-L10"
+  },
+  {
+    "source": "P1:init/main.c",
+    "line": 50,
+    "anchor": "p1-init-main-c-L50"
+  },
+  {
+    "source": "P1:arch/riscv/crt0/crt0.S",
+    "line": 4,
+    "anchor": "p1-arch-riscv-crt0-crt0-s-L4"
+  },
+  {
+    "source": "P1:init/main.c",
+    "line": 106,
+    "anchor": "p1-init-main-c-L106"
+  },
+  {
+    "source": "P1:kernel/loader/loader.c",
+    "line": 12,
+    "anchor": "p1-kernel-loader-loader-c-L12"
+  },
+  {
+    "source": "P1:kernel/loader/loader.c",
+    "line": 35,
+    "anchor": "p1-kernel-loader-loader-c-L35"
+  },
+  {
+    "source": "P1:tiny_libc/include/kernel.h",
+    "line": 12,
+    "anchor": "p1-tiny_libc-include-kernel-h-L12"
+  },
+  {
+    "source": "P1:arch/riscv/bios/common.c",
+    "line": 7,
+    "anchor": "p1-arch-riscv-bios-common-c-L7"
+  },
+  {
+    "source": "P2:Makefile",
+    "line": 14,
+    "anchor": "p2-makefile-L14"
+  },
+  {
+    "source": "P2:init/main.c",
+    "line": 188,
+    "anchor": "p2-init-main-c-L188"
+  },
+  {
+    "source": "P2:init/main.c",
+    "line": 146,
+    "anchor": "p2-init-main-c-L146"
+  },
+  {
+    "source": "P2:kernel/mm/mm.c",
+    "line": 6,
+    "anchor": "p2-kernel-mm-mm-c-L6"
+  },
+  {
+    "source": "P2:include/os/sched.h",
+    "line": 38,
+    "anchor": "p2-include-os-sched-h-L38"
+  },
+  {
+    "source": "P2:include/os/sched.h",
+    "line": 65,
+    "anchor": "p2-include-os-sched-h-L65"
+  },
+  {
+    "source": "P2:include/os/list.h",
+    "line": 43,
+    "anchor": "p2-include-os-list-h-L43"
+  },
+  {
+    "source": "P2:include/os/list.h",
+    "line": 53,
+    "anchor": "p2-include-os-list-h-L53"
+  },
+  {
+    "source": "P2:init/main.c",
+    "line": 124,
+    "anchor": "p2-init-main-c-L124"
+  },
+  {
+    "source": "P2:arch/riscv/include/asm/regs.h",
+    "line": 85,
+    "anchor": "p2-arch-riscv-include-asm-regs-h-L85"
+  },
+  {
+    "source": "P2:arch/riscv/kernel/entry.S",
+    "line": 167,
+    "anchor": "p2-arch-riscv-kernel-entry-s-L167"
+  },
+  {
+    "source": "P2:arch/riscv/crt0/crt0.S",
+    "line": 3,
+    "anchor": "p2-arch-riscv-crt0-crt0-s-L3"
+  },
+  {
+    "source": "P2:kernel/sched/sched.c",
+    "line": 16,
+    "anchor": "p2-kernel-sched-sched-c-L16"
+  },
+  {
+    "source": "P2:arch/riscv/kernel/entry.S",
+    "line": 130,
+    "anchor": "p2-arch-riscv-kernel-entry-s-L130"
+  },
+  {
+    "source": "P2:kernel/locking/lock.c",
+    "line": 30,
+    "anchor": "p2-kernel-locking-lock-c-L30"
+  },
+  {
+    "source": "P2:kernel/locking/lock.c",
+    "line": 53,
+    "anchor": "p2-kernel-locking-lock-c-L53"
+  },
+  {
+    "source": "P2:kernel/locking/lock.c",
+    "line": 67,
+    "anchor": "p2-kernel-locking-lock-c-L67"
+  },
+  {
+    "source": "P2:kernel/sched/sched.c",
+    "line": 51,
+    "anchor": "p2-kernel-sched-sched-c-L51"
+  },
+  {
+    "source": "P2:kernel/sched/sched.c",
+    "line": 62,
+    "anchor": "p2-kernel-sched-sched-c-L62"
+  },
+  {
+    "source": "P2:test/validation/mutex1.c",
+    "line": 8,
+    "anchor": "p2-test-validation-mutex1-c-L8"
+  },
+  {
+    "source": "P2:tiny_libc/syscall.c",
+    "line": 6,
+    "anchor": "p2-tiny_libc-syscall-c-L6"
+  },
+  {
+    "source": "P2:arch/riscv/kernel/entry.S",
+    "line": 171,
+    "anchor": "p2-arch-riscv-kernel-entry-s-L171"
+  },
+  {
+    "source": "P2:kernel/irq/irq.c",
+    "line": 15,
+    "anchor": "p2-kernel-irq-irq-c-L15"
+  },
+  {
+    "source": "P2:kernel/syscall/syscall.c",
+    "line": 3,
+    "anchor": "p2-kernel-syscall-syscall-c-L3"
+  },
+  {
+    "source": "P2:init/main.c",
+    "line": 34,
+    "anchor": "p2-init-main-c-L34"
+  },
+  {
+    "source": "P2:init/main.c",
+    "line": 173,
+    "anchor": "p2-init-main-c-L173"
+  },
+  {
+    "source": "P2:arch/riscv/kernel/entry.S",
+    "line": 8,
+    "anchor": "p2-arch-riscv-kernel-entry-s-L8"
+  },
+  {
+    "source": "P2:arch/riscv/kernel/entry.S",
+    "line": 70,
+    "anchor": "p2-arch-riscv-kernel-entry-s-L70"
+  },
+  {
+    "source": "P2:arch/riscv/kernel/trap.S",
+    "line": 3,
+    "anchor": "p2-arch-riscv-kernel-trap-s-L3"
+  },
+  {
+    "source": "P2:kernel/sched/sched.c",
+    "line": 39,
+    "anchor": "p2-kernel-sched-sched-c-L39"
+  },
+  {
+    "source": "P2:kernel/sched/time.c",
+    "line": 34,
+    "anchor": "p2-kernel-sched-time-c-L34"
+  },
+  {
+    "source": "P2:kernel/irq/irq.c",
+    "line": 27,
+    "anchor": "p2-kernel-irq-irq-c-L27"
+  },
+  {
+    "source": "P2:init/main.c",
+    "line": 208,
+    "anchor": "p2-init-main-c-L208"
+  },
+  {
+    "source": "P2:test/validation/coop1.c",
+    "line": 3,
+    "anchor": "p2-test-validation-coop1-c-L3"
+  },
+  {
+    "source": "P2:test/validation/mutex1.c",
+    "line": 4,
+    "anchor": "p2-test-validation-mutex1-c-L4"
+  },
+  {
+    "source": "P2:test/test_project2/sleep.c",
+    "line": 6,
+    "anchor": "p2-test-test_project2-sleep-c-L6"
+  },
+  {
+    "source": "P2:test/validation/probe1.c",
+    "line": 19,
+    "anchor": "p2-test-validation-probe1-c-L19"
+  },
+  {
+    "source": "P2:tiny_libc/printf.c",
+    "line": 220,
+    "anchor": "p2-tiny_libc-printf-c-L220"
+  },
+  {
+    "source": "P2:drivers/screen.c",
+    "line": 121,
+    "anchor": "p2-drivers-screen-c-L121"
+  }
+]

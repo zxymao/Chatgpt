@@ -1,0 +1,15 @@
+{
+  "source_roundtrip": "PASS: strict reverse and forward; all patched target files match archive after newline normalization",
+  "source_files": 120,
+  "references": 52,
+  "pdf_pages": 14,
+  "qemu_stages": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "browser": "PASS: links, anchors, symbol search, switching, offline, mobile",
+  "project1_runtime": "not run; source reading and reconstruction only",
+  "course_hardware_validation": "not claimed"
+}

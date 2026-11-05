@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="278" viewBox="0 0 900 278"><style>text{font:18px "Noto Sans CJK SC",sans-serif;fill:#183047}.box{fill:#f0f4f7;stroke:#7f99ac;stroke-width:1.4}.small{font-size:15px;fill:#5f7586}line,path{stroke:#7891a3;stroke-width:1.5;fill:none}</style>
+<line x1="65" y1="20" x2="795" y2="20"/>
+<text x="555" y="13">高地址：ktop（内核栈顶）</text>
+<rect class="box" x="65" y="20" width="450" height="106"/>
+<text x="85" y="52">regs_context_t · 288字节</text>
+<text class="small" x="85" y="80">sepc=entry，保存的任务sp=utop</text>
+<text class="small" x="85" y="106">32个GPR槽位 + sstatus/sepc/stval/scause</text>
+<text x="555" y="130">regs = ktop − 288</text>
+<rect class="box" x="65" y="126" width="450" height="85"/>
+<text x="85" y="157">switchto_context_t · 112字节</text>
+<text class="small" x="85" y="186">ra=ret_from_exception，保存的sp=sw</text>
+<line x1="515" y1="211" x2="795" y2="211"/>
+<text x="555" y="202">sw = regs − 112</text>
+<text class="small" x="555" y="237">初始task-&gt;kernel_sp指向这里</text>
+<text class="small" x="85" y="256">低地址方向：后续内核调用继续向下使用栈空间 ↓</text>
+</svg>

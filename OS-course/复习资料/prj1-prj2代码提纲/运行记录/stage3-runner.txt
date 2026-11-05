@@ -1,0 +1,3 @@
+/workspace/.cloud-setup/toolchain/usr/bin/../lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/bin/ld: warning: build/main has a LOAD segment with RWX permissions
+/workspace/.cloud-setup/toolchain/usr/bin/../lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/bin/ld: warning: build/sleep has a LOAD segment with RWX permissions
+PASS: relocated upstream-QEMU smoke stage 3; log=/workspace/Chatgpt/OS-course/复习资料/prj1-prj2代码提纲/运行记录/stage3.log

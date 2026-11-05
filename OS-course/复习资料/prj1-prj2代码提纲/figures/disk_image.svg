@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="135" viewBox="0 0 900 135"><style>text{font:18px "Noto Sans CJK SC",sans-serif;fill:#183047}.box{fill:#f0f4f7;stroke:#7f99ac;stroke-width:1.4}.small{font-size:15px;fill:#5f7586}line,path{stroke:#7891a3;stroke-width:1.5;fill:none}</style>
+<rect class="box" x="5" y="12" width="175" height="72" rx="5"/>
+<rect class="box" x="185" y="12" width="175" height="72" rx="5"/>
+<rect class="box" x="365" y="12" width="145" height="72" rx="5"/>
+<rect class="box" x="515" y="12" width="145" height="72" rx="5"/>
+<rect class="box" x="665" y="12" width="230" height="72" rx="5"/>
+<text x="92" y="42" text-anchor="middle">bootblock</text>
+<text class="small" x="92" y="67" text-anchor="middle">第0扇区 · 512B</text>
+<text x="272" y="42" text-anchor="middle">kernel</text>
+<text class="small" x="272" y="67" text-anchor="middle">起点offset=512</text>
+<text x="438" y="42" text-anchor="middle">task 0</text>
+<text class="small" x="438" y="67" text-anchor="middle">代码/数据</text>
+<text x="588" y="42" text-anchor="middle">task 1…</text>
+<text class="small" x="588" y="67" text-anchor="middle">代码/数据</text>
+<text x="780" y="42" text-anchor="middle">task_info[]</text>
+<text class="small" x="780" y="67" text-anchor="middle">名称 · 偏移 · 大小 · 入口</text>
+<text class="small" x="450" y="116" text-anchor="middle">读取位置由字节偏移描述；按512B扇区读取后，还要处理扇区内偏移</text>
+</svg>
