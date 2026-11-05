@@ -1,0 +1,67 @@
+{
+  "repository": "zxymao/Chatgpt",
+  "commit": "296b64a3c1e9aa312a778de6d957e7a5b9786fb1",
+  "scope": "OS-course/*.pdf（原始课件）",
+  "sources": [
+    {
+      "id": "I1",
+      "file": "Intro01 课程简介.pdf",
+      "pages": 50,
+      "sha256": "e2020db6a181b121552980d4a40b874e9520481f4f127a8c3efab15466ccd9d6"
+    },
+    {
+      "id": "I2",
+      "file": "Intro02 操作系统结构与组成.pdf",
+      "pages": 46,
+      "sha256": "df1b509d5ed2e0a4d6a4e575ba7bf800d4df9b52844fbdc96a218e64d512dd33"
+    },
+    {
+      "id": "P1",
+      "file": "Proc01 进程.pdf",
+      "pages": 36,
+      "sha256": "6d127c516216660f549d8f46908f9c474218fc04bbf2900e4496e844725283b1"
+    },
+    {
+      "id": "P2",
+      "file": "Proc02 线程 (1).pdf",
+      "pages": 35,
+      "sha256": "efa363fbf48eff04ab7cd9c8e4ea27829beb5809c82774ae9d13b7a2d06b3fcb"
+    },
+    {
+      "id": "P3",
+      "file": "Proc03 CPU调度.pdf",
+      "pages": 34,
+      "sha256": "258eb8c9223a28bbd2ee2ee6f2c26503b9ed4ac48ee55bed74a40dbeb658eaeb"
+    },
+    {
+      "id": "S1",
+      "file": "Sync01 临界区与锁.pdf",
+      "pages": 46,
+      "sha256": "a79de5305f13ce2fd390738f4e3b6e866649ba108d47304237a4f130b27cc3a2"
+    },
+    {
+      "id": "SX",
+      "file": "Sync01 临界区与锁-扩展.pdf",
+      "pages": 9,
+      "sha256": "b44c0dc2fb5eace59b5ea7dbc28d746259a7c4888bcf9d68f914fc4458cffaf7"
+    },
+    {
+      "id": "S2",
+      "file": "Sync02 死锁.pdf",
+      "pages": 37,
+      "sha256": "89e11533af237e766588ad00444e8ef2fb578c97d1b80672a7e73c883a27e41f"
+    },
+    {
+      "id": "S3",
+      "file": "Sync03 信号量-条件变量-屏障.pdf",
+      "pages": 44,
+      "sha256": "e7fd148a51b9d2c5c8153d73141f0ac31901ca3b5a99d32027e36f753099f5f6"
+    },
+    {
+      "id": "S4",
+      "file": "Sync04 进程间通信.pdf",
+      "pages": 41,
+      "sha256": "5ad3f72e4a2725c5b4be9d318fc4579d558681ff83f4dc7fa9bd335ff2d8ea5d"
+    }
+  ]
+}
