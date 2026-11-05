@@ -6,6 +6,7 @@ import re
 import subprocess
 
 from prepare_sources import prepare
+from todo_catalog import catalog, todo_block
 
 HERE = Path(__file__).resolve().parent
 sources, manifest = prepare()
@@ -95,7 +96,7 @@ th a{color:inherit;text-decoration:none}td{white-space:pre;padding:0 10px}tr:tar
 code{font:inherit}#empty{padding:25px;color:#60778a}
 @media(max-width:760px){.layout{grid-template-columns:1fr;height:auto}nav{max-height:250px;border-right:0;border-bottom:1px solid #ccc}main{max-height:75vh;padding:10px}header{padding:12px}h1{font-size:20px}}
 </style><header><h1>prj1 / prj2 源码索引</h1>
-<p>搜索文件名或函数名，选择文件；点击行号可复制当前定位链接。P1为差异恢复的实验一，P2为源码包中的实验二。</p>
+<p>搜索文件名、函数名或TODO，选择文件；点击行号可复制定位链接。P1为实验一，F2为未填实现的实验二原框架，P2为完成版。</p>
 <p><a href="prj1-prj2代码阅读提纲.html">返回阅读提纲</a> · 原文件中的版权与许可证文字均保留。</p></header>
 <div class="layout"><nav><label for="search">搜索源码</label><input id="search" placeholder="例如 do_scheduler 或 init/main.c">
 <div id="count"></div><div id="files">''' + ''.join(buttons) + '''</div></nav>
@@ -128,6 +129,8 @@ if(location.hash)openHash();else{location.hash='p1-init-main-c-L50';openHash()}
 (HERE / "源码索引.html").write_text(index_html)
 
 references = []
+snippets = []
+todos = catalog(sources)
 
 
 def replace_ref(match):
@@ -138,6 +141,24 @@ def replace_ref(match):
     anchor = f"{file_id(key)}-L{number}"
     references.append({"source": key, "line": number, "anchor": anchor})
     return f"[{project} {path}:{number}](源码索引.html#{anchor})"
+
+
+def replace_todo(match):
+    project, path, number = match.groups()
+    key = project + ":" + path
+    lines = sources[key].splitlines()
+    number = int(number)
+    assert "TODO" in lines[number - 1], match[0]
+    original = todo_block(lines, number)
+    clean = []
+    for line in original.splitlines():
+        line = line.replace("*/", "")
+        line = re.sub(r"^\s*(?:/\*|//|\*)?\s*", "", line)
+        if line.strip():
+            clean.append(line.strip())
+    marker = " ".join(clean).strip()
+    ref = replace_ref(re.match(r"(P1|P2|F2):([^:]+):(\d+)", f"{project}:{path}:{number}"))
+    return f'> **原TODO**（{ref}）：<br>\n> <code>{escape(marker)}</code>'
 
 
 def replace_code(match):
@@ -151,15 +172,48 @@ def replace_code(match):
         if index:
             output.append("    …")
         output += [f"{number:3d}  {lines[number-1]}" for number in range(start, end + 1)]
-    return "```text\n" + "\n".join(output) + "\n```"
+    text = "\n".join(output)
+    identifier = f"source-code-{len(snippets) + 1}"
+    snippets.append({"id": identifier, "source": key, "selection": selection,
+                     "source_lines": [],
+                     "rendered": text})
+    source_lines = []
+    for part in selection.split(","):
+        start, end = map(int, part.split("-"))
+        source_lines.extend(range(start, end + 1))
+    snippets[-1]["source_lines"] = source_lines
+    encoded = escape(text).replace("\t", "&#9;")
+    encoded = re.sub(r" +(?=\n|$)", lambda match: "&#32;" * len(match[0]), encoded)
+    return f'<pre class="source-snippet" id="{identifier}"><code>{encoded}</code></pre>'
 
 
-body = (HERE / "提纲正文.md").read_text().replace("{{COMMIT}}", manifest["commit"][:12])
-body = re.sub(r"\{\{ref:(P[12]):([^:}]+):(\d+)\}\}", replace_ref, body)
-body = re.sub(r"\{\{code:(P[12]):([^:}]+):([\d,-]+)\}\}", replace_code, body)
+overview = (HERE / "提纲正文.md").read_text()
+overview_pages = len(overview.split("<!-- PAGE -->"))
+appendix = (HERE / "TODO代码附录.md").read_text()
+body = overview + "\n\n<!-- PAGE -->\n\n" + appendix
+body = body.replace("{{COMMIT}}", manifest["commit"][:12])
+body = re.sub(r"\{\{ref:(P1|P2|F2):([^:}]+):(\d+)\}\}", replace_ref, body)
+body = re.sub(r"\{\{todo:(P1|P2|F2):([^:}]+):(\d+)\}\}", replace_todo, body)
+body = re.sub(r"\{\{code:(P1|P2|F2):([^:}]+):([\d,-]+)\}\}", replace_code, body)
 assert "{{" not in body
 (HERE / "prj1-prj2代码阅读提纲.md").write_text(body)
 (HERE / "引用索引.json").write_text(json.dumps(references, ensure_ascii=False, indent=2) + "\n")
+(HERE / "代码节选.json").write_text(json.dumps(snippets, ensure_ascii=False, indent=2) + "\n")
+(HERE / "TODO清单.json").write_text(json.dumps(todos, ensure_ascii=False, indent=2) + "\n")
+todo_markdown = ["# 原源码TODO任务清单", "",
+                 "P1为实验一，F2为未填实现的实验二原框架，P2为完成版。每个标记都列出归属，已完成和后续项目的标记分别注明。", ""]
+last_source = None
+for item in todos:
+    key = item["source"]
+    if key != last_source:
+        todo_markdown.extend(["## " + key, ""])
+        last_source = key
+    location = f"源码索引.html#{file_id(key)}-L{item['line']}"
+    todo_markdown.extend([
+        f"- [{key}:{item['line']}]({location}) · {item['appendix']} · {item['status']}",
+        "", "```text", "\n".join(line.rstrip() for line in item["original_block"].splitlines()), "```", "",
+    ])
+(HERE / "TODO任务清单.md").write_text("\n".join(todo_markdown))
 
 sections = []
 for number, section in enumerate(body.split("<!-- PAGE -->"), 1):
@@ -167,7 +221,8 @@ for number, section in enumerate(body.split("<!-- PAGE -->"), 1):
                               input=section, text=True, capture_output=True, check=True).stdout
     rendered = re.sub(r'<img\s+[^>]*src="figures/([^"/]+\.svg)"[^>]*>',
                       lambda m: (figures / m[1]).read_text(), rendered)
-    sections.append(f'<section class="sheet" data-page="{number}">' + rendered + '</section>')
+    section_class = "sheet code-appendix" if number > overview_pages + 1 else "sheet"
+    sections.append(f'<section class="{section_class}" data-page="{number}">' + rendered + '</section>')
 css = '''
 @page{size:A4;margin:14mm 17mm 19mm}
 *{box-sizing:border-box}html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -179,8 +234,14 @@ h2{font-size:14pt;line-height:1.45;margin:13px 0 10px;break-after:avoid}
 p{margin:8px 0;text-align:left}a{color:#2d6082;text-decoration:none;overflow-wrap:anywhere}
 code,pre{font-family:"DejaVu Sans Mono","Noto Sans Mono CJK SC",monospace}
 p code,li code,td code{font-size:8.3pt;overflow-wrap:anywhere}
-pre{font-size:8pt;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere;
+pre{font-size:8pt;line-height:1.45;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4;
 margin:9px 0;padding:9px 11px;background:#f1f5f8;break-inside:avoid}
+.code-appendix pre{font-size:7.7pt;line-height:1.4;padding:7px 10px}
+.code-appendix>h2:first-child{font-size:16pt;margin-bottom:10px}
+.code-appendix p{margin:7px 0}
+blockquote{margin:8px 0;padding:6px 10px;border-left:2px solid #8395a4;background:#f7f9fb;
+font-size:8.7pt;line-height:1.5;break-inside:avoid}
+blockquote p{margin:0}blockquote code{font-size:8pt;overflow-wrap:anywhere}
 ul,ol{padding-left:20px;margin:8px 0}li{margin:5px 0}
 table{width:100%;border-collapse:collapse;font-size:8.5pt;margin:9px 0}
 th{background:#eaf0f5;text-align:left}th,td{padding:6px 8px;border-bottom:1px solid #cfdae2}
@@ -233,3 +294,12 @@ with fitz.open(HERE / "prj1-prj2代码阅读提纲.pdf") as pdf:
     pdf.set_metadata({"title": "prj1 → prj2 代码阅读提纲"})
     pdf.saveIncr()
 print(f"PASS: {len(sections)} guide sections, {len(references)} source references, {len(sources)} source files")
+metadata = {"pages": len(sections), "overview_pages": overview_pages,
+            "todo_intro_pages": 1, "code_appendix_pages": len(sections) - overview_pages - 1,
+            "references": len(references), "source_files": len(sources),
+            "snippets": len(snippets), "quoted_source_lines": sum(len(s["source_lines"]) for s in snippets),
+            "todo_markers": len(todos),
+            "todo_by_version": {key: sum(t["source"].startswith(key + ":") for t in todos)
+                                for key in ["P1", "F2", "P2"]}}
+(HERE / "提纲元数据.json").write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + "\n")
+print("TODO / code appendix:", json.dumps(metadata, ensure_ascii=False))

@@ -25,7 +25,9 @@
 - `ready_queue` 决定哪些任务可运行；锁等待队列和 `sleep_queue` 存放暂时不能运行的任务。
 - 库函数、内核函数、BIOS接口位于不同层；名字里出现 `sys_` 并不能单独证明发生了特权级切换。
 
-配套的 **[源码索引.html](源码索引.html)** 收录两版完整文本，可搜索文件名或函数名。正文中的“P1/P2 文件:行号”链接直接定位到对应源码行；P1表示恢复出的实验一，P2表示归档中的实验二。
+配套的 **[源码索引.html](源码索引.html)** 收录P1、F2、P2源码文本，可搜索文件名、函数名或TODO。正文中的“版本 文件:行号”链接直接定位到对应源码行；P1表示实验一，F2表示原框架，P2表示完成版。
+
+**重点补代码：** 第15页起增加TODO导读，第16页起的A1—A20按原TODO配上重要实现、输入输出、不变量和常见错误。F2表示原始实验二框架；完整TODO清单也可逐条定位。建议读完一个机制，就立即对照相应代码组。
 
 **完成目标：** 合上代码后，能画出“加载一个任务”“第一次运行一个任务”“一次yield”“一次锁阻塞”“一次时钟抢占”五条路径。
 
@@ -97,15 +99,13 @@ bootblock先通过固定BIOS入口 `0x50150000` 打印和读盘。读内核时�
 
 以下是实际执行点的源码节选：
 
-```text
-129          uint64_t entry=load_task_img(taskname);
+<pre class="source-snippet" id="source-code-1"><code>129          uint64_t entry=load_task_img(taskname);
 130          if(entry==0){
-131              bios_putstr("Task not found\n\r");
+131              bios_putstr(&quot;Task not found\n\r&quot;);
 132              continue;
 133          }
 134          ((void (*)(void))entry)();
-135          bios_putstr("\n\rTask finished, back to loader\n\r");
-```
+135          bios_putstr(&quot;\n\rTask finished, back to loader\n\r&quot;);</code></pre>
 
 这里把整数入口地址转换成函数指针并调用。**只有一个执行流正在沿着这条调用链运行**：main的当前调用栈还在，任务返回后继续执行“Task finished”。存在多个任务镜像并不表示已经有多个可恢复的运行上下文。
 
@@ -205,12 +205,10 @@ pid0有单独PCB，负责启动及idle，不与普通任务一样每次回到就
 
 下面四行把切换现场接到异常返回现场上：
 
-```text
-140      sw->regs[0] = (ptr_t)ret_from_exception;
-141      sw->regs[1] = (ptr_t)sw;
-142      task->kernel_sp = (ptr_t)sw;
-143      task->user_sp = utop;
-```
+<pre class="source-snippet" id="source-code-2"><code>140      sw-&gt;regs[0] = (ptr_t)ret_from_exception;
+141      sw-&gt;regs[1] = (ptr_t)sw;
+142      task-&gt;kernel_sp = (ptr_t)sw;
+143      task-&gt;user_sp = utop;</code></pre>
 
 第一次启动任务的路径因此是：
 
@@ -239,8 +237,7 @@ do_scheduler选中该PCB
 
 `switch_to(prev,next)` 中最关键的片段如下，中间省略部分同类寄存器读写：
 
-```text
-130  ENTRY(switch_to)
+<pre class="source-snippet" id="source-code-3"><code>130  ENTRY(switch_to)
 131      addi sp, sp, -SWITCH_TO_SIZE
 132      sd ra, 0(sp)
 133      sd sp, 8(sp)
@@ -257,8 +254,7 @@ do_scheduler选中该PCB
 163      ld sp, SWITCH_TO_SP(sp)
 164      addi sp, sp, SWITCH_TO_SIZE
 165      ret
-166  ENDPROC(switch_to)
-```
+166  ENDPROC(switch_to)</code></pre>
 
 注意切换发生的分界：把旧sp写入prev的PCB后，tp改指向next，sp改为next的栈。之后恢复的ra属于next，最后的ret自然回到next保留的返回位置。
 
@@ -292,16 +288,14 @@ A第一次切到B时，如果B曾经运行过，B恢复的是**自己上一次�
 
 释放代码的关键分支是：
 
-```text
- 72      if (!list_empty(&lock->block_queue)) {
- 73          list_node_t *node = lock->block_queue.next;
- 74          lock->owner = list_entry(node, pcb_t, list)->pid;
+<pre class="source-snippet" id="source-code-4"><code> 72      if (!list_empty(&amp;lock-&gt;block_queue)) {
+ 73          list_node_t *node = lock-&gt;block_queue.next;
+ 74          lock-&gt;owner = list_entry(node, pcb_t, list)-&gt;pid;
  75          do_unblock(node); /* lock remains LOCKED until this owner releases */
  76      } else {
- 77          lock->owner = 0;
- 78          spin_lock_release(&lock->lock);
- 79      }
-```
+ 77          lock-&gt;owner = 0;
+ 78          spin_lock_release(&amp;lock-&gt;lock);
+ 79      }</code></pre>
 
 这是一种**所有权直接移交**。有等待者时不先把锁改成UNLOCKED，所以新来的C不能在B真正获得CPU前把锁抢走。没有等待者时才清owner并真正解锁。
 
@@ -330,16 +324,14 @@ A第一次切到B时，如果B曾经运行过，B恢复的是**自己上一次�
 
 这里的 `regs->regs[17]` 是保存的a7，`regs->regs[10]` 是保存的a0。`handle_syscall()` 的实现很短，但要能解释每一行：
 
-```text
-  6      uint64_t number = regs->regs[17]; /* a7 */
-  7      regs->sepc += 4; /* ecall is always a 32-bit instruction */
-  8      if (number >= NUM_SYSCALLS || !syscall[number]) {
-  9          regs->regs[10] = (reg_t)-38; /* ENOSYS */
+<pre class="source-snippet" id="source-code-5"><code>  6      uint64_t number = regs-&gt;regs[17]; /* a7 */
+  7      regs-&gt;sepc += 4; /* ecall is always a 32-bit instruction */
+  8      if (number &gt;= NUM_SYSCALLS || !syscall[number]) {
+  9          regs-&gt;regs[10] = (reg_t)-38; /* ENOSYS */
  10          return;
  11      }
- 12      regs->regs[10] = syscall[number](regs->regs[10], regs->regs[11],
- 13                                      regs->regs[12], regs->regs[13], regs->regs[14]);
-```
+ 12      regs-&gt;regs[10] = syscall[number](regs-&gt;regs[10], regs-&gt;regs[11],
+ 13                                      regs-&gt;regs[12], regs-&gt;regs[13], regs-&gt;regs[14]);</code></pre>
 
 系统调用表在 [P2 init/main.c:173](源码索引.html#p2-init-main-c-L173) 初始化。不是所有编号都有实现；超出表界或空表项都返回 `-38`。输出字符串的 `k_write()` 先验证完整字符串位于当前任务的镜像槽或用户栈中并找到终止符，不符合时返回 `-14`。这些检查不等于已经建立页表级内存隔离。
 
@@ -369,8 +361,7 @@ A第一次切到B时，如果B曾经运行过，B恢复的是**自己上一次�
 
 入口最早的几行是：
 
-```text
-  8  .macro SAVE_CONTEXT
+<pre class="source-snippet" id="source-code-6"><code>  8  .macro SAVE_CONTEXT
   9      csrrw tp, CSR_SSCRATCH, tp
  10      sd t0, PCB_TRAP_T0(tp)
  11      csrr t0, CSR_SSTATUS
@@ -378,8 +369,7 @@ A第一次切到B时，如果B曾经运行过，B恢复的是**自己上一次�
  13      bnez t0, 1f
  14      sd sp, PCB_USER_SP(tp)
  15      ld sp, PCB_KERNEL_SP(tp)
- 16  1:  addi sp, sp, -OFFSET_SIZE
-```
+ 16  1:  addi sp, sp, -OFFSET_SIZE</code></pre>
 
 `RESTORE_CONTEXT` 恢复sstatus和sepc，更新PCB中可供下次U态陷入使用的内核栈位置，再恢复通用寄存器。最后才恢复原tp和原sp，因此恢复前仍能使用内核PCB及异常栈。紧随其后的 `sret` 按CSR内容返回相应特权级。
 
@@ -485,3 +475,1107 @@ pid0既是启动上下文，也是没有普通READY任务时的执行载体。�
 `镜像工具→bootblock→head→main→loader→crt0`；`init_pcb_stack→switch_to→ret_from_exception→sret`；`yield→排队→换sp→另一个ret`；`获取失败→BLOCKED→移交owner→READY→继续获取`；`时钟→重设timer→检查sleep→轮转→异常返回`。
 
 如果某条链画不通，只回到相应小节的源码入口补读。完成后，再读屏幕格式化、完整CSR位定义和更长的测试程序，作为第二轮细化。
+
+
+<!-- PAGE -->
+
+## TODO 导读：把“待补代码”变成能解释的契约
+
+以下按你需要自己完成的TODO组织。`F2`表示从课程框架差异恢复的**未填实现版本**；`P1`是保存的实验一；`P2`是已完成的A-Core。后续代码直接摘自这些版本，保留文件行号，没有把伪代码冒充工程源码。
+
+每组都先看原TODO，再读实现，最后回答三个问题：输入是什么；这段必须改变哪些状态；完成后下一步由谁继续。出现“节选”时，仅省略文中明确标出的行，完整文件仍可在源码索引打开。
+
+## 按实验任务找对应代码
+
+- **p1-task1**：BIOS打印与bootblock入口，见A2。
+- **p1-task2**：读入内核、跳转、清BSS、建立C环境，见A2—A3。
+- **p1-task3**：任务加载、crt0、任务main及返回，见A3—A4。
+- **p1-task4**：task_info结构、镜像元信息、启动传参、跨扇区读取和按名称加载，见A1、A2、A4。
+- **p2-task1**：链表、PCB、初始栈、调度、switch_to、早期跳转表，见A5—A10、A14、A20。
+- **p2-task2**：自旋锁、互斥锁、阻塞与唤醒，见A9、A11—A13。
+- **p2-task3**：用户调用封装、异常现场、系统调用、睡眠，见A7、A14—A20。
+- **p2-task4**：时钟中断、重设定时器、轮转和安全地开启中断，见A8、A19。
+
+完整的 [TODO任务清单](TODO任务清单.md) 逐条记录标记、文件位置、附录编号和状态；源码索引搜索 `TODO` 或 `F2:文件名` 可以查看原始空函数。A5中的PCB结构本身主要是框架提供的背景，列出它是为了读懂后续TODO会操作的字段。
+
+## 写每一处TODO前，先填这五句话
+
+1. 调用者传来什么，当前处于哪个特权级，使用哪个栈？
+2. 当前任务/队列/锁的状态在进入时满足什么条件？
+3. 我需要改哪些寄存器、内存字段或链表指针？
+4. 这段可能阻塞、切换或永不返回吗？返回时结果放在哪里？
+5. 哪个具体测试会在我漏写一步时失败？
+
+**不要把TODO标记直接当成未完成清单。** P1里不少标记下已经有代码；P2中的部分标记被实现替换。屏幕退格的P3 TODO和预实验test.S的p0 TODO不属于本次A-Core Task1—4；README的TODO则是需要完成项目说明，不是内核函数。
+
+<!-- PAGE -->
+
+## A1. p1-task4：镜像中的任务表与启动元信息
+
+> **原TODO**（[F2 tools/createimage.c:20](源码索引.html#f2-tools-createimage-c-L20)）：<br>
+> <code>TODO: [p1-task4] design your own task_info_t</code>
+
+同文件79、125、216行还要求填写任务记录、处理padding并写回镜像信息。输入是各ELF的加载数据与当前镜像位置；输出是镜像尾部的任务表，以及bootblock尾部约定位置的数量、偏移和内核大小。
+
+<pre class="source-snippet" id="source-code-7"><code> 25  typedef struct {
+ 26      char task_name[TASK_NAME_LEN];
+ 27      uint32_t offset;
+ 28      uint32_t size;
+ 29      uint64_t entrypoint;
+ 30  } task_info_t;
+    …
+123              if(fidx&gt;=2){
+124                  strncpy(taskinfo[taskidx].task_name,*files,TASK_NAME_LEN-1);
+125                  taskinfo[taskidx].task_name[TASK_NAME_LEN-1]=&#x27;\0&#x27;;
+126                  taskinfo[taskidx].offset=task_start;
+127                  taskinfo[taskidx].size=phyaddr-task_start;
+128                  taskinfo[taskidx].entrypoint=get_entrypoint(ehdr);
+129              }
+    …
+144          if (strcmp(*files, &quot;bootblock&quot;) == 0) {
+145              write_padding(img, &amp;phyaddr, SECTOR_SIZE);
+146          }
+147&#32;&#32;
+148          fclose(fp);
+149          files++;
+150      }
+151      write_img_info(nbytes_kernel, taskinfo, tasknum, img);</code></pre>
+
+已完成P2保留相同磁盘协议，写回引导区的核心是：
+
+<pre class="source-snippet" id="source-code-8"><code>136      uint16_t n = count, bytes = kernel_size;
+137      uint8_t signature[] = {0x55, 0xaa};
+138      write_at(img, TASK_NUM_LOC, &amp;n, sizeof(n));
+139      write_at(img, APP_INFO_LOC, &amp;app_offset, sizeof(app_offset));
+140      write_at(img, OS_SIZE_LOC, &amp;bytes, sizeof(bytes));
+141      write_at(img, 0x1fe, signature, sizeof(signature));</code></pre>
+
+**必须理解：** `task_start`是镜像中的字节位置；`entrypoint`来自ELF入口。这里记录的是磁盘任务元数据，并没有创建PCB。Task4阶段只要求bootblock补齐512B，不再给每个任务分配固定扇区数量。P2补齐镜像尾扇区是额外的完整读取处理。
+
+**易错与检验：** 把内核字节数当扇区数写入，会让bootblock的向上取整再算错；改变结构体字段而不同时修改两端，会让名称之后的偏移全部错位。P1第230行TODO属于旧注释块，实际 `write_img_info()` 从267行起；不要只改那段已停用代码。
+
+<!-- PAGE -->
+
+## A2. p1-task1/2/4：bootblock的四个TODO
+
+> **原TODO**（[F2 arch/riscv/boot/bootblock.S:22](源码索引.html#f2-arch-riscv-boot-bootblock-s-L22)）：<br>
+> <code>TODO: [p1-task2] call BIOS to read kernel in SD card</code>
+
+同一文件的打印、传参和跳转TODO分别位于19、25、28行。下面是P1对应的完成代码，包含原有TODO标记。
+
+<pre class="source-snippet" id="source-code-9"><code> 21  &#9;// TODO: [p1-task1] call BIOS to print string &quot;It&#x27;s bootblock!&quot;
+ 22  &#9;la a0,msg
+ 23  &#9;li a1,0
+ 24  &#9;li a2,0
+ 25  &#9;li a3,0
+ 26  &#9;li a4,0
+ 27  &#9;li a5,0
+ 28  &#9;li a6,0
+ 29  &#9;li a7,BIOS_PUTSTR
+ 30  &#9;li t0,bios_func_entry
+ 31  &#9;jalr t0
+ 32&#32;&#32;
+ 33  &#9;// TODO: [p1-task2] call BIOS to read kernel in SD card
+ 34  &#9;li a0,kernel
+ 35  &#9;li t0,os_size_loc
+ 36  &#9;lhu t1,0(t0)
+ 37  &#9;addi a1,t1,511
+ 38  &#9;srli a1,a1,9
+ 39  &#9;li a2,1
+ 40  &#9;li a7,BIOS_SDREAD
+ 41  &#9;li t0,bios_func_entry
+ 42  &#9;jalr t0
+ 43  &#9;// TODO: [p1-task4] load task-related arguments and pass them to kernel
+ 44  &#9;li t0,task_num_loc
+ 45  &#9;lhu a0,0(t0)
+ 46  &#9;li t0,app_info_offset_loc
+ 47  &#9;lwu a1,0(t0)
+ 48&#32;&#32;
+ 49&#32;&#32;
+ 50  &#9;// TODO: [p1-task2] jump to kernel to start UCAS-OS
+ 51  &#9;li t0,kernel
+ 52  &#9;jr t0</code></pre>
+
+**逐段看：** 21—31行调用BIOS打印；34—42行把内核字节数换算为扇区数，从扇区1读到kernel地址；44—47行重新准备内核main的a0/a1；51—52行跳转。调用BIOS时的参数会被消耗，不能沿用读盘前的a0充当任务数。
+
+**不变量与检验：** 引导区字段宽度、内核链接地址和读入地址必须一致。只有看到内核main之后的输出，才证明完成了“读入并跳转”；仅出现bootblock打印只能证明第一个TODO工作了。
+
+<!-- PAGE -->
+
+## A3. p1-task2/3：为什么要先准备C运行环境
+
+> **原TODO**（[F2 arch/riscv/kernel/head.S:17](源码索引.html#f2-arch-riscv-kernel-head-s-L17)）：<br>
+> <code>TODO: [p1-task2] clear BSS for flat non-ELF images</code>
+
+下面先列P1内核入口的清零和建栈，再列任务crt0的保存、清零、调用与返回。
+
+<pre class="source-snippet" id="source-code-10"><code> 12  csrw CSR_SIE, zero
+ 13  csrw CSR_SIP, zero
+ 14&#32;&#32;
+ 15&#32;&#32;
+ 16  la t0,__bss_start
+ 17  la t1,__BSS_END__
+ 18&#32;&#32;
+ 19  clear_bss:
+ 20      beq t0,t1,clear_done
+ 21      sd zero,0(t0)
+ 22      addi t0,t0,8
+ 23      j clear_bss
+ 24&#32;&#32;
+ 25&#32;&#32;
+ 26  clear_done:
+ 27&#32;&#32;
+ 28  li sp,KERNEL_STACK
+ 29&#32;&#32;
+ 30&#32;&#32;
+ 31  call main</code></pre>
+
+<pre class="source-snippet" id="source-code-11"><code>  6      /* TODO: [p1-task3] setup C runtime environment for the user program */
+  7      addi sp,sp,-16
+  8      sd ra, 0(sp)
+  9      sd s0, 8(sp)
+ 10      addi s0, sp, 16
+ 11&#32;&#32;
+ 12      la t0, __bss_start
+ 13      la t1, __BSS_END__
+ 14&#32;&#32;
+ 15      clear_bss:
+ 16          bge t0, t1, clear_bss_done
+ 17          sw zero, 0(t0)
+ 18          addi t0, t0, 4
+ 19          blt t0, t1, clear_bss
+ 20      clear_bss_done:
+ 21&#32;&#32;
+ 22      /* TODO: [p1-task3] enter main function */
+ 23      call main
+ 24&#32;&#32;
+ 25      /* TODO: [p1-task3] finish task and return to the kernel, replace this in p3-task2! */
+ 26      ld ra,0(sp)
+ 27      ld s0,8(sp)
+ 28      addi sp,sp,16
+ 29      jr ra</code></pre>
+
+**进入/离开条件：** 内核main需要合法sp和已清零的BSS，同时必须保留a0/a1。任务crt0在P1中要维护加载器的返回链，所以先保存ra/s0，任务main返回后再恢复。
+
+**不能机械迁移：** P2任务不是由加载器普通call启动，已由PCB提供独立栈；P2的crt0在main返回后循环yield。保留P1的“返回加载器”实现，会跳向不存在的调用者。验证时分别观察BSS检查、任务运行及返回行为，三者不是同一项检查。
+
+<!-- PAGE -->
+
+## A4. p1-task3/4：按名查找、跨扇区读入、执行
+
+> **原TODO**（[F2 kernel/loader/loader.c:9](源码索引.html#f2-kernel-loader-loader-c-L9)）：<br>
+> <code>TODO: 1. [p1-task3] load task from image via task id, and return its entrypoint 2. [p1-task4] load task via task name, thus the arg should be &#x27;char *taskname&#x27;</code>
+
+`init_task_info()`先用下列字节读取函数填充tasks数组；加载某任务时再查名称并读入代码。P1的核心实现如下。
+
+<pre class="source-snippet" id="source-code-12"><code> 12  void load_img_bytes(uint32_t offset,uint32_t size,void *dst)
+ 13  {
+ 14      unsigned char *out = (unsigned char *)dst;
+ 15      while (size &gt; 0)
+ 16      {
+ 17          uint32_t sector = offset / SECTOR_SIZE;
+ 18          uint32_t in_sector = offset % SECTOR_SIZE;
+ 19          uint32_t copy_size = SECTOR_SIZE - in_sector;
+ 20          if (copy_size &gt; size)
+ 21          {
+ 22              copy_size = size;
+ 23          }
+ 24          sd_read((unsigned)sector_buf, 1, sector);
+ 25&#32;&#32;
+ 26          for (uint32_t i = 0; i &lt; copy_size; ++i)
+ 27          {
+ 28              out[i] = sector_buf[in_sector + i];
+ 29          }
+ 30          offset += copy_size;
+ 31          out += copy_size;
+ 32          size -= copy_size;
+ 33      }
+ 34  }
+ 35  uint64_t load_task_img(char *taskname)
+ 36  {
+ 37      /**
+ 38       * TODO:
+ 39       * 1. [p1-task3] load task from image via task id, and return its entrypoint
+ 40       * 2. [p1-task4] load task via task name, thus the arg should be &#x27;char *taskname&#x27;
+ 41       */
+ 42       for(int i=0;i&lt;task_num;i++){
+ 43          if(strcmp(taskname,tasks[i].task_name)==0){
+ 44              load_img_bytes(tasks[i].offset,tasks[i].size,(void *)tasks[i].entrypoint);
+ 45              return tasks[i].entrypoint;
+ 46          }
+ 47       }
+ 48       return 0;</code></pre>
+
+加载器取得入口后这样执行：
+
+<pre class="source-snippet" id="source-code-13"><code>129          uint64_t entry=load_task_img(taskname);
+130          if(entry==0){
+131              bios_putstr(&quot;Task not found\n\r&quot;);
+132              continue;
+133          }
+134          ((void (*)(void))entry)();
+135          bios_putstr(&quot;\n\rTask finished, back to loader\n\r&quot;);</code></pre>
+
+**输入/输出：** `offset/size/dst`都是按字节描述；磁盘读盘接口则按扇区工作，临时sector_buf用于衔接二者。每轮推进out、offset并减少size，这三个动作缺一不可。按名查找返回入口，找不到返回0。
+
+**检验：** 手算offset=1000、size=600的24/512/64字节三轮复制；用不存在的名字确认不会跳到0。P2完成版在复制任务后还执行fence.i，保证后续取指能看到刚写入的代码。
+
+<!-- PAGE -->
+
+## A5. 写调度TODO前：先读懂PCB里的对象
+
+源码位置：[P2 include/os/sched.h:57](源码索引.html#p2-include-os-sched-h-L57)。这组结构体是理解TODO的背景，不能把已有字段都算成需要重新编写的功能。
+
+<pre class="source-snippet" id="source-code-14"><code> 57  typedef enum {
+ 58      TASK_BLOCKED,
+ 59      TASK_RUNNING,
+ 60      TASK_READY,
+ 61      TASK_EXITED,
+ 62  } task_status_t;
+ 63&#32;&#32;
+ 64  /* Process Control Block */
+ 65  typedef struct pcb
+ 66  {
+ 67      /* register context */
+ 68      // NOTE: this order must be preserved, which is defined in regs.h!!
+ 69      reg_t kernel_sp;
+ 70      reg_t user_sp;
+ 71      reg_t trap_t0; /* temporary saved before trap stack selection */
+ 72      ptr_t user_stack_base;
+ 73&#32;&#32;
+ 74      /* previous, next pointer */
+ 75      list_node_t list;
+ 76&#32;&#32;
+ 77      /* process id */
+ 78      pid_t pid;
+ 79&#32;&#32;
+ 80      /* BLOCK | READY | RUNNING */
+ 81      task_status_t status;
+ 82&#32;&#32;
+ 83      /* cursor position */
+ 84      int cursor_x;
+ 85      int cursor_y;
+ 86&#32;&#32;
+ 87      /* time(seconds) to wake up sleeping PCB */
+ 88      uint64_t wakeup_time; /* absolute rdtime ticks */
+ 89&#32;&#32;
+ 90  } pcb_t;</code></pre>
+
+**按使用者理解字段：** 汇编用kernel_sp恢复内核调用链；异常入口用user_sp和trap_t0保存原用户现场；链表API操作list；调度器修改status；sleep修改wakeup_time；屏幕代码读取当前PCB里的cursor。
+
+运行中、就绪、阻塞不是三份PCB。它们是同一对象在状态和队列中的不同位置。一个PCB只有一个list节点，不能同时把它挂进两个队列。
+
+trap_t0和user_stack_base是完成版为异常入口和参数检查补充的辅助字段。扩展PCB后，供汇编使用的偏移也必须同步核对，不能只让C结构体单方面改变布局。
+
+**检验：** 在纸上给A画一个PCB，跟踪一次yield、一次获取锁失败、一次唤醒。每一步都写明status及list所属队列。只改status或只改链表都会破坏下一次调度。
+
+<!-- PAGE -->
+
+## A6. p2-task1：链表API要维持什么
+
+> **原TODO**（[F2 include/os/list.h:53](源码索引.html#f2-include-os-list-h-L53)）：<br>
+> <code>TODO: [p2-task1] implement your own list API</code>
+
+输入是内嵌在PCB中的链表节点或队列头，输出是指针连接关系的变化，不是复制PCB。完成版的核心操作如下。
+
+<pre class="source-snippet" id="source-code-15"><code> 43  typedef struct list_node
+ 44  {
+ 45      struct list_node *next, *prev;
+ 46  } list_node_t;
+ 47&#32;&#32;
+ 48  typedef list_node_t list_head;
+    …
+ 53  static inline void list_init(list_head *head)
+ 54  {
+ 55      head-&gt;next = head-&gt;prev = head;
+ 56  }
+ 57  static inline int list_empty(const list_head *head)
+ 58  {
+ 59      return head-&gt;next == head;
+ 60  }
+ 61  static inline void list_add_tail(list_node_t *node, list_head *head)
+ 62  {
+ 63      node-&gt;prev = head-&gt;prev;
+ 64      node-&gt;next = head;
+ 65      head-&gt;prev-&gt;next = node;
+ 66      head-&gt;prev = node;
+ 67  }
+ 68  static inline void list_del(list_node_t *node)
+ 69  {
+ 70      node-&gt;prev-&gt;next = node-&gt;next;
+ 71      node-&gt;next-&gt;prev = node-&gt;prev;
+ 72      list_init(node);
+ 73  }
+ 74  static inline list_node_t *list_pop_front(list_head *head)
+ 75  {
+ 76      if (list_empty(head)) return NULL;
+ 77      list_node_t *node = head-&gt;next;
+ 78      list_del(node);
+ 79      return node;
+ 80  }
+ 81  #define list_entry(ptr, type, member) \
+ 82      ((type *)((char *)(ptr) - __builtin_offsetof(type, member)))</code></pre>
+
+**不变量：** 空队列头的next/prev都指向自己；追加时四条连接关系必须成对更新；删除后把节点重新设为自环，后续do_block才能判断该节点尚未挂队列。
+
+`list_entry`从成员地址减去成员偏移，得到PCB基址。它不会查表、不会分配内存，也不能把任意指针变成PCB。`list_pop_front`先判断空队列，返回的节点已经脱链。
+
+**检验：** 给head、A、B画双向箭头，依次执行追加A、追加B、弹出A、删除B，核对head最终恢复自环。
+
+<!-- PAGE -->
+
+## A7. p2-task1/3：构造一次尚未发生过的返回
+
+> **原TODO**（[F2 init/main.c:69](源码索引.html#f2-init-main-c-L69)）：<br>
+> <code>TODO: [p2-task1] set sp to simulate just returning from switch_to NOTE: you should prepare a stack, and push some values to simulate a callee-saved context.</code>
+
+同文件60行还要求初始化任务寄存器。先看两个现场结构，再看如何在新任务栈中摆放它们。
+
+<pre class="source-snippet" id="source-code-16"><code> 38  typedef struct regs_context
+ 39  {
+ 40      /* Saved main processor registers.*/
+ 41      reg_t regs[32];
+ 42&#32;&#32;
+ 43      /* Saved special registers. */
+ 44      reg_t sstatus;
+ 45      reg_t sepc;
+ 46      reg_t sbadaddr;
+ 47      reg_t scause;
+ 48  } regs_context_t;
+ 49&#32;&#32;
+ 50  /* used to save register infomation in switch_to */
+ 51  typedef struct switchto_context
+ 52  {
+ 53      /* Callee saved registers.*/
+ 54      reg_t regs[14];
+ 55  } switchto_context_t;</code></pre>
+
+<pre class="source-snippet" id="source-code-17"><code>124  static void init_pcb_stack(ptr_t ktop, ptr_t utop, ptr_t entry, pcb_t *task)
+125  {
+126      regs_context_t *regs = (regs_context_t *)(ktop - sizeof(*regs));
+127      switchto_context_t *sw = (switchto_context_t *)((ptr_t)regs - sizeof(*sw));
+128      bzero(regs, sizeof(*regs));
+129      bzero(sw, sizeof(*sw));
+130      regs-&gt;regs[2] = utop;
+131      regs-&gt;sepc = entry;
+132  #if LAB_STAGE &gt;= 3
+133      /* SPP=0 returns to U mode; SPIE controls SIE after sret. */
+134      regs-&gt;sstatus = SR_SPIE;
+135  #else
+136      /* Cooperative tasks share S mode and call the jump table directly. */
+137      regs-&gt;regs[4] = (ptr_t)task;
+138      regs-&gt;sstatus = SR_SPP;
+139  #endif
+140      sw-&gt;regs[0] = (ptr_t)ret_from_exception;
+141      sw-&gt;regs[1] = (ptr_t)sw;
+142      task-&gt;kernel_sp = (ptr_t)sw;
+143      task-&gt;user_sp = utop;
+144  }</code></pre>
+
+**关键语句：** `regs[2]`是任务sp槽，sepc指向首次入口；SPP决定sret返回U还是S。`sw->regs[0]`是未来ret要取出的ra，设为ret_from_exception；`sw->regs[1]`与kernel_sp共同指向预制切换帧。
+
+**检验：** 沿 `switch_to→ret_from_exception→sret→crt0` 解释每一步谁提供跳转目标。如果把ra直接设成用户main，就绕开了异常现场恢复和特权级返回；如果把sp写成栈底，首次保存寄存器就会越过有效区域。
+
+<!-- PAGE -->
+
+## A8. p2-task1/4：把任务准备为可调度对象
+
+> **原TODO**（[F2 init/main.c:80](源码索引.html#f2-init-main-c-L80)）：<br>
+> <code>TODO: [p2-task1] load needed tasks and init their corresponding PCB</code>
+
+83行还要求设置current_running。初始化全部完成之前，不应让时钟在半初始化的队列上运行。
+
+<pre class="source-snippet" id="source-code-18"><code>146  static void init_pcb(void)
+147  {
+148      list_init(&amp;ready_queue);
+149      list_init(&amp;sleep_queue);
+150      list_init(&amp;pid0_pcb.list);
+151      pid0_pcb.status = TASK_RUNNING;
+152      current_running = &amp;pid0_pcb;
+153      __asm__ volatile (&quot;csrw sscratch, %0&quot; :: &quot;r&quot;(current_running) : &quot;memory&quot;);
+154      for (int i = 0; i &lt; task_num; ++i) {
+155          pcb_t *task = &amp;pcb[i];
+156          bzero(task, sizeof(*task));
+157          task-&gt;pid = process_id++;
+158          task-&gt;status = TASK_READY;
+159          task-&gt;cursor_y = i * 2;
+160          list_init(&amp;task-&gt;list);
+161          ptr_t ktop = allocKernelPage(1) + PAGE_SIZE;
+162          task-&gt;user_stack_base = allocUserPage(1);
+163          ptr_t utop = task-&gt;user_stack_base + PAGE_SIZE;
+164          uint64_t entry = load_task_img(tasks[i].task_name);
+165          assert(entry);
+166          init_pcb_stack(ktop, utop, entry, task);
+167          list_add_tail(&amp;task-&gt;list, &amp;ready_queue);
+168          printk(&quot;[LOAD] pid=%d task=%s entry=0x%lx\n\r&quot;, task-&gt;pid,
+169                 tasks[i].task_name, entry);
+170      }
+171  }
+    …
+188  int main(int count, uint32_t app_offset)
+189  {
+190      init_jmptab();
+191      init_task_info(count, app_offset);
+192      init_pcb();
+193      time_base = bios_read_fdt(TIMEBASE);
+194      assert(time_base &gt; 0);
+195      init_locks();
+196      init_syscall();
+197      init_exception();
+198      init_screen();
+199      printk(&quot;[INIT] A-Core stage %d, %d tasks, timebase=%lu\n\r&quot;,
+200             LAB_STAGE, task_num, time_base);
+201  #if LAB_STAGE &gt;= 4
+202      bios_set_timer(get_ticks() + TIMER_INTERVAL);
+203      enable_preempt();
+204  #endif</code></pre>
+
+**逐步解释：** pid0先成为当前任务；每个普通任务分配两种栈、加载映像、构造初始现场，再进入ready_queue。`load_task_img()`只负责程序数据，`init_pcb_stack()`负责未来怎样开始执行，两者缺一不可。
+
+**检验：** 逐个核对pid、entry、栈顶、status和队列。time_base必须先取得有效频率；锁、系统调用表、异常表和屏幕都准备好后，才设置定时器及使能抢占。这里使用的是P2实际实现顺序，不是按TODO在模板中的文字位置随意开中断。
+
+<!-- PAGE -->
+
+## A9. p2-task1/2：调度与阻塞/唤醒是一套协议
+
+> **原TODO**（[F2 kernel/sched/sched.c:32](源码索引.html#f2-kernel-sched-sched-c-L32)）：<br>
+> <code>TODO: [p2-task1] Modify the current_running pointer.</code>
+
+同文件35、50、55行分别要求切换、阻塞和唤醒。do_scheduler必须与do_block的状态修改保持一致。
+
+<pre class="source-snippet" id="source-code-19"><code> 16  void do_scheduler(void)
+ 17  {
+ 18      uint64_t flags = irq_save();
+ 19      check_sleeping();
+ 20      /************************************************************/
+ 21      /* Do not touch this comment. Reserved for future projects. */
+ 22      /************************************************************/
+ 23      pcb_t *prev = current_running;
+ 24      if (prev-&gt;status == TASK_RUNNING &amp;&amp; prev != &amp;pid0_pcb) {
+ 25          prev-&gt;status = TASK_READY;
+ 26          list_add_tail(&amp;prev-&gt;list, &amp;ready_queue);
+ 27      }
+ 28      list_node_t *node = list_pop_front(&amp;ready_queue);
+ 29      pcb_t *next = node ? list_entry(node, pcb_t, list) : &amp;pid0_pcb;
+ 30      if (prev == &amp;pid0_pcb &amp;&amp; next != prev) prev-&gt;status = TASK_READY;
+ 31      next-&gt;status = TASK_RUNNING;
+ 32      if (prev != next) {
+ 33          /* switch_to installs tp and sscratch atomically with IRQs disabled. */
+ 34          switch_to(prev, next);
+ 35      }
+ 36      irq_restore(flags);
+ 37  }
+    …
+ 51  void do_block(list_node_t *node, list_head *queue)
+ 52  {
+ 53      uint64_t flags = irq_save();
+ 54      assert(node == &amp;current_running-&gt;list &amp;&amp; current_running != &amp;pid0_pcb);
+ 55      assert(list_empty(node));
+ 56      current_running-&gt;status = TASK_BLOCKED;
+ 57      list_add_tail(node, queue);
+ 58      do_scheduler();
+ 59      irq_restore(flags);
+ 60  }
+ 61&#32;&#32;
+ 62  void do_unblock(list_node_t *node)
+ 63  {
+ 64      uint64_t flags = irq_save();
+ 65      pcb_t *task = list_entry(node, pcb_t, list);
+ 66      assert(task-&gt;status == TASK_BLOCKED);
+ 67      list_del(node);
+ 68      task-&gt;status = TASK_READY;
+ 69      list_add_tail(node, &amp;ready_queue);
+ 70      irq_restore(flags);
+ 71  }</code></pre>
+
+**不变量：** 只有仍为RUNNING的普通任务才回就绪队尾。do_block先标BLOCKED并进入等待队列，所以后续调度不会把它错误地再排回READY。do_unblock先从旧队列删除，再改READY并排队。
+
+**检验：** 当前A持锁、B获取失败后，B必须只在锁等待队列中；如果这里无条件把prev加回ready_queue，B就会在条件仍不成立时继续执行。队列为空时选择pid0，不能解引用NULL。
+
+<!-- PAGE -->
+
+## A10. p2-task1：switch_to为何能返回另一个任务
+
+> **原TODO**（[F2 arch/riscv/kernel/entry.S:55](源码索引.html#f2-arch-riscv-kernel-entry-s-L55)）：<br>
+> <code>TODO: [p2-task1] save all callee save registers on kernel stack, see the definition of `struct switchto_context` in sched.h</code>
+
+58行是恢复下一任务的对应TODO。输入a0为prev、a1为next，输出不是普通计算值，而是CPU寄存器与执行栈改为next的现场。
+
+<pre class="source-snippet" id="source-code-20"><code>130  ENTRY(switch_to)
+131      addi sp, sp, -SWITCH_TO_SIZE
+132      sd ra, 0(sp)
+133      sd sp, 8(sp)
+134      sd s0, 16(sp)
+135      sd s1, 24(sp)
+136      sd s2, 32(sp)
+137      sd s3, 40(sp)
+138      sd s4, 48(sp)
+139      sd s5, 56(sp)
+140      sd s6, 64(sp)
+141      sd s7, 72(sp)
+142      sd s8, 80(sp)
+143      sd s9, 88(sp)
+144      sd s10, 96(sp)
+145      sd s11, 104(sp)
+146      sd sp, PCB_KERNEL_SP(a0)
+147      mv tp, a1
+148      csrw CSR_SSCRATCH, tp
+149      ld sp, PCB_KERNEL_SP(tp)
+150      ld ra, 0(sp)
+151      ld s0, 16(sp)
+152      ld s1, 24(sp)
+153      ld s2, 32(sp)
+154      ld s3, 40(sp)
+155      ld s4, 48(sp)
+156      ld s5, 56(sp)
+157      ld s6, 64(sp)
+158      ld s7, 72(sp)
+159      ld s8, 80(sp)
+160      ld s9, 88(sp)
+161      ld s10, 96(sp)
+162      ld s11, 104(sp)
+163      ld sp, SWITCH_TO_SP(sp)
+164      addi sp, sp, SWITCH_TO_SIZE
+165      ret
+166  ENDPROC(switch_to)
+167  ENTRY(ret_from_exception)
+168      RESTORE_CONTEXT
+169      sret
+170  ENDPROC(ret_from_exception)</code></pre>
+
+**分界点：** 146行把旧sp交给prev；147—149行取得next的身份和栈。后面的ld/ret都从next的栈读取。新任务取出预制ra，已运行过的任务取出自己上次暂停的ra。
+
+**检验：** 用A、B交替yield检查所有s0—s11是否保留。漏掉某个s寄存器，计数短期正常也不代表切换正确；只改tp而不换sp，两个任务仍会踩在同一条调用栈上。
+
+<!-- PAGE -->
+
+## A11. p2-task2：自旋锁和锁数组初始化
+
+> **原TODO**（[F2 kernel/locking/lock.c:20](源码索引.html#f2-kernel-locking-lock-c-L20)）：<br>
+> <code>TODO: [p2-task2] try to acquire spin lock</code>
+
+同文件10、15、26、31行要求初始化锁数组、自旋锁初值、自旋获取与释放。它们是mutex下面的基础操作。
+
+<pre class="source-snippet" id="source-code-21"><code>  8  void spin_lock_init(spin_lock_t *lock) { lock-&gt;status = UNLOCKED; }
+  9  int spin_lock_try_acquire(spin_lock_t *lock)
+ 10  {
+ 11      return atomic_swap(LOCKED, (ptr_t)&amp;lock-&gt;status) == UNLOCKED;
+ 12  }
+ 13  void spin_lock_acquire(spin_lock_t *lock)
+ 14  {
+ 15      while (!spin_lock_try_acquire(lock)) __asm__ volatile (&quot;nop&quot;);
+ 16  }
+ 17  void spin_lock_release(spin_lock_t *lock)
+ 18  {
+ 19      atomic_swap(UNLOCKED, (ptr_t)&amp;lock-&gt;status);
+ 20  }
+ 21  void init_locks(void)
+ 22  {
+ 23      for (int i = 0; i &lt; LOCK_NUM; ++i) {
+ 24          spin_lock_init(&amp;mlocks[i].lock);
+ 25          list_init(&amp;mlocks[i].block_queue);
+ 26          mlocks[i].used = 0;
+ 27          mlocks[i].owner = 0;
+ 28      }
+ 29  }</code></pre>
+
+队列和锁操作还依赖如下本地中断保护：
+
+<pre class="source-snippet" id="source-code-22"><code> 78  static inline uint64_t irq_save(void)
+ 79  {
+ 80      uint64_t old;
+ 81      __asm__ volatile (&quot;csrrc %0, sstatus, %1&quot; : &quot;=r&quot;(old) : &quot;r&quot;(2UL) : &quot;memory&quot;);
+ 82      return old;
+ 83  }
+ 84  static inline void irq_restore(uint64_t old)
+ 85  {
+ 86      if (old &amp; 2UL)
+ 87          __asm__ volatile (&quot;csrs sstatus, %0&quot; :: &quot;r&quot;(2UL) : &quot;memory&quot;);
+ 88  }</code></pre>
+
+**输入/输出：** atomic_swap把新值写进去并返回旧值；旧值为UNLOCKED才代表成功。try只尝试一次，自旋获取则不断尝试。init_locks还必须初始化每把锁的block_queue，而非只清一个status。
+
+**检验与边界：** 解锁把状态写回UNLOCKED；volatile不能替代原子读改写。irq_restore恢复的是进入前的使能情况，不能无条件开中断；这些约定服务于当前单核内核，不等价于多核同步已经完成。
+
+<!-- PAGE -->
+
+## A12. p2-task2：同key复用及获取失败后阻塞
+
+> **原TODO**（[F2 kernel/locking/lock.c:36](源码索引.html#f2-kernel-locking-lock-c-L36)）：<br>
+> <code>TODO: [p2-task2] initialize mutex lock</code>
+
+42行继续要求获取mutex。初始化函数返回锁下标；获取函数在成功或未来被移交所有权后才继续返回。
+
+<pre class="source-snippet" id="source-code-23"><code> 30  int do_mutex_lock_init(int key)
+ 31  {
+ 32      uint64_t flags = irq_save();
+ 33      int free_slot = -1;
+ 34      for (int i = 0; i &lt; LOCK_NUM; ++i) {
+ 35          if (mlocks[i].used &amp;&amp; mlocks[i].key == key) {
+ 36              irq_restore(flags);
+ 37              return i;
+ 38          }
+ 39          if (!mlocks[i].used &amp;&amp; free_slot &lt; 0) free_slot = i;
+ 40      }
+ 41      if (free_slot &gt;= 0) {
+ 42          mlocks[free_slot].used = 1;
+ 43          mlocks[free_slot].key = key;
+ 44      }
+ 45      irq_restore(flags);
+ 46      return free_slot;
+ 47  }
+ 48  static mutex_lock_t *get_lock(int id)
+ 49  {
+ 50      assert(id &gt;= 0 &amp;&amp; id &lt; LOCK_NUM &amp;&amp; mlocks[id].used);
+ 51      return &amp;mlocks[id];
+ 52  }
+ 53  void do_mutex_lock_acquire(int id)
+ 54  {
+ 55      uint64_t flags = irq_save();
+ 56      mutex_lock_t *lock = get_lock(id);
+ 57      assert(lock-&gt;owner != current_running-&gt;pid); /* non-recursive */
+ 58      if (spin_lock_try_acquire(&amp;lock-&gt;lock)) {
+ 59          lock-&gt;owner = current_running-&gt;pid;
+ 60      } else {
+ 61          do_block(&amp;current_running-&gt;list, &amp;lock-&gt;block_queue);
+ 62          /* release handed ownership to us; no stealing by a new arrival. */
+ 63          assert(lock-&gt;owner == current_running-&gt;pid);
+ 64      }
+ 65      irq_restore(flags);
+ 66  }</code></pre>
+
+**为什么不能一律分配新锁：** A、B用相同key是为了竞争同一个对象，重复初始化必须返回已有下标。没有空槽时返回−1，调用者应检查。
+
+**为什么这里是if而不是抢锁while：** 获取失败后do_block让出CPU，释放者之后会把owner直接交给当前等待者。该任务恢复时检查owner就是自己，因此不再用一轮自旋与后来者竞争。
+
+**检验：** 持锁任务在临界区yield，让同key的另一任务确实走到do_block。若双方使用了不同槽位，两者都能打印“获取成功”，却完全没有实现共同互斥。
+
+<!-- PAGE -->
+
+## A13. p2-task2：释放时移交owner，唤醒不等于立刻运行
+
+> **原TODO**（[F2 kernel/locking/lock.c:47](源码索引.html#f2-kernel-locking-lock-c-L47)）：<br>
+> <code>TODO: [p2-task2] release mutex lock</code>
+
+先对应锁对象的三个状态维度，再看释放函数：
+
+<pre class="source-snippet" id="source-code-24"><code> 45  typedef struct mutex_lock
+ 46  {
+ 47      spin_lock_t lock;
+ 48      list_head block_queue;
+ 49      int key;
+ 50      int used;
+ 51      pid_t owner;
+ 52  } mutex_lock_t;</code></pre>
+
+<pre class="source-snippet" id="source-code-25"><code> 67  void do_mutex_lock_release(int id)
+ 68  {
+ 69      uint64_t flags = irq_save();
+ 70      mutex_lock_t *lock = get_lock(id);
+ 71      assert(lock-&gt;owner == current_running-&gt;pid);
+ 72      if (!list_empty(&amp;lock-&gt;block_queue)) {
+ 73          list_node_t *node = lock-&gt;block_queue.next;
+ 74          lock-&gt;owner = list_entry(node, pcb_t, list)-&gt;pid;
+ 75          do_unblock(node); /* lock remains LOCKED until this owner releases */
+ 76      } else {
+ 77          lock-&gt;owner = 0;
+ 78          spin_lock_release(&amp;lock-&gt;lock);
+ 79      }
+ 80      irq_restore(flags);
+ 81  }</code></pre>
+
+下面的测试安排能逼出竞争路径：
+
+<pre class="source-snippet" id="source-code-26"><code>  6      int id = sys_mutex_init(42);
+  7      assert(id &gt;= 0 &amp;&amp; id == sys_mutex_init(42));
+  8      for (unsigned n = 0;; ++n) {
+  9          sys_mutex_acquire(id);
+ 10          sys_move_cursor(0, 0);
+ 11          printf(&quot;[MUTEX 1] acquired %u\n&quot;, n);
+ 12          sys_yield(); /* force the peer to contend while we own the lock */
+ 13          sys_move_cursor(0, 0);
+ 14          printf(&quot;[MUTEX 1] release %u\n&quot;, n);
+ 15          sys_mutex_release(id);
+ 16          sys_yield();</code></pre>
+
+**关键顺序：** 有等待者时先设owner，再do_unblock，底层status仍为LOCKED；没有等待者才清owner并真正解锁。否则新到达者可能抢在刚唤醒的B之前拿走锁。
+
+**检验：** 手画A持锁、B阻塞、A释放、C到达、B恢复的五步，核对C不能偷走已移交给B的锁。释放者不是owner、重复获取等情况在本实现中触发断言；它不是支持递归的锁。
+
+<!-- PAGE -->
+
+## A14. p2-task1/3：用户封装与内核系统调用分派
+
+> **原TODO**（[F2 tiny_libc/syscall.c:11](源码索引.html#f2-tiny_libc-syscall-c-L11)）：<br>
+> <code>TODO: [p2-task3] implement invoke_syscall via inline assembly</code>
+
+原框架还为各sys_*接口留下两类TODO：早期阶段经call_jmptab，阶段3/4经invoke_syscall。实现如下。
+
+<pre class="source-snippet" id="source-code-27"><code>  6  static long invoke_syscall(long number, long p0, long p1, long p2, long p3, long p4)
+  7  {
+  8      register long a0 asm(&quot;a0&quot;) = p0;
+  9      register long a1 asm(&quot;a1&quot;) = p1;
+ 10      register long a2 asm(&quot;a2&quot;) = p2;
+ 11      register long a3 asm(&quot;a3&quot;) = p3;
+ 12      register long a4 asm(&quot;a4&quot;) = p4;
+ 13      register long a7 asm(&quot;a7&quot;) = number;
+ 14      asm volatile (&quot;ecall&quot; : &quot;+r&quot;(a0) : &quot;r&quot;(a1), &quot;r&quot;(a2), &quot;r&quot;(a3),
+ 15                    &quot;r&quot;(a4), &quot;r&quot;(a7) : &quot;memory&quot;);
+ 16      return a0;
+ 17  }
+ 18  void sys_yield(void)
+ 19  {
+ 20  #if LAB_STAGE &lt; 3
+ 21      call_jmptab(YIELD, 0, 0, 0, 0, 0);
+ 22  #else
+ 23      invoke_syscall(SYSCALL_YIELD, 0, 0, 0, 0, 0);
+ 24  #endif
+ 25  }
+    …
+ 34  void sys_write(char *buff)
+ 35  {
+ 36  #if LAB_STAGE &lt; 3
+ 37      call_jmptab(PRINT, (long)buff, 0, 0, 0, 0);
+ 38  #else
+ 39      invoke_syscall(SYSCALL_WRITE, (long)buff, 0, 0, 0, 0);
+ 40  #endif
+ 41  }</code></pre>
+
+内核处理器对应 [F2 kernel/syscall/syscall.c:7](源码索引.html#f2-kernel-syscall-syscall-c-L7) 的TODO：
+
+<pre class="source-snippet" id="source-code-28"><code>  3  void handle_syscall(regs_context_t *regs, uint64_t stval, uint64_t cause)
+  4  {
+  5      (void)stval; (void)cause;
+  6      uint64_t number = regs-&gt;regs[17]; /* a7 */
+  7      regs-&gt;sepc += 4; /* ecall is always a 32-bit instruction */
+  8      if (number &gt;= NUM_SYSCALLS || !syscall[number]) {
+  9          regs-&gt;regs[10] = (reg_t)-38; /* ENOSYS */
+ 10          return;
+ 11      }
+ 12      regs-&gt;regs[10] = syscall[number](regs-&gt;regs[10], regs-&gt;regs[11],
+ 13                                      regs-&gt;regs[12], regs-&gt;regs[13], regs-&gt;regs[14]);
+ 14  }</code></pre>
+
+**输入/输出：** 调用号放a7，参数放a0—a4，结果通过保存帧的a0再恢复到用户a0。`+r(a0)`说明它既是输入又是输出，memory约束阻止跨系统调用错误重排相关内存访问。
+
+其余封装同样按接口传参：cursor传x/y，mutex传key或id，sleep传秒数；get_timebase/get_tick需返回结果。只写ecall却没放正确调用号，会落入错误服务；只调用内核函数指针，则没有完成U态受控入口。
+
+<!-- PAGE -->
+
+## A15. p2-task3：SAVE_CONTEXT完整宏（上半）
+
+> **原TODO**（[F2 arch/riscv/kernel/entry.S:6](源码索引.html#f2-arch-riscv-kernel-entry-s-L6)）：<br>
+> <code>TODO: [p2-task3] save all general purpose registers here!</code>
+
+这是完整SAVE_CONTEXT宏的前半，下一页连续给出后半。硬件不会替这段代码保存全部GPR和选择本内核的栈。
+
+<pre class="source-snippet" id="source-code-29"><code>  8  .macro SAVE_CONTEXT
+  9      csrrw tp, CSR_SSCRATCH, tp
+ 10      sd t0, PCB_TRAP_T0(tp)
+ 11      csrr t0, CSR_SSTATUS
+ 12      andi t0, t0, SR_SPP
+ 13      bnez t0, 1f
+ 14      sd sp, PCB_USER_SP(tp)
+ 15      ld sp, PCB_KERNEL_SP(tp)
+ 16  1:  addi sp, sp, -OFFSET_SIZE
+ 17      sd zero, 0(sp)
+ 18      sd ra, 8(sp)
+ 19      sd gp, 24(sp)
+ 20      sd t1, 48(sp)
+ 21      sd t2, 56(sp)
+ 22      sd s0, 64(sp)
+ 23      sd s1, 72(sp)
+ 24      sd a0, 80(sp)
+ 25      sd a1, 88(sp)
+ 26      sd a2, 96(sp)
+ 27      sd a3, 104(sp)
+ 28      sd a4, 112(sp)
+ 29      sd a5, 120(sp)
+ 30      sd a6, 128(sp)
+ 31      sd a7, 136(sp)
+ 32      sd s2, 144(sp)
+ 33      sd s3, 152(sp)
+ 34      sd s4, 160(sp)
+ 35      sd s5, 168(sp)
+ 36      sd s6, 176(sp)
+ 37      sd s7, 184(sp)
+ 38      sd s8, 192(sp)
+ 39      sd s9, 200(sp)
+ 40      sd s10, 208(sp)
+ 41      sd s11, 216(sp)
+ 42      sd t3, 224(sp)
+ 43      sd t4, 232(sp)
+ 44      sd t5, 240(sp)
+ 45      sd t6, 248(sp)</code></pre>
+
+**先读前九行：** sscratch中的PCB被换进tp；原t0先放到PCB临时槽。根据SPP判断来源：来自U态时保存用户sp并取得kernel_sp，来自S态时沿用S栈；再减288字节分配异常帧。
+
+**再读成组sd：** 每个寄存器都有固定槽位，偏移必须与regs_context_t、regs.h一致。用户可能在任意一条指令被时钟打断，所以这层不能只保存callee-saved寄存器。
+
+**检验：** 分别设想U态ecall和S态idle被中断，确认不会把两种来源的栈混用。原t0、用户tp、原sp还未在本页全部恢复到最终槽位，必须继续读下一页。
+
+<!-- PAGE -->
+
+## A16. p2-task3：SAVE_CONTEXT后半及C处理入口
+
+> **原TODO**（[F2 arch/riscv/kernel/entry.S:18](源码索引.html#f2-arch-riscv-kernel-entry-s-L18)）：<br>
+> <code>TODO: [p2-task3] save sstatus, sepc, stval and scause on kernel stack</code>
+
+本页接上SAVE_CONTEXT，同时对应72、75、80行的“保存现场、安排返回、调用interrupt_helper”TODO。
+
+<pre class="source-snippet" id="source-code-30"><code> 46      ld t0, PCB_TRAP_T0(tp)
+ 47      sd t0, OFFSET_REG_T0(sp)
+ 48      csrr t0, CSR_SSCRATCH
+ 49      sd t0, OFFSET_REG_TP(sp)
+ 50      csrw CSR_SSCRATCH, tp
+ 51      csrr t0, CSR_SSTATUS
+ 52      sd t0, OFFSET_REG_SSTATUS(sp)
+ 53      andi t0, t0, SR_SPP
+ 54      beqz t0, 2f
+ 55      addi t0, sp, OFFSET_SIZE
+ 56      j 3f
+ 57  2:  ld t0, PCB_USER_SP(tp)
+ 58  3:  sd t0, OFFSET_REG_SP(sp)
+ 59      csrr t0, CSR_SEPC
+ 60      sd t0, OFFSET_REG_SEPC(sp)
+ 61      csrr t0, CSR_STVAL
+ 62      sd t0, OFFSET_REG_SBADADDR(sp)
+ 63      csrr t0, CSR_SCAUSE
+ 64      sd t0, OFFSET_REG_SCAUSE(sp)
+ 65      /* No FPU instructions in kernel or user binaries. */
+ 66      li t0, SR_SUM | SR_FS
+ 67      csrc CSR_SSTATUS, t0
+ 68  .endm
+    …
+171  ENTRY(exception_handler_entry)
+172      SAVE_CONTEXT
+173      mv a0, sp
+174      ld a1, OFFSET_REG_SBADADDR(sp)
+175      ld a2, OFFSET_REG_SCAUSE(sp)
+176      call interrupt_helper
+177      j ret_from_exception
+178  ENDPROC(exception_handler_entry)</code></pre>
+
+**关键还原：** 46—47行把原t0放进异常帧；48—50行把原用户tp从sscratch转存到帧，并重新让sscratch指向PCB。SPP为S时，原sp是建立帧前的栈地址；来自U时，原sp从PCB的user_sp取出。
+
+**CSR与参数：** sepc决定之后从哪继续，stval/scause用于异常分派与诊断。a0传帧指针，a1传stval，a2传scause。不要在保存前覆盖这些原用户寄存器。
+
+框架注释提出把ret_from_exception安排成返回去向；当前实现使用call之后显式跳转到ret_from_exception，达到相同控制流目标。理解返回链的含义，比机械照搬一句“把地址写入ra”更重要。
+
+**检验：** 即便用户tp不是PCB，也必须保留它并在返回时恢复；中途sscratch约定若未恢复，下次异常就可能取错PCB。
+
+<!-- PAGE -->
+
+## A17. p2-task3：恢复现场与sret
+
+> **原TODO**（[F2 arch/riscv/kernel/entry.S:23](源码索引.html#f2-arch-riscv-kernel-entry-s-L23)）：<br>
+> <code>TODO: Restore all general purpose registers and sepc, sstatus</code>
+
+66行还要求在ret_from_exception中使用宏并返回sepc。下面完整列出恢复宏和返回入口。
+
+<pre class="source-snippet" id="source-code-31"><code> 70  .macro RESTORE_CONTEXT
+ 71      ld t0, OFFSET_REG_SSTATUS(sp)
+ 72      csrw CSR_SSTATUS, t0
+ 73      ld t0, OFFSET_REG_SEPC(sp)
+ 74      csrw CSR_SEPC, t0
+ 75      addi t0, sp, OFFSET_SIZE
+ 76      sd t0, PCB_KERNEL_SP(tp)
+ 77      csrw CSR_SSCRATCH, tp
+ 78      ld ra, 8(sp)
+ 79      ld gp, 24(sp)
+ 80      ld t1, 48(sp)
+ 81      ld t2, 56(sp)
+ 82      ld s0, 64(sp)
+ 83      ld s1, 72(sp)
+ 84      ld a0, 80(sp)
+ 85      ld a1, 88(sp)
+ 86      ld a2, 96(sp)
+ 87      ld a3, 104(sp)
+ 88      ld a4, 112(sp)
+ 89      ld a5, 120(sp)
+ 90      ld a6, 128(sp)
+ 91      ld a7, 136(sp)
+ 92      ld s2, 144(sp)
+ 93      ld s3, 152(sp)
+ 94      ld s4, 160(sp)
+ 95      ld s5, 168(sp)
+ 96      ld s6, 176(sp)
+ 97      ld s7, 184(sp)
+ 98      ld s8, 192(sp)
+ 99      ld s9, 200(sp)
+100      ld s10, 208(sp)
+101      ld s11, 216(sp)
+102      ld t3, 224(sp)
+103      ld t4, 232(sp)
+104      ld t5, 240(sp)
+105      ld t6, 248(sp)
+106      ld t0, OFFSET_REG_T0(sp)
+107      ld tp, OFFSET_REG_TP(sp)
+108      ld sp, OFFSET_REG_SP(sp)
+109  .endm
+    …
+167  ENTRY(ret_from_exception)
+168      RESTORE_CONTEXT
+169      sret
+170  ENDPROC(ret_from_exception)</code></pre>
+
+**顺序不能随意换：** CSR先从当前异常帧恢复；利用仍有效的内核tp更新kernel_sp/sscratch，再恢复各GPR；原用户tp和sp最后恢复，避免过早失去PCB或当前帧的访问基址。
+
+**检验：** 返回用户态靠sret解释sstatus/sepc，不是普通ret。ecall的sepc已在系统调用处理器加4；时钟路径不加4。恢复错误的a0会丢失返回值，恢复错误的sstatus会改变返回权限或中断使能。
+
+<!-- PAGE -->
+
+## A18. p2-task3：sleep等待的是绝对截止tick
+
+> **原TODO**（[F2 kernel/sched/sched.c:41](源码索引.html#f2-kernel-sched-sched-c-L41)）：<br>
+> <code>TODO: [p2-task3] sleep(seconds)</code>
+
+同模块调度器26行及time.c第36行要求检查睡眠队列并唤醒到期者。三个函数联合完成该协议。
+
+<pre class="source-snippet" id="source-code-32"><code> 39  void do_sleep(uint32_t seconds)
+ 40  {
+ 41      uint64_t flags = irq_save();
+ 42      if (!seconds) {
+ 43          do_scheduler();
+ 44      } else {
+ 45          current_running-&gt;wakeup_time = get_ticks() + (uint64_t)seconds * time_base;
+ 46          do_block(&amp;current_running-&gt;list, &amp;sleep_queue);
+ 47      }
+ 48      irq_restore(flags);
+ 49  }</code></pre>
+
+<pre class="source-snippet" id="source-code-33"><code>  8  uint64_t get_ticks()
+  9  {
+ 10      __asm__ __volatile__(
+ 11          &quot;rdtime %0&quot;
+ 12          : &quot;=r&quot;(time_elapsed));
+ 13      return time_elapsed;
+ 14  }
+    …
+ 34  void check_sleeping(void)
+ 35  {
+ 36      uint64_t now = get_ticks();
+ 37      list_node_t *node = sleep_queue.next;
+ 38      while (node != &amp;sleep_queue) {
+ 39          list_node_t *next = node-&gt;next;
+ 40          pcb_t *task = list_entry(node, pcb_t, list);
+ 41          if ((int64_t)(now - task-&gt;wakeup_time) &gt;= 0) do_unblock(node);
+ 42          node = next;
+ 43      }
+ 44  }</code></pre>
+
+**输入/输出：** sleep的参数是秒，rdtime返回tick，所以要乘time_base。seconds=0退化为yield；正值写绝对截止时刻，再用do_block进入sleep_queue，不是在原地忙等。
+
+**遍历约束：** 先保留next，再可能do_unblock当前节点；一次扫描处理所有到期者。无排序保证时不能只看队首。阶段3由调度及pid0轮询检查，阶段4由定时器引发的调度反复检查。
+
+**检验：** 让两个任务同刻到期，确认都变READY；让所有用户任务一起sleep，确认pid0仍能推动检查。把秒直接加到tick上，会导致睡眠时间远小于请求值。
+
+<!-- PAGE -->
+
+## A19. p2-task3/4：异常分派、时钟和入口安装
+
+> **原TODO**（[F2 kernel/irq/irq.c:15](源码索引.html#f2-kernel-irq-irq-c-L15)）：<br>
+> <code>TODO: [p2-task3] &amp; [p2-task4] interrupt handler.</code>
+
+原框架还要求填好两张表、安装stvec、处理timer。完成版对应如下。
+
+<pre class="source-snippet" id="source-code-34"><code> 15  void interrupt_helper(regs_context_t *regs, uint64_t stval, uint64_t scause)
+ 16  {
+ 17      uint64_t code = scause &amp; ~SCAUSE_IRQ_FLAG;
+ 18      if (scause &amp; SCAUSE_IRQ_FLAG) {
+ 19          if (code &lt; IRQC_COUNT) irq_table[code](regs, stval, scause);
+ 20          else handle_other(regs, stval, scause);
+ 21      } else {
+ 22          if (code &lt; EXCC_COUNT) exc_table[code](regs, stval, scause);
+ 23          else handle_other(regs, stval, scause);
+ 24      }
+ 25  }
+ 26&#32;&#32;
+ 27  void handle_irq_timer(regs_context_t *regs, uint64_t stval, uint64_t scause)
+ 28  {
+ 29      (void)regs; (void)stval; (void)scause;
+ 30      bios_set_timer(get_ticks() + TIMER_INTERVAL);
+ 31      screen_reflush();
+ 32      do_scheduler();
+ 33  }
+ 34&#32;&#32;
+ 35  void init_exception()
+ 36  {
+ 37      for (int i = 0; i &lt; EXCC_COUNT; ++i) exc_table[i] = handle_other;
+ 38      for (int i = 0; i &lt; IRQC_COUNT; ++i) irq_table[i] = handle_other;
+ 39  #if LAB_STAGE &gt;= 3
+ 40      exc_table[EXCC_SYSCALL] = handle_syscall;
+ 41  #endif
+ 42  #if LAB_STAGE &gt;= 4
+ 43      irq_table[IRQC_S_TIMER] = handle_irq_timer;
+ 44  #endif
+ 45      setup_exception();
+ 46  }</code></pre>
+
+<pre class="source-snippet" id="source-code-35"><code>  3  ENTRY(setup_exception)
+  4      la t0, exception_handler_entry
+  5      csrw CSR_STVEC, t0
+  6      csrw CSR_SSCRATCH, tp
+  7      li t0, 2 /* permit user rdtime when M-mode also permits it */
+  8      csrs CSR_SCOUNTEREN, t0
+  9      /* Enable only after all tables, queues and the timer are ready. */
+ 10      ret
+ 11  ENDPROC(setup_exception)</code></pre>
+
+**三处关键：** scause最高位先区分中断和同步异常；所有未实现表项有默认错误处理器；时钟处理先重设下一次timer，再刷新和调度，不能只触发第一次。
+
+**关于开中断的TODO：** 框架trap.S第8行要求实现全局使能，但当前版本把生效时机与主初始化、初始异常帧、idle结合安排。不能在表和队列尚未就绪时仅为了“填上这行”就打开中断。
+
+**检验：** 非法原因落到handle_other；未知系统调用由syscall处理器返回错误；无yield计算仍能被轮转，才说明时钟抢占实际发生。TIMER_INTERVAL是tick，不是固定毫秒数。
+
+<!-- PAGE -->
+
+## A20. 两类服务表：TODO里相同的“初始化表”不代表同一件事
+
+> **原TODO**（[F2 init/main.c:45](源码索引.html#f2-init-main-c-L45)）：<br>
+> <code>TODO: [p2-task1] (S-core) initialize system call table.</code>
+
+同文件89行是完整系统调用表的TODO。当前A-Core用两个函数分别安排早期跳转表和阶段3/4系统调用表。
+
+<pre class="source-snippet" id="source-code-36"><code> 92  static void init_jmptab(void)
+ 93  {
+ 94      long (**table)() = (long (**)())KERNEL_JMPTAB_BASE;
+ 95      table[CONSOLE_PUTSTR] = k_putstr;
+ 96      table[CONSOLE_PUTCHAR] = k_putchar;
+ 97      table[CONSOLE_GETCHAR] = k_getchar;
+ 98      table[SD_READ] = k_sdread;
+ 99      table[SD_WRITE] = k_sdwrite;
+100      table[QEMU_LOGGING] = k_logging;
+101      table[SET_TIMER] = k_settimer;
+102      table[READ_FDT] = k_fdt;
+103      table[MOVE_CURSOR] = k_cursor;
+104      table[PRINT] = k_write;
+105      table[YIELD] = k_yield;
+106      table[MUTEX_INIT] = k_lock_init;
+107      table[MUTEX_ACQ] = k_lock_acq;
+108      table[MUTEX_RELEASE] = k_lock_rel;
+109      table[REFLUSH] = k_refresh;
+110  }
+    …
+173  static void init_syscall(void)
+174  {
+175      bzero(syscall, sizeof(long (*)()) * NUM_SYSCALLS);
+176      syscall[SYSCALL_YIELD] = k_yield;
+177      syscall[SYSCALL_WRITE] = k_write;
+178      syscall[SYSCALL_CURSOR] = k_cursor;
+179      syscall[SYSCALL_REFLUSH] = k_refresh;
+180      syscall[SYSCALL_SLEEP] = k_sleep;
+181      syscall[SYSCALL_LOCK_INIT] = k_lock_init;
+182      syscall[SYSCALL_LOCK_ACQ] = k_lock_acq;
+183      syscall[SYSCALL_LOCK_RELEASE] = k_lock_rel;
+184      syscall[SYSCALL_GET_TIMEBASE] = k_timebase;
+185      syscall[SYSCALL_GET_TICK] = k_ticks;
+186  }</code></pre>
+
+**输入/输出：** 第一张表存放固定内存位置上的函数指针，由call_jmptab间接调用；第二张表是内核syscall数组，只有ecall、异常保存和分派之后才访问。表项索引必须和两端头文件中的编号一致。
+
+`k_*`包装把各服务统一成接收五个long参数、返回long的调用形状；写屏幕、yield等无有意义返回值的服务也显式返回0。指针检查在k_write中完成，表里存一个地址本身并不会校验用户参数。
+
+**检验：** 对照sys_yield在两个阶段实际走的分支；再追一次sys_write的a7编号，核对syscall表对应k_write。两张表初始化互换后即使能编译，运行时也会调错服务。
+
+框架README中的TODO需要你说明自己的构建、实现范围与验证；它属于项目文档任务。P3退格、p0汇编预实验不在本次A-Core任务范围内，仍在完整TODO清单中保留并标记。

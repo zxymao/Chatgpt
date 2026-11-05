@@ -1,15 +1,20 @@
 {
   "source_roundtrip": "PASS: strict reverse and forward; all patched target files match archive after newline normalization",
-  "source_files": 120,
-  "references": 52,
-  "pdf_pages": 14,
+  "source_files": 148,
+  "framework_roundtrip": "PASS: original framework recovered with strict reverse/forward checks; changed files included as F2",
+  "references": 73,
+  "pdf_pages": 35,
+  "snippets": 36,
+  "quoted_source_lines": 795,
+  "todo_markers": 96,
+  "code_groups": 20,
   "qemu_stages": [
     1,
     2,
     3,
     4
   ],
-  "browser": "PASS: links, anchors, symbol search, switching, offline, mobile",
+  "browser": "PASS: original F2 TODO links/search, P1/P2 links, anchors, switching, offline, mobile",
   "project1_runtime": "not run; source reading and reconstruction only",
   "course_hardware_validation": "not claimed"
 }

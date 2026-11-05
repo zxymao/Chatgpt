@@ -3,8 +3,10 @@
   "commit": "4d6cb77cd2cae538bec76a41cb6beda2846554a3",
   "archive_sha256": "2ab7415ff127705c660a5ed35255e53beab81bf185b5ddcde4c9556a5cab9a20",
   "diff_sha256": "fff68828dc2d5a09b0965041e6f2475ff826aaf030989b1d56d50a7c70d4e3df",
+  "framework_diff_sha256": "494d9a0e96f1e8d557b6d849cc8104e2cd647532ad053423df5e3dcf210b8a15",
   "project1_origin": "Strict reverse of saved Project1-to-Project2.diff; unchanged files copied from archive. LF/end-of-file newline normalized only.",
   "roundtrip": "PASS: strict reverse and forward; all patched target files match archive after newline normalization",
+  "framework_roundtrip": "PASS: original framework recovered with strict reverse/forward checks; changed files included as F2",
   "files": {
     "P1:Makefile": {
       "lines": 370,
@@ -121,6 +123,118 @@
     "P1:tools/createimage.c": {
       "lines": 338,
       "sha256": "b56761c71c17cc68dbf76ac2b4db4e5be15ef8c085e23065b2a2f8470498d052"
+    },
+    "F2:Makefile": {
+      "lines": 183,
+      "sha256": "4ebfcb60935c2160e23b19f6c6c7e6a7094c2804cf282a8a8e5f87b9895efcff"
+    },
+    "F2:README.md": {
+      "lines": 1,
+      "sha256": "59613a715672a62220d938a3928387e2332407e593af19d44730ffd9f9d8d7bc"
+    },
+    "F2:arch/riscv/boot/bootblock.S": {
+      "lines": 41,
+      "sha256": "a4575a31156077e956dde4d462c67f2e26bd12219710c2969ce3bbb5867a9443"
+    },
+    "F2:arch/riscv/crt0/crt0.S": {
+      "lines": 22,
+      "sha256": "8504f4db0dfbf828c96f5ce5b896993fe6cf195be11d58e6875248df0a265972"
+    },
+    "F2:arch/riscv/include/asm/regs.h": {
+      "lines": 114,
+      "sha256": "1d15d26b684d40dc2310671e2edb7dc3a63e41363cddd1ad7ba67bde5a74caba"
+    },
+    "F2:arch/riscv/kernel/entry.S": {
+      "lines": 85,
+      "sha256": "f97262ce46f6e1dffd9287c3a52ac61812ae7877987c57b161880efdbe4a904d"
+    },
+    "F2:arch/riscv/kernel/head.S": {
+      "lines": 27,
+      "sha256": "62841bf63b9c58c66b9a79533dc8b79b3428f0e8aa9fc31b1500c2fe29f9021a"
+    },
+    "F2:arch/riscv/kernel/trap.S": {
+      "lines": 10,
+      "sha256": "b70b485da251f9aeb483b51ea60778722322307e151aacba06728df0eeea2f1b"
+    },
+    "F2:drivers/screen.c": {
+      "lines": 142,
+      "sha256": "f4e99b0ef298d041b57fd98599ffe1d7d2168507895d8df3af7f69088d9e41c7"
+    },
+    "F2:include/os/irq.h": {
+      "lines": 83,
+      "sha256": "d50a623467aa57809210bd1b77e5074ff4dd6ca24e44562971c0240a47c9b219"
+    },
+    "F2:include/os/kernel.h": {
+      "lines": 82,
+      "sha256": "446197e263580d1ea9f100222501418054008eb0e52fa96d16f24282786a317d"
+    },
+    "F2:include/os/list.h": {
+      "lines": 55,
+      "sha256": "f82d3c2e9bd1f56e2520dc59ac09f4918a1d7c2e85d197d7f53af3704439b383"
+    },
+    "F2:include/os/loader.h": {
+      "lines": 8,
+      "sha256": "5472c0c88484fadfd0a7537a7cfcbeacb1eef7d2aca1ec5e826872fb4fbca892"
+    },
+    "F2:include/os/lock.h": {
+      "lines": 67,
+      "sha256": "090af2b43dc39384b111d206edec8312f80eeef96d606c8d786744ec44102473"
+    },
+    "F2:include/os/sched.h": {
+      "lines": 115,
+      "sha256": "87216ac2d08b5a2ae1170d706597f368713af400db19ddd3cb21d5a325e5f26d"
+    },
+    "F2:include/os/task.h": {
+      "lines": 21,
+      "sha256": "a351991fb7b377660d74e7401cbc7f3131337072ee9e35d29573bd64f274d409"
+    },
+    "F2:init/main.c": {
+      "lines": 144,
+      "sha256": "3405ffff0da9b9e32be07c72317df081297b1e6c297481897a8948170ae299ea"
+    },
+    "F2:kernel/irq/irq.c": {
+      "lines": 58,
+      "sha256": "d674115277b61d77c21a63a1f2da8db83d3c36fdf18bfac0248bc88bf74d45c8"
+    },
+    "F2:kernel/loader/loader.c": {
+      "lines": 15,
+      "sha256": "e6d0e9b211df38ba49d28a90ebb8b83453601379cb3b0f895bb0fa4b08f4ca1b"
+    },
+    "F2:kernel/locking/lock.c": {
+      "lines": 48,
+      "sha256": "80d87d16ce1dbfca1de372078d345bdb5e5da625901cf7d0394e054e5b83cf99"
+    },
+    "F2:kernel/sched/sched.c": {
+      "lines": 56,
+      "sha256": "6d9133e47411d252756e2c6b1f1fe50d1b21d3f7fd80d3945ce35d2183ecdfb2"
+    },
+    "F2:kernel/sched/time.c": {
+      "lines": 37,
+      "sha256": "e82abca31f53ac1bd3e4446e6506b3a99c17e704ef1526bcef6603cc2bd6d22e"
+    },
+    "F2:kernel/syscall/syscall.c": {
+      "lines": 12,
+      "sha256": "6f411f1a040e8a4b436a702ed92c78cd6c4976b9d23c9ed0c21c64efcb38839a"
+    },
+    "F2:libs/printk.c": {
+      "lines": 322,
+      "sha256": "8892d0ca3c9270bd9054ee662652fa64321b84b9144781ce18ca8d3adb148fbb"
+    },
+    "F2:tiny_libc/include/kernel.h": {
+      "lines": 50,
+      "sha256": "fc132d237bd7a02a70916327aeb42f85facc6dc18380122ae928f53196e4f44a"
+    },
+    "F2:tiny_libc/printf.c": {
+      "lines": 248,
+      "sha256": "d693a8f47e6681442ca3330138b834d34eaa30b36265caa1a0ad9d3005013cb1"
+    },
+    "F2:tiny_libc/syscall.c": {
+      "lines": 79,
+      "sha256": "c5c492cbf7834e99e75f60bd631b7076518ff92d82eb3c765230a703b7a13940"
+    },
+    "F2:tools/createimage.c": {
+      "lines": 232,
+      "sha256": "8f56b7ad39191f4ec45c5e28509477621d5e465dcf4eb2166b66972c12d8c8dc"
     },
     "P2:.gitignore": {
       "lines": 3,

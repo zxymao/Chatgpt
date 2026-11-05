@@ -1,0 +1,1061 @@
+[
+  {
+    "source": "P1:README.md",
+    "line": 1,
+    "marker": "TODO：请在此完成你自己项目的“说明书”。",
+    "original_block": "TODO：请在此完成你自己项目的“说明书”。",
+    "stage_tags": [],
+    "appendix": "DOC",
+    "status": "项目说明文档任务；应说明该版本的构建、设计与验证"
+  },
+  {
+    "source": "P1:arch/riscv/boot/bootblock.S",
+    "line": 21,
+    "marker": "// TODO: [p1-task1] call BIOS to print string \"It's bootblock!\"",
+    "original_block": "\t// TODO: [p1-task1] call BIOS to print string \"It's bootblock!\"",
+    "stage_tags": [
+      "p1-task1"
+    ],
+    "appendix": "A2",
+    "status": "已实现但保留TODO标记；不能按标记判断为空"
+  },
+  {
+    "source": "P1:arch/riscv/boot/bootblock.S",
+    "line": 33,
+    "marker": "// TODO: [p1-task2] call BIOS to read kernel in SD card",
+    "original_block": "\t// TODO: [p1-task2] call BIOS to read kernel in SD card",
+    "stage_tags": [
+      "p1-task2"
+    ],
+    "appendix": "A2",
+    "status": "已实现但保留TODO标记；不能按标记判断为空"
+  },
+  {
+    "source": "P1:arch/riscv/boot/bootblock.S",
+    "line": 43,
+    "marker": "// TODO: [p1-task4] load task-related arguments and pass them to kernel",
+    "original_block": "\t// TODO: [p1-task4] load task-related arguments and pass them to kernel",
+    "stage_tags": [
+      "p1-task4"
+    ],
+    "appendix": "A2",
+    "status": "已实现但保留TODO标记；不能按标记判断为空"
+  },
+  {
+    "source": "P1:arch/riscv/boot/bootblock.S",
+    "line": 50,
+    "marker": "// TODO: [p1-task2] jump to kernel to start UCAS-OS",
+    "original_block": "\t// TODO: [p1-task2] jump to kernel to start UCAS-OS",
+    "stage_tags": [
+      "p1-task2"
+    ],
+    "appendix": "A2",
+    "status": "已实现但保留TODO标记；不能按标记判断为空"
+  },
+  {
+    "source": "P1:arch/riscv/crt0/crt0.S",
+    "line": 6,
+    "marker": "/* TODO: [p1-task3] setup C runtime environment for the user program */",
+    "original_block": "    /* TODO: [p1-task3] setup C runtime environment for the user program */",
+    "stage_tags": [
+      "p1-task3"
+    ],
+    "appendix": "A3",
+    "status": "已实现但保留TODO标记；不能按标记判断为空"
+  },
+  {
+    "source": "P1:arch/riscv/crt0/crt0.S",
+    "line": 22,
+    "marker": "/* TODO: [p1-task3] enter main function */",
+    "original_block": "    /* TODO: [p1-task3] enter main function */",
+    "stage_tags": [
+      "p1-task3"
+    ],
+    "appendix": "A3",
+    "status": "已实现但保留TODO标记；不能按标记判断为空"
+  },
+  {
+    "source": "P1:arch/riscv/crt0/crt0.S",
+    "line": 25,
+    "marker": "/* TODO: [p1-task3] finish task and return to the kernel, replace this in p3-task2! */",
+    "original_block": "    /* TODO: [p1-task3] finish task and return to the kernel, replace this in p3-task2! */",
+    "stage_tags": [
+      "p1-task3"
+    ],
+    "appendix": "A3",
+    "status": "已实现但保留TODO标记；不能按标记判断为空"
+  },
+  {
+    "source": "P1:include/os/task.h",
+    "line": 15,
+    "marker": "/* TODO: [p1-task4] implement your own task_info_t! */",
+    "original_block": "/* TODO: [p1-task4] implement your own task_info_t! */",
+    "stage_tags": [
+      "p1-task4"
+    ],
+    "appendix": "A1",
+    "status": "已实现但保留TODO标记；不能按标记判断为空"
+  },
+  {
+    "source": "P1:init/main.c",
+    "line": 41,
+    "marker": "// TODO: [p1-task4] Init 'tasks' array via reading app-info sector",
+    "original_block": "    // TODO: [p1-task4] Init 'tasks' array via reading app-info sector",
+    "stage_tags": [
+      "p1-task4"
+    ],
+    "appendix": "A4",
+    "status": "已实现但保留TODO标记；不能按标记判断为空"
+  },
+  {
+    "source": "P1:init/main.c",
+    "line": 86,
+    "marker": "// TODO: Load tasks by either task id [p1-task3] or task name [p1-task4],",
+    "original_block": "    // TODO: Load tasks by either task id [p1-task3] or task name [p1-task4],",
+    "stage_tags": [
+      "p1-task3",
+      "p1-task4"
+    ],
+    "appendix": "A4",
+    "status": "已实现但保留TODO标记；不能按标记判断为空"
+  },
+  {
+    "source": "P1:kernel/loader/loader.c",
+    "line": 38,
+    "marker": "* TODO:",
+    "original_block": "     * TODO:\n     * 1. [p1-task3] load task from image via task id, and return its entrypoint\n     * 2. [p1-task4] load task via task name, thus the arg should be 'char *taskname'\n     */",
+    "stage_tags": [
+      "p1-task3",
+      "p1-task4"
+    ],
+    "appendix": "A4",
+    "status": "已实现但保留TODO标记；不能按标记判断为空"
+  },
+  {
+    "source": "P1:tools/createimage.c",
+    "line": 24,
+    "marker": "/* TODO: [p1-task4] design your own task_info_t */",
+    "original_block": "/* TODO: [p1-task4] design your own task_info_t */",
+    "stage_tags": [
+      "p1-task4"
+    ],
+    "appendix": "A1",
+    "status": "已实现但保留TODO标记；不能按标记判断为空"
+  },
+  {
+    "source": "P1:tools/createimage.c",
+    "line": 86,
+    "marker": "/* TODO: [p1-task4] assign your task_info_t somewhere in 'create_image' */",
+    "original_block": "/* TODO: [p1-task4] assign your task_info_t somewhere in 'create_image' */",
+    "stage_tags": [
+      "p1-task4"
+    ],
+    "appendix": "A1",
+    "status": "已实现但保留TODO标记；不能按标记判断为空"
+  },
+  {
+    "source": "P1:tools/createimage.c",
+    "line": 139,
+    "marker": "* TODO:",
+    "original_block": "         * TODO:\n         * 1. [p1-task3] do padding so that the kernel and every app program\n         *  occupies the same number of sectors\n         * 2. [p1-task4] only padding bootblock is allowed!\n         */",
+    "stage_tags": [
+      "p1-task3",
+      "p1-task4"
+    ],
+    "appendix": "A1",
+    "status": "已实现但保留TODO标记；不能按标记判断为空"
+  },
+  {
+    "source": "P1:tools/createimage.c",
+    "line": 230,
+    "marker": "// TODO: [p1-task3] & [p1-task4] write image info to some certain places",
+    "original_block": "    // TODO: [p1-task3] & [p1-task4] write image info to some certain places",
+    "stage_tags": [
+      "p1-task3",
+      "p1-task4"
+    ],
+    "appendix": "A1",
+    "status": "P1旧注释块；实际write_img_info见同文件267行起"
+  },
+  {
+    "source": "F2:README.md",
+    "line": 1,
+    "marker": "TODO：请在此完成你自己项目的“说明书”。",
+    "original_block": "TODO：请在此完成你自己项目的“说明书”。",
+    "stage_tags": [],
+    "appendix": "DOC",
+    "status": "项目说明文档任务；应说明该版本的构建、设计与验证"
+  },
+  {
+    "source": "F2:arch/riscv/boot/bootblock.S",
+    "line": 19,
+    "marker": "// TODO: [p1-task1] call BIOS to print string \"It's bootblock!\"",
+    "original_block": "\t// TODO: [p1-task1] call BIOS to print string \"It's bootblock!\"",
+    "stage_tags": [
+      "p1-task1"
+    ],
+    "appendix": "A2",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:arch/riscv/boot/bootblock.S",
+    "line": 22,
+    "marker": "// TODO: [p1-task2] call BIOS to read kernel in SD card",
+    "original_block": "\t// TODO: [p1-task2] call BIOS to read kernel in SD card",
+    "stage_tags": [
+      "p1-task2"
+    ],
+    "appendix": "A2",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:arch/riscv/boot/bootblock.S",
+    "line": 25,
+    "marker": "// TODO: [p1-task4] load task-related arguments and pass them to kernel",
+    "original_block": "\t// TODO: [p1-task4] load task-related arguments and pass them to kernel",
+    "stage_tags": [
+      "p1-task4"
+    ],
+    "appendix": "A2",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:arch/riscv/boot/bootblock.S",
+    "line": 28,
+    "marker": "// TODO: [p1-task2] jump to kernel to start UCAS-OS",
+    "original_block": "\t// TODO: [p1-task2] jump to kernel to start UCAS-OS",
+    "stage_tags": [
+      "p1-task2"
+    ],
+    "appendix": "A2",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:arch/riscv/crt0/crt0.S",
+    "line": 6,
+    "marker": "/* TODO: [p1-task3] setup C runtime environment for the user program */",
+    "original_block": "    /* TODO: [p1-task3] setup C runtime environment for the user program */",
+    "stage_tags": [
+      "p1-task3"
+    ],
+    "appendix": "A3",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:arch/riscv/crt0/crt0.S",
+    "line": 9,
+    "marker": "/* TODO: [p1-task3] enter main function */",
+    "original_block": "    /* TODO: [p1-task3] enter main function */",
+    "stage_tags": [
+      "p1-task3"
+    ],
+    "appendix": "A3",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:arch/riscv/crt0/crt0.S",
+    "line": 12,
+    "marker": "/* TODO: [p1-task3] finish task and return to the kernel, replace this in p3-task2! */",
+    "original_block": "    /* TODO: [p1-task3] finish task and return to the kernel, replace this in p3-task2! */",
+    "stage_tags": [
+      "p1-task3"
+    ],
+    "appendix": "A3",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:arch/riscv/kernel/entry.S",
+    "line": 6,
+    "marker": "/* TODO: [p2-task3] save all general purpose registers here! */",
+    "original_block": "  /* TODO: [p2-task3] save all general purpose registers here! */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A15",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:arch/riscv/kernel/entry.S",
+    "line": 18,
+    "marker": "/* TODO: [p2-task3] save sstatus, sepc, stval and scause on kernel stack */",
+    "original_block": "  /* TODO: [p2-task3] save sstatus, sepc, stval and scause on kernel stack */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A16",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:arch/riscv/kernel/entry.S",
+    "line": 23,
+    "marker": "/* TODO: Restore all general purpose registers and sepc, sstatus */",
+    "original_block": "  /* TODO: Restore all general purpose registers and sepc, sstatus */",
+    "stage_tags": [],
+    "appendix": "A17",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:arch/riscv/kernel/entry.S",
+    "line": 55,
+    "marker": "/* TODO: [p2-task1] save all callee save registers on kernel stack,",
+    "original_block": "  /* TODO: [p2-task1] save all callee save registers on kernel stack,\n   * see the definition of `struct switchto_context` in sched.h*/",
+    "stage_tags": [
+      "p2-task1"
+    ],
+    "appendix": "A10",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:arch/riscv/kernel/entry.S",
+    "line": 58,
+    "marker": "/* TODO: [p2-task1] restore all callee save registers from kernel stack,",
+    "original_block": "  /* TODO: [p2-task1] restore all callee save registers from kernel stack,\n   * see the definition of `struct switchto_context` in sched.h*/",
+    "stage_tags": [
+      "p2-task1"
+    ],
+    "appendix": "A10",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:arch/riscv/kernel/entry.S",
+    "line": 66,
+    "marker": "/* TODO: [p2-task3] restore context via provided macro and return to sepc */",
+    "original_block": "  /* TODO: [p2-task3] restore context via provided macro and return to sepc */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A17",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:arch/riscv/kernel/entry.S",
+    "line": 72,
+    "marker": "/* TODO: [p2-task3] save context via the provided macro */",
+    "original_block": "  /* TODO: [p2-task3] save context via the provided macro */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A16",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:arch/riscv/kernel/entry.S",
+    "line": 75,
+    "marker": "/* TODO: [p2-task3] load ret_from_exception into $ra so that we can return to",
+    "original_block": "  /* TODO: [p2-task3] load ret_from_exception into $ra so that we can return to\n   * ret_from_exception when interrupt_help complete.\n   */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A16",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:arch/riscv/kernel/entry.S",
+    "line": 80,
+    "marker": "/* TODO: [p2-task3] call interrupt_helper",
+    "original_block": "  /* TODO: [p2-task3] call interrupt_helper\n   * NOTE: don't forget to pass parameters for it.\n   */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A16",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:arch/riscv/kernel/head.S",
+    "line": 17,
+    "marker": "/* TODO: [p1-task2] clear BSS for flat non-ELF images */",
+    "original_block": "  /* TODO: [p1-task2] clear BSS for flat non-ELF images */",
+    "stage_tags": [
+      "p1-task2"
+    ],
+    "appendix": "A3",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:arch/riscv/kernel/head.S",
+    "line": 20,
+    "marker": "/* TODO: [p1-task2] setup C environment */",
+    "original_block": "  /* TODO: [p1-task2] setup C environment */",
+    "stage_tags": [
+      "p1-task2"
+    ],
+    "appendix": "A3",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:arch/riscv/kernel/trap.S",
+    "line": 6,
+    "marker": "/* TODO: [p2-task3] save exception_handler_entry into STVEC */",
+    "original_block": "  /* TODO: [p2-task3] save exception_handler_entry into STVEC */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A19",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:arch/riscv/kernel/trap.S",
+    "line": 8,
+    "marker": "/* TODO: [p2-task4] enable interrupts globally */",
+    "original_block": "  /* TODO: [p2-task4] enable interrupts globally */",
+    "stage_tags": [
+      "p2-task4"
+    ],
+    "appendix": "A19",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:drivers/screen.c",
+    "line": 49,
+    "marker": "// TODO: [P3] support backspace here",
+    "original_block": "        // TODO: [P3] support backspace here",
+    "stage_tags": [
+      "P3"
+    ],
+    "appendix": "OUT",
+    "status": "后续prj3退格扩展；完成版仍保留，当前A-Core范围外"
+  },
+  {
+    "source": "F2:include/os/list.h",
+    "line": 53,
+    "marker": "/* TODO: [p2-task1] implement your own list API */",
+    "original_block": "/* TODO: [p2-task1] implement your own list API */",
+    "stage_tags": [
+      "p2-task1"
+    ],
+    "appendix": "A6",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:include/os/task.h",
+    "line": 14,
+    "marker": "/* TODO: [p1-task4] implement your own task_info_t! */",
+    "original_block": "/* TODO: [p1-task4] implement your own task_info_t! */",
+    "stage_tags": [
+      "p1-task4"
+    ],
+    "appendix": "A1",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:init/main.c",
+    "line": 45,
+    "marker": "// TODO: [p2-task1] (S-core) initialize system call table.",
+    "original_block": "    // TODO: [p2-task1] (S-core) initialize system call table.",
+    "stage_tags": [
+      "p2-task1"
+    ],
+    "appendix": "A20",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:init/main.c",
+    "line": 51,
+    "marker": "// TODO: [p1-task4] Init 'tasks' array via reading app-info sector",
+    "original_block": "    // TODO: [p1-task4] Init 'tasks' array via reading app-info sector",
+    "stage_tags": [
+      "p1-task4"
+    ],
+    "appendix": "A4",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:init/main.c",
+    "line": 60,
+    "marker": "/* TODO: [p2-task3] initialization of registers on kernel stack",
+    "original_block": "     /* TODO: [p2-task3] initialization of registers on kernel stack\n      * HINT: sp, ra, sepc, sstatus\n      * NOTE: To run the task in user mode, you should set corresponding bits\n      *     of sstatus(SPP, SPIE, etc.).\n      */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A7",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:init/main.c",
+    "line": 69,
+    "marker": "/* TODO: [p2-task1] set sp to simulate just returning from switch_to",
+    "original_block": "    /* TODO: [p2-task1] set sp to simulate just returning from switch_to\n     * NOTE: you should prepare a stack, and push some values to\n     * simulate a callee-saved context.\n     */",
+    "stage_tags": [
+      "p2-task1"
+    ],
+    "appendix": "A7",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:init/main.c",
+    "line": 80,
+    "marker": "/* TODO: [p2-task1] load needed tasks and init their corresponding PCB */",
+    "original_block": "    /* TODO: [p2-task1] load needed tasks and init their corresponding PCB */",
+    "stage_tags": [
+      "p2-task1"
+    ],
+    "appendix": "A8",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:init/main.c",
+    "line": 83,
+    "marker": "/* TODO: [p2-task1] remember to initialize 'current_running' */",
+    "original_block": "    /* TODO: [p2-task1] remember to initialize 'current_running' */",
+    "stage_tags": [
+      "p2-task1"
+    ],
+    "appendix": "A8",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:init/main.c",
+    "line": 89,
+    "marker": "// TODO: [p2-task3] initialize system call table.",
+    "original_block": "    // TODO: [p2-task3] initialize system call table.",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A20",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:init/main.c",
+    "line": 124,
+    "marker": "// TODO: [p2-task4] Setup timer interrupt and enable all interrupt globally",
+    "original_block": "    // TODO: [p2-task4] Setup timer interrupt and enable all interrupt globally",
+    "stage_tags": [
+      "p2-task4"
+    ],
+    "appendix": "A19",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:init/main.c",
+    "line": 129,
+    "marker": "// TODO: Load tasks by either task id [p1-task3] or task name [p1-task4],",
+    "original_block": "    // TODO: Load tasks by either task id [p1-task3] or task name [p1-task4],",
+    "stage_tags": [
+      "p1-task3",
+      "p1-task4"
+    ],
+    "appendix": "A8",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/irq/irq.c",
+    "line": 15,
+    "marker": "// TODO: [p2-task3] & [p2-task4] interrupt handler.",
+    "original_block": "    // TODO: [p2-task3] & [p2-task4] interrupt handler.",
+    "stage_tags": [
+      "p2-task3",
+      "p2-task4"
+    ],
+    "appendix": "A19",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/irq/irq.c",
+    "line": 21,
+    "marker": "// TODO: [p2-task4] clock interrupt handler.",
+    "original_block": "    // TODO: [p2-task4] clock interrupt handler.",
+    "stage_tags": [
+      "p2-task4"
+    ],
+    "appendix": "A19",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/irq/irq.c",
+    "line": 27,
+    "marker": "/* TODO: [p2-task3] initialize exc_table */",
+    "original_block": "    /* TODO: [p2-task3] initialize exc_table */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A19",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/irq/irq.c",
+    "line": 30,
+    "marker": "/* TODO: [p2-task4] initialize irq_table */",
+    "original_block": "    /* TODO: [p2-task4] initialize irq_table */",
+    "stage_tags": [
+      "p2-task4"
+    ],
+    "appendix": "A19",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/irq/irq.c",
+    "line": 33,
+    "marker": "/* TODO: [p2-task3] set up the entrypoint of exceptions */",
+    "original_block": "    /* TODO: [p2-task3] set up the entrypoint of exceptions */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A19",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/loader/loader.c",
+    "line": 9,
+    "marker": "* TODO:",
+    "original_block": "     * TODO:\n     * 1. [p1-task3] load task from image via task id, and return its entrypoint\n     * 2. [p1-task4] load task via task name, thus the arg should be 'char *taskname'\n     */",
+    "stage_tags": [
+      "p1-task3",
+      "p1-task4"
+    ],
+    "appendix": "A4",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/locking/lock.c",
+    "line": 10,
+    "marker": "/* TODO: [p2-task2] initialize mlocks */",
+    "original_block": "    /* TODO: [p2-task2] initialize mlocks */",
+    "stage_tags": [
+      "p2-task2"
+    ],
+    "appendix": "A11",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/locking/lock.c",
+    "line": 15,
+    "marker": "/* TODO: [p2-task2] initialize spin lock */",
+    "original_block": "    /* TODO: [p2-task2] initialize spin lock */",
+    "stage_tags": [
+      "p2-task2"
+    ],
+    "appendix": "A11",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/locking/lock.c",
+    "line": 20,
+    "marker": "/* TODO: [p2-task2] try to acquire spin lock */",
+    "original_block": "    /* TODO: [p2-task2] try to acquire spin lock */",
+    "stage_tags": [
+      "p2-task2"
+    ],
+    "appendix": "A11",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/locking/lock.c",
+    "line": 26,
+    "marker": "/* TODO: [p2-task2] acquire spin lock */",
+    "original_block": "    /* TODO: [p2-task2] acquire spin lock */",
+    "stage_tags": [
+      "p2-task2"
+    ],
+    "appendix": "A11",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/locking/lock.c",
+    "line": 31,
+    "marker": "/* TODO: [p2-task2] release spin lock */",
+    "original_block": "    /* TODO: [p2-task2] release spin lock */",
+    "stage_tags": [
+      "p2-task2"
+    ],
+    "appendix": "A11",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/locking/lock.c",
+    "line": 36,
+    "marker": "/* TODO: [p2-task2] initialize mutex lock */",
+    "original_block": "    /* TODO: [p2-task2] initialize mutex lock */",
+    "stage_tags": [
+      "p2-task2"
+    ],
+    "appendix": "A12",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/locking/lock.c",
+    "line": 42,
+    "marker": "/* TODO: [p2-task2] acquire mutex lock */",
+    "original_block": "    /* TODO: [p2-task2] acquire mutex lock */",
+    "stage_tags": [
+      "p2-task2"
+    ],
+    "appendix": "A12",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/locking/lock.c",
+    "line": 47,
+    "marker": "/* TODO: [p2-task2] release mutex lock */",
+    "original_block": "    /* TODO: [p2-task2] release mutex lock */",
+    "stage_tags": [
+      "p2-task2"
+    ],
+    "appendix": "A13",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/sched/sched.c",
+    "line": 26,
+    "marker": "// TODO: [p2-task3] Check sleep queue to wake up PCBs",
+    "original_block": "    // TODO: [p2-task3] Check sleep queue to wake up PCBs",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A18",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/sched/sched.c",
+    "line": 32,
+    "marker": "// TODO: [p2-task1] Modify the current_running pointer.",
+    "original_block": "    // TODO: [p2-task1] Modify the current_running pointer.",
+    "stage_tags": [
+      "p2-task1"
+    ],
+    "appendix": "A9",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/sched/sched.c",
+    "line": 35,
+    "marker": "// TODO: [p2-task1] switch_to current_running",
+    "original_block": "    // TODO: [p2-task1] switch_to current_running",
+    "stage_tags": [
+      "p2-task1"
+    ],
+    "appendix": "A9",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/sched/sched.c",
+    "line": 41,
+    "marker": "// TODO: [p2-task3] sleep(seconds)",
+    "original_block": "    // TODO: [p2-task3] sleep(seconds)",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A18",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/sched/sched.c",
+    "line": 50,
+    "marker": "// TODO: [p2-task2] block the pcb task into the block queue",
+    "original_block": "    // TODO: [p2-task2] block the pcb task into the block queue",
+    "stage_tags": [
+      "p2-task2"
+    ],
+    "appendix": "A9",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/sched/sched.c",
+    "line": 55,
+    "marker": "// TODO: [p2-task2] unblock the `pcb` from the block queue",
+    "original_block": "    // TODO: [p2-task2] unblock the `pcb` from the block queue",
+    "stage_tags": [
+      "p2-task2"
+    ],
+    "appendix": "A9",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/sched/time.c",
+    "line": 36,
+    "marker": "// TODO: [p2-task3] Pick out tasks that should wake up from the sleep queue",
+    "original_block": "    // TODO: [p2-task3] Pick out tasks that should wake up from the sleep queue",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A18",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:kernel/syscall/syscall.c",
+    "line": 7,
+    "marker": "/* TODO: [p2-task3] handle syscall exception */",
+    "original_block": "    /* TODO: [p2-task3] handle syscall exception */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A14",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tiny_libc/syscall.c",
+    "line": 11,
+    "marker": "/* TODO: [p2-task3] implement invoke_syscall via inline assembly */",
+    "original_block": "    /* TODO: [p2-task3] implement invoke_syscall via inline assembly */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A14",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tiny_libc/syscall.c",
+    "line": 19,
+    "marker": "/* TODO: [p2-task1] call call_jmptab to implement sys_yield */",
+    "original_block": "    /* TODO: [p2-task1] call call_jmptab to implement sys_yield */",
+    "stage_tags": [
+      "p2-task1"
+    ],
+    "appendix": "A14",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tiny_libc/syscall.c",
+    "line": 20,
+    "marker": "/* TODO: [p2-task3] call invoke_syscall to implement sys_yield */",
+    "original_block": "    /* TODO: [p2-task3] call invoke_syscall to implement sys_yield */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A14",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tiny_libc/syscall.c",
+    "line": 25,
+    "marker": "/* TODO: [p2-task1] call call_jmptab to implement sys_move_cursor */",
+    "original_block": "    /* TODO: [p2-task1] call call_jmptab to implement sys_move_cursor */",
+    "stage_tags": [
+      "p2-task1"
+    ],
+    "appendix": "A14",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tiny_libc/syscall.c",
+    "line": 26,
+    "marker": "/* TODO: [p2-task3] call invoke_syscall to implement sys_move_cursor */",
+    "original_block": "    /* TODO: [p2-task3] call invoke_syscall to implement sys_move_cursor */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A14",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tiny_libc/syscall.c",
+    "line": 31,
+    "marker": "/* TODO: [p2-task1] call call_jmptab to implement sys_write */",
+    "original_block": "    /* TODO: [p2-task1] call call_jmptab to implement sys_write */",
+    "stage_tags": [
+      "p2-task1"
+    ],
+    "appendix": "A14",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tiny_libc/syscall.c",
+    "line": 32,
+    "marker": "/* TODO: [p2-task3] call invoke_syscall to implement sys_write */",
+    "original_block": "    /* TODO: [p2-task3] call invoke_syscall to implement sys_write */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A14",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tiny_libc/syscall.c",
+    "line": 37,
+    "marker": "/* TODO: [p2-task1] call call_jmptab to implement sys_reflush */",
+    "original_block": "    /* TODO: [p2-task1] call call_jmptab to implement sys_reflush */",
+    "stage_tags": [
+      "p2-task1"
+    ],
+    "appendix": "A14",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tiny_libc/syscall.c",
+    "line": 38,
+    "marker": "/* TODO: [p2-task3] call invoke_syscall to implement sys_reflush */",
+    "original_block": "    /* TODO: [p2-task3] call invoke_syscall to implement sys_reflush */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A14",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tiny_libc/syscall.c",
+    "line": 43,
+    "marker": "/* TODO: [p2-task2] call call_jmptab to implement sys_mutex_init */",
+    "original_block": "    /* TODO: [p2-task2] call call_jmptab to implement sys_mutex_init */",
+    "stage_tags": [
+      "p2-task2"
+    ],
+    "appendix": "A14",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tiny_libc/syscall.c",
+    "line": 44,
+    "marker": "/* TODO: [p2-task3] call invoke_syscall to implement sys_mutex_init */",
+    "original_block": "    /* TODO: [p2-task3] call invoke_syscall to implement sys_mutex_init */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A14",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tiny_libc/syscall.c",
+    "line": 50,
+    "marker": "/* TODO: [p2-task2] call call_jmptab to implement sys_mutex_acquire */",
+    "original_block": "    /* TODO: [p2-task2] call call_jmptab to implement sys_mutex_acquire */",
+    "stage_tags": [
+      "p2-task2"
+    ],
+    "appendix": "A14",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tiny_libc/syscall.c",
+    "line": 51,
+    "marker": "/* TODO: [p2-task3] call invoke_syscall to implement sys_mutex_acquire */",
+    "original_block": "    /* TODO: [p2-task3] call invoke_syscall to implement sys_mutex_acquire */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A14",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tiny_libc/syscall.c",
+    "line": 56,
+    "marker": "/* TODO: [p2-task2] call call_jmptab to implement sys_mutex_release */",
+    "original_block": "    /* TODO: [p2-task2] call call_jmptab to implement sys_mutex_release */",
+    "stage_tags": [
+      "p2-task2"
+    ],
+    "appendix": "A14",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tiny_libc/syscall.c",
+    "line": 57,
+    "marker": "/* TODO: [p2-task3] call invoke_syscall to implement sys_mutex_release */",
+    "original_block": "    /* TODO: [p2-task3] call invoke_syscall to implement sys_mutex_release */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A14",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tiny_libc/syscall.c",
+    "line": 62,
+    "marker": "/* TODO: [p2-task3] call invoke_syscall to implement sys_get_timebase */",
+    "original_block": "    /* TODO: [p2-task3] call invoke_syscall to implement sys_get_timebase */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A14",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tiny_libc/syscall.c",
+    "line": 68,
+    "marker": "/* TODO: [p2-task3] call invoke_syscall to implement sys_get_tick */",
+    "original_block": "    /* TODO: [p2-task3] call invoke_syscall to implement sys_get_tick */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A14",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tiny_libc/syscall.c",
+    "line": 74,
+    "marker": "/* TODO: [p2-task3] call invoke_syscall to implement sys_sleep */",
+    "original_block": "    /* TODO: [p2-task3] call invoke_syscall to implement sys_sleep */",
+    "stage_tags": [
+      "p2-task3"
+    ],
+    "appendix": "A14",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tools/createimage.c",
+    "line": 20,
+    "marker": "/* TODO: [p1-task4] design your own task_info_t */",
+    "original_block": "/* TODO: [p1-task4] design your own task_info_t */",
+    "stage_tags": [
+      "p1-task4"
+    ],
+    "appendix": "A1",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tools/createimage.c",
+    "line": 79,
+    "marker": "/* TODO: [p1-task4] assign your task_info_t somewhere in 'create_image' */",
+    "original_block": "/* TODO: [p1-task4] assign your task_info_t somewhere in 'create_image' */",
+    "stage_tags": [
+      "p1-task4"
+    ],
+    "appendix": "A1",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tools/createimage.c",
+    "line": 125,
+    "marker": "* TODO:",
+    "original_block": "         * TODO:\n         * 1. [p1-task3] do padding so that the kernel and every app program\n         *  occupies the same number of sectors\n         * 2. [p1-task4] only padding bootblock is allowed!\n         */",
+    "stage_tags": [
+      "p1-task3",
+      "p1-task4"
+    ],
+    "appendix": "A1",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "F2:tools/createimage.c",
+    "line": 216,
+    "marker": "// TODO: [p1-task3] & [p1-task4] write image info to some certain places",
+    "original_block": "    // TODO: [p1-task3] & [p1-task4] write image info to some certain places",
+    "stage_tags": [
+      "p1-task3",
+      "p1-task4"
+    ],
+    "appendix": "A1",
+    "status": "原框架待填；当前P2实现已补齐，按附录理解"
+  },
+  {
+    "source": "P2:drivers/screen.c",
+    "line": 49,
+    "marker": "// TODO: [P3] support backspace here",
+    "original_block": "        // TODO: [P3] support backspace here",
+    "stage_tags": [
+      "P3"
+    ],
+    "appendix": "OUT",
+    "status": "后续prj3退格扩展；完成版仍保留，当前A-Core范围外"
+  },
+  {
+    "source": "P2:include/os/task.h",
+    "line": 15,
+    "marker": "/* TODO: [p1-task4] implement your own task_info_t! */",
+    "original_block": "/* TODO: [p1-task4] implement your own task_info_t! */",
+    "stage_tags": [
+      "p1-task4"
+    ],
+    "appendix": "A1",
+    "status": "已实现但保留TODO标记；不能按标记判断为空"
+  },
+  {
+    "source": "P2:test.S",
+    "line": 5,
+    "marker": "// TODO: [p0-task1] Add your code here!",
+    "original_block": "// TODO: [p0-task1] Add your code here!",
+    "stage_tags": [
+      "p0-task1"
+    ],
+    "appendix": "OUT",
+    "status": "prj0汇编预实验；不属于当前prj1/prj2 A-Core主体"
+  }
+]

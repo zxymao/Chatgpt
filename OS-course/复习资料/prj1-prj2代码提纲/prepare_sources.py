@@ -13,7 +13,9 @@ HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[2]
 ARCHIVE = REPO / "projects/Project2/Project2-Acore.tar.gz"
 DIFF = REPO / "projects/Project2/Project1-to-Project2.diff"
+FRAMEWORK_DIFF = REPO / "projects/Project2/Project2-framework-to-implementation.diff"
 EXPECTED = "2ab7415ff127705c660a5ed35255e53beab81bf185b5ddcde4c9556a5cab9a20"
+SOURCE_COMMIT = "4d6cb77cd2cae538bec76a41cb6beda2846554a3"
 UNCHANGED = {
     "arch/riscv/include/asm.h", "arch/riscv/include/csr.h", "include/os/loader.h",
     "include/os/string.h", "include/os/task.h", "include/type.h", "riscv.lds",
@@ -28,6 +30,10 @@ def normalized(text):
 
 def prepare():
     assert hashlib.sha256(ARCHIVE.read_bytes()).hexdigest() == EXPECTED
+    for path in (ARCHIVE, DIFF, FRAMEWORK_DIFF):
+        original = subprocess.check_output(
+            ["git", "show", SOURCE_COMMIT + ":" + str(path.relative_to(REPO))], cwd=REPO)
+        assert hashlib.sha256(path.read_bytes()).digest() == hashlib.sha256(original).digest(), path
     patch = DIFF.read_text()
     old = set(re.findall(r"^--- Project1/(.+)$", patch, re.M))
     new = set(re.findall(r"^\+\+\+ Project2-Acore/(.+)$", patch, re.M))
@@ -65,17 +71,49 @@ def prepare():
         sources = {}
         for name in sorted(old | UNCHANGED):
             sources["P1:" + name] = (p1 / name).read_text()
+
+        # Recover the original TODO-bearing framework, independently of P1.
+        framework_patch = FRAMEWORK_DIFF.read_text()
+        framework_old = set(re.findall(r"^--- Project2-framework/(.+)$", framework_patch, re.M))
+        framework_new = set(re.findall(r"^\+\+\+ Project2-Acore/(.+)$", framework_patch, re.M))
+        framework = base / "Project2-framework"
+        shutil.copytree(p2, framework)
+        for path in framework.rglob("*"):
+            if path.is_file():
+                try:
+                    content = path.read_text()
+                except UnicodeError:
+                    continue
+                path.write_text(normalized(content))
+        reverse = subprocess.run(
+            ["patch", "--batch", "--reverse", "--fuzz=0", "-p1", "-d", str(framework),
+             "-i", str(FRAMEWORK_DIFF)], text=True, capture_output=True, check=True)
+        assert not re.search(r"FAILED|fuzz|offset|Ignoring", reverse.stdout)
+        framework_roundtrip = base / "framework-roundtrip"
+        shutil.copytree(framework, framework_roundtrip)
+        forward = subprocess.run(
+            ["patch", "--batch", "--forward", "--fuzz=0", "-p1", "-d", str(framework_roundtrip),
+             "-i", str(FRAMEWORK_DIFF)], text=True, capture_output=True, check=True)
+        assert not re.search(r"FAILED|fuzz|offset|Ignoring", forward.stdout)
+        for name in framework_new:
+            assert normalized((framework_roundtrip / name).read_text()) == normalized((p2 / name).read_text()), name
+        for name in framework_old - framework_new:
+            assert not (framework_roundtrip / name).exists(), name
+        for name in sorted(framework_old):
+            sources["F2:" + name] = (framework / name).read_text()
         for path in sorted(p2.rglob("*")):
             if path.is_file() and (path.suffix in {".c", ".h", ".S", ".lds", ".py", ".md"}
                                    or path.name in {"Makefile", ".gitignore"}):
                 sources["P2:" + str(path.relative_to(p2))] = path.read_text()
     manifest = {
         "repository": "https://github.com/zxymao/Chatgpt",
-        "commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=REPO, text=True).strip(),
+        "commit": SOURCE_COMMIT,
         "archive_sha256": EXPECTED,
         "diff_sha256": hashlib.sha256(DIFF.read_bytes()).hexdigest(),
+        "framework_diff_sha256": hashlib.sha256(FRAMEWORK_DIFF.read_bytes()).hexdigest(),
         "project1_origin": "Strict reverse of saved Project1-to-Project2.diff; unchanged files copied from archive. LF/end-of-file newline normalized only.",
         "roundtrip": "PASS: strict reverse and forward; all patched target files match archive after newline normalization",
+        "framework_roundtrip": "PASS: original framework recovered with strict reverse/forward checks; changed files included as F2",
         "files": {name: {"lines": len(text.splitlines()),
                          "sha256": hashlib.sha256(text.encode()).hexdigest()}
                   for name, text in sources.items()},

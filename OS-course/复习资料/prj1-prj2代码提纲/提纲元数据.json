@@ -1,0 +1,16 @@
+{
+  "pages": 35,
+  "overview_pages": 14,
+  "todo_intro_pages": 1,
+  "code_appendix_pages": 20,
+  "references": 73,
+  "source_files": 148,
+  "snippets": 36,
+  "quoted_source_lines": 795,
+  "todo_markers": 96,
+  "todo_by_version": {
+    "P1": 16,
+    "F2": 77,
+    "P2": 3
+  }
+}

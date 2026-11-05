@@ -258,5 +258,110 @@
     "source": "P2:drivers/screen.c",
     "line": 121,
     "anchor": "p2-drivers-screen-c-L121"
+  },
+  {
+    "source": "P2:include/os/sched.h",
+    "line": 57,
+    "anchor": "p2-include-os-sched-h-L57"
+  },
+  {
+    "source": "F2:kernel/syscall/syscall.c",
+    "line": 7,
+    "anchor": "f2-kernel-syscall-syscall-c-L7"
+  },
+  {
+    "source": "F2:tools/createimage.c",
+    "line": 20,
+    "anchor": "f2-tools-createimage-c-L20"
+  },
+  {
+    "source": "F2:arch/riscv/boot/bootblock.S",
+    "line": 22,
+    "anchor": "f2-arch-riscv-boot-bootblock-s-L22"
+  },
+  {
+    "source": "F2:arch/riscv/kernel/head.S",
+    "line": 17,
+    "anchor": "f2-arch-riscv-kernel-head-s-L17"
+  },
+  {
+    "source": "F2:kernel/loader/loader.c",
+    "line": 9,
+    "anchor": "f2-kernel-loader-loader-c-L9"
+  },
+  {
+    "source": "F2:include/os/list.h",
+    "line": 53,
+    "anchor": "f2-include-os-list-h-L53"
+  },
+  {
+    "source": "F2:init/main.c",
+    "line": 69,
+    "anchor": "f2-init-main-c-L69"
+  },
+  {
+    "source": "F2:init/main.c",
+    "line": 80,
+    "anchor": "f2-init-main-c-L80"
+  },
+  {
+    "source": "F2:kernel/sched/sched.c",
+    "line": 32,
+    "anchor": "f2-kernel-sched-sched-c-L32"
+  },
+  {
+    "source": "F2:arch/riscv/kernel/entry.S",
+    "line": 55,
+    "anchor": "f2-arch-riscv-kernel-entry-s-L55"
+  },
+  {
+    "source": "F2:kernel/locking/lock.c",
+    "line": 20,
+    "anchor": "f2-kernel-locking-lock-c-L20"
+  },
+  {
+    "source": "F2:kernel/locking/lock.c",
+    "line": 36,
+    "anchor": "f2-kernel-locking-lock-c-L36"
+  },
+  {
+    "source": "F2:kernel/locking/lock.c",
+    "line": 47,
+    "anchor": "f2-kernel-locking-lock-c-L47"
+  },
+  {
+    "source": "F2:tiny_libc/syscall.c",
+    "line": 11,
+    "anchor": "f2-tiny_libc-syscall-c-L11"
+  },
+  {
+    "source": "F2:arch/riscv/kernel/entry.S",
+    "line": 6,
+    "anchor": "f2-arch-riscv-kernel-entry-s-L6"
+  },
+  {
+    "source": "F2:arch/riscv/kernel/entry.S",
+    "line": 18,
+    "anchor": "f2-arch-riscv-kernel-entry-s-L18"
+  },
+  {
+    "source": "F2:arch/riscv/kernel/entry.S",
+    "line": 23,
+    "anchor": "f2-arch-riscv-kernel-entry-s-L23"
+  },
+  {
+    "source": "F2:kernel/sched/sched.c",
+    "line": 41,
+    "anchor": "f2-kernel-sched-sched-c-L41"
+  },
+  {
+    "source": "F2:kernel/irq/irq.c",
+    "line": 15,
+    "anchor": "f2-kernel-irq-irq-c-L15"
+  },
+  {
+    "source": "F2:init/main.c",
+    "line": 45,
+    "anchor": "f2-init-main-c-L45"
   }
 ]
