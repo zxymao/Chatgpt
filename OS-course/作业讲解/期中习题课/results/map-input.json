@@ -1,0 +1,17 @@
+{
+  "format": "native little-endian int32 on this x86_64 host",
+  "files": 8,
+  "bytes_per_file": 1048576,
+  "elements_per_file": 262144,
+  "local_max": [
+    1000000,
+    999999,
+    1000000,
+    1000000,
+    999992,
+    999997,
+    1000000,
+    999995
+  ],
+  "global_max": 1000000
+}

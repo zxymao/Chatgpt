@@ -1,0 +1,8 @@
+ROOT pid=7853 expand=1
+CREATE pid=7854 parent=7853 iteration=0
+CREATE pid=7855 parent=7854 iteration=1
+CREATE pid=7856 parent=7855 iteration=2
+CREATE pid=7859 parent=7853 iteration=1
+CREATE pid=7860 parent=7859 iteration=2
+CREATE pid=7861 parent=7854 iteration=2
+CREATE pid=7872 parent=7853 iteration=2

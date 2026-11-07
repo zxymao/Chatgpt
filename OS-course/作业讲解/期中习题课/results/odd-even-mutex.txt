@@ -1,0 +1,1 @@
+mode=mutex count=10000000 range=[0,10000000) max_adjacent_difference=2194797 elapsed_ms=35.750 coverage=PASS

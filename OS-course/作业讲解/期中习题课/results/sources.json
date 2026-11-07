@@ -1,0 +1,14 @@
+{
+  "inputs": [
+    {
+      "name": "期中习题课.pptx",
+      "sha256": "c72f272ba142e14c0a49099ba8d245b75684543fd6fc60636b3e00c33407d878"
+    },
+    {
+      "name": "作业2 (2).docx",
+      "sha256": "3b0f7ee5a3f6e4f23d7708635f6ed25818e27be78241a2d40a0762ca83e4a1ab"
+    }
+  ],
+  "xv6_ref": "mit-pdos/xv6-riscv riscv fa2ddcb7ca87a77af579380a6eafd5aff163b44f",
+  "scope": "PPT全部7组作业，2.3以补充的原始DOCX为准；PPT原文答案视为待核对资料。"
+}

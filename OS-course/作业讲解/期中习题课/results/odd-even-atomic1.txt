@@ -1,0 +1,1 @@
+mode=atomic1 count=10000000 range=[0,10000000) max_adjacent_difference=550563 elapsed_ms=440.724 coverage=PASS

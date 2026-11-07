@@ -1,0 +1,11 @@
+write round=1 data=19,5,14,13,18 expected=69
+read  round=1 sum=69 PASS
+write round=2 data=10,6,16,16,9 expected=57
+read  round=2 sum=57 PASS
+write round=3 data=11,10,4,10,3 expected=38
+read  round=3 sum=38 PASS
+write round=4 data=15,1,11,7,7 expected=41
+read  round=4 sum=41 PASS
+write round=5 data=5,17,7,11,3 expected=43
+read  round=5 sum=43 PASS
+PASS: 5 matching write/read rounds, mutex and ordinary shared variables only

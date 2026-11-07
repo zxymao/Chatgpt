@@ -1,0 +1,1423 @@
+child sum=903
+total 735996
+-rwxr-xr-x 1 nobody nogroup     26936 Aug 17  2024 JxrDecApp
+-rwxr-xr-x 1 nobody nogroup     28368 Aug 17  2024 JxrEncApp
+lrwxrwxrwx 1 nobody nogroup         6 Aug 25  2025 Thunar -> thunar
+lrwxrwxrwx 1 nobody nogroup         4 Sep  5 05:52 X -> Xorg
+lrwxrwxrwx 1 nobody nogroup         1 Nov  7  2025 X11 -> .
+-rwxr-xr-x 1 nobody nogroup       274 Sep  5 05:52 Xorg
+-rwxr-xr-x 1 nobody nogroup     55720 Jun  4  2025 [
+lrwxrwxrwx 1 nobody nogroup        26 May 10  2025 _cvpcb.kiface -> ../lib/kicad/_cvpcb.kiface
+lrwxrwxrwx 1 nobody nogroup        29 May 10  2025 _eeschema.kiface -> ../lib/kicad/_eeschema.kiface
+lrwxrwxrwx 1 nobody nogroup        29 May 10  2025 _gerbview.kiface -> ../lib/kicad/_gerbview.kiface
+lrwxrwxrwx 1 nobody nogroup        29 May 10  2025 _kipython.kiface -> ../lib/kicad/_kipython.kiface
+lrwxrwxrwx 1 nobody nogroup        35 May 10  2025 _pcb_calculator.kiface -> ../lib/kicad/_pcb_calculator.kiface
+lrwxrwxrwx 1 nobody nogroup        27 May 10  2025 _pcbnew.kiface -> ../lib/kicad/_pcbnew.kiface
+lrwxrwxrwx 1 nobody nogroup        30 May 10  2025 _pl_editor.kiface -> ../lib/kicad/_pl_editor.kiface
+-rwxr-xr-x 1 nobody nogroup     14816 Mar  9  2025 acyclic
+lrwxrwxrwx 1 nobody nogroup        26 Mar  3  2025 addr2line -> x86_64-linux-gnu-addr2line
+-rwxr-xr-x 1 nobody nogroup     39584 Mar 13  2025 afm2pl
+-rwxr-xr-x 1 nobody nogroup     54248 Mar 13  2025 afm2tfm
+-rwxr-xr-x 1 nobody nogroup    565016 Mar 13  2025 aleph
+-rwxr-xr-x 1 nobody nogroup     18760 Mar 13  2025 ambiguous_words
+lrwxrwxrwx 1 nobody nogroup        25 Jul 21 07:55 animate -> /etc/alternatives/animate
+lrwxrwxrwx 1 nobody nogroup        29 Jul 21 07:55 animate-im7 -> /etc/alternatives/animate-im7
+lrwxrwxrwx 1 nobody nogroup        14 Jul 21 07:55 animate-im7.q16 -> magick-im7.q16
+-rwxr-xr-x 1 nobody nogroup     14792 Aug 29  2024 appres
+-rwxr-xr-x 1 nobody nogroup     18752 Jun 24  2025 apt
+-rwxr-xr-x 1 nobody nogroup     92552 Jun 24  2025 apt-cache
+-rwxr-xr-x 1 nobody nogroup     27016 Jun 24  2025 apt-cdrom
+-rwxr-xr-x 1 nobody nogroup     31040 Jun 24  2025 apt-config
+-rwxr-xr-x 1 nobody nogroup     59784 Jun 24  2025 apt-get
+-rwxr-xr-x 1 nobody nogroup     63880 Jun 24  2025 apt-mark
+lrwxrwxrwx 1 nobody nogroup        19 Mar  3  2025 ar -> x86_64-linux-gnu-ar
+-rwxr-xr-x 1 nobody nogroup     43464 Jun  4  2025 arch
+lrwxrwxrwx 1 nobody nogroup        19 Mar  3  2025 as -> x86_64-linux-gnu-as
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 assistant -> qtchooser
+lrwxrwxrwx 1 nobody nogroup        59 Mar 14  2025 authorindex -> ../share/texlive/texmf-dist/scripts/authorindex/authorindex
+-rwxr-xr-x 1 nobody nogroup     51456 Mar 13  2025 autosp
+lrwxrwxrwx 1 nobody nogroup        21 Feb  4  2025 awk -> /etc/alternatives/awk
+-rwxr-xr-x 1 nobody nogroup     82080 Mar 13  2025 axohelp
+-rwxr-xr-x 1 nobody nogroup     63944 Jun  4  2025 b2sum
+-rwxr-xr-x 1 nobody nogroup     47528 Jun  4  2025 base32
+-rwxr-xr-x 1 nobody nogroup     47528 Jun  4  2025 base64
+-rwxr-xr-x 1 nobody nogroup     43432 Jun  4  2025 basename
+-rwxr-xr-x 1 nobody nogroup     59816 Jun  4  2025 basenc
+-rwxr-xr-x 1 nobody nogroup   1298416 Jul 12 16:58 bash
+-rwxr-xr-x 1 nobody nogroup      6944 Jul 12 16:58 bashbug
+-rwxr-xr-x 1 nobody nogroup     23168 Mar  9  2025 bcomps
+-rwxr-xr-x 1 nobody nogroup     43672 Sep 16  2024 bdftopcf
+-rwxr-xr-x 1 nobody nogroup     14792 Sep 16  2024 bdftruncate
+lrwxrwxrwx 1 nobody nogroup        24 Mar 13  2025 bibtex -> /etc/alternatives/bibtex
+-rwxr-xr-x 1 nobody nogroup    129352 Mar 13  2025 bibtex.original
+-rwxr-xr-x 1 nobody nogroup    146304 Mar 13  2025 bibtex8
+-rwxr-xr-x 1 nobody nogroup    162656 Mar 13  2025 bibtexu
+-rwxr-xr-x 1 nobody nogroup   3586512 May 10  2025 bitmap2component
+-rwxr-xr-x 1 nobody nogroup  94967000 Feb  2  2025 blender
+-rwxr-xr-x 1 nobody nogroup    131296 Feb  2  2025 blender-thumbnailer
+-rwxr-xr-x 1 nobody nogroup     18832 May 18  2025 breeze-settings6
+lrwxrwxrwx 1 nobody nogroup         5 Aug 19  2024 bunzip2 -> bzip2
+-rwxr-xr-x 1 nobody nogroup    100888 Apr 13  2026 busctl
+-rwxr-xr-x 1 nobody nogroup     80248 Aug 26 11:04 bwrap
+lrwxrwxrwx 1 nobody nogroup         5 Aug 19  2024 bzcat -> bzip2
+lrwxrwxrwx 1 nobody nogroup         6 Aug 19  2024 bzcmp -> bzdiff
+-rwxr-xr-x 1 nobody nogroup      2225 Aug 19  2024 bzdiff
+lrwxrwxrwx 1 nobody nogroup         6 Aug 19  2024 bzegrep -> bzgrep
+-rwxr-xr-x 1 nobody nogroup      4893 Aug 17  2024 bzexe
+lrwxrwxrwx 1 nobody nogroup         6 Aug 19  2024 bzfgrep -> bzgrep
+-rwxr-xr-x 1 nobody nogroup      3775 Aug 19  2024 bzgrep
+-rwxr-xr-x 1 nobody nogroup     39224 Aug 19  2024 bzip2
+-rwxr-xr-x 1 nobody nogroup     14568 Aug 19  2024 bzip2recover
+lrwxrwxrwx 1 nobody nogroup         6 Aug 19  2024 bzless -> bzmore
+-rwxr-xr-x 1 nobody nogroup      1297 Aug 19  2024 bzmore
+lrwxrwxrwx 1 nobody nogroup        21 Oct 10  2024 c++ -> /etc/alternatives/c++
+lrwxrwxrwx 1 nobody nogroup        24 Mar  3  2025 c++filt -> x86_64-linux-gnu-c++filt
+lrwxrwxrwx 1 nobody nogroup        21 Nov 17  2020 c89 -> /etc/alternatives/c89
+-rwxr-xr-x 1 nobody nogroup       428 Nov 17  2020 c89-gcc
+lrwxrwxrwx 1 nobody nogroup        21 Nov 17  2020 c99 -> /etc/alternatives/c99
+-rwxr-xr-x 1 nobody nogroup       454 Nov 17  2020 c99-gcc
+-rwxr-xr-x 1 nobody nogroup      6919 Sep 29 20:10 c_rehash
+lrwxrwxrwx 1 nobody nogroup        57 Mar 13  2025 cachepic -> ../share/texlive/texmf-dist/scripts/cachepic/cachepic.tlu
+lrwxrwxrwx 1 nobody nogroup         3 Mar  6  2025 captoinfo -> tic
+-rwxr-xr-x 1 nobody nogroup     47592 Jun  4  2025 cat
+lrwxrwxrwx 1 nobody nogroup        20 Oct 10  2024 cc -> /etc/alternatives/cc
+-rwxr-xr-x 1 nobody nogroup     27440 Mar  9  2025 ccomps
+-rwxr-xr-x 1 nobody nogroup    207680 Jul 28 18:49 certutil
+-rwxr-xr-x 1 nobody nogroup     14568 Oct 28  2024 chacl
+-rwxr-sr-x 1 nobody nogroup    113848 Apr 19  2025 chage
+lrwxrwxrwx 1 nobody nogroup        10 Jan 13  2025 chardet -> chardetect
+-rwxr-xr-x 1 nobody nogroup       221 Jan 13  2025 chardetect
+-rwxr-xr-x 1 nobody nogroup     80296 Jun  4  2025 chcon
+-rwsr-xr-x 1 nobody nogroup     70888 Apr 19  2025 chfn
+-rwxr-xr-x 1 nobody nogroup     76232 Jun  4  2025 chgrp
+-rwxr-xr-x 1 nobody nogroup     31600 Mar 13  2025 chkdvifont
+-rwxr-xr-x 1 nobody nogroup     80128 Jul 28 18:49 chktest
+-rwxr-xr-x 1 nobody nogroup     72136 Jun  4  2025 chmod
+-rwxr-xr-x 1 nobody nogroup     55688 Jul 31 15:34 choom
+-rwxr-xr-x 1 nobody nogroup     76232 Jun  4  2025 chown
+-rwxr-xr-x 1 nobody nogroup      5064 Oct 14 21:13 chromium
+-rwxr-xr-x 1 nobody nogroup     72072 Jul 31 15:34 chrt
+-rwsr-xr-x 1 nobody nogroup     52936 Apr 19  2025 chsh
+lrwxrwxrwx 1 nobody nogroup         3 Mar  9  2025 circo -> dot
+-rwxr-xr-x 1 nobody nogroup    137672 Jun  4  2025 cksum
+-rwxr-xr-x 1 nobody nogroup    158144 Mar 13  2025 classifier_tester
+-rwxr-xr-x 1 nobody nogroup     14584 Mar  6  2025 clear
+-rwxr-xr-x 1 nobody nogroup     14488 Jul 12 16:58 clear_console
+-rwxr-xr-x 1 nobody nogroup    582440 Mar  9  2025 cluster
+-rwxr-xr-x 1 nobody nogroup     56272 Apr 20  2025 cmp
+-rwxr-xr-x 1 nobody nogroup    121272 Jul 28 18:49 cmsutil
+-rwxr-xr-x 1 nobody nogroup    158144 Mar 13  2025 cntraining
+-rwxr-xr-x 1 nobody nogroup    129432 Mar 13  2025 combine_lang_model
+-rwxr-xr-x 1 nobody nogroup     27032 Mar 13  2025 combine_tessdata
+-rwxr-xr-x 1 nobody nogroup     47560 Jun  4  2025 comm
+lrwxrwxrwx 1 nobody nogroup        25 Jul 21 07:55 compare -> /etc/alternatives/compare
+lrwxrwxrwx 1 nobody nogroup        29 Jul 21 07:55 compare-im7 -> /etc/alternatives/compare-im7
+lrwxrwxrwx 1 nobody nogroup        14 Jul 21 07:55 compare-im7.q16 -> magick-im7.q16
+-rwxr-xr-x 1 nobody nogroup      1350 Jul 12 18:11 compile_et
+lrwxrwxrwx 1 nobody nogroup        27 Jul 21 07:55 composite -> /etc/alternatives/composite
+lrwxrwxrwx 1 nobody nogroup        31 Jul 21 07:55 composite-im7 -> /etc/alternatives/composite-im7
+lrwxrwxrwx 1 nobody nogroup        14 Jul 21 07:55 composite-im7.q16 -> magick-im7.q16
+lrwxrwxrwx 1 nobody nogroup        25 Jul 21 07:55 conjure -> /etc/alternatives/conjure
+lrwxrwxrwx 1 nobody nogroup        29 Jul 21 07:55 conjure-im7 -> /etc/alternatives/conjure-im7
+lrwxrwxrwx 1 nobody nogroup        14 Jul 21 07:55 conjure-im7.q16 -> magick-im7.q16
+lrwxrwxrwx 1 nobody nogroup        25 Jul 21 07:55 convert -> /etc/alternatives/convert
+lrwxrwxrwx 1 nobody nogroup        29 Jul 21 07:55 convert-im7 -> /etc/alternatives/convert-im7
+lrwxrwxrwx 1 nobody nogroup        14 Jul 21 07:55 convert-im7.q16 -> magick-im7.q16
+-rwxr-xr-x 1 nobody nogroup     15375 Aug 30 08:53 corelist
+-rwxr-xr-x 1 nobody nogroup    149960 Jun  4  2025 cp
+-rwxr-xr-x 1 nobody nogroup      8360 Aug 30 08:53 cpan
+-rwxr-xr-x 1 nobody nogroup      8381 Aug 30 08:53 cpan5.40-x86_64-linux-gnu
+lrwxrwxrwx 1 nobody nogroup         6 Oct 10  2024 cpp -> cpp-14
+lrwxrwxrwx 1 nobody nogroup        23 Mar 15  2025 cpp-14 -> x86_64-linux-gnu-cpp-14
+-rwxr-xr-x 1 nobody nogroup    133472 Jul 28 18:49 crlutil
+-rwxr-xr-x 1 nobody nogroup     59848 Jun  4  2025 csplit
+-rwxr-xr-x 1 nobody nogroup     52136 Mar 13  2025 ctangle
+-rwxr-xr-x 1 nobody nogroup     18776 Mar 13  2025 ctie
+lrwxrwxrwx 1 nobody nogroup         6 May 26  2025 ctstat -> lnstat
+-rwxr-xr-x 1 nobody nogroup    105384 Mar 13  2025 ctwill
+-rwxr-xr-x 1 nobody nogroup      3470 Mar 13  2025 ctwill-proofsort
+-rwxr-xr-x 1 nobody nogroup     14576 Mar 13  2025 ctwill-refsort
+-rwxr-xr-x 1 nobody nogroup     14576 Mar 13  2025 ctwill-twinx
+-rwxr-xr-x 1 nobody nogroup    321880 Oct 13 04:42 curl
+-rwxr-xr-x 1 nobody nogroup      6070 Oct 13 04:42 curl-config
+-rwxr-xr-x 1 nobody nogroup     55752 Jun  4  2025 cut
+-rwxr-xr-x 1 nobody nogroup    101288 Mar 13  2025 cweave
+-rwxr-xr-x 1 nobody nogroup    129736 Feb  4  2025 dash
+-rwxr-xr-x 1 nobody nogroup    100808 Jun  4  2025 date
+-rwxr-xr-x 1 nobody nogroup     18840 Mar 13  2025 dawg2wordlist
+-rwxr-xr-x 1 nobody nogroup     14560 Mar  8  2025 dbus-cleanup-sockets
+-rwxr-xr-x 1 nobody nogroup    248408 Mar  8  2025 dbus-daemon
+-rwxr-xr-x 1 nobody nogroup     30792 Mar  8  2025 dbus-launch
+-rwxr-xr-x 1 nobody nogroup     30952 Mar  8  2025 dbus-monitor
+-rwxr-xr-x 1 nobody nogroup     14568 Mar  8  2025 dbus-run-session
+-rwxr-xr-x 1 nobody nogroup     30944 Mar  8  2025 dbus-send
+-rwxr-xr-x 1 nobody nogroup     14560 Mar  8  2025 dbus-update-activation-environment
+-rwxr-xr-x 1 nobody nogroup     14560 Mar  8  2025 dbus-uuidgen
+-rwxr-xr-x 1 nobody nogroup     76272 Jun  4  2025 dd
+-rwxr-xr-x 1 nobody nogroup     24358 Jul 13  2022 deb-systemd-helper
+-rwxr-xr-x 1 nobody nogroup      7135 Nov 26  2023 deb-systemd-invoke
+-rwxr-xr-x 1 nobody nogroup      2870 Mar 10  2025 debconf
+-rwxr-xr-x 1 nobody nogroup     11846 Mar 10  2025 debconf-apt-progress
+-rwxr-xr-x 1 nobody nogroup       623 Mar 10  2025 debconf-communicate
+-rwxr-xr-x 1 nobody nogroup      1718 Mar 10  2025 debconf-copydb
+-rwxr-xr-x 1 nobody nogroup       668 Mar 10  2025 debconf-escape
+-rwxr-xr-x 1 nobody nogroup      3216 Mar 10  2025 debconf-set-selections
+-rwxr-xr-x 1 nobody nogroup      1825 Mar 10  2025 debconf-show
+-rwxr-xr-x 1 nobody nogroup    100696 Jul 28 18:49 derdump
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 designer -> qtchooser
+lrwxrwxrwx 1 nobody nogroup        20 Nov 25  2024 desktop-file-edit -> desktop-file-install
+-rwxr-xr-x 1 nobody nogroup     94640 Nov 25  2024 desktop-file-install
+-rwxr-xr-x 1 nobody nogroup     82640 Nov 25  2024 desktop-file-validate
+-rwxr-xr-x 1 nobody nogroup     63744 Mar 13  2025 detex
+-rwxr-xr-x 1 nobody nogroup     45488 Mar 13  2025 devnag
+-rwxr-xr-x 1 nobody nogroup    109488 Jun  4  2025 df
+-rwxr-xr-x 1 nobody nogroup     18392 Feb 28  2025 dh_installtex
+-rwxr-xr-x 1 nobody nogroup      3597 Apr  1  2025 dh_numpy3
+-rwxr-xr-x 1 nobody nogroup      2336 Aug 15  2024 dh_python3-ply
+-rwxr-xr-x 1 nobody nogroup    163440 Apr 20  2025 diff
+-rwxr-xr-x 1 nobody nogroup     72848 Apr 20  2025 diff3
+-rwxr-xr-x 1 nobody nogroup     14832 Mar  9  2025 diffimg
+-rwxr-xr-x 1 nobody nogroup     19104 Mar  9  2025 dijkstra
+-rwxr-xr-x 1 nobody nogroup    158632 Jun  4  2025 dir
+-rwxr-xr-x 1 nobody nogroup     55752 Jun  4  2025 dircolors
+-rwxr-xr-x 1 nobody nogroup    641512 Jul 13 07:28 dirmngr
+-rwxr-xr-x 1 nobody nogroup    109424 Jul 13 07:28 dirmngr-client
+-rwxr-xr-x 1 nobody nogroup     43432 Jun  4  2025 dirname
+-rwxr-xr-x 1 nobody nogroup     26880 Mar 13  2025 disdvi
+lrwxrwxrwx 1 nobody nogroup        25 Jul 21 07:55 display -> /etc/alternatives/display
+lrwxrwxrwx 1 nobody nogroup        29 Jul 21 07:55 display-im7 -> /etc/alternatives/display-im7
+lrwxrwxrwx 1 nobody nogroup        14 Jul 21 07:55 display-im7.q16 -> magick-im7.q16
+-rwxr-xr-x 1 nobody nogroup     90840 Jul 31 15:34 dmesg
+lrwxrwxrwx 1 nobody nogroup         8 Oct 11  2024 dnsdomainname -> hostname
+lrwxrwxrwx 1 nobody nogroup         8 Oct 11  2024 domainname -> hostname
+lrwxrwxrwx 1 nobody nogroup        29 Mar  9  2025 dot -> ../sbin/libgvc6-config-update
+lrwxrwxrwx 1 nobody nogroup         6 Mar  9  2025 dot2gxl -> gxl2gv
+-rwxr-xr-x 1 nobody nogroup     19056 Mar  9  2025 dot_builtins
+-rwxr-xr-x 1 nobody nogroup      2085 Mar  9  2025 dotty
+-rwxr-xr-x 1 nobody nogroup    326704 Mar  6  2026 dpkg
+-rwxr-xr-x 1 nobody nogroup     15199 Mar  6  2026 dpkg-architecture
+-rwxr-xr-x 1 nobody nogroup      1831 Mar  6  2026 dpkg-buildapi
+-rwxr-xr-x 1 nobody nogroup      8334 Mar  6  2026 dpkg-buildflags
+-rwxr-xr-x 1 nobody nogroup     31049 Mar  6  2026 dpkg-buildpackage
+-rwxr-xr-x 1 nobody nogroup      2168 Mar  6  2026 dpkg-buildtree
+-rwxr-xr-x 1 nobody nogroup      7628 Mar  6  2026 dpkg-checkbuilddeps
+-rwxr-xr-x 1 nobody nogroup    182816 Mar  6  2026 dpkg-deb
+-rwxr-xr-x 1 nobody nogroup      2783 Mar  6  2026 dpkg-distaddfile
+-rwxr-xr-x 1 nobody nogroup    162584 Mar  6  2026 dpkg-divert
+-rwxr-xr-x 1 nobody nogroup     19142 Mar  6  2026 dpkg-genbuildinfo
+-rwxr-xr-x 1 nobody nogroup     17930 Mar  6  2026 dpkg-genchanges
+-rwxr-xr-x 1 nobody nogroup     14972 Mar  6  2026 dpkg-gencontrol
+-rwxr-xr-x 1 nobody nogroup     10919 Mar  6  2026 dpkg-gensymbols
+-rwxr-xr-x 1 nobody nogroup     21124 Mar  6  2026 dpkg-maintscript-helper
+-rwxr-xr-x 1 nobody nogroup      8905 Mar  6  2026 dpkg-mergechangelogs
+-rwxr-xr-x 1 nobody nogroup      6741 Mar  6  2026 dpkg-name
+-rwxr-xr-x 1 nobody nogroup      4947 Mar  6  2026 dpkg-parsechangelog
+-rwxr-xr-x 1 nobody nogroup    174864 Mar  6  2026 dpkg-query
+-rwxr-xr-x 1 nobody nogroup     59728 Mar  6  2026 dpkg-realpath
+-rwxr-xr-x 1 nobody nogroup      8656 Mar  6  2026 dpkg-scanpackages
+-rwxr-xr-x 1 nobody nogroup      9365 Mar  6  2026 dpkg-scansources
+-rwxr-xr-x 1 nobody nogroup     33371 Mar  6  2026 dpkg-shlibdeps
+-rwxr-xr-x 1 nobody nogroup     23740 Mar  6  2026 dpkg-source
+-rwxr-xr-x 1 nobody nogroup    145904 Mar  6  2026 dpkg-split
+-rwxr-xr-x 1 nobody nogroup     88584 Mar  6  2026 dpkg-statoverride
+-rwxr-xr-x 1 nobody nogroup     92672 Mar  6  2026 dpkg-trigger
+-rwxr-xr-x 1 nobody nogroup      3256 Mar  6  2026 dpkg-vendor
+lrwxrwxrwx 1 nobody nogroup        10 Oct 30 22:53 draw -> orbit-apps
+-rwxr-xr-x 1 nobody nogroup     49704 Mar 13  2025 dt2dv
+-rwxr-xr-x 1 nobody nogroup    113096 Jun  4  2025 du
+-rwxr-xr-x 1 nobody nogroup     14313 Nov 22  2025 dumppdf
+-rwxr-xr-x 1 nobody nogroup     24352 Mar 13  2025 dv2dt
+-rwxr-xr-x 1 nobody nogroup     68424 Mar 13  2025 dvi2tty
+-rwxr-xr-x 1 nobody nogroup     35768 Mar 13  2025 dvibook
+-rwxr-xr-x 1 nobody nogroup     27672 Mar 13  2025 dviconcat
+-rwxr-xr-x 1 nobody nogroup     63832 Mar 13  2025 dvicopy
+-rwxr-xr-x 1 nobody nogroup      4487 Mar 13  2025 dvihp
+-rwxr-xr-x 1 nobody nogroup     56064 Mar 13  2025 dvilj
+-rwxr-xr-x 1 nobody nogroup     56064 Mar 13  2025 dvilj2p
+-rwxr-xr-x 1 nobody nogroup     68360 Mar 13  2025 dvilj4
+-rwxr-xr-x 1 nobody nogroup     68360 Mar 13  2025 dvilj4l
+lrwxrwxrwx 1 nobody nogroup         6 Mar 13  2025 dvilj6 -> dvilj4
+lrwxrwxrwx 1 nobody nogroup         6 Mar 13  2025 dvilualatex -> luatex
+lrwxrwxrwx 1 nobody nogroup         6 Mar 14  2025 dvilualatex-dev -> luatex
+lrwxrwxrwx 1 nobody nogroup         6 Mar 13  2025 dviluatex -> luatex
+-rwxr-xr-x 1 nobody nogroup      1007 Oct  8 19:45 dvipdf
+lrwxrwxrwx 1 nobody nogroup         9 Mar 13  2025 dvipdfm -> xdvipdfmx
+lrwxrwxrwx 1 nobody nogroup         9 Mar 13  2025 dvipdfmx -> xdvipdfmx
+-rwxr-xr-x 1 nobody nogroup      2688 Mar 13  2025 dvipdft
+-rwxr-xr-x 1 nobody nogroup     51936 Mar 13  2025 dvipos
+-rwxr-xr-x 1 nobody nogroup    245984 Mar 13  2025 dvips
+-rwxr-xr-x 1 nobody nogroup     35768 Mar 13  2025 dviselect
+-rwxr-xr-x 1 nobody nogroup     56792 Mar 13  2025 dvispc
+-rwxr-xr-x 1 nobody nogroup     39896 Mar 13  2025 dvitodvi
+lrwxrwxrwx 1 nobody nogroup         5 Mar 13  2025 dvitomp -> mpost
+-rwxr-xr-x 1 nobody nogroup     51568 Mar 13  2025 dvitype
+-rwxr-xr-x 1 nobody nogroup    231896 May 10  2025 dxf2idf
+lrwxrwxrwx 1 nobody nogroup         9 Mar 13  2025 ebb -> xdvipdfmx
+-rwxr-xr-x 1 nobody nogroup     43432 Jun  4  2025 echo
+-rwxr-xr-x 1 nobody nogroup    430552 Mar  9  2025 edgepaint
+lrwxrwxrwx 1 nobody nogroup        24 May  3  2026 editor -> /etc/alternatives/editor
+-rwxr-xr-x 1 nobody nogroup     75376 Aug 29  2024 editres
+-rwxr-xr-x 1 nobody nogroup     96656 May 10  2025 eeschema
+-rwxr-xr-x 1 nobody nogroup        41 Jan  4  2024 egrep
+lrwxrwxrwx 1 nobody nogroup        24 Mar  3  2025 elfedit -> x86_64-linux-gnu-elfedit
+-rwxr-xr-x 1 nobody nogroup     41953 Aug 30 08:53 enc2xs
+-rwxr-xr-x 1 nobody nogroup      3065 Aug 30 08:53 encguess
+-rwxr-xr-x 1 nobody nogroup     56144 Jun  4  2025 env
+-rwxr-xr-x 1 nobody nogroup       639 Oct  8 19:45 eps2eps
+lrwxrwxrwx 1 nobody nogroup        53 Mar 13  2025 epspdf -> ../share/texlive/texmf-dist/scripts/epspdf/epspdf.tlu
+lrwxrwxrwx 1 nobody nogroup        55 Mar 13  2025 epspdftk -> ../share/texlive/texmf-dist/scripts/epspdf/epspdftk.tcl
+lrwxrwxrwx 1 nobody nogroup         6 Mar 13  2025 eptex -> euptex
+lrwxrwxrwx 1 nobody nogroup         6 Mar 13  2025 etex -> pdftex
+-rwxr-xr-x 1 nobody nogroup    564232 Mar 13  2025 euptex
+lrwxrwxrwx 1 nobody nogroup        20 May 23  2025 ex -> /etc/alternatives/ex
+lrwxrwxrwx 1 nobody nogroup        53 Mar 14  2025 exceltex -> ../share/texlive/texmf-dist/scripts/exceltex/exceltex
+-rwxr-xr-x 1 nobody nogroup     76632 Dec 18  2024 exo-desktop-item-edit
+-rwxr-xr-x 1 nobody nogroup     27120 Dec 18  2024 exo-open
+-rwxr-xr-x 1 nobody nogroup     47560 Jun  4  2025 expand
+-rwxr-sr-x 1 nobody nogroup     31256 Apr 19  2025 expiry
+-rwxr-xr-x 1 nobody nogroup     51624 Jun  4  2025 expr
+lrwxrwxrwx 1 nobody nogroup         9 Mar 13  2025 extractbb -> xdvipdfmx
+-rwxr-xr-x 1 nobody nogroup       216 Apr  1  2025 f2py
+-rwxr-xr-x 1 nobody nogroup       216 Apr  1  2025 f2py3
+-rwxr-xr-x 1 nobody nogroup       249 Apr  1  2025 f2py3.13
+-rwxr-xr-x 1 nobody nogroup     76232 Jun  4  2025 factor
+-rwxr-xr-x 1 nobody nogroup     35208 Jul 31 15:34 fallocate
+-rwxr-xr-x 1 nobody nogroup     43432 Jun  4  2025 false
+-rwxr-xr-x 1 nobody nogroup     22840 Apr  4  2025 fc-cache
+-rwxr-xr-x 1 nobody nogroup     18744 Apr  4  2025 fc-cat
+-rwxr-xr-x 1 nobody nogroup     14648 Apr  4  2025 fc-conflist
+-rwxr-xr-x 1 nobody nogroup     14648 Apr  4  2025 fc-list
+-rwxr-xr-x 1 nobody nogroup     14648 Apr  4  2025 fc-match
+-rwxr-xr-x 1 nobody nogroup     14648 Apr  4  2025 fc-pattern
+-rwxr-xr-x 1 nobody nogroup     14648 Apr  4  2025 fc-query
+-rwxr-xr-x 1 nobody nogroup     14648 Apr  4  2025 fc-scan
+-rwxr-xr-x 1 nobody nogroup     14648 Apr  4  2025 fc-validate
+-rwxr-xr-x 1 nobody nogroup     10933 Aug 25 08:56 fcinfo
+lrwxrwxrwx 1 nobody nogroup         3 Mar  9  2025 fdp -> dot
+-rwxr-xr-x 1 nobody nogroup    366984 Jun 22 16:08 ffmpeg
+-rwxr-xr-x 1 nobody nogroup    182848 Jun 22 16:08 ffplay
+-rwxr-xr-x 1 nobody nogroup    206504 Jun 22 16:08 ffprobe
+-rwxr-xr-x 1 nobody nogroup        41 Jan  4  2024 fgrep
+lrwxrwxrwx 1 nobody nogroup        55 Mar 13  2025 fig4latex -> ../share/texlive/texmf-dist/scripts/fig4latex/fig4latex
+-rwxr-xr-x 1 nobody nogroup     27200 Apr 11  2025 file
+-rwxr-xr-x 1 nobody nogroup    233040 Aug 10  2024 find
+-rwxr-xr-x 1 nobody nogroup    102296 Jul 31 15:34 findmnt
+-rwxr-xr-x 1 nobody nogroup     35288 Jul 31 15:34 flock
+-rwxr-xr-x 1 nobody nogroup     51624 Jun  4  2025 fmt
+lrwxrwxrwx 1 nobody nogroup        54 Mar 13  2025 fmtutil -> ../share/texlive/texmf-dist/scripts/texlive/fmtutil.pl
+lrwxrwxrwx 1 nobody nogroup        58 Mar 13  2025 fmtutil-sys -> ../share/texlive/texmf-dist/scripts/texlive/fmtutil-sys.sh
+lrwxrwxrwx 1 nobody nogroup        59 Mar 13  2025 fmtutil-user -> ../share/texlive/texmf-dist/scripts/texlive/fmtutil-user.sh
+-rwxr-xr-x 1 nobody nogroup     47528 Jun  4  2025 fold
+-rwxr-xr-x 1 nobody nogroup     47864 Sep 16  2024 fonttosfnt
+-rwxr-xr-x 1 nobody nogroup     26936 Jul 30  2025 free
+lrwxrwxrwx 1 nobody nogroup        25 Aug 25 08:56 freecad -> /etc/alternatives/freecad
+lrwxrwxrwx 1 nobody nogroup        28 Aug 25 08:56 freecadcmd -> /etc/alternatives/freecadcmd
+-rwxr-xr-x 1 nobody nogroup     27176 Aug 10 22:10 funzip
+-rwxr-xr-x 1 nobody nogroup     40784 Feb 14  2025 fuser
+lrwxrwxrwx 1 nobody nogroup        11 Jul 16  2025 fusermount -> fusermount3
+-rwsr-xr-x 1 nobody nogroup     39224 Jul 16  2025 fusermount3
+lrwxrwxrwx 1 nobody nogroup         6 Oct 10  2024 g++ -> g++-14
+lrwxrwxrwx 1 nobody nogroup        23 Mar 15  2025 g++-14 -> x86_64-linux-gnu-g++-14
+-rwxr-xr-x 1 nobody nogroup     22848 Aug 23 14:20 gapplication
+-rwxr-xr-x 1 nobody nogroup     19088 Mar  9  2025 gc
+lrwxrwxrwx 1 nobody nogroup         6 Oct 10  2024 gcc -> gcc-14
+lrwxrwxrwx 1 nobody nogroup        23 Mar 15  2025 gcc-14 -> x86_64-linux-gnu-gcc-14
+lrwxrwxrwx 1 nobody nogroup         9 Oct 10  2024 gcc-ar -> gcc-ar-14
+lrwxrwxrwx 1 nobody nogroup        26 Mar 15  2025 gcc-ar-14 -> x86_64-linux-gnu-gcc-ar-14
+lrwxrwxrwx 1 nobody nogroup         9 Oct 10  2024 gcc-nm -> gcc-nm-14
+lrwxrwxrwx 1 nobody nogroup        26 Mar 15  2025 gcc-nm-14 -> x86_64-linux-gnu-gcc-nm-14
+lrwxrwxrwx 1 nobody nogroup        13 Oct 10  2024 gcc-ranlib -> gcc-ranlib-14
+lrwxrwxrwx 1 nobody nogroup        30 Mar 15  2025 gcc-ranlib-14 -> x86_64-linux-gnu-gcc-ranlib-14
+lrwxrwxrwx 1 nobody nogroup         7 Oct 10  2024 gcov -> gcov-14
+lrwxrwxrwx 1 nobody nogroup        24 Mar 15  2025 gcov-14 -> x86_64-linux-gnu-gcov-14
+lrwxrwxrwx 1 nobody nogroup        12 Oct 10  2024 gcov-dump -> gcov-dump-14
+lrwxrwxrwx 1 nobody nogroup        29 Mar 15  2025 gcov-dump-14 -> x86_64-linux-gnu-gcov-dump-14
+lrwxrwxrwx 1 nobody nogroup        12 Oct 10  2024 gcov-tool -> gcov-tool-14
+lrwxrwxrwx 1 nobody nogroup        29 Mar 15  2025 gcov-tool-14 -> x86_64-linux-gnu-gcov-tool-14
+-rwxr-xr-x 1 nobody nogroup       959 Apr  7  2025 gdal2tiles
+-rwxr-xr-x 1 nobody nogroup       540 Apr  7  2025 gdal2tiles.py
+-rwxr-xr-x 1 nobody nogroup       955 Apr  7  2025 gdal2xyz
+-rwxr-xr-x 1 nobody nogroup       276 Apr  7  2025 gdal2xyz.py
+-rwxr-xr-x 1 nobody nogroup       957 Apr  7  2025 gdal_calc
+-rwxr-xr-x 1 nobody nogroup       280 Apr  7  2025 gdal_calc.py
+-rwxr-xr-x 1 nobody nogroup    182704 Apr  7  2025 gdal_contour
+-rwxr-xr-x 1 nobody nogroup    174512 Apr  7  2025 gdal_create
+-rwxr-xr-x 1 nobody nogroup       957 Apr  7  2025 gdal_edit
+-rwxr-xr-x 1 nobody nogroup       280 Apr  7  2025 gdal_edit.py
+-rwxr-xr-x 1 nobody nogroup       969 Apr  7  2025 gdal_fillnodata
+-rwxr-xr-x 1 nobody nogroup       304 Apr  7  2025 gdal_fillnodata.py
+-rwxr-xr-x 1 nobody nogroup    137632 Apr  7  2025 gdal_footprint
+-rwxr-xr-x 1 nobody nogroup    133536 Apr  7  2025 gdal_grid
+-rwxr-xr-x 1 nobody nogroup       959 Apr  7  2025 gdal_merge
+-rwxr-xr-x 1 nobody nogroup       284 Apr  7  2025 gdal_merge.py
+-rwxr-xr-x 1 nobody nogroup       969 Apr  7  2025 gdal_pansharpen
+-rwxr-xr-x 1 nobody nogroup       304 Apr  7  2025 gdal_pansharpen.py
+-rwxr-xr-x 1 nobody nogroup       969 Apr  7  2025 gdal_polygonize
+-rwxr-xr-x 1 nobody nogroup       304 Apr  7  2025 gdal_polygonize.py
+-rwxr-xr-x 1 nobody nogroup       967 Apr  7  2025 gdal_proximity
+-rwxr-xr-x 1 nobody nogroup       300 Apr  7  2025 gdal_proximity.py
+-rwxr-xr-x 1 nobody nogroup    137632 Apr  7  2025 gdal_rasterize
+-rwxr-xr-x 1 nobody nogroup       961 Apr  7  2025 gdal_retile
+-rwxr-xr-x 1 nobody nogroup       288 Apr  7  2025 gdal_retile.py
+-rwxr-xr-x 1 nobody nogroup       959 Apr  7  2025 gdal_sieve
+-rwxr-xr-x 1 nobody nogroup       284 Apr  7  2025 gdal_sieve.py
+-rwxr-xr-x 1 nobody nogroup    137632 Apr  7  2025 gdal_translate
+-rwxr-xr-x 1 nobody nogroup    174512 Apr  7  2025 gdal_viewshed
+-rwxr-xr-x 1 nobody nogroup    186800 Apr  7  2025 gdaladdo
+-rwxr-xr-x 1 nobody nogroup       965 Apr  7  2025 gdalattachpct
+-rwxr-xr-x 1 nobody nogroup       296 Apr  7  2025 gdalattachpct.py
+-rwxr-xr-x 1 nobody nogroup    133536 Apr  7  2025 gdalbuildvrt
+-rwxr-xr-x 1 nobody nogroup       961 Apr  7  2025 gdalcompare
+-rwxr-xr-x 1 nobody nogroup       288 Apr  7  2025 gdalcompare.py
+-rwxr-xr-x 1 nobody nogroup    137632 Apr  7  2025 gdaldem
+-rwxr-xr-x 1 nobody nogroup    145824 Apr  7  2025 gdalenhance
+-rwxr-xr-x 1 nobody nogroup    137632 Apr  7  2025 gdalinfo
+-rwxr-xr-x 1 nobody nogroup    178608 Apr  7  2025 gdallocationinfo
+-rwxr-xr-x 1 nobody nogroup    154016 Apr  7  2025 gdalmanage
+-rwxr-xr-x 1 nobody nogroup    133536 Apr  7  2025 gdalmdiminfo
+-rwxr-xr-x 1 nobody nogroup    133536 Apr  7  2025 gdalmdimtranslate
+-rwxr-xr-x 1 nobody nogroup       955 Apr  7  2025 gdalmove
+-rwxr-xr-x 1 nobody nogroup       276 Apr  7  2025 gdalmove.py
+-rwxr-xr-x 1 nobody nogroup    141728 Apr  7  2025 gdalsrsinfo
+-rwxr-xr-x 1 nobody nogroup    133536 Apr  7  2025 gdaltindex
+-rwxr-xr-x 1 nobody nogroup    145824 Apr  7  2025 gdaltransform
+-rwxr-xr-x 1 nobody nogroup    137640 Apr  7  2025 gdalwarp
+-rwxr-xr-x 1 nobody nogroup     51520 Aug 23 14:20 gdbus
+-rwxr-xr-x 1 nobody nogroup     27000 Jun 29 21:37 gencat
+-rwxr-xr-x 1 nobody nogroup     92560 May 10  2025 gerbview
+-rwxr-xr-x 1 nobody nogroup     26920 Jun 29 21:37 getconf
+-rwxr-xr-x 1 nobody nogroup     35480 Jun 29 21:37 getent
+-rwxr-xr-x 1 nobody nogroup     31088 Oct 28  2024 getfacl
+lrwxrwxrwx 1 nobody nogroup        55 Mar 13  2025 getmapdl -> ../share/texlive/texmf-dist/scripts/getmap/getmapdl.lua
+-rwxr-xr-x 1 nobody nogroup     35208 Jul 31 15:34 getopt
+-rwxr-xr-x 1 nobody nogroup     14656 Apr 19  2025 getsubids
+-rwxr-xr-x 1 nobody nogroup     51536 Mar 13  2025 gftodvi
+-rwxr-xr-x 1 nobody nogroup     31048 Mar 13  2025 gftopk
+-rwxr-xr-x 1 nobody nogroup     31056 Mar 13  2025 gftype
+-rwxr-xr-x 1 nobody nogroup  35248672 Jan 13  2025 gh
+lrwxrwxrwx 1 nobody nogroup         2 Oct  8 19:45 ghostscript -> gs
+lrwxrwxrwx 1 nobody nogroup         8 Sep 19 15:17 gimp -> gimp-3.0
+lrwxrwxrwx 1 nobody nogroup         8 Sep 19 15:17 gimp-3 -> gimp-3.0
+-rwxr-xr-x 1 nobody nogroup   7788480 Sep 19 15:17 gimp-3.0
+lrwxrwxrwx 1 nobody nogroup        16 Sep 19 15:17 gimp-console -> gimp-console-3.0
+lrwxrwxrwx 1 nobody nogroup        16 Sep 19 15:17 gimp-console-3 -> gimp-console-3.0
+-rwxr-xr-x 1 nobody nogroup   3710496 Sep 19 15:17 gimp-console-3.0
+lrwxrwxrwx 1 nobody nogroup        30 Sep 19 15:17 gimp-script-fu-interpreter -> gimp-script-fu-interpreter-3.0
+-rwxr-xr-x 1 nobody nogroup     14568 Sep 19 15:17 gimp-script-fu-interpreter-3.0
+lrwxrwxrwx 1 nobody nogroup        23 Sep 19 15:17 gimp-test-clipboard -> gimp-test-clipboard-3.0
+lrwxrwxrwx 1 nobody nogroup        23 Sep 19 15:17 gimp-test-clipboard-3 -> gimp-test-clipboard-3.0
+-rwxr-xr-x 1 nobody nogroup     18744 Sep 19 15:17 gimp-test-clipboard-3.0
+-rwxr-xr-x 1 nobody nogroup     96592 Aug 23 14:20 gio
+-rwxr-xr-x 1 nobody nogroup      9080 Jan  1  1970 gio-launch-desktop
+lrwxrwxrwx 1 nobody nogroup        49 Aug 23 14:20 gio-querymodules -> ../lib/x86_64-linux-gnu/glib-2.0/gio-querymodules
+-rwxr-xr-x 1 nobody nogroup   4082768 Jul 30  2025 git
+-rwxr-xr-x 1 nobody nogroup  12745552 Apr 10  2026 git-lfs
+lrwxrwxrwx 1 nobody nogroup         3 Jul 30  2025 git-receive-pack -> git
+-rwxr-xr-x 1 nobody nogroup   2316656 Jul 30  2025 git-shell
+lrwxrwxrwx 1 nobody nogroup         3 Jul 30  2025 git-upload-archive -> git
+lrwxrwxrwx 1 nobody nogroup         3 Jul 30  2025 git-upload-pack -> git
+lrwxrwxrwx 1 nobody nogroup        53 Aug 23 14:20 glib-compile-schemas -> ../lib/x86_64-linux-gnu/glib-2.0/glib-compile-schemas
+lrwxrwxrwx 1 nobody nogroup         4 Apr  6  2025 gmake -> make
+-rwxr-xr-x 1 nobody nogroup     43944 Mar  9  2025 gml2gv
+-rwxr-xr-x 1 nobody nogroup    145824 Apr  7  2025 gnmanalyse
+-rwxr-xr-x 1 nobody nogroup    154016 Apr  7  2025 gnmmanage
+lrwxrwxrwx 1 nobody nogroup        35 Oct 14 21:13 gnome-www-browser -> /etc/alternatives/gnome-www-browser
+-rwxr-xr-x 1 nobody nogroup   2115840 Jan  1  1970 go
+lrwxrwxrwx 1 nobody nogroup        15 Mar  3  2025 gp-archive -> gprofng-archive
+lrwxrwxrwx 1 nobody nogroup        19 Mar  3  2025 gp-collect-app -> gprofng-collect-app
+lrwxrwxrwx 1 nobody nogroup        20 Mar  3  2025 gp-display-html -> gprofng-display-html
+lrwxrwxrwx 1 nobody nogroup        19 Mar  3  2025 gp-display-src -> gprofng-display-src
+lrwxrwxrwx 1 nobody nogroup        20 Mar  3  2025 gp-display-text -> gprofng-display-text
+-rwsr-xr-x 1 nobody nogroup     88568 Apr 19  2025 gpasswd
+-rwxr-xr-x 1 nobody nogroup   1230080 Jul 13 07:28 gpg
+-rwxr-xr-x 1 nobody nogroup    456184 Jul 13 07:28 gpg-agent
+-rwxr-xr-x 1 nobody nogroup    142608 Jul 13 07:28 gpg-connect-agent
+-rwxr-xr-x 1 nobody nogroup    171560 Jul 13 07:28 gpgconf
+-rwxr-xr-x 1 nobody nogroup    628040 Jul 13 07:28 gpgsm
+lrwxrwxrwx 1 nobody nogroup        22 Mar  3  2025 gprof -> x86_64-linux-gnu-gprof
+-rwxr-xr-x 1 nobody nogroup     23128 Mar  3  2025 gprofng
+-rwxr-xr-x 1 nobody nogroup     35928 Mar  3  2025 gprofng-archive
+-rwxr-xr-x 1 nobody nogroup     56592 Mar  3  2025 gprofng-collect-app
+-rwxr-xr-x 1 nobody nogroup    645479 Mar  3  2025 gprofng-display-html
+-rwxr-xr-x 1 nobody nogroup     31544 Mar  3  2025 gprofng-display-src
+-rwxr-xr-x 1 nobody nogroup    161136 Mar  3  2025 gprofng-display-text
+-rwxr-xr-x 1 nobody nogroup     23336 Mar  9  2025 graphml2gv
+-rwxr-xr-x 1 nobody nogroup    699016 Mar 13  2025 gregorio
+-rwxr-xr-x 1 nobody nogroup    203152 Jan  4  2024 grep
+-rwxr-xr-x 1 nobody nogroup     22768 Aug 23 14:20 gresource
+-rwxr-xr-x 1 nobody nogroup     43432 Jun  4  2025 groups
+-rwxr-xr-x 1 nobody nogroup     14600 Oct  8 19:45 gs
+-rwxr-xr-x 1 nobody nogroup       350 Oct  8 19:45 gsbj
+-rwxr-xr-x 1 nobody nogroup       352 Oct  8 19:45 gsdj
+-rwxr-xr-x 1 nobody nogroup       352 Oct  8 19:45 gsdj500
+-rwxr-xr-x 1 nobody nogroup     31040 Aug 23 14:20 gsettings
+-rwxr-xr-x 1 nobody nogroup     35256 Mar 13  2025 gsftopk
+-rwxr-xr-x 1 nobody nogroup       353 Oct  8 19:45 gslj
+-rwxr-xr-x 1 nobody nogroup       350 Oct  8 19:45 gslp
+-rwxr-xr-x 1 nobody nogroup       277 Oct  8 19:45 gsnd
+-rwxr-xr-x 1 nobody nogroup     18864 Sep  5 05:52 gtf
+lrwxrwxrwx 1 nobody nogroup        22 Jun 15  2025 gtk-update-icon-cache -> gtk4-update-icon-cache
+-rwxr-xr-x 1 nobody nogroup     39472 Jun 15  2025 gtk4-update-icon-cache
+-rwxr-xr-x 1 nobody nogroup      2335 Jan 17  2025 gunzip
+-rwxr-xr-x 1 nobody nogroup     23136 Mar  9  2025 gv2gml
+lrwxrwxrwx 1 nobody nogroup         6 Mar  9  2025 gv2gxl -> gxl2gv
+-rwxr-xr-x 1 nobody nogroup     49984 Mar  9  2025 gvcolor
+-rwxr-xr-x 1 nobody nogroup     27048 Mar  9  2025 gvgen
+-rwxr-xr-x 1 nobody nogroup    586536 Mar  9  2025 gvmap
+-rwxr-xr-x 1 nobody nogroup      2181 Mar  9  2025 gvmap.sh
+-rwxr-xr-x 1 nobody nogroup     27680 Mar  9  2025 gvpack
+-rwxr-xr-x 1 nobody nogroup     14656 Mar  9  2025 gvpr
+lrwxrwxrwx 1 nobody nogroup         6 Mar  9  2025 gxl2dot -> gxl2gv
+-rwxr-xr-x 1 nobody nogroup     40064 Mar  9  2025 gxl2gv
+-rwxr-xr-x 1 nobody nogroup      6436 Jan 17  2025 gzexe
+-rwxr-xr-x 1 nobody nogroup    102200 Jan 17  2025 gzip
+-rwxr-xr-x 1 nobody nogroup     28826 Aug 30 08:53 h2ph
+-rwxr-xr-x 1 nobody nogroup     60934 Aug 30 08:53 h2xs
+-rwxr-xr-x 1 nobody nogroup     63976 Jul 31 15:34 hardlink
+-rwxr-xr-x 1 nobody nogroup     51656 Jun  4  2025 head
+-rwxr-xr-x 1 nobody nogroup      2514 May 23  2025 helpztags
+-rwxr-xr-x 1 nobody nogroup    102880 Mar 13  2025 hishrink
+-rwxr-xr-x 1 nobody nogroup    131304 Mar 13  2025 histretch
+-rwxr-xr-x 1 nobody nogroup    415120 Mar 13  2025 hitex
+-rwxr-xr-x 1 nobody nogroup     43432 Jun  4  2025 hostid
+-rwxr-xr-x 1 nobody nogroup     26776 Oct 11  2024 hostname
+-rwxr-xr-x 1 nobody nogroup     31112 Apr 13  2026 hostnamectl
+-rwxr-xr-x 1 nobody nogroup    358648 Jul 11  2025 htop
+-rwxr-xr-x 1 nobody nogroup    108896 Jul 28 18:49 httpserv
+lrwxrwxrwx 1 nobody nogroup        70 Mar 14  2025 hyperxmp-add-bytecount -> ../share/texlive/texmf-dist/scripts/hyperxmp/hyperxmp-add-bytecount.pl
+-rwxr-xr-x 1 nobody nogroup       980 May 30  2025 hypothesis
+lrwxrwxrwx 1 nobody nogroup         7 Jul 31 15:34 i386 -> setarch
+-rwxr-xr-x 1 nobody nogroup     39688 Jan 16  2025 iceauth
+-rwxr-xr-x 1 nobody nogroup     68032 Jun 29 21:37 iconv
+-rwxr-xr-x 1 nobody nogroup     51656 Jun  4  2025 id
+lrwxrwxrwx 1 nobody nogroup        26 Jul 21 07:55 identify -> /etc/alternatives/identify
+lrwxrwxrwx 1 nobody nogroup        30 Jul 21 07:55 identify-im7 -> /etc/alternatives/identify-im7
+lrwxrwxrwx 1 nobody nogroup        14 Jul 21 07:55 identify-im7.q16 -> magick-im7.q16
+-rwxr-xr-x 1 nobody nogroup    502952 May 10  2025 idf2vrml
+-rwxr-xr-x 1 nobody nogroup     35216 May 10  2025 idfcyl
+-rwxr-xr-x 1 nobody nogroup     22848 May 10  2025 idfrect
+lrwxrwxrwx 1 nobody nogroup        24 Jul 21 07:55 import -> /etc/alternatives/import
+lrwxrwxrwx 1 nobody nogroup        28 Jul 21 07:55 import-im7 -> /etc/alternatives/import-im7
+lrwxrwxrwx 1 nobody nogroup        14 Jul 21 07:55 import-im7.q16 -> magick-im7.q16
+-rwxr-xr-x 1 nobody nogroup     67904 Mar  6  2025 infocmp
+lrwxrwxrwx 1 nobody nogroup         3 Mar  6  2025 infotocap -> tic
+lrwxrwxrwx 1 nobody nogroup         2 Mar 13  2025 inimf -> mf
+lrwxrwxrwx 1 nobody nogroup         3 Mar 13  2025 initex -> tex
+-rwxr-xr-x 1 nobody nogroup     27024 Mar 17  2025 inkscape
+-rwxr-xr-x 1 nobody nogroup     14656 Mar 17  2025 inkview
+-rwxr-xr-x 1 nobody nogroup    154096 Jun  4  2025 install
+-rwxr-xr-x 1 nobody nogroup      4373 Aug 30 08:53 instmodsh
+-rwxr-xr-x 1 nobody nogroup     35208 Jul 31 15:34 ionice
+-rwxr-xr-x 1 nobody nogroup    721912 May 26  2025 ip
+-rwxr-xr-x 1 nobody nogroup     35280 Jul 31 15:34 ipcmk
+-rwxr-xr-x 1 nobody nogroup     80264 Jul 31 15:34 ipcrm
+-rwxr-xr-x 1 nobody nogroup     84360 Jul 31 15:34 ipcs
+lrwxrwxrwx 1 nobody nogroup        28 Nov 20  2024 iptables-xml -> ../sbin/xtables-legacy-multi
+-rwxr-xr-x 1 nobody nogroup     14752 Jul 27  2025 ischroot
+-rwxr-xr-x 1 nobody nogroup      7220 Mar  2  2025 ispell-wrapper
+lrwxrwxrwx 1 nobody nogroup        22 Aug 19 17:55 java -> /etc/alternatives/java
+lrwxrwxrwx 1 nobody nogroup        23 Aug 19 17:55 jexec -> /etc/alternatives/jexec
+-rwxr-xr-x 1 nobody nogroup     59880 Jun  4  2025 join
+-rwxr-xr-x 1 nobody nogroup     93296 Apr 13  2026 journalctl
+lrwxrwxrwx 1 nobody nogroup        26 Aug 19 17:55 jpackage -> /etc/alternatives/jpackage
+-rwxr-xr-x 1 nobody nogroup     30800 Sep 23 07:19 jq
+-rwxr-xr-x 1 nobody nogroup      5021 Aug 30 08:53 json_pp
+-rwxr-xr-x 1 nobody nogroup       213 Jan  6  2025 jsonschema
+-rwxr-xr-x 1 nobody nogroup     22696 Apr 12  2025 kbuildsycoca6
+-rwxr-xr-x 1 nobody nogroup     51600 May 18  2025 kcursorgen
+-rwxr-xr-x 1 nobody nogroup    109432 Apr 12  2025 kded6
+-rwxr-xr-x 1 nobody nogroup  12781544 May 21 08:43 kdenlive
+-rwxr-xr-x 1 nobody nogroup     84624 May 21 08:43 kdenlive_render
+-rwxr-xr-x 1 nobody nogroup     55944 Apr 13  2026 kernel-install
+lrwxrwxrwx 1 nobody nogroup        25 Aug 19 17:55 keytool -> /etc/alternatives/keytool
+-rwxr-xr-x 1 nobody nogroup   6959008 May 10  2025 kicad
+-rwxr-xr-x 1 nobody nogroup    994744 May 10  2025 kicad-cli
+-rwxr-xr-x 1 nobody nogroup     22840 Jul 30  2025 kill
+-rwxr-xr-x 1 nobody nogroup     32720 Feb 14  2025 killall
+-rwxr-xr-x 1 nobody nogroup     14576 Mar 13  2025 kpseaccess
+-rwxr-xr-x 1 nobody nogroup     14576 Mar 13  2025 kpsereadlink
+-rwxr-xr-x 1 nobody nogroup     14576 Mar 13  2025 kpsestat
+-rwxr-xr-x 1 nobody nogroup     27952 Mar 13  2025 kpsewhich
+lrwxrwxrwx 1 nobody nogroup        15 May 10 07:16 krb5-config -> krb5-config.mit
+-rwxr-xr-x 1 nobody nogroup      6842 May 10 07:16 krb5-config.mit
+-rwxr-xr-x 1 nobody nogroup     22848 Jun  8  2025 ktelnetservice6
+-rwxr-xr-x 1 nobody nogroup     18752 Jun  8  2025 ktrash6
+-rwxr-xr-x 1 nobody nogroup     47632 Apr 12  2025 kwallet-query
+-rwxr-xr-x 1 nobody nogroup    584160 Apr 12  2025 kwalletd6
+lrwxrwxrwx 1 nobody nogroup        55 Mar 14  2025 l3build -> ../share/texlive/texmf-dist/scripts/l3build/l3build.lua
+lrwxrwxrwx 1 nobody nogroup         6 Mar 13  2025 latex -> pdftex
+lrwxrwxrwx 1 nobody nogroup         6 Mar 14  2025 latex-dev -> pdftex
+lrwxrwxrwx 1 nobody nogroup        58 Mar 14  2025 latex-wordcount -> ../share/texlive/texmf-dist/scripts/wordcount/wordcount.sh
+lrwxrwxrwx 1 nobody nogroup        57 Mar 14  2025 latexminted -> ../share/texlive/texmf-dist/scripts/minted/latexminted.py
+-rwxr-xr-x 1 nobody nogroup    529420 Dec 24  2024 latexmk
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 lconvert -> qtchooser
+lrwxrwxrwx 1 nobody nogroup        19 Mar  3  2025 ld -> x86_64-linux-gnu-ld
+lrwxrwxrwx 1 nobody nogroup        23 Mar  3  2025 ld.bfd -> x86_64-linux-gnu-ld.bfd
+lrwxrwxrwx 1 nobody nogroup        29 Jun 29 21:37 ld.so -> ../lib64/ld-linux-x86-64.so.2
+-rwxr-xr-x 1 nobody nogroup      5356 Jun 29 21:37 ldd
+-rwxr-xr-x 1 nobody nogroup    302464 Mar  9  2025 lefty
+-rwxr-xr-x 1 nobody nogroup    249376 Apr  6  2025 less
+-rwxr-xr-x 1 nobody nogroup     14584 Apr  6  2025 lessecho
+lrwxrwxrwx 1 nobody nogroup         8 Apr  6  2025 lessfile -> lesspipe
+-rwxr-xr-x 1 nobody nogroup     26944 Apr  6  2025 lesskey
+-rwxr-xr-x 1 nobody nogroup      9047 Apr  5  2025 lesspipe
+-rwxr-xr-x 1 nobody nogroup     15778 Aug 30 08:53 libnetcfg
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 linguist -> qtchooser
+-rwxr-xr-x 1 nobody nogroup     43432 Jun  4  2025 link
+lrwxrwxrwx 1 nobody nogroup         7 Jul 31 15:34 linux32 -> setarch
+lrwxrwxrwx 1 nobody nogroup         7 Jul 31 15:34 linux64 -> setarch
+-rwxr-xr-x 1 nobody nogroup     15208 Aug 29  2024 listres
+-rwxr-xr-x 1 nobody nogroup     76240 Jun  4  2025 ln
+-rwxr-xr-x 1 nobody nogroup      1547 Mar  9  2025 lneato
+-rwxr-xr-x 1 nobody nogroup     27304 May 26  2025 lnstat
+-rwxr-xr-x 1 nobody nogroup     46656 Jun 29 21:37 locale
+-rwxr-xr-x 1 nobody nogroup     27008 Apr 13  2026 localectl
+-rwxr-xr-x 1 nobody nogroup    310328 Jun 29 21:37 localedef
+-rwxr-xr-x 1 nobody nogroup     60392 Jul 31 15:34 logger
+-rwxr-xr-x 1 nobody nogroup     92552 Jul 31 15:34 login
+-rwxr-xr-x 1 nobody nogroup     68112 Apr 13  2026 loginctl
+-rwxr-xr-x 1 nobody nogroup     43432 Jun  4  2025 logname
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 lrelease -> qtchooser
+-rwxr-xr-x 1 nobody nogroup    158632 Jun  4  2025 ls
+-rwxr-xr-x 1 nobody nogroup    248208 Jul 31 15:34 lsblk
+-rwxr-xr-x 1 nobody nogroup    170384 Jul 31 15:34 lscpu
+-rwxr-xr-x 1 nobody nogroup    113032 Jul 31 15:34 lsipc
+-rwxr-xr-x 1 nobody nogroup     80696 Jul 31 15:34 lslocks
+-rwxr-xr-x 1 nobody nogroup    113032 Jul 31 15:34 lslogins
+-rwxr-xr-x 1 nobody nogroup     72072 Jul 31 15:34 lsmem
+-rwxr-xr-x 1 nobody nogroup     92560 Jul 31 15:34 lsns
+-rwxr-xr-x 1 nobody nogroup    208792 Feb 19  2025 lsof
+-rwxr-xr-x 1 nobody nogroup    289216 Mar 13  2025 lstmeval
+-rwxr-xr-x 1 nobody nogroup    297408 Mar 13  2025 lstmtraining
+lrwxrwxrwx 1 nobody nogroup        11 Oct 10  2024 lto-dump -> lto-dump-14
+lrwxrwxrwx 1 nobody nogroup        28 Mar 15  2025 lto-dump-14 -> x86_64-linux-gnu-lto-dump-14
+-rwxr-xr-x 1 nobody nogroup   6945368 Mar 13  2025 luahbtex
+lrwxrwxrwx 1 nobody nogroup         8 Mar 13  2025 lualatex -> luahbtex
+lrwxrwxrwx 1 nobody nogroup         8 Mar 14  2025 lualatex-dev -> luahbtex
+-rwxr-xr-x 1 nobody nogroup   6900312 Mar 13  2025 luatex
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 lupdate -> qtchooser
+lrwxrwxrwx 1 nobody nogroup        53 Mar 13  2025 lwarpmk -> ../share/texlive/texmf-dist/scripts/lwarp/lwarpmk.lua
+lrwxrwxrwx 1 nobody nogroup        23 Sep 27 13:30 lzcat -> /etc/alternatives/lzcat
+lrwxrwxrwx 1 nobody nogroup        23 Sep 27 13:30 lzcmp -> /etc/alternatives/lzcmp
+lrwxrwxrwx 1 nobody nogroup        24 Sep 27 13:30 lzdiff -> /etc/alternatives/lzdiff
+lrwxrwxrwx 1 nobody nogroup        25 Sep 27 13:30 lzegrep -> /etc/alternatives/lzegrep
+lrwxrwxrwx 1 nobody nogroup        25 Sep 27 13:30 lzfgrep -> /etc/alternatives/lzfgrep
+lrwxrwxrwx 1 nobody nogroup        24 Sep 27 13:30 lzgrep -> /etc/alternatives/lzgrep
+lrwxrwxrwx 1 nobody nogroup        24 Sep 27 13:30 lzless -> /etc/alternatives/lzless
+lrwxrwxrwx 1 nobody nogroup        22 Sep 27 13:30 lzma -> /etc/alternatives/lzma
+-rwxr-xr-x 1 nobody nogroup     18744 Sep 27 13:30 lzmainfo
+lrwxrwxrwx 1 nobody nogroup        24 Sep 27 13:30 lzmore -> /etc/alternatives/lzmore
+-rwxr-xr-x 1 nobody nogroup     14584 Mar 13  2025 mag
+lrwxrwxrwx 1 nobody nogroup        24 Jul 21 07:55 magick -> /etc/alternatives/magick
+lrwxrwxrwx 1 nobody nogroup        28 Jul 21 07:55 magick-im7 -> /etc/alternatives/magick-im7
+-rwxr-xr-x 1 nobody nogroup     15016 Jul 21 07:55 magick-im7.q16
+lrwxrwxrwx 1 nobody nogroup        31 Jul 21 07:55 magick-script -> /etc/alternatives/magick-script
+lrwxrwxrwx 1 nobody nogroup        35 Jul 21 07:55 magick-script-im7 -> /etc/alternatives/magick-script-im7
+lrwxrwxrwx 1 nobody nogroup        14 Jul 21 07:55 magick-script-im7.q16 -> magick-im7.q16
+-rwxr-xr-x 1 nobody nogroup    278448 Apr  6  2025 make
+-rwxr-xr-x 1 nobody nogroup      4905 Nov  6  2024 make-first-existing-target
+lrwxrwxrwx 1 nobody nogroup        54 Mar 14  2025 makedtx -> ../share/texlive/texmf-dist/scripts/makedtx/makedtx.pl
+lrwxrwxrwx 1 nobody nogroup        61 Mar 14  2025 makeglossaries -> ../share/texlive/texmf-dist/scripts/glossaries/makeglossaries
+lrwxrwxrwx 1 nobody nogroup        70 Mar 14  2025 makeglossaries-lite -> ../share/texlive/texmf-dist/scripts/glossaries/makeglossaries-lite.lua
+-rwxr-xr-x 1 nobody nogroup     90720 Mar 13  2025 makeindex
+-rwxr-xr-x 1 nobody nogroup     43256 Mar 13  2025 makejvf
+-rwxr-xr-x 1 nobody nogroup       221 May 20  2025 markdown-it
+lrwxrwxrwx 1 nobody nogroup        56 Mar 13  2025 mathspic -> ../share/texlive/texmf-dist/scripts/mathspic/mathspic.pl
+-rwxr-xr-x 1 nobody nogroup    170664 Feb  4  2025 mawk
+-rwxr-xr-x 1 nobody nogroup     39376 Jul 31 15:34 mcookie
+-rwxr-xr-x 1 nobody nogroup     55752 Jun  4  2025 md5sum
+-rwxr-xr-x 1 nobody nogroup     88904 May  8  2025 mediainfo
+lrwxrwxrwx 1 nobody nogroup         6 Apr 11  2025 melt -> melt-7
+-rwxr-xr-x 1 nobody nogroup     43088 Apr 11  2025 melt-7
+-rwxr-xr-x 1 nobody nogroup    119960 Mar 13  2025 mendex
+-rwxr-xr-x 1 nobody nogroup     14664 Mar 13  2025 merge_unicharsets
+-rwxr-xr-x 1 nobody nogroup    429968 Mar 13  2025 mf
+-rwxr-xr-x 1 nobody nogroup    421408 Mar 13  2025 mf-nowin
+-rwxr-xr-x 1 nobody nogroup   1436048 Mar 13  2025 mflua
+lrwxrwxrwx 1 nobody nogroup         5 Mar 13  2025 mflua-nowin -> mflua
+lrwxrwxrwx 1 nobody nogroup         5 Mar 13  2025 mfplain -> mpost
+-rwxr-xr-x 1 nobody nogroup     47464 Mar 13  2025 mft
+-rwxr-xr-x 1 nobody nogroup    166336 Mar 13  2025 mftraining
+-rwxr-xr-x 1 nobody nogroup    430880 Mar  9  2025 mingle
+-rwxr-xr-x 1 nobody nogroup     88488 Jun  4  2025 mkdir
+-rwxr-xr-x 1 nobody nogroup     76200 Jun  4  2025 mkfifo
+-rwxr-xr-x 1 nobody nogroup        65 Sep 16  2024 mkfontdir
+-rwxr-xr-x 1 nobody nogroup     44328 Sep 16  2024 mkfontscale
+-rwxr-xr-x 1 nobody nogroup      1055 Mar 13  2025 mkindex
+-rwxr-xr-x 1 nobody nogroup     84392 Jun  4  2025 mknod
+-rwxr-xr-x 1 nobody nogroup       171 Mar 13  2025 mkocp
+-rwxr-xr-x 1 nobody nogroup        85 Mar 13  2025 mkofm
+lrwxrwxrwx 1 nobody nogroup        47 Mar 13  2025 mkpic -> ../share/texlive/texmf-dist/scripts/mkpic/mkpic
+-rwxr-xr-x 1 nobody nogroup     47528 Jun  4  2025 mktemp
+lrwxrwxrwx 1 nobody nogroup         7 Mar 13  2025 mktexfmt -> fmtutil
+lrwxrwxrwx 1 nobody nogroup        52 Mar 13  2025 mktexlsr -> ../share/texlive/texmf-dist/scripts/texlive/mktexlsr
+lrwxrwxrwx 1 nobody nogroup        51 Mar 13  2025 mktexmf -> ../share/texlive/texmf-dist/scripts/texlive/mktexmf
+lrwxrwxrwx 1 nobody nogroup        51 Mar 13  2025 mktexpk -> ../share/texlive/texmf-dist/scripts/texlive/mktexpk
+lrwxrwxrwx 1 nobody nogroup        52 Mar 13  2025 mktextfm -> ../share/texlive/texmf-dist/scripts/texlive/mktextfm
+-rwxr-xr-x 1 nobody nogroup    101240 Mar  9  2025 mm2gv
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 moc -> qtchooser
+-rwxr-xr-x 1 nobody nogroup    175864 Jul 28 18:49 modutil
+lrwxrwxrwx 1 nobody nogroup        25 Jul 21 07:55 mogrify -> /etc/alternatives/mogrify
+lrwxrwxrwx 1 nobody nogroup        29 Jul 21 07:55 mogrify-im7 -> /etc/alternatives/mogrify-im7
+lrwxrwxrwx 1 nobody nogroup        14 Jul 21 07:55 mogrify-im7.q16 -> magick-im7.q16
+lrwxrwxrwx 1 nobody nogroup        25 Jul 21 07:55 montage -> /etc/alternatives/montage
+lrwxrwxrwx 1 nobody nogroup        29 Jul 21 07:55 montage-im7 -> /etc/alternatives/montage-im7
+lrwxrwxrwx 1 nobody nogroup        14 Jul 21 07:55 montage-im7.q16 -> magick-im7.q16
+-rwxr-xr-x 1 nobody nogroup     63888 Jul 31 15:34 more
+-rwsr-xr-x 1 nobody nogroup     72072 Jul 31 15:34 mount
+-rwxr-xr-x 1 nobody nogroup     18824 Jul 31 15:34 mountpoint
+-rwxr-xr-x 1 nobody nogroup     14568 Oct 25  2024 mousepad
+lrwxrwxrwx 1 nobody nogroup        23 Feb 17  2025 mpiCC -> /etc/alternatives/mpiCC
+lrwxrwxrwx 1 nobody nogroup        12 Feb 17  2025 mpiCC.openmpi -> opal_wrapper
+lrwxrwxrwx 1 nobody nogroup        24 Feb 17  2025 mpic++ -> /etc/alternatives/mpic++
+lrwxrwxrwx 1 nobody nogroup        12 Feb 17  2025 mpic++.openmpi -> opal_wrapper
+lrwxrwxrwx 1 nobody nogroup        21 Feb 17  2025 mpicc -> /etc/alternatives/mpi
+lrwxrwxrwx 1 nobody nogroup        12 Feb 17  2025 mpicc.openmpi -> opal_wrapper
+lrwxrwxrwx 1 nobody nogroup        24 Feb 17  2025 mpicxx -> /etc/alternatives/mpicxx
+lrwxrwxrwx 1 nobody nogroup        12 Feb 17  2025 mpicxx.openmpi -> opal_wrapper
+lrwxrwxrwx 1 nobody nogroup        25 Feb 17  2025 mpiexec -> /etc/alternatives/mpiexec
+lrwxrwxrwx 1 nobody nogroup        14 Feb 17  2025 mpiexec.openmpi -> mpirun.openmpi
+lrwxrwxrwx 1 nobody nogroup        24 Feb 17  2025 mpif77 -> /etc/alternatives/mpif77
+lrwxrwxrwx 1 nobody nogroup        12 Feb 17  2025 mpif77.openmpi -> opal_wrapper
+lrwxrwxrwx 1 nobody nogroup        24 Feb 17  2025 mpif90 -> /etc/alternatives/mpif90
+lrwxrwxrwx 1 nobody nogroup        12 Feb 17  2025 mpif90.openmpi -> opal_wrapper
+lrwxrwxrwx 1 nobody nogroup        25 Feb 17  2025 mpifort -> /etc/alternatives/mpifort
+lrwxrwxrwx 1 nobody nogroup        12 Feb 17  2025 mpifort.openmpi -> opal_wrapper
+lrwxrwxrwx 1 nobody nogroup        11 Feb 17  2025 mpijavac -> mpijavac.pl
+-rwxr-xr-x 1 nobody nogroup      4813 Feb 17  2025 mpijavac.pl
+lrwxrwxrwx 1 nobody nogroup        24 Feb 17  2025 mpirun -> /etc/alternatives/mpirun
+-rwxr-xr-x 1 nobody nogroup    208848 Feb 17  2025 mpirun.openmpi
+-rwxr-xr-x 1 nobody nogroup    913392 Mar 13  2025 mpost
+lrwxrwxrwx 1 nobody nogroup        59 Mar 13  2025 mptopdf -> ../share/texlive/texmf-dist/scripts/context/perl/mptopdf.pl
+-rwxr-xr-x 1 nobody nogroup     18696 Mar 13  2025 msxlint
+-rwxr-xr-x 1 nobody nogroup    149960 Jun  4  2025 mv
+-rwxr-xr-x 1 nobody nogroup     39304 Jul 31 15:34 namei
+-rwxr-xr-x 1 nobody nogroup    303960 May  3  2026 nano
+lrwxrwxrwx 1 nobody nogroup        22 Feb  4  2025 nawk -> /etc/alternatives/nawk
+-rwxr-xr-x 1 nobody nogroup     96480 Mar  9  2025 ncdu
+-rwxr-xr-x 1 nobody nogroup    133536 Apr  7  2025 nearblack
+lrwxrwxrwx 1 nobody nogroup         3 Mar  9  2025 neato -> dot
+-rwxr-xr-x 1 nobody nogroup  16522048 Oct 29 08:40 neko
+-rwxr-xr-x 1 nobody nogroup    129544 Apr 13  2026 networkctl
+-rwxr-xr-x 1 nobody nogroup     63584 Apr 19  2025 newgidmap
+-rwsr-xr-x 1 nobody nogroup     18816 Jul 31 15:34 newgrp
+-rwxr-xr-x 1 nobody nogroup     59488 Apr 19  2025 newuidmap
+-rwxr-xr-x 1 nobody nogroup     43432 Jun  4  2025 nice
+lrwxrwxrwx 1 nobody nogroup         8 Oct 11  2024 nisdomainname -> hostname
+-rwxr-xr-x 1 nobody nogroup     51720 Jun  4  2025 nl
+lrwxrwxrwx 1 nobody nogroup        19 Mar  3  2025 nm -> x86_64-linux-gnu-nm
+-rwxr-xr-x 1 nobody nogroup     47528 Jun  4  2025 nohup
+-rwxr-xr-x 1 nobody nogroup     14816 Mar  9  2025 nop
+-rwxr-xr-x 1 nobody nogroup       227 May  5  2025 normalizer
+-rwxr-xr-x 1 nobody nogroup     47528 Jun  4  2025 nproc
+-rwxr-xr-x 1 nobody nogroup     88728 Jul 31 15:34 nsenter
+-rwxr-xr-x 1 nobody nogroup    105096 Jul 28 18:49 nss-addbuiltin
+-rwxr-xr-x 1 nobody nogroup     96608 Jul 28 18:49 nss-dbtest
+-rwxr-xr-x 1 nobody nogroup    100696 Jul 28 18:49 nss-pp
+-rwxr-xr-x 1 nobody nogroup    117272 May 26  2025 nstat
+-rwxr-xr-x 1 nobody nogroup     68072 Jun  4  2025 numfmt
+-rwxr-xr-x 1 nobody nogroup       216 Apr  1  2025 numpy-config
+-rwxr-xr-x 1 nobody nogroup   6869496 Jan  1  1970 o-computer-appearance
+lrwxrwxrwx 1 nobody nogroup        24 Mar  3  2025 objcopy -> x86_64-linux-gnu-objcopy
+lrwxrwxrwx 1 nobody nogroup        24 Mar  3  2025 objdump -> x86_64-linux-gnu-objdump
+-rwxr-xr-x 1 nobody nogroup       215 Jun 28  2025 ocrmypdf
+-rwxr-xr-x 1 nobody nogroup    112984 Jul 28 18:49 ocspclnt
+-rwxr-xr-x 1 nobody nogroup     84424 Jun  4  2025 od
+-rwxr-xr-x 1 nobody nogroup     67928 Mar 13  2025 odvicopy
+-rwxr-xr-x 1 nobody nogroup     51568 Mar 13  2025 odvitype
+lrwxrwxrwx 1 nobody nogroup         7 Mar 13  2025 ofm2opl -> omfonts
+-rwxr-xr-x 1 nobody nogroup    137632 Apr  7  2025 ogr2ogr
+-rwxr-xr-x 1 nobody nogroup       973 Apr  7  2025 ogr_layer_algebra
+-rwxr-xr-x 1 nobody nogroup       312 Apr  7  2025 ogr_layer_algebra.py
+-rwxr-xr-x 1 nobody nogroup    133536 Apr  7  2025 ogrinfo
+-rwxr-xr-x 1 nobody nogroup    190896 Apr  7  2025 ogrlineref
+-rwxr-xr-x 1 nobody nogroup       955 Apr  7  2025 ogrmerge
+-rwxr-xr-x 1 nobody nogroup       276 Apr  7  2025 ogrmerge.py
+-rwxr-xr-x 1 nobody nogroup    199088 Apr  7  2025 ogrtindex
+-rwxr-xr-x 1 nobody nogroup    127936 Mar 13  2025 omfonts
+-rwxr-xr-x 1 nobody nogroup     31312 Feb 17  2025 ompi_info
+-rwxr-xr-x 1 nobody nogroup    217104 Feb 17  2025 opal_wrapper
+lrwxrwxrwx 1 nobody nogroup        22 Nov 29  2024 open -> /etc/alternatives/open
+-rwxr-xr-x 1 nobody nogroup   8969048 Oct 23  2024 openscad
+-rwxr-xr-x 1 nobody nogroup   1103304 Sep 29 20:10 openssl
+lrwxrwxrwx 1 nobody nogroup         7 Mar 13  2025 opl2ofm -> omfonts
+-rwxr-xr-x 1 nobody nogroup  24149744 Jan  1  1970 orbit-apps
+-rwsr-xr-x 1 nobody nogroup    891184 Jan  1  1970 orbit-chromium-theme
+-rwxr-xr-x 1 nobody nogroup  24832456 Jan  1  1970 orbit-desktop
+-rwxr-xr-x 1 nobody nogroup  28380072 Jan  1  1970 orbit-dock
+-rwxr-xr-x 1 nobody nogroup  24214840 Jan  1  1970 orbit-new-tab-host
+-rwxr-xr-x 1 nobody nogroup   1325680 Jan  1  1970 orbit-window-policy
+lrwxrwxrwx 1 nobody nogroup         3 Mar  9  2025 osage -> dot
+lrwxrwxrwx 1 nobody nogroup        12 Feb 17  2025 oshCC -> opal_wrapper
+lrwxrwxrwx 1 nobody nogroup        12 Feb 17  2025 oshc++ -> opal_wrapper
+lrwxrwxrwx 1 nobody nogroup        12 Feb 17  2025 oshcc -> opal_wrapper
+lrwxrwxrwx 1 nobody nogroup        12 Feb 17  2025 oshcxx -> opal_wrapper
+lrwxrwxrwx 1 nobody nogroup        12 Feb 17  2025 oshfort -> opal_wrapper
+-rwxr-xr-x 1 nobody nogroup     31280 Feb 17  2025 oshmem_info
+lrwxrwxrwx 1 nobody nogroup        14 Feb 17  2025 oshrun -> mpirun.openmpi
+-rwxr-xr-x 1 nobody nogroup     47440 Mar 13  2025 otangle
+-rwxr-xr-x 1 nobody nogroup     39160 Mar 13  2025 otp2ocp
+-rwxr-xr-x 1 nobody nogroup     14888 Mar 13  2025 outocp
+lrwxrwxrwx 1 nobody nogroup         7 Mar 13  2025 ovf2ovp -> omfonts
+lrwxrwxrwx 1 nobody nogroup         7 Mar 13  2025 ovp2ovf -> omfonts
+-rwxr-xr-x 1 nobody nogroup     96600 Jul 28 18:49 p7content
+-rwxr-xr-x 1 nobody nogroup     96600 Jul 28 18:49 p7env
+-rwxr-xr-x 1 nobody nogroup     96600 Jul 28 18:49 p7sign
+-rwxr-xr-x 1 nobody nogroup     96600 Jul 28 18:49 p7verify
+lrwxrwxrwx 1 nobody nogroup        60 Mar 14  2025 pagelayoutapi -> ../share/texlive/texmf-dist/scripts/pagelayout/pagelayoutapi
+lrwxrwxrwx 1 nobody nogroup        23 May  9  2025 pager -> /etc/alternatives/pager
+-rwxr-xr-x 1 nobody nogroup 198162312 Oct 15  2024 pandoc
+-rwxr-xr-x 1 nobody nogroup     23344 Mar 28  2025 paper
+-rwxr-xr-x 1 nobody nogroup     14840 Mar 28  2025 paperconf
+-rwxr-xr-x 1 nobody nogroup    123384 Feb 19  2025 paraview
+-rwxr-xr-x 1 nobody nogroup    137616 Jul 31 15:34 partx
+-rwsr-xr-x 1 nobody nogroup    118168 Apr 19  2025 passwd
+-rwxr-xr-x 1 nobody nogroup     47560 Jun  4  2025 paste
+-rwxr-xr-x 1 nobody nogroup    171608 Jun 13  2025 patch
+lrwxrwxrwx 1 nobody nogroup         3 Mar  9  2025 patchwork -> dot
+-rwxr-xr-x 1 nobody nogroup     35136 Mar 13  2025 patgen
+-rwxr-xr-x 1 nobody nogroup     43432 Jun  4  2025 pathchk
+lrwxrwxrwx 1 nobody nogroup         8 Mar 13  2025 pbibtex -> upbibtex
+-rwxr-xr-x 1 nobody nogroup     92560 May 10  2025 pcb_calculator
+-rwxr-xr-x 1 nobody nogroup     96656 May 10  2025 pcbnew
+-rwxr-xr-x 1 nobody nogroup      1995 Sep 28 14:07 pcre2-config
+-rwxr-xr-x 1 nobody nogroup       953 Apr  7  2025 pct2rgb
+-rwxr-xr-x 1 nobody nogroup       272 Apr  7  2025 pct2rgb.py
+lrwxrwxrwx 1 nobody nogroup         7 Jun 30  2025 pdb3 -> pdb3.13
+lrwxrwxrwx 1 nobody nogroup        24 Aug 10 12:06 pdb3.13 -> ../lib/python3.13/pdb.py
+-rwxr-xr-x 1 nobody nogroup       705 Oct  8 19:45 pdf2dsc
+-rwxr-xr-x 1 nobody nogroup       909 Oct  8 19:45 pdf2ps
+-rwxr-xr-x 1 nobody nogroup      9776 Nov 22  2025 pdf2txt
+lrwxrwxrwx 1 nobody nogroup        60 Mar 14  2025 pdfannotextractor -> ../share/texlive/texmf-dist/scripts/pax/pdfannotextractor.pl
+lrwxrwxrwx 1 nobody nogroup        58 Mar 13  2025 pdfatfi -> ../share/texlive/texmf-dist/scripts/attachfile2/pdfatfi.pl
+-rwxr-xr-x 1 nobody nogroup     18752 Jul  2 16:52 pdfattach
+-rwxr-xr-x 1 nobody nogroup     18672 Mar 13  2025 pdfclose
+-rwxr-xr-x 1 nobody nogroup     27056 Jul  2 16:52 pdfdetach
+lrwxrwxrwx 1 nobody nogroup         6 Mar 13  2025 pdfetex -> pdftex
+-rwxr-xr-x 1 nobody nogroup     22992 Jul  2 16:52 pdffonts
+-rwxr-xr-x 1 nobody nogroup     39376 Jul  2 16:52 pdfimages
+-rwxr-xr-x 1 nobody nogroup     63928 Jul  2 16:52 pdfinfo
+lrwxrwxrwx 1 nobody nogroup         6 Mar 13  2025 pdflatex -> pdftex
+lrwxrwxrwx 1 nobody nogroup         6 Mar 14  2025 pdflatex-dev -> pdftex
+-rwxr-xr-x 1 nobody nogroup     26944 Mar 13  2025 pdfopen
+-rwxr-xr-x 1 nobody nogroup     22848 Jul  2 16:52 pdfseparate
+-rwxr-xr-x 1 nobody nogroup     43888 Jul  2 16:52 pdfsig
+-rwxr-xr-x 1 nobody nogroup   2407880 Mar 13  2025 pdftex
+-rwxr-xr-x 1 nobody nogroup    166416 Jul  2 16:52 pdftocairo
+-rwxr-xr-x 1 nobody nogroup    112992 Jul  2 16:52 pdftohtml
+-rwxr-xr-x 1 nobody nogroup     35344 Jul  2 16:52 pdftoppm
+-rwxr-xr-x 1 nobody nogroup     35440 Jul  2 16:52 pdftops
+-rwxr-xr-x 1 nobody nogroup   1518752 Mar 13  2025 pdftosrc
+-rwxr-xr-x 1 nobody nogroup     51664 Jul  2 16:52 pdftotext
+-rwxr-xr-x 1 nobody nogroup     31040 Jul  2 16:52 pdfunite
+lrwxrwxrwx 1 nobody nogroup         6 Mar 13  2025 pdvitomp -> pmpost
+lrwxrwxrwx 1 nobody nogroup         9 Mar 13  2025 pdvitype -> updvitype
+-rwxr-xr-x 1 nobody nogroup     14848 Feb 14  2025 peekfd
+-rwxr-xr-x 2 nobody nogroup   3935376 Aug 30 08:53 perl
+-rwxr-xr-x 1 nobody nogroup     14752 Aug 30 08:53 perl5.40-x86_64-linux-gnu
+-rwxr-xr-x 2 nobody nogroup   3935376 Aug 30 08:53 perl5.40.1
+-rwxr-xr-x 2 nobody nogroup     45593 Aug 30 08:53 perlbug
+-rwxr-xr-x 1 nobody nogroup       125 Aug 17 21:04 perldoc
+-rwxr-xr-x 1 nobody nogroup     10867 Aug 30 08:53 perlivp
+lrwxrwxrwx 1 nobody nogroup        54 Mar 14  2025 perltex -> ../share/texlive/texmf-dist/scripts/perltex/perltex.pl
+-rwxr-xr-x 2 nobody nogroup     45593 Aug 30 08:53 perlthanks
+-rwxr-xr-x 1 nobody nogroup       498 Oct  8 19:45 pf2afm
+-rwxr-xr-x 1 nobody nogroup     14576 Mar 13  2025 pfb2pfa
+-rwxr-xr-x 1 nobody nogroup       516 Oct  8 19:45 pfbtopfa
+-rwxr-xr-x 1 nobody nogroup     39344 Jul 30  2025 pgrep
+lrwxrwxrwx 1 nobody nogroup        22 May  3  2026 pico -> /etc/alternatives/pico
+-rwxr-xr-x 1 nobody nogroup      8360 Aug 30 08:53 piconv
+lrwxrwxrwx 1 nobody nogroup        16 Mar 10  2025 pidof -> ../sbin/killall5
+-rwxr-xr-x 1 nobody nogroup     39344 Jul 30  2025 pidwait
+-rwxr-xr-x 2 nobody nogroup    133408 Aug 22  2023 pigz
+lrwxrwxrwx 1 nobody nogroup        26 Dec 31  2024 pinentry -> /etc/alternatives/pinentry
+-rwxr-xr-x 1 nobody nogroup     76360 Dec 31  2024 pinentry-curses
+-rwxr-xr-x 1 nobody nogroup     59848 Jun  4  2025 pinky
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 pixeltool -> qtchooser
+-rwxr-xr-x 1 nobody nogroup    109512 Jul 28 18:49 pk12util
+-rwxr-xr-x 1 nobody nogroup     96744 Jul 28 18:49 pk1sign
+-rwxr-xr-x 1 nobody nogroup     18672 Mar 13  2025 pk2bm
+lrwxrwxrwx 1 nobody nogroup         7 Oct 20  2024 pkg-config -> pkgconf
+-rwxr-xr-x 1 nobody nogroup     45096 Oct 20  2024 pkgconf
+lrwxrwxrwx 1 nobody nogroup         5 Jul 30  2025 pkill -> pgrep
+-rwxr-xr-x 1 nobody nogroup     26952 Mar 13  2025 pktogf
+-rwxr-xr-x 1 nobody nogroup     22848 Mar 13  2025 pktype
+-rwxr-xr-x 1 nobody nogroup      4536 Aug 30 08:53 pl2pm
+-rwxr-xr-x 1 nobody nogroup     96656 May 10  2025 pl_editor
+-rwxr-xr-x 1 nobody nogroup     22904 Jun 29 21:37 pldd
+-rwxr-xr-x 1 nobody nogroup     55624 Mar 13  2025 pltotf
+-rwxr-xr-x 1 nobody nogroup     35160 Jul 30  2025 pmap
+-rwxr-xr-x 1 nobody nogroup    921624 Mar 13  2025 pmpost
+-rwxr-xr-x 1 nobody nogroup    629280 Mar 13  2025 pmxab
+lrwxrwxrwx 1 nobody nogroup        53 Mar 13  2025 pn2pdf -> ../share/texlive/texmf-dist/scripts/petri-nets/pn2pdf
+-rwxr-xr-x 1 nobody nogroup      4041 Aug 30 08:53 pod2html
+-rwxr-xr-x 1 nobody nogroup     18898 Aug 30 08:53 pod2man
+-rwxr-xr-x 1 nobody nogroup     13112 Aug 30 08:53 pod2text
+-rwxr-xr-x 1 nobody nogroup      4107 Aug 30 08:53 pod2usage
+-rwxr-xr-x 1 nobody nogroup      3730 Aug 30 08:53 podchecker
+-rwxr-xr-x 1 nobody nogroup     14648 Mar 13  2025 pooltype
+-rwxr-xr-x 1 nobody nogroup       404 Oct  8 19:45 pphs
+lrwxrwxrwx 1 nobody nogroup         8 Mar 13  2025 ppltotf -> uppltotf
+-rwxr-xr-x 1 nobody nogroup     80392 Jun  4  2025 pr
+-rwxr-xr-x 1 nobody nogroup    138656 Mar 13  2025 prepmx
+-rwxr-xr-x 1 nobody nogroup       395 Oct  8 19:45 printafm
+-rwxr-xr-x 1 nobody nogroup     43432 Jun  4  2025 printenv
+-rwxr-xr-x 1 nobody nogroup     68008 Jun  4  2025 printf
+-rwxr-xr-x 1 nobody nogroup     43928 Jul 31 15:34 prlimit
+-rwxr-xr-x 1 nobody nogroup     13677 Aug 30 08:53 prove
+-rwxr-xr-x 1 nobody nogroup     44424 Feb 17  2025 prte
+-rwxr-xr-x 1 nobody nogroup     36600 Feb 17  2025 prte_info
+-rwxr-xr-x 1 nobody nogroup     31856 Feb 17  2025 prted
+lrwxrwxrwx 1 nobody nogroup         4 Feb 17  2025 prterun -> prte
+-rwxr-xr-x 1 nobody nogroup     19016 Feb 14  2025 prtstat
+-rwxr-xr-x 1 nobody nogroup     14840 Feb 17  2025 prun
+-rwxr-xr-x 1 nobody nogroup     14944 Mar  9  2025 prune
+-rwxr-xr-x 1 nobody nogroup    154552 Jul 30  2025 ps
+-rwxr-xr-x 1 nobody nogroup       494 Oct  8 19:45 ps2ascii
+-rwxr-xr-x 1 nobody nogroup      1297 Oct  8 19:45 ps2epsi
+-rwxr-xr-x 1 nobody nogroup       272 Oct  8 19:45 ps2pdf
+-rwxr-xr-x 1 nobody nogroup       257 Oct  8 19:45 ps2pdf12
+-rwxr-xr-x 1 nobody nogroup       257 Oct  8 19:45 ps2pdf13
+-rwxr-xr-x 1 nobody nogroup       257 Oct  8 19:45 ps2pdf14
+-rwxr-xr-x 1 nobody nogroup      1078 Oct  8 19:45 ps2pdfwr
+-rwxr-xr-x 1 nobody nogroup    157392 Mar 13  2025 ps2pk
+-rwxr-xr-x 1 nobody nogroup       647 Oct  8 19:45 ps2ps
+-rwxr-xr-x 1 nobody nogroup       669 Oct  8 19:45 ps2ps2
+lrwxrwxrwx 1 nobody nogroup         8 Oct  8 19:45 ps2txt -> ps2ascii
+-rwxr-xr-x 1 nobody nogroup     14792 Feb 14  2025 pslog
+-rwxr-xr-x 1 nobody nogroup     36640 Feb 14  2025 pstree
+lrwxrwxrwx 1 nobody nogroup         6 Feb 14  2025 pstree.x11 -> pstree
+-rwxr-xr-x 1 nobody nogroup      3566 Aug 30 08:53 ptar
+-rwxr-xr-x 1 nobody nogroup      2645 Aug 30 08:53 ptardiff
+-rwxr-xr-x 1 nobody nogroup      4395 Aug 30 08:53 ptargrep
+-rwxr-xr-x 1 nobody nogroup     14752 Mar 13  2025 ptekf
+-rwxr-xr-x 1 nobody nogroup     23496 Feb 17  2025 pterm.openmpi
+lrwxrwxrwx 1 nobody nogroup         6 Mar 13  2025 ptex -> euptex
+lrwxrwxrwx 1 nobody nogroup         8 Mar 13  2025 ptftopl -> uptftopl
+-rwxr-xr-x 1 nobody nogroup     63976 Jun  4  2025 ptx
+lrwxrwxrwx 1 nobody nogroup        11 Feb 19  2025 pvbatch -> pvbatch3.13
+-rwxr-xr-x 1 nobody nogroup     35640 Feb 19  2025 pvbatch3.13
+-rwxr-xr-x 1 nobody nogroup     19112 Feb 19  2025 pvdataserver
+lrwxrwxrwx 1 nobody nogroup        12 Feb 19  2025 pvpython -> pvpython3.13
+-rwxr-xr-x 1 nobody nogroup     35648 Feb 19  2025 pvpython3.13
+-rwxr-xr-x 1 nobody nogroup     19112 Feb 19  2025 pvrenderserver
+-rwxr-xr-x 1 nobody nogroup     19112 Feb 19  2025 pvserver
+-rwxr-xr-x 1 nobody nogroup     43432 Jun  4  2025 pwd
+-rwxr-xr-x 1 nobody nogroup     96600 Jul 28 18:49 pwdecrypt
+-rwxr-xr-x 1 nobody nogroup     14648 Jul 30  2025 pwdx
+-rwxr-xr-x 1 nobody nogroup      7770 Jun 30  2025 py3clean
+-rwxr-xr-x 1 nobody nogroup     13305 Jun 30  2025 py3compile
+lrwxrwxrwx 1 nobody nogroup        31 Jun 30  2025 py3versions -> ../share/python3/py3versions.py
+lrwxrwxrwx 1 nobody nogroup         9 Jun 30  2025 pydoc3 -> pydoc3.13
+-rwxr-xr-x 1 nobody nogroup        80 Aug 10 12:06 pydoc3.13
+lrwxrwxrwx 1 nobody nogroup        13 Jun 30  2025 pygettext3 -> pygettext3.13
+-rwxr-xr-x 1 nobody nogroup     24439 Aug 10 12:06 pygettext3.13
+lrwxrwxrwx 1 nobody nogroup        58 Mar 14  2025 pygmentex -> ../share/texlive/texmf-dist/scripts/pygmentex/pygmentex.py
+-rwxr-xr-x 1 nobody nogroup       215 Jan 13  2025 pygmentize
+-rwxr-xr-x 1 nobody nogroup       214 Feb 26  2025 pyproj
+lrwxrwxrwx 1 nobody nogroup        10 Jun 30  2025 python3 -> python3.13
+-rwxr-xr-x 1 nobody nogroup   6832784 Aug 10 12:06 python3.13
+-rwxr-xr-x 1 nobody nogroup    834008 Mar 13  2025 pzstd
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qcollectiongenerator -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qdbus -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qdbuscpp2xml -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qdbusviewer -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qdbusxml2cpp -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qdoc -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qdoc3 -> qtchooser
+-rwxr-xr-x 1 nobody nogroup       438 Apr 20  2025 qgis
+-rwxr-xr-x 1 nobody nogroup    395736 Apr 20  2025 qgis.bin
+-rwxr-xr-x 1 nobody nogroup       438 Apr 20  2025 qgis_process
+-rwxr-xr-x 1 nobody nogroup    207320 Apr 20  2025 qgis_process.bin
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qgltf -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qhelpconverter -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qhelpgenerator -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qlalr -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qmake -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qml -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qml1plugindump -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qmlbundle -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qmlcachegen -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qmleasing -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qmlimportscanner -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qmljs -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qmllint -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qmlmin -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qmlplugindump -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qmlprofiler -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qmlscene -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qmltestrunner -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qmlviewer -> qtchooser
+-rwxr-xr-x 1 nobody nogroup     18664 Jun 22 16:08 qt-faststart
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qtattributionsscanner -> qtchooser
+-rwxr-xr-x 1 nobody nogroup     47752 May  3  2019 qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qtconfig -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qtdiag -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qtpaths -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qtplugininfo -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 qvkgen -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         5 Mar 13  2025 r-mpost -> mpost
+lrwxrwxrwx 1 nobody nogroup         6 Mar 13  2025 r-pmpost -> pmpost
+lrwxrwxrwx 1 nobody nogroup         7 Mar 13  2025 r-upmpost -> upmpost
+lrwxrwxrwx 1 nobody nogroup        23 Mar  3  2025 ranlib -> x86_64-linux-gnu-ranlib
+lrwxrwxrwx 1 nobody nogroup         4 Jul 12 16:58 rbash -> bash
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 rcc -> qtchooser
+-rwxr-xr-x 1 nobody nogroup  56880208 Oct  4  2024 rclone
+-rwxr-xr-x 1 nobody nogroup    203440 May 26  2025 rdma
+lrwxrwxrwx 1 nobody nogroup        24 Mar  3  2025 readelf -> x86_64-linux-gnu-readelf
+-rwxr-xr-x 1 nobody nogroup     55720 Jun  4  2025 readlink
+-rwxr-xr-x 1 nobody nogroup     55752 Jun  4  2025 realpath
+-rwxr-xr-x 1 nobody nogroup     31112 Jul 31 15:34 rename.ul
+-rwxr-xr-x 1 nobody nogroup     14720 Jul 31 15:34 renice
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 repc -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         4 Mar  6  2025 reset -> tset
+-rwxr-xr-x 1 nobody nogroup     14728 Jul 31 15:34 rev
+-rwxr-xr-x 1 nobody nogroup       953 Apr  7  2025 rgb2pct
+-rwxr-xr-x 1 nobody nogroup       272 Apr  7  2025 rgb2pct.py
+-rwxr-xr-x 1 nobody nogroup        30 Jul 21  2023 rgrep
+-rwxr-xr-x 1 nobody nogroup     76232 Jun  4  2025 rm
+-rwxr-xr-x 1 nobody nogroup     43432 Jun  4  2025 rmdir
+lrwxrwxrwx 1 nobody nogroup        29 Aug 19 17:55 rmiregistry -> /etc/alternatives/rmiregistry
+lrwxrwxrwx 1 nobody nogroup         4 May  3  2026 rnano -> nano
+-rwxr-xr-x 1 nobody nogroup      1658 May 26  2025 routel
+-rwxr-xr-x 1 nobody nogroup     97280 Dec  2  2022 rpcgen
+-rwxr-xr-x 1 nobody nogroup   1876552 Jul 28 18:49 rsaperf
+lrwxrwxrwx 1 nobody nogroup         6 May 26  2025 rtstat -> lnstat
+-rwxr-xr-x 1 nobody nogroup     27392 Jul 27  2025 run-parts
+lrwxrwxrwx 1 nobody nogroup        11 Apr 13  2026 run0 -> systemd-run
+-rwxr-xr-x 1 nobody nogroup     47528 Jun  4  2025 runcon
+lrwxrwxrwx 1 nobody nogroup        53 Mar 13  2025 rungs -> ../share/texlive/texmf-dist/scripts/texlive/rungs.lua
+lrwxrwxrwx 1 nobody nogroup        23 May 23  2025 rview -> /etc/alternatives/rview
+lrwxrwxrwx 1 nobody nogroup         3 Jul 13 16:33 rzsh -> zsh
+-rwxr-xr-x 1 nobody nogroup     10487 Jul 27  2025 savelog
+-rwxr-xr-x 1 nobody nogroup   2378768 Jul 30  2025 scalar
+-rwxr-xr-x 1 nobody nogroup     23168 Mar  9  2025 sccmap
+-rwxr-xr-x 1 nobody nogroup     95272 Mar 13  2025 scor2prt
+-rwxr-xr-x 1 nobody nogroup    227968 May  6  2026 scp
+-rwxr-xr-x 1 nobody nogroup     80264 Jul 31 15:34 script
+-rwxr-xr-x 1 nobody nogroup     67976 Jul 31 15:34 scriptlive
+-rwxr-xr-x 1 nobody nogroup     47496 Jul 31 15:34 scriptreplay
+-rwxr-xr-x 1 nobody nogroup     68704 Apr 20  2025 sdiff
+-rwxr-xr-x 1 nobody nogroup    130520 Apr 21  2026 sed
+-rwxr-xr-x 1 nobody nogroup       474 Mar  2  2025 select-default-iwrap
+-rwxr-xr-x 1 nobody nogroup      2678 Apr 21  2025 select-editor
+-rwxr-xr-x 1 nobody nogroup    137592 Jul 28 18:49 selfserv
+-rwxr-xr-x 1 nobody nogroup      1085 Apr 21  2025 sensible-browser
+-rwxr-xr-x 1 nobody nogroup      1551 Apr 21  2025 sensible-editor
+-rwxr-xr-x 1 nobody nogroup       824 Apr 21  2025 sensible-pager
+-rwxr-xr-x 1 nobody nogroup      1109 Apr 21  2025 sensible-terminal
+-rwxr-xr-x 1 nobody nogroup     47528 Jun  4  2025 seq
+-rwxr-xr-x 1 nobody nogroup     14856 Jan 16  2025 sessreg
+-rwxr-xr-x 1 nobody nogroup    227776 Mar 13  2025 set_unicharset_properties
+-rwxr-xr-x 1 nobody nogroup     88736 Jul 31 15:34 setarch
+-rwxr-xr-x 1 nobody nogroup     39224 Oct 28  2024 setfacl
+-rwxr-xr-x 1 nobody nogroup     92560 Jul 31 15:34 setpriv
+-rwxr-xr-x 1 nobody nogroup     14728 Jul 31 15:34 setsid
+-rwxr-xr-x 1 nobody nogroup     47496 Jul 31 15:34 setterm
+-rwxr-xr-x 1 nobody nogroup     31760 Aug 21  2024 setxkbmap
+-rwxr-xr-x 1 nobody nogroup     43368 Oct 29  2024 sfconv
+lrwxrwxrwx 1 nobody nogroup         3 Mar  9  2025 sfdp -> dot
+-rwxr-xr-x 1 nobody nogroup    240224 May  6  2026 sftp
+lrwxrwxrwx 1 nobody nogroup         6 Jul 31 15:34 sg -> newgrp
+lrwxrwxrwx 1 nobody nogroup         4 Feb  4  2025 sh -> dash
+-rwxr-xr-x 1 nobody nogroup     55752 Jun  4  2025 sha1sum
+-rwxr-xr-x 1 nobody nogroup     55752 Jun  4  2025 sha224sum
+-rwxr-xr-x 1 nobody nogroup     55752 Jun  4  2025 sha256sum
+-rwxr-xr-x 1 nobody nogroup     55752 Jun  4  2025 sha384sum
+-rwxr-xr-x 1 nobody nogroup     55752 Jun  4  2025 sha512sum
+-rwxr-xr-x 1 nobody nogroup    158144 Mar 13  2025 shapeclustering
+-rwxr-xr-x 1 nobody nogroup      9982 Aug 30 08:53 shasum
+-rwxr-xr-x 1 nobody nogroup   1899256 Jan 25  2025 shiboken2
+-rwxr-xr-x 1 nobody nogroup     47744 Jul 28 18:49 shlibsign
+-rwxr-xr-x 1 nobody nogroup     14744 Jan 16  2025 showrgb
+-rwxr-xr-x 1 nobody nogroup     68040 Jun  4  2025 shred
+-rwxr-xr-x 1 nobody nogroup     63912 Jun  4  2025 shuf
+-rwxr-xr-x 1 nobody nogroup    186728 Jul 28 18:49 signtool
+-rwxr-xr-x 1 nobody nogroup    113288 Jul 28 18:49 signver
+lrwxrwxrwx 1 nobody nogroup        55 Mar 13  2025 simpdftex -> ../share/texlive/texmf-dist/scripts/simpdftex/simpdftex
+lrwxrwxrwx 1 nobody nogroup        21 Mar  3  2025 size -> x86_64-linux-gnu-size
+-rwxr-xr-x 1 nobody nogroup     31056 Jul 30  2025 skill
+-rwxr-xr-x 1 nobody nogroup     22904 Jul 30  2025 slabtop
+-rwxr-xr-x 1 nobody nogroup     43432 Jun  4  2025 sleep
+-rwxr-xr-x 1 nobody nogroup     77648 Apr 11  2025 slirp4netns
+-rwxr-xr-x 1 nobody nogroup    117704 Feb 19  2025 smTestDriver-pv5.13
+lrwxrwxrwx 1 nobody nogroup         5 Jul 30  2025 snice -> skill
+lrwxrwxrwx 1 nobody nogroup        10 Oct 30 22:53 solitaire -> orbit-apps
+-rwxr-xr-x 1 nobody nogroup    121552 Jun  4  2025 sort
+-rwxr-xr-x 1 nobody nogroup    186784 Apr  7  2025 sozip
+-rwxr-xr-x 1 nobody nogroup     19459 Aug 30 08:53 splain
+-rwxr-xr-x 1 nobody nogroup     72560 Jun  4  2025 split
+lrwxrwxrwx 1 nobody nogroup        60 Mar 14  2025 splitindex -> ../share/texlive/texmf-dist/scripts/splitindex/splitindex.pl
+-rwxr-xr-x 1 nobody nogroup   1870376 Dec 26  2025 sqv
+-rwxr-xr-x 1 nobody nogroup    211968 May 26  2025 ss
+-rwxr-xr-x 1 nobody nogroup   1047584 May  6  2026 ssh
+-rwxr-xr-x 1 nobody nogroup    444864 May  6  2026 ssh-add
+-rwxr-sr-x 1 nobody nogroup    420224 May  6  2026 ssh-agent
+-rwxr-xr-x 1 nobody nogroup      1455 May  6  2026 ssh-argv0
+-rwxr-xr-x 1 nobody nogroup     14170 Apr  9  2025 ssh-copy-id
+-rwxr-xr-x 1 nobody nogroup    567744 May  6  2026 ssh-keygen
+-rwxr-xr-x 1 nobody nogroup    588256 May  6  2026 ssh-keyscan
+-rwxr-xr-x 1 nobody nogroup    125272 Jul 28 18:49 ssltap
+-rwxr-xr-x 1 nobody nogroup      8121 Mar 29  2025 startxfce4
+-rwxr-xr-x 1 nobody nogroup    104904 Jun  4  2025 stat
+-rwxr-xr-x 1 nobody nogroup     47528 Jun  4  2025 stdbuf
+-rwxr-xr-x 1 nobody nogroup   2189792 Jan 30  2025 strace
+-rwxr-xr-x 1 nobody nogroup      1875 Jan 30  2025 strace-log-merge
+lrwxrwxrwx 1 nobody nogroup        24 Jul 21 07:55 stream -> /etc/alternatives/stream
+lrwxrwxrwx 1 nobody nogroup        28 Jul 21 07:55 stream-im7 -> /etc/alternatives/stream-im7
+lrwxrwxrwx 1 nobody nogroup        14 Jul 21 07:55 stream-im7.q16 -> magick-im7.q16
+-rwxr-xr-x 1 nobody nogroup      8061 Aug 30 08:53 streamzip
+lrwxrwxrwx 1 nobody nogroup        24 Mar  3  2025 strings -> x86_64-linux-gnu-strings
+lrwxrwxrwx 1 nobody nogroup        22 Mar  3  2025 strip -> x86_64-linux-gnu-strip
+-rwxr-xr-x 1 nobody nogroup    113112 Jul 28 18:49 strsclnt
+-rwxr-xr-x 1 nobody nogroup     76232 Jun  4  2025 stty
+-rwsr-xr-x 1 nobody nogroup     84360 Jul 31 15:34 su
+-rwxr-xr-x 1 nobody nogroup     51632 Jun  4  2025 sum
+lrwxrwxrwx 1 nobody nogroup        58 Mar 14  2025 svn-multi -> ../share/texlive/texmf-dist/scripts/svn-multi/svn-multi.pl
+-rwxr-xr-x 1 nobody nogroup    113832 Jul 28 18:49 symkeyutil
+-rwxr-xr-x 1 nobody nogroup     43432 Jun  4  2025 sync
+-rwxr-xr-x 1 nobody nogroup     35056 Mar 13  2025 synctex
+-rwxr-xr-x 1 nobody nogroup    297904 Apr 13  2026 systemctl
+-rwxr-xr-x 1 nobody nogroup     14712 Apr 13  2026 systemd-ac-power
+-rwxr-xr-x 1 nobody nogroup    219944 Apr 13  2026 systemd-analyze
+-rwxr-xr-x 1 nobody nogroup     18952 Apr 13  2026 systemd-ask-password
+-rwxr-xr-x 1 nobody nogroup     18816 Apr 13  2026 systemd-cat
+-rwxr-xr-x 1 nobody nogroup     23032 Apr 13  2026 systemd-cgls
+-rwxr-xr-x 1 nobody nogroup     39320 Apr 13  2026 systemd-cgtop
+lrwxrwxrwx 1 nobody nogroup        14 Apr 13  2026 systemd-confext -> systemd-sysext
+-rwxr-xr-x 1 nobody nogroup     51880 Apr 13  2026 systemd-creds
+-rwxr-xr-x 1 nobody nogroup     27008 Apr 13  2026 systemd-delta
+-rwxr-xr-x 1 nobody nogroup     18808 Apr 13  2026 systemd-detect-virt
+-rwxr-xr-x 1 nobody nogroup     18808 Apr 13  2026 systemd-escape
+-rwxr-xr-x 1 nobody nogroup     56120 Apr 13  2026 systemd-firstboot
+-rwxr-xr-x 1 nobody nogroup     14712 Apr 13  2026 systemd-hwdb
+-rwxr-xr-x 1 nobody nogroup     27008 Apr 13  2026 systemd-id128
+-rwxr-xr-x 1 nobody nogroup     22928 Apr 13  2026 systemd-inhibit
+-rwxr-xr-x 1 nobody nogroup     18992 Apr 13  2026 systemd-machine-id-setup
+-rwxr-xr-x 1 nobody nogroup     56024 Apr 13  2026 systemd-mount
+-rwxr-xr-x 1 nobody nogroup     27288 Apr 13  2026 systemd-notify
+-rwxr-xr-x 1 nobody nogroup     18808 Apr 13  2026 systemd-path
+-rwxr-xr-x 1 nobody nogroup     84872 Apr 13  2026 systemd-run
+-rwxr-xr-x 1 nobody nogroup     27008 Apr 13  2026 systemd-socket-activate
+-rwxr-xr-x 1 nobody nogroup     18816 Apr 13  2026 systemd-stdio-bridge
+-rwxr-xr-x 1 nobody nogroup     76360 Apr 13  2026 systemd-sysext
+-rwxr-xr-x 1 nobody nogroup     68144 Apr 13  2026 systemd-sysusers
+-rwxr-xr-x 1 nobody nogroup    121464 Apr 13  2026 systemd-tmpfiles
+-rwxr-xr-x 1 nobody nogroup     35200 Apr 13  2026 systemd-tty-ask-password-agent
+lrwxrwxrwx 1 nobody nogroup        13 Apr 13  2026 systemd-umount -> systemd-mount
+-rwxr-xr-x 1 nobody nogroup     27200 Apr 13  2026 systemd-vpick
+-rwxr-xr-x 1 nobody nogroup     43400 Apr 15  2020 t1ascii
+-rwxr-xr-x 1 nobody nogroup     52648 Apr 15  2020 t1asm
+-rwxr-xr-x 1 nobody nogroup     43368 Apr 15  2020 t1binary
+-rwxr-xr-x 1 nobody nogroup     47424 Apr 15  2020 t1disasm
+-rwxr-xr-x 1 nobody nogroup     55752 Apr 15  2020 t1mac
+-rwxr-xr-x 1 nobody nogroup     51728 Apr 15  2020 t1unmac
+-rwxr-xr-x 1 nobody nogroup     35136 Mar 13  2025 t4ht
+-rwxr-xr-x 1 nobody nogroup     18672 Mar  6  2025 tabs
+-rwxr-xr-x 1 nobody nogroup     47528 Jun  4  2025 tac
+-rwxr-xr-x 1 nobody nogroup     80360 Jun  4  2025 tail
+-rwxr-xr-x 1 nobody nogroup     55728 Mar 13  2025 tangle
+-rwxr-xr-x 1 nobody nogroup    458280 Dec 18  2024 tar
+-rwxr-xr-x 1 nobody nogroup     67976 Jul 31 15:34 taskset
+lrwxrwxrwx 1 nobody nogroup         8 Mar  6  2025 tclsh -> tclsh8.6
+-rwxr-xr-x 1 nobody nogroup     14528 Jan  9  2025 tclsh8.6
+-rwxr-xr-x 1 nobody nogroup     14568 Oct 29  2024 teckit_compile
+-rwxr-xr-x 1 nobody nogroup     47560 Jun  4  2025 tee
+-rwxr-xr-x 1 nobody nogroup     14576 Jul 27  2025 tempfile
+-rwxr-xr-x 1 nobody nogroup     51536 Mar 13  2025 tesseract
+-rwxr-xr-x 1 nobody nogroup     47528 Jun  4  2025 test
+-rwxr-xr-x 1 nobody nogroup    421816 Mar 13  2025 tex
+-rwxr-xr-x 1 nobody nogroup     18792 Mar 13  2025 tex2aspc
+-rwxr-xr-x 1 nobody nogroup    108928 Mar 13  2025 tex4ht
+lrwxrwxrwx 1 nobody nogroup        53 Mar 13  2025 texdoc -> ../share/texlive/texmf-dist/scripts/texdoc/texdoc.tlu
+lrwxrwxrwx 1 nobody nogroup        56 Mar 13  2025 texdoctk -> ../share/texlive/texmf-dist/scripts/texdoctk/texdoctk.pl
+lrwxrwxrwx 1 nobody nogroup         8 Mar 13  2025 texhash -> mktexlsr
+lrwxrwxrwx 1 nobody nogroup         6 Mar 13  2025 texlua -> luatex
+lrwxrwxrwx 1 nobody nogroup         6 Mar 13  2025 texluac -> luatex
+-rwxr-xr-x 1 nobody nogroup    363072 Mar 13  2025 text2image
+lrwxrwxrwx 1 nobody nogroup        57 Mar 14  2025 textestvis -> ../share/texlive/texmf-dist/scripts/pagelayout/textestvis
+-rwxr-xr-x 1 nobody nogroup     43360 Mar 13  2025 tftopl
+lrwxrwxrwx 1 nobody nogroup        56 Mar 13  2025 thumbpdf -> ../share/texlive/texmf-dist/scripts/thumbpdf/thumbpdf.pl
+-rwxr-xr-x 1 nobody nogroup   1014656 Aug 25  2025 thunar
+-rwxr-xr-x 1 nobody nogroup       286 Aug 25  2025 thunar-settings
+-rwxr-xr-x 1 nobody nogroup     96608 Mar  6  2025 tic
+-rwxr-xr-x 1 nobody nogroup     18680 Mar 13  2025 tie
+lrwxrwxrwx 1 nobody nogroup        55 Mar 13  2025 tikztosvg -> ../share/texlive/texmf-dist/scripts/tikztosvg/tikztosvg
+-rwxr-xr-x 1 nobody nogroup     47480 Apr 13  2026 timedatectl
+-rwxr-xr-x 1 nobody nogroup     47984 Jun  4  2025 timeout
+-rwxr-xr-x 1 nobody nogroup      4571 Feb  9  2024 tl-paper
+lrwxrwxrwx 1 nobody nogroup        52 Mar 13  2025 tlmgr -> ../share/texlive/texmf-dist/scripts/texlive/tlmgr.pl
+-rwxr-xr-x 1 nobody nogroup     22856 Jul 30  2025 tload
+-rwxr-xr-x 1 nobody nogroup     22768 Mar  6  2025 toe
+-rwxr-xr-x 1 nobody nogroup    138864 Jul 30  2025 top
+-rwxr-xr-x 1 nobody nogroup     88520 Jun  4  2025 touch
+-rwxr-xr-x 1 nobody nogroup     12581 Mar 13  2025 tpic2pdftex
+-rwxr-xr-x 1 nobody nogroup     30992 Mar  6  2025 tput
+-rwxr-xr-x 1 nobody nogroup     59816 Jun  4  2025 tr
+-rwxr-xr-x 1 nobody nogroup     14912 Mar  9  2025 tred
+-rwxr-xr-x 1 nobody nogroup     93744 Nov 26  2024 tree
+-rwxr-xr-x 1 nobody nogroup     43432 Jun  4  2025 true
+-rwxr-xr-x 1 nobody nogroup     47528 Jun  4  2025 truncate
+-rwxr-xr-x 1 nobody nogroup     30968 Mar  6  2025 tset
+-rwxr-xr-x 1 nobody nogroup     59816 Jun  4  2025 tsort
+-rwxr-xr-x 1 nobody nogroup    133624 Jul 28 18:49 tstclnt
+-rwxr-xr-x 1 nobody nogroup     45392 Mar 13  2025 ttf2afm
+-rwxr-xr-x 1 nobody nogroup    113464 Mar 13  2025 ttf2pk
+-rwxr-xr-x 1 nobody nogroup    144520 Mar 13  2025 ttf2tfm
+-rwxr-xr-x 1 nobody nogroup    114112 Mar 13  2025 ttfdump
+-rwxr-xr-x 1 nobody nogroup     43432 Jun  4  2025 tty
+-rwxr-xr-x 1 nobody nogroup     76128 Mar 13  2025 twill
+-rwxr-xr-x 1 nobody nogroup      3130 Mar 13  2025 twill-refsort
+lrwxrwxrwx 1 nobody nogroup         3 Mar  9  2025 twopi -> dot
+-rwxr-xr-x 1 nobody nogroup     18664 Oct 29  2024 txtconv
+-rwxr-xr-x 1 nobody nogroup     21877 Jun 29 21:37 tzselect
+-rwxr-xr-x 1 nobody nogroup     36475 May 19  2025 ucf
+-rwxr-xr-x 1 nobody nogroup     18906 May 19  2025 ucfq
+-rwxr-xr-x 1 nobody nogroup     10173 May 19  2025 ucfr
+-rwxr-xr-x 1 nobody nogroup     72072 Jul 31 15:34 uclampset
+-rwxr-xr-x 1 nobody nogroup     27168 Sep 16  2024 ucs2any
+-rwxr-xr-x 1 nobody nogroup    629368 Apr 13  2026 udevadm
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 uic -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 uic3 -> qtchooser
+-rwsr-xr-x 1 nobody nogroup     55688 Jul 31 15:34 umount
+-rwxr-xr-x 1 nobody nogroup     43464 Jun  4  2025 uname
+lrwxrwxrwx 1 nobody nogroup         6 Jan 17  2025 uncompress -> gunzip
+-rwxr-xr-x 1 nobody nogroup     47560 Jun  4  2025 unexpand
+-rwxr-xr-x 1 nobody nogroup     14912 Mar  9  2025 unflatten
+-rwxr-xr-x 1 nobody nogroup    133528 Mar 13  2025 unicharset_extractor
+-rwxr-xr-x 1 nobody nogroup     55752 Jun  4  2025 uniq
+-rwxr-xr-x 1 nobody nogroup     43432 Jun  4  2025 unlink
+lrwxrwxrwx 1 nobody nogroup        24 Sep 27 13:30 unlzma -> /etc/alternatives/unlzma
+-rwxr-xr-x 2 nobody nogroup    133408 Aug 22  2023 unpigz
+-rwxr-xr-x 1 nobody nogroup     92792 Jul 31 15:34 unshare
+lrwxrwxrwx 1 nobody nogroup         2 Sep 27 13:30 unxz -> xz
+-rwxr-xr-x 2 nobody nogroup    179248 Aug 10 22:10 unzip
+-rwxr-xr-x 1 nobody nogroup     84928 Aug 10 22:10 unzipsfx
+lrwxrwxrwx 1 nobody nogroup         4 Mar 13  2025 unzstd -> zstd
+-rwxr-xr-x 1 nobody nogroup    136344 Mar 13  2025 upbibtex
+-rwxr-xr-x 1 nobody nogroup     59712 Mar  6  2026 update-alternatives
+-rwxr-xr-x 1 nobody nogroup     26944 Nov 25  2024 update-desktop-database
+-rwxr-xr-x 1 nobody nogroup     80272 Jan 22  2025 update-mime-database
+lrwxrwxrwx 1 nobody nogroup        53 Mar 13  2025 updmap -> ../share/texlive/texmf-dist/scripts/texlive/updmap.pl
+lrwxrwxrwx 1 nobody nogroup        57 Mar 13  2025 updmap-sys -> ../share/texlive/texmf-dist/scripts/texlive/updmap-sys.sh
+lrwxrwxrwx 1 nobody nogroup        58 Mar 13  2025 updmap-user -> ../share/texlive/texmf-dist/scripts/texlive/updmap-user.sh
+lrwxrwxrwx 1 nobody nogroup         7 Mar 13  2025 updvitomp -> upmpost
+-rwxr-xr-x 1 nobody nogroup     62648 Mar 13  2025 updvitype
+-rwxr-xr-x 1 nobody nogroup    150776 Mar 13  2025 upmendex
+-rwxr-xr-x 1 nobody nogroup    921624 Mar 13  2025 upmpost
+-rwxr-xr-x 1 nobody nogroup     70808 Mar 13  2025 uppltotf
+lrwxrwxrwx 1 nobody nogroup         6 Mar 13  2025 uptex -> euptex
+-rwxr-xr-x 1 nobody nogroup     62648 Mar 13  2025 uptftopl
+-rwxr-xr-x 1 nobody nogroup     14648 Jul 30  2025 uptime
+-rwxr-xr-x 1 nobody nogroup     51624 Jun  4  2025 users
+-rwxr-xr-x 1 nobody nogroup     39416 Apr 13  2026 varlinkctl
+-rwxr-xr-x 1 nobody nogroup    158632 Jun  4  2025 vdir
+-rwxr-xr-x 1 nobody nogroup     63848 Mar 13  2025 vftovp
+-rwxr-xr-x 1 nobody nogroup    108888 Jul 28 18:49 vfychain
+-rwxr-xr-x 1 nobody nogroup    113112 Jul 28 18:49 vfyserv
+lrwxrwxrwx 1 nobody nogroup        20 May 23  2025 vi -> /etc/alternatives/vi
+lrwxrwxrwx 1 nobody nogroup        22 May 23  2025 view -> /etc/alternatives/view
+-rwxr-xr-x 1 nobody nogroup     32368 Aug 29  2024 viewres
+-rwxr-xr-x 1 nobody nogroup   1761704 May 23  2025 vim.tiny
+-rwxr-xr-x 1 nobody nogroup      1082 Mar  9  2025 vimdot
+-rwxr-xr-x 1 nobody nogroup     18800 Mar 13  2025 vlna
+-rwxr-xr-x 1 nobody nogroup     39648 Jul 30  2025 vmstat
+lrwxrwxrwx 1 nobody nogroup        46 Mar 14  2025 vpe -> ../share/texlive/texmf-dist/scripts/vpe/vpe.pl
+-rwxr-xr-x 1 nobody nogroup     67920 Mar 13  2025 vptovf
+-rwxr-xr-x 1 nobody nogroup     27328 Feb 19  2025 vtkParseJava-pv5.13
+-rwxr-xr-x 1 nobody nogroup     18968 Feb 19  2025 vtkProbeOpenGLVersion-pv5.13
+-rwxr-xr-x 1 nobody nogroup     39776 Feb 19  2025 vtkProcessXML-pv5.13
+-rwxr-xr-x 1 nobody nogroup     27264 Feb 19  2025 vtkWrapClientServer-pv5.13
+-rwxr-xr-x 1 nobody nogroup     23064 Feb 19  2025 vtkWrapHierarchy-pv5.13
+-rwxr-xr-x 1 nobody nogroup     35488 Feb 19  2025 vtkWrapJava-pv5.13
+-rwxr-xr-x 1 nobody nogroup    114008 Feb 19  2025 vtkWrapPython-pv5.13
+-rwxr-xr-x 1 nobody nogroup     14720 Feb 19  2025 vtkWrapPythonInit-pv5.13
+-rwxr-xr-x 1 nobody nogroup     39616 Feb 19  2025 vtkWrapSerDes-pv5.13
+-rwxr-xr-x 1 nobody nogroup     14816 Feb 19  2025 vtkprotoc-pv5.13
+-rwxr-xr-x 1 nobody nogroup     31032 Jul 30  2025 w
+-rwxr-xr-x 1 nobody nogroup     47496 Jul 31 15:34 wall
+-rwxr-xr-x 1 nobody nogroup     31512 Jul 30  2025 watch
+-rwxr-xr-x 1 nobody nogroup     68048 Jun  4  2025 wc
+-rwxr-xr-x 1 nobody nogroup     11241 Oct 13 04:42 wcurl
+-rwxr-xr-x 1 nobody nogroup     76168 Jul 31 15:34 wdctl
+-rwxr-xr-x 1 nobody nogroup     67944 Mar 13  2025 weave
+lrwxrwxrwx 1 nobody nogroup        54 Mar 14  2025 webquiz -> ../share/texlive/texmf-dist/scripts/webquiz/webquiz.py
+-rwxr-xr-x 1 nobody nogroup    482672 Mar  8  2025 wget
+-rwxr-xr-x 1 nobody nogroup     31112 Jul 31 15:34 whereis
+lrwxrwxrwx 1 nobody nogroup        23 Jul 27  2025 which -> /etc/alternatives/which
+-rwxr-xr-x 1 nobody nogroup      1080 Jul 27  2025 which.debianutils
+-rwxr-xr-x 1 nobody nogroup     63944 Jun  4  2025 who
+-rwxr-xr-x 1 nobody nogroup     43432 Jun  4  2025 whoami
+-rwxr-xr-x 1 nobody nogroup     63840 Mar 13  2025 wofm2opl
+-rwxr-xr-x 1 nobody nogroup    121160 Mar 13  2025 wopl2ofm
+-rwxr-xr-x 1 nobody nogroup     18840 Mar 13  2025 wordlist2dawg
+-rwxr-xr-x 1 nobody nogroup     80232 Mar 13  2025 wovf2ovp
+-rwxr-xr-x 1 nobody nogroup    137552 Mar 13  2025 wovp2ovf
+lrwxrwxrwx 1 nobody nogroup        35 Mar 29  2025 x-session-manager -> /etc/alternatives/x-session-manager
+lrwxrwxrwx 1 nobody nogroup        37 Dec 26  2024 x-terminal-emulator -> /etc/alternatives/x-terminal-emulator
+lrwxrwxrwx 1 nobody nogroup        34 Dec 18  2024 x-window-manager -> /etc/alternatives/x-window-manager
+lrwxrwxrwx 1 nobody nogroup        31 Oct 14 21:13 x-www-browser -> /etc/alternatives/x-www-browser
+lrwxrwxrwx 1 nobody nogroup         7 Jul 31 15:34 x86_64 -> setarch
+-rwxr-xr-x 1 nobody nogroup     23776 Mar  3  2025 x86_64-linux-gnu-addr2line
+-rwxr-xr-x 1 nobody nogroup     52480 Mar  3  2025 x86_64-linux-gnu-ar
+-rwxr-xr-x 1 nobody nogroup    795184 Mar  3  2025 x86_64-linux-gnu-as
+-rwxr-xr-x 1 nobody nogroup     23128 Mar  3  2025 x86_64-linux-gnu-c++filt
+lrwxrwxrwx 1 nobody nogroup        23 Oct 10  2024 x86_64-linux-gnu-cpp -> x86_64-linux-gnu-cpp-14
+-rwxr-xr-x 1 nobody nogroup   1166360 Mar 15  2025 x86_64-linux-gnu-cpp-14
+-rwxr-xr-x 1 nobody nogroup     35976 Mar  3  2025 x86_64-linux-gnu-elfedit
+lrwxrwxrwx 1 nobody nogroup        23 Oct 10  2024 x86_64-linux-gnu-g++ -> x86_64-linux-gnu-g++-14
+-rwxr-xr-x 1 nobody nogroup   1166360 Mar 15  2025 x86_64-linux-gnu-g++-14
+lrwxrwxrwx 1 nobody nogroup        23 Oct 10  2024 x86_64-linux-gnu-gcc -> x86_64-linux-gnu-gcc-14
+-rwxr-xr-x 1 nobody nogroup   1162264 Mar 15  2025 x86_64-linux-gnu-gcc-14
+lrwxrwxrwx 1 nobody nogroup        26 Oct 10  2024 x86_64-linux-gnu-gcc-ar -> x86_64-linux-gnu-gcc-ar-14
+-rwxr-xr-x 1 nobody nogroup     31312 Mar 15  2025 x86_64-linux-gnu-gcc-ar-14
+lrwxrwxrwx 1 nobody nogroup        26 Oct 10  2024 x86_64-linux-gnu-gcc-nm -> x86_64-linux-gnu-gcc-nm-14
+-rwxr-xr-x 1 nobody nogroup     31312 Mar 15  2025 x86_64-linux-gnu-gcc-nm-14
+lrwxrwxrwx 1 nobody nogroup        30 Oct 10  2024 x86_64-linux-gnu-gcc-ranlib -> x86_64-linux-gnu-gcc-ranlib-14
+-rwxr-xr-x 1 nobody nogroup     31312 Mar 15  2025 x86_64-linux-gnu-gcc-ranlib-14
+lrwxrwxrwx 1 nobody nogroup        24 Oct 10  2024 x86_64-linux-gnu-gcov -> x86_64-linux-gnu-gcov-14
+-rwxr-xr-x 1 nobody nogroup    458872 Mar 15  2025 x86_64-linux-gnu-gcov-14
+lrwxrwxrwx 1 nobody nogroup        29 Oct 10  2024 x86_64-linux-gnu-gcov-dump -> x86_64-linux-gnu-gcov-dump-14
+-rwxr-xr-x 1 nobody nogroup    372808 Mar 15  2025 x86_64-linux-gnu-gcov-dump-14
+lrwxrwxrwx 1 nobody nogroup        29 Oct 10  2024 x86_64-linux-gnu-gcov-tool -> x86_64-linux-gnu-gcov-tool-14
+-rwxr-xr-x 1 nobody nogroup    405672 Mar 15  2025 x86_64-linux-gnu-gcov-tool-14
+-rwxr-xr-x 1 nobody nogroup     98736 Mar  3  2025 x86_64-linux-gnu-gprof
+lrwxrwxrwx 1 nobody nogroup        23 Mar  3  2025 x86_64-linux-gnu-ld -> x86_64-linux-gnu-ld.bfd
+-rwxr-xr-x 1 nobody nogroup   1861256 Mar  3  2025 x86_64-linux-gnu-ld.bfd
+lrwxrwxrwx 1 nobody nogroup        28 Oct 10  2024 x86_64-linux-gnu-lto-dump -> x86_64-linux-gnu-lto-dump-14
+-rwxr-xr-x 1 nobody nogroup  32960064 Mar 15  2025 x86_64-linux-gnu-lto-dump-14
+-rwxr-xr-x 1 nobody nogroup     45160 Mar  3  2025 x86_64-linux-gnu-nm
+-rwxr-xr-x 1 nobody nogroup    159568 Mar  3  2025 x86_64-linux-gnu-objcopy
+-rwxr-xr-x 1 nobody nogroup    396336 Mar  3  2025 x86_64-linux-gnu-objdump
+lrwxrwxrwx 1 nobody nogroup         7 Oct 20  2024 x86_64-linux-gnu-pkg-config -> pkgconf
+lrwxrwxrwx 1 nobody nogroup         7 Oct 20  2024 x86_64-linux-gnu-pkgconf -> pkgconf
+-rwxr-xr-x 1 nobody nogroup     52480 Mar  3  2025 x86_64-linux-gnu-ranlib
+-rwxr-xr-x 1 nobody nogroup    777864 Mar  3  2025 x86_64-linux-gnu-readelf
+-rwxr-xr-x 1 nobody nogroup     27584 Mar  3  2025 x86_64-linux-gnu-size
+-rwxr-xr-x 1 nobody nogroup     31808 Mar  3  2025 x86_64-linux-gnu-strings
+-rwxr-xr-x 1 nobody nogroup    159600 Mar  3  2025 x86_64-linux-gnu-strip
+-rwxr-xr-x 1 nobody nogroup     76232 Aug 10  2024 xargs
+-rwxr-xr-x 1 nobody nogroup     52736 Dec  2  2024 xauth
+-rwxr-xr-x 1 nobody nogroup     39528 Jan 16  2025 xcmsdb
+-rwxr-xr-x 1 nobody nogroup     22827 Nov 29  2024 xdg-desktop-icon
+-rwxr-xr-x 1 nobody nogroup     44207 Nov 29  2024 xdg-desktop-menu
+-rwxr-xr-x 1 nobody nogroup     28919 Nov 29  2024 xdg-email
+-rwxr-xr-x 1 nobody nogroup     32225 Nov 29  2024 xdg-icon-resource
+-rwxr-xr-x 1 nobody nogroup     47735 Nov 29  2024 xdg-mime
+-rwxr-xr-x 1 nobody nogroup     32285 Nov 29  2024 xdg-open
+-rwxr-xr-x 1 nobody nogroup     39478 Nov 29  2024 xdg-screensaver
+-rwxr-xr-x 1 nobody nogroup     44347 Nov 29  2024 xdg-settings
+-rwxr-xr-x 1 nobody nogroup     40648 Aug 29  2024 xdpyinfo
+-rwxr-xr-x 1 nobody nogroup     14744 Aug 29  2024 xdriinfo
+-rwxr-xr-x 1 nobody nogroup      3031 Mar 13  2025 xdvi
+-rwxr-xr-x 1 nobody nogroup    784944 Mar 13  2025 xdvi-xaw
+lrwxrwxrwx 1 nobody nogroup        26 Mar 13  2025 xdvi.bin -> /etc/alternatives/xdvi.bin
+-rwxr-xr-x 1 nobody nogroup    877448 Mar 13  2025 xdvipdfmx
+lrwxrwxrwx 1 nobody nogroup         5 Mar 13  2025 xelatex -> xetex
+lrwxrwxrwx 1 nobody nogroup         5 Mar 13  2025 xelatex-dev -> xetex
+lrwxrwxrwx 1 nobody nogroup        67 Mar 13  2025 xelatex-unsafe -> ../share/texlive/texmf-dist/scripts/texlive-extra/xelatex-unsafe.sh
+-rwxr-xr-x 1 nobody nogroup    885352 Mar 13  2025 xetex
+lrwxrwxrwx 1 nobody nogroup        65 Mar 13  2025 xetex-unsafe -> ../share/texlive/texmf-dist/scripts/texlive-extra/xetex-unsafe.sh
+-rwxr-xr-x 1 nobody nogroup     35872 Aug 29  2024 xev
+-rwxr-xr-x 1 nobody nogroup    113256 Mar 24  2025 xfce4-about
+-rwxr-xr-x 1 nobody nogroup     55696 Feb 15  2025 xfce4-accessibility-settings
+-rwxr-xr-x 1 nobody nogroup     84448 Feb 15  2025 xfce4-appearance-settings
+-rwxr-xr-x 1 nobody nogroup     80352 Feb 15  2025 xfce4-color-settings
+-rwxr-xr-x 1 nobody nogroup    408464 Feb 15  2025 xfce4-display-settings
+-rwxr-xr-x 1 nobody nogroup     18688 Feb 15  2025 xfce4-find-cursor
+-rwxr-xr-x 1 nobody nogroup     96656 Feb 15  2025 xfce4-keyboard-settings
+-rwxr-xr-x 1 nobody nogroup     63808 Feb 15  2025 xfce4-mime-helper
+-rwxr-xr-x 1 nobody nogroup     96736 Feb 15  2025 xfce4-mime-settings
+-rwxr-xr-x 1 nobody nogroup     96784 Feb 15  2025 xfce4-mouse-settings
+-rwxr-xr-x 1 nobody nogroup    670760 Mar 24  2025 xfce4-panel
+-rwxr-xr-x 1 nobody nogroup      1568 Mar 24  2025 xfce4-popup-applicationsmenu
+-rwxr-xr-x 1 nobody nogroup      1496 Mar 24  2025 xfce4-popup-directorymenu
+-rwxr-xr-x 1 nobody nogroup      1493 Mar 24  2025 xfce4-popup-windowmenu
+-rwxr-xr-x 1 nobody nogroup    272872 Mar 29  2025 xfce4-session
+-rwxr-xr-x 1 nobody nogroup     15072 Mar 29  2025 xfce4-session-logout
+-rwxr-xr-x 1 nobody nogroup    211408 Mar 29  2025 xfce4-session-settings
+-rwxr-xr-x 1 nobody nogroup     76256 Feb 15  2025 xfce4-settings-editor
+-rwxr-xr-x 1 nobody nogroup     43408 Feb 15  2025 xfce4-settings-manager
+-rwxr-xr-x 1 nobody nogroup    301432 Dec 26  2024 xfce4-terminal
+-rwxr-xr-x 1 nobody nogroup      1124 Dec 26  2024 xfce4-terminal.wrapper
+-rwxr-xr-x 1 nobody nogroup     35736 Dec 18  2024 xfconf-query
+-rwxr-xr-x 1 nobody nogroup     37408 Aug 29  2024 xfd
+-rwxr-xr-x 1 nobody nogroup    628400 Mar  3  2025 xfdesktop
+-rwxr-xr-x 1 nobody nogroup    243560 Mar  3  2025 xfdesktop-settings
+-rwxr-xr-x 1 nobody nogroup      1932 Aug 13  2019 xfhelp4
+-rwxr-xr-x 1 nobody nogroup      2097 Mar 29  2025 xflock4
+-rwxr-xr-x 1 nobody nogroup     49792 Aug 29  2024 xfontsel
+-rwxr-xr-x 1 nobody nogroup    371376 Feb 15  2025 xfsettingsd
+-rwxr-xr-x 1 nobody nogroup    420408 Dec 18  2024 xfwm4
+-rwxr-xr-x 1 nobody nogroup    113112 Dec 18  2024 xfwm4-settings
+-rwxr-xr-x 1 nobody nogroup     84440 Dec 18  2024 xfwm4-tweaks-settings
+-rwxr-xr-x 1 nobody nogroup    145944 Dec 18  2024 xfwm4-workspace-settings
+-rwxr-xr-x 1 nobody nogroup     14784 Jan 16  2025 xgamma
+-rwxr-xr-x 1 nobody nogroup     19064 Jan 16  2025 xhost
+-rwxr-xr-x 1 nobody nogroup     14824 Aug 21  2024 xkbbell
+-rwxr-xr-x 1 nobody nogroup    218040 Aug 21  2024 xkbcomp
+-rwxr-xr-x 1 nobody nogroup     43800 Aug 21  2024 xkbevd
+-rwxr-xr-x 1 nobody nogroup     97032 Aug 21  2024 xkbprint
+-rwxr-xr-x 1 nobody nogroup     23896 Aug 21  2024 xkbvleds
+-rwxr-xr-x 1 nobody nogroup     23960 Aug 21  2024 xkbwatch
+-rwxr-xr-x 1 nobody nogroup     16982 Jan 16  2025 xkeystone
+-rwxr-xr-x 1 nobody nogroup     14880 Aug 29  2024 xkill
+-rwxr-xr-x 1 nobody nogroup     14816 Aug 29  2024 xlsatoms
+-rwxr-xr-x 1 nobody nogroup     18992 Aug 29  2024 xlsclients
+-rwxr-xr-x 1 nobody nogroup     27304 Aug 29  2024 xlsfonts
+-rwxr-xr-x 1 nobody nogroup     28224 Aug 29  2024 xmessage
+-rwxr-xr-x 1 nobody nogroup    138208 Mar 13  2025 xml2pmx
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 xmlpatterns -> qtchooser
+lrwxrwxrwx 1 nobody nogroup         9 May  3  2019 xmlpatternsvalidator -> qtchooser
+-rwxr-xr-x 1 nobody nogroup     44096 Jan 16  2025 xmodmap
+-rwxr-xr-x 1 nobody nogroup     50312 Aug 29  2024 xprop
+-rwxr-xr-x 1 nobody nogroup     64576 Jan 16  2025 xrandr
+-rwxr-xr-x 1 nobody nogroup     35760 Jan 16  2025 xrdb
+-rwxr-xr-x 1 nobody nogroup     14888 Jan 16  2025 xrefresh
+-rwxr-xr-x 1 nobody nogroup     35688 Jan 16  2025 xset
+-rwxr-xr-x 1 nobody nogroup     14768 Jan 16  2025 xsetmode
+-rwxr-xr-x 1 nobody nogroup     14784 Jan 16  2025 xsetpointer
+-rwxr-xr-x 1 nobody nogroup     19048 Jan 16  2025 xsetroot
+-rwxr-xr-x 1 nobody nogroup     15408 Jan 16  2025 xstdcmap
+-rwxr-xr-x 1 nobody nogroup      5167 Aug 30 08:53 xsubpp
+-rwxr-xr-x 1 nobody nogroup     45320 Jan 16  2025 xvidtune
+-rwxr-xr-x 1 nobody nogroup     18912 Aug 29  2024 xvinfo
+-rwxr-xr-x 1 nobody nogroup     48112 Aug 29  2024 xwininfo
+-rwxr-xr-x 1 nobody nogroup    105160 Sep 27 13:30 xz
+lrwxrwxrwx 1 nobody nogroup         2 Sep 27 13:30 xzcat -> xz
+lrwxrwxrwx 1 nobody nogroup         6 Sep 27 13:30 xzcmp -> xzdiff
+-rwxr-xr-x 1 nobody nogroup      7588 Sep 27 13:30 xzdiff
+lrwxrwxrwx 1 nobody nogroup         6 Sep 27 13:30 xzegrep -> xzgrep
+lrwxrwxrwx 1 nobody nogroup         6 Sep 27 13:30 xzfgrep -> xzgrep
+-rwxr-xr-x 1 nobody nogroup     10413 Sep 27 13:30 xzgrep
+-rwxr-xr-x 1 nobody nogroup      2383 Sep 27 13:30 xzless
+-rwxr-xr-x 1 nobody nogroup      2234 Sep 27 13:30 xzmore
+-rwxr-xr-x 1 nobody nogroup     43432 Jun  4  2025 yes
+lrwxrwxrwx 1 nobody nogroup         8 Oct 11  2024 ypdomainname -> hostname
+lrwxrwxrwx 1 nobody nogroup        47 Mar 14  2025 yplan -> ../share/texlive/texmf-dist/scripts/yplan/yplan
+-rwxr-xr-x 1 nobody nogroup      1973 Jan 17  2025 zcat
+-rwxr-xr-x 1 nobody nogroup      1678 Jan 17  2025 zcmp
+-rwxr-xr-x 1 nobody nogroup      6449 Jan 17  2025 zdiff
+-rwxr-xr-x 1 nobody nogroup     26840 Jun 29 21:37 zdump
+-rwxr-xr-x 1 nobody nogroup        29 Jan 17  2025 zegrep
+-rwxr-xr-x 1 nobody nogroup        29 Jan 17  2025 zfgrep
+-rwxr-xr-x 1 nobody nogroup      2076 Jan 17  2025 zforce
+-rwxr-xr-x 1 nobody nogroup      8199 Jan 17  2025 zgrep
+-rwxr-xr-x 1 nobody nogroup    221456 Aug 10 22:20 zip
+-rwxr-xr-x 1 nobody nogroup     94696 Aug 10 22:20 zipcloak
+-rwxr-xr-x 1 nobody nogroup    236605 Aug 30 08:53 zipdetails
+-rwxr-xr-x 1 nobody nogroup      2830 Aug 10 22:10 zipgrep
+-rwxr-xr-x 2 nobody nogroup    179248 Aug 10 22:10 zipinfo
+-rwxr-xr-x 1 nobody nogroup     90272 Aug 10 22:20 zipnote
+-rwxr-xr-x 1 nobody nogroup     90272 Aug 10 22:20 zipsplit
+-rwxr-xr-x 1 nobody nogroup      2434 Jan 17  2025 zless
+-rwxr-xr-x 1 nobody nogroup      1837 Jan 17  2025 zmore
+-rwxr-xr-x 1 nobody nogroup      4572 Jan 17  2025 znew
+-rwxr-xr-x 1 nobody nogroup    882152 Jul 13 16:33 zsh
+-rwxr-xr-x 1 nobody nogroup       852 Jan  9  2024 zsh5
+-rwxr-xr-x 1 nobody nogroup   1418776 Mar 13  2025 zstd
+lrwxrwxrwx 1 nobody nogroup         4 Mar 13  2025 zstdcat -> zstd
+-rwxr-xr-x 1 nobody nogroup      3869 Mar 13  2025 zstdgrep
+-rwxr-xr-x 1 nobody nogroup       197 Mar 13  2025 zstdless
+lrwxrwxrwx 1 nobody nogroup         4 Mar 13  2025 zstdmt -> zstd
+parent process finishes

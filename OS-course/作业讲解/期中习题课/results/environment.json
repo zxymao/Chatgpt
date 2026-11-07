@@ -1,0 +1,19 @@
+{
+  "kernel": "6.18.57",
+  "machine": "x86_64",
+  "glibc": [
+    "glibc",
+    "2.41"
+  ],
+  "allowed_cpus": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "compiler": "gcc (Debian 14.2.0-19) 14.2.0",
+  "cpu_max": "400000 100000",
+  "cgroup_writable": false,
+  "iostat_available": false
+}

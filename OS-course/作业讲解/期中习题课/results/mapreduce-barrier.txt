@@ -1,0 +1,9 @@
+file=0 elements=262144 local_max=1000000
+file=1 elements=262144 local_max=999999
+file=2 elements=262144 local_max=1000000
+file=3 elements=262144 local_max=1000000
+file=4 elements=262144 local_max=999992
+file=5 elements=262144 local_max=999997
+file=6 elements=262144 local_max=1000000
+file=7 elements=262144 local_max=999995
+mode=barrier global_max=1000000 serial=1000000 PASS

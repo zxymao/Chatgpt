@@ -1,0 +1,9 @@
+pid=7698
+g_data=0x404038 value=7
+s_data=0x40403c value=9
+g_bss=0x40404c value=0
+g_zero=0x404050 value=0
+s_bss=0x404054 value=0
+ro_msg=0x402008 value=hello ELF
+&sdata=0x404040 sdata=0x402012
+local=0x7ffefbe30c68 &p=0x7ffefbe30c60 p=0xac812a0 heap_first=1

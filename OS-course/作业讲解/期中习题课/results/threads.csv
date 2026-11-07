@@ -1,0 +1,14 @@
+# allowed_cpus=0:1:2:3:4; each threaded measurement INCLUDES creation, affinity calls and join; initialization excluded
+operation,elements,mode,workers,median_ms,result
+sum,1000000,serial,1,0.360193,500000500000
+sum,1000000,threads-unbound,4,0.510376,500000500000
+sum,1000000,threads-spread,4,0.729646,500000500000
+sum,1000000,threads-same-cpu,4,0.509186,500000500000
+max,10000,serial,1,0.005589,1000000
+max,10000,threads-unbound,4,0.370238,1000000
+max,10000,threads-spread,4,0.287392,1000000
+max,10000,threads-same-cpu,4,0.274178,1000000
+max,10000000,serial,1,6.041152,1000000
+max,10000000,threads-unbound,4,2.339472,1000000
+max,10000000,threads-spread,4,2.341882,1000000
+max,10000000,threads-same-cpu,4,6.244024,1000000

@@ -1,0 +1,491 @@
+{
+  "4.1": {
+    "rule": "SJF for both objectives under simultaneous-arrival non-preemptive model",
+    "tested_X": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ]
+  },
+  "4.2": {
+    "priority": {
+      "order": "BEDAC",
+      "timeline": [
+        [
+          0,
+          8,
+          "B"
+        ],
+        [
+          8,
+          23,
+          "E"
+        ],
+        [
+          23,
+          35,
+          "D"
+        ],
+        [
+          35,
+          45,
+          "A"
+        ],
+        [
+          45,
+          49,
+          "C"
+        ]
+      ],
+      "finish": {
+        "B": 8,
+        "E": 23,
+        "D": 35,
+        "A": 45,
+        "C": 49
+      },
+      "wait": {
+        "B": 0,
+        "E": 8,
+        "D": 23,
+        "A": 35,
+        "C": 45
+      },
+      "average_wait": 22.2
+    },
+    "FCFS": {
+      "order": "ABCDE",
+      "timeline": [
+        [
+          0,
+          10,
+          "A"
+        ],
+        [
+          10,
+          18,
+          "B"
+        ],
+        [
+          18,
+          22,
+          "C"
+        ],
+        [
+          22,
+          34,
+          "D"
+        ],
+        [
+          34,
+          49,
+          "E"
+        ]
+      ],
+      "finish": {
+        "A": 10,
+        "B": 18,
+        "C": 22,
+        "D": 34,
+        "E": 49
+      },
+      "wait": {
+        "A": 0,
+        "B": 10,
+        "C": 18,
+        "D": 22,
+        "E": 34
+      },
+      "average_wait": 16.8
+    },
+    "SJF": {
+      "order": "CBADE",
+      "timeline": [
+        [
+          0,
+          4,
+          "C"
+        ],
+        [
+          4,
+          12,
+          "B"
+        ],
+        [
+          12,
+          22,
+          "A"
+        ],
+        [
+          22,
+          34,
+          "D"
+        ],
+        [
+          34,
+          49,
+          "E"
+        ]
+      ],
+      "finish": {
+        "C": 4,
+        "B": 12,
+        "A": 22,
+        "D": 34,
+        "E": 49
+      },
+      "wait": {
+        "C": 0,
+        "B": 4,
+        "A": 12,
+        "D": 22,
+        "E": 34
+      },
+      "average_wait": 14.4
+    },
+    "RR(q=3)": {
+      "timeline": [
+        [
+          0,
+          3,
+          "A"
+        ],
+        [
+          3,
+          6,
+          "B"
+        ],
+        [
+          6,
+          9,
+          "C"
+        ],
+        [
+          9,
+          12,
+          "D"
+        ],
+        [
+          12,
+          15,
+          "E"
+        ],
+        [
+          15,
+          18,
+          "A"
+        ],
+        [
+          18,
+          21,
+          "B"
+        ],
+        [
+          21,
+          22,
+          "C"
+        ],
+        [
+          22,
+          25,
+          "D"
+        ],
+        [
+          25,
+          28,
+          "E"
+        ],
+        [
+          28,
+          31,
+          "A"
+        ],
+        [
+          31,
+          33,
+          "B"
+        ],
+        [
+          33,
+          36,
+          "D"
+        ],
+        [
+          36,
+          39,
+          "E"
+        ],
+        [
+          39,
+          40,
+          "A"
+        ],
+        [
+          40,
+          43,
+          "D"
+        ],
+        [
+          43,
+          46,
+          "E"
+        ],
+        [
+          46,
+          49,
+          "E"
+        ]
+      ],
+      "finish": {
+        "C": 22,
+        "B": 33,
+        "A": 40,
+        "D": 43,
+        "E": 49
+      },
+      "wait": {
+        "A": 30,
+        "B": 25,
+        "C": 18,
+        "D": 31,
+        "E": 34
+      },
+      "average_wait": 27.6
+    }
+  },
+  "4.3": {
+    "U24": 0.98,
+    "U60": 1.7,
+    "RM_video_response_iteration": [
+      20,
+      30,
+      40,
+      40
+    ],
+    "max_ideal_fps": 25
+  },
+  "6.1": {
+    "need": [
+      [
+        0,
+        1,
+        0,
+        0,
+        2
+      ],
+      [
+        0,
+        2,
+        1,
+        0,
+        0
+      ],
+      [
+        4,
+        0,
+        3,
+        0,
+        0
+      ],
+      [
+        6,
+        0,
+        1,
+        1,
+        9
+      ]
+    ],
+    "minimum_X": 2,
+    "safe_sequences_at_minimum": [
+      {
+        "sequence": "BACD",
+        "work": [
+          [
+            0,
+            2,
+            1,
+            0,
+            0
+          ],
+          [
+            3,
+            3,
+            4,
+            2,
+            5
+          ],
+          [
+            8,
+            7,
+            6,
+            7,
+            8
+          ],
+          [
+            10,
+            7,
+            9,
+            11,
+            9
+          ],
+          [
+            14,
+            9,
+            12,
+            16,
+            11
+          ]
+        ]
+      }
+    ]
+  },
+  "6.2": [
+    {
+      "B_order": [
+        1,
+        2,
+        3
+      ],
+      "guaranteed_deadlock_free": true,
+      "one_deadlock_trace": null
+    },
+    {
+      "B_order": [
+        1,
+        3,
+        2
+      ],
+      "guaranteed_deadlock_free": true,
+      "one_deadlock_trace": null
+    },
+    {
+      "B_order": [
+        2,
+        1,
+        3
+      ],
+      "guaranteed_deadlock_free": false,
+      "one_deadlock_trace": [
+        "A takes 1",
+        "B takes 2"
+      ]
+    },
+    {
+      "B_order": [
+        2,
+        3,
+        1
+      ],
+      "guaranteed_deadlock_free": false,
+      "one_deadlock_trace": [
+        "A takes 1",
+        "B takes 2",
+        "B takes 3"
+      ]
+    },
+    {
+      "B_order": [
+        3,
+        1,
+        2
+      ],
+      "guaranteed_deadlock_free": false,
+      "one_deadlock_trace": [
+        "A takes 1",
+        "A takes 2",
+        "B takes 3"
+      ]
+    },
+    {
+      "B_order": [
+        3,
+        2,
+        1
+      ],
+      "guaranteed_deadlock_free": false,
+      "one_deadlock_trace": [
+        "A takes 1",
+        "A takes 2",
+        "B takes 3"
+      ]
+    }
+  ],
+  "7.1": [
+    {
+      "final": [
+        5,
+        7,
+        4
+      ],
+      "one_trace": [
+        "T1: x=1",
+        "T1: x=x+1",
+        "T2: y=1",
+        "T2: y=y+2",
+        "T2: V(S1)",
+        "T1: P(S1)",
+        "T1: x=x+y",
+        "T1: V(S2)",
+        "T1: z=x+z",
+        "T2: z=y+1",
+        "T2: P(S2)",
+        "T2: y=z+y"
+      ]
+    },
+    {
+      "final": [
+        5,
+        7,
+        9
+      ],
+      "one_trace": [
+        "T1: x=1",
+        "T1: x=x+1",
+        "T2: y=1",
+        "T2: y=y+2",
+        "T2: V(S1)",
+        "T1: P(S1)",
+        "T1: x=x+y",
+        "T1: V(S2)",
+        "T2: z=y+1",
+        "T2: P(S2)",
+        "T2: y=z+y",
+        "T1: z=x+z"
+      ]
+    },
+    {
+      "final": [
+        5,
+        12,
+        9
+      ],
+      "one_trace": [
+        "T1: x=1",
+        "T1: x=x+1",
+        "T2: y=1",
+        "T2: y=y+2",
+        "T2: V(S1)",
+        "T1: P(S1)",
+        "T1: x=x+y",
+        "T1: V(S2)",
+        "T2: z=y+1",
+        "T1: z=x+z",
+        "T2: P(S2)",
+        "T2: y=z+y"
+      ]
+    }
+  ]
+}

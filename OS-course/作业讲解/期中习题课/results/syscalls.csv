@@ -1,0 +1,8 @@
+# CPU=0 calls_per_sample=200000 repeats=9 checksum=79947192080
+syscall,method,median_ns_per_call,min_ns,max_ns
+getpid,glibc,75.78,74.85,80.59
+getpid,syscall,73.65,72.22,75.81
+getpid,asm,70.84,70.14,83.26
+getppid,glibc,75.61,74.95,232.48
+getppid,syscall,74.37,72.68,79.03
+getppid,asm,74.57,73.64,76.69

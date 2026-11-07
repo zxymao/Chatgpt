@@ -1,0 +1,1 @@
+mode=peterson count=10000000 range=[0,10000000) max_adjacent_difference=19597 elapsed_ms=63.808 coverage=PASS
