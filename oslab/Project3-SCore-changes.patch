@@ -1,0 +1,1253 @@
+diff --git a/Makefile b/Makefile
+index 1060b03..638c325 100644
+--- a/Makefile
++++ b/Makefile
+@@ -26,7 +26,7 @@ TASKS ?= $(P3_TASKS)
+ endif
+ P3_TASKS = shell waitpid ready_to_exit wait_locks barrier test_barrier
+ COURSE_TASKS = fly lock1 lock2 print1 print2 sleep timer
+-VALIDATION_TASKS = coop1 coop2 mutex1 mutex2 coop_timer probe1 probe2
++VALIDATION_TASKS = coop1 coop2 mutex1 mutex2 coop_timer probe1 probe2 p3_probe p3_worker
+ VALID_TASKS = $(P3_TASKS) $(COURSE_TASKS) $(VALIDATION_TASKS)
+ ifneq ($(filter-out $(VALID_TASKS),$(TASKS)),)
+ $(error Unknown task: $(filter-out $(VALID_TASKS),$(TASKS)))
+@@ -100,3 +100,7 @@ gdb:
+ clean:
+ 	rm -rf build
+ .PHONY: all elf image asm run debug gdb clean
++
++list-tasks:
++	@python3 -c 'import sys; [print(i, name) for i, name in enumerate(sys.argv[1:])]' $(TASKS)
++.PHONY: list-tasks
+diff --git a/arch/riscv/crt0/crt0.S b/arch/riscv/crt0/crt0.S
+index 8a9f7e2..a9d380b 100644
+--- a/arch/riscv/crt0/crt0.S
++++ b/arch/riscv/crt0/crt0.S
+@@ -9,7 +9,8 @@ ENTRY(_start)
+     addi t0, t0, 1
+     j 1b
+ 2:  call main
+-    /* P2 tasks normally never return; avoid returning to a fake caller. */
++    /* main's return value is not an exit status in this course interface. */
++    call sys_exit
+ 3:  call sys_yield
+     j 3b
+     /************************************************************/
+diff --git a/include/os/lock.h b/include/os/lock.h
+index 8dc341a..ad93050 100644
+--- a/include/os/lock.h
++++ b/include/os/lock.h
+@@ -61,6 +61,7 @@ void spin_lock_release(spin_lock_t *lock);
+ int do_mutex_lock_init(int key);
+ void do_mutex_lock_acquire(int mlock_idx);
+ void do_mutex_lock_release(int mlock_idx);
++void mutex_release_all(pid_t owner);
+ 
+ /************************************************************/
+ /* Do not touch this comment. Reserved for future projects. */
+@@ -68,7 +69,12 @@ void do_mutex_lock_release(int mlock_idx);
+ 
+ typedef struct barrier
+ {
+-    // TODO [P3-TASK2 barrier]
++    int used;
++    int key;
++    int goal;
++    int arrived;
++    unsigned generation;
++    list_head wait_queue;
+ } barrier_t;
+ 
+ #define BARRIER_NUM 16
+@@ -77,6 +83,8 @@ void init_barriers(void);
+ int do_barrier_init(int key, int goal);
+ void do_barrier_wait(int bar_idx);
+ void do_barrier_destroy(int bar_idx);
++struct pcb;
++void barrier_cancel_wait(struct pcb *task);
+ 
+ typedef struct condition
+ {
+diff --git a/include/os/sched.h b/include/os/sched.h
+index 12008dd..9b97ece 100644
+--- a/include/os/sched.h
++++ b/include/os/sched.h
+@@ -89,6 +89,11 @@ typedef struct pcb
+     /* time(seconds) to wake up sleeping PCB */
+     uint64_t wakeup_time; /* absolute rdtime ticks */
+ 
++    /* A PCB slot and a program image have different lifetimes. */
++    int used;
++    int task_id;
++    int barrier_idx; /* -1 unless queued at a barrier */
++
+ } pcb_t;
+ 
+ /* ready queue to run */
+@@ -117,7 +122,7 @@ void do_unblock(list_node_t *);
+ /************************************************************/
+ 
+ 
+-/* P3 process-management interfaces. Kernel implementations are separate work. */
++/* P3 process-management interfaces. */
+ #ifdef S_CORE
+ pid_t do_exec(int id, int argc, uint64_t arg0, uint64_t arg1, uint64_t arg2);
+ #else
+@@ -129,4 +134,8 @@ int do_waitpid(pid_t pid);
+ void do_process_show(void);
+ pid_t do_getpid(void);
+ 
++void init_process_table(void);
++void init_pcb_stack(ptr_t ktop, ptr_t utop, ptr_t entry, pcb_t *task,
++                    int argc, uint64_t arg0, uint64_t arg1, uint64_t arg2);
++
+ #endif
+diff --git a/init/main.c b/init/main.c
+index 25eee86..897aafd 100644
+--- a/init/main.c
++++ b/init/main.c
+@@ -36,11 +36,10 @@ static long k_write(long p, long b, long c, long d, long e)
+     /* No page tables in P2. Validate the complete string against this task's
+      * user image or user stack before dereferencing it, also for loadbootd. */
+     uint64_t begin = (uint64_t)p, limit = 0;
+-    for (int i = 0; i < task_num; ++i) {
+-        if (current_running->pid == i + 1 && begin >= tasks[i].entrypoint &&
+-            begin < tasks[i].entrypoint + TASK_SIZE)
+-            limit = tasks[i].entrypoint + TASK_SIZE;
+-    }
++    int id = current_running->task_id;
++    if (id >= 0 && id < task_num && begin >= tasks[id].entrypoint &&
++        begin < tasks[id].entrypoint + TASK_SIZE)
++        limit = tasks[id].entrypoint + TASK_SIZE;
+     if (begin >= current_running->user_stack_base &&
+         begin < current_running->user_stack_base + PAGE_SIZE)
+         limit = current_running->user_stack_base + PAGE_SIZE;
+@@ -78,6 +77,27 @@ static long k_putchar(long ch, long b, long c, long d, long e)
+ { port_write_ch(ch); return 0; }
+ static long k_getchar(long a, long b, long c, long d, long e)
+ { return port_read_ch(); }
++static long k_exec(long id, long argc, long a0, long a1, long a2)
++{ return do_exec((int)id, (int)argc, a0, a1, a2); }
++static long k_exit(long a, long b, long c, long d, long e)
++{ do_exit(); return 0; }
++static long k_kill(long pid, long b, long c, long d, long e)
++{ return do_kill((pid_t)pid); }
++static long k_waitpid(long pid, long b, long c, long d, long e)
++{ return do_waitpid((pid_t)pid); }
++static long k_ps(long a, long b, long c, long d, long e)
++{ do_process_show(); return 0; }
++static long k_getpid(long a, long b, long c, long d, long e)
++{ return do_getpid(); }
++static long k_clear(long a, long b, long c, long d, long e)
++{ screen_clear(); return 0; }
++static long k_barrier_init(long key, long goal, long c, long d, long e)
++{ return do_barrier_init((int)key, (int)goal); }
++static long k_barrier_wait(long id, long b, long c, long d, long e)
++{ do_barrier_wait((int)id); return 0; }
++static long k_barrier_destroy(long id, long b, long c, long d, long e)
++{ do_barrier_destroy((int)id); return 0; }
++
+ static long k_sdread(long p, long n, long block, long d, long e)
+ { return sd_read(p, n, block); }
+ static long k_sdwrite(long p, long n, long block, long d, long e)
+@@ -121,53 +141,18 @@ static void init_task_info(int count, uint32_t offset)
+     }
+ }
+ 
+-static void init_pcb_stack(ptr_t ktop, ptr_t utop, ptr_t entry, pcb_t *task)
+-{
+-    regs_context_t *regs = (regs_context_t *)(ktop - sizeof(*regs));
+-    switchto_context_t *sw = (switchto_context_t *)((ptr_t)regs - sizeof(*sw));
+-    bzero(regs, sizeof(*regs));
+-    bzero(sw, sizeof(*sw));
+-    regs->regs[2] = utop;
+-    regs->sepc = entry;
+-#if LAB_STAGE >= 3
+-    /* SPP=0 returns to U mode; SPIE controls SIE after sret. */
+-    regs->sstatus = SR_SPIE;
+-#else
+-    /* Cooperative tasks share S mode and call the jump table directly. */
+-    regs->regs[4] = (ptr_t)task;
+-    regs->sstatus = SR_SPP;
+-#endif
+-    sw->regs[0] = (ptr_t)ret_from_exception;
+-    sw->regs[1] = (ptr_t)sw;
+-    task->kernel_sp = (ptr_t)sw;
+-    task->user_sp = utop;
+-}
+-
+ static void init_pcb(void)
+ {
+-    list_init(&ready_queue);
+-    list_init(&sleep_queue);
+-    list_init(&pid0_pcb.list);
+-    pid0_pcb.status = TASK_RUNNING;
+-    current_running = &pid0_pcb;
+-    __asm__ volatile ("csrw sscratch, %0" :: "r"(current_running) : "memory");
++    init_process_table();
+     for (int i = 0; i < task_num; ++i) {
+-        pcb_t *task = &pcb[i];
+-        bzero(task, sizeof(*task));
+-        task->pid = process_id++;
+-        task->status = TASK_READY;
+-        task->cursor_y = i * 2;
+-        list_init(&task->list);
+-        ptr_t ktop = allocKernelPage(1) + PAGE_SIZE;
+-        task->user_stack_base = allocUserPage(1);
+-        ptr_t utop = task->user_stack_base + PAGE_SIZE;
+-        uint64_t entry = load_task_img(tasks[i].task_name);
+-        assert(entry);
+-        init_pcb_stack(ktop, utop, entry, task);
+-        list_add_tail(&task->list, &ready_queue);
+-        printk("[LOAD] pid=%d task=%s entry=0x%lx\n\r", task->pid,
+-               tasks[i].task_name, entry);
++        if (!strcmp(tasks[i].task_name, "shell")) {
++            assert(do_exec(i, 0, 0, 0, 0) == 1);
++            return;
++        }
+     }
++    /* Keeps small P2 regression images usable when no shell is included. */
++    for (int i = 0; i < task_num; ++i)
++        assert(do_exec(i, 0, 0, 0, 0) > 0);
+ }
+ 
+ static void init_syscall(void)
+@@ -183,6 +168,17 @@ static void init_syscall(void)
+     syscall[SYSCALL_LOCK_RELEASE] = k_lock_rel;
+     syscall[SYSCALL_GET_TIMEBASE] = k_timebase;
+     syscall[SYSCALL_GET_TICK] = k_ticks;
++    syscall[SYSCALL_EXEC] = k_exec;
++    syscall[SYSCALL_EXIT] = k_exit;
++    syscall[SYSCALL_KILL] = k_kill;
++    syscall[SYSCALL_WAITPID] = k_waitpid;
++    syscall[SYSCALL_PS] = k_ps;
++    syscall[SYSCALL_GETPID] = k_getpid;
++    syscall[SYSCALL_READCH] = k_getchar;
++    syscall[SYSCALL_CLEAR] = k_clear;
++    syscall[SYSCALL_BARR_INIT] = k_barrier_init;
++    syscall[SYSCALL_BARR_WAIT] = k_barrier_wait;
++    syscall[SYSCALL_BARR_DESTROY] = k_barrier_destroy;
+ }
+ 
+ int main(int count, uint32_t app_offset)
+@@ -193,10 +189,11 @@ int main(int count, uint32_t app_offset)
+     time_base = bios_read_fdt(TIMEBASE);
+     assert(time_base > 0);
+     init_locks();
++    init_barriers();
+     init_syscall();
+     init_exception();
+     init_screen();
+-    printk("[INIT] A-Core stage %d, %d tasks, timebase=%lu\n\r",
++    printk("[INIT] P3 S-Core, stage %d, %d images, timebase=%lu\n\r",
+            LAB_STAGE, task_num, time_base);
+ #if LAB_STAGE >= 4
+     bios_set_timer(get_ticks() + TIMER_INTERVAL);
+diff --git a/kernel/locking/lock.c b/kernel/locking/lock.c
+index 0bffa40..de71f5a 100644
+--- a/kernel/locking/lock.c
++++ b/kernel/locking/lock.c
+@@ -64,11 +64,9 @@ void do_mutex_lock_acquire(int id)
+     }
+     irq_restore(flags);
+ }
+-void do_mutex_lock_release(int id)
++/* The owner has already been checked by the caller. */
++static void release_owned_lock(mutex_lock_t *lock)
+ {
+-    uint64_t flags = irq_save();
+-    mutex_lock_t *lock = get_lock(id);
+-    assert(lock->owner == current_running->pid);
+     if (!list_empty(&lock->block_queue)) {
+         list_node_t *node = lock->block_queue.next;
+         lock->owner = list_entry(node, pcb_t, list)->pid;
+@@ -77,5 +75,116 @@ void do_mutex_lock_release(int id)
+         lock->owner = 0;
+         spin_lock_release(&lock->lock);
+     }
++}
++
++void do_mutex_lock_release(int id)
++{
++    uint64_t flags = irq_save();
++    mutex_lock_t *lock = get_lock(id);
++    assert(lock->owner == current_running->pid);
++    release_owned_lock(lock);
++    irq_restore(flags);
++}
++
++void mutex_release_all(pid_t owner)
++{
++    uint64_t flags = irq_save();
++    for (int i = 0; i < LOCK_NUM; ++i)
++        if (mlocks[i].used && mlocks[i].owner == owner)
++            release_owned_lock(&mlocks[i]);
+     irq_restore(flags);
+ }
++
++static barrier_t barriers[BARRIER_NUM];
++
++void init_barriers(void)
++{
++    for (int i = 0; i < BARRIER_NUM; ++i) {
++        barriers[i].used = 0;
++        barriers[i].arrived = 0;
++        barriers[i].generation = 0;
++        list_init(&barriers[i].wait_queue);
++    }
++}
++
++int do_barrier_init(int key, int goal)
++{
++    uint64_t flags = irq_save();
++    if (goal < 1 || goal > NUM_MAX_TASK) {
++        irq_restore(flags);
++        return -1;
++    }
++    int free_slot = -1;
++    for (int i = 0; i < BARRIER_NUM; ++i) {
++        if (barriers[i].used && barriers[i].key == key) {
++            int result = barriers[i].goal == goal ? i : -1;
++            irq_restore(flags);
++            return result;
++        }
++        if (!barriers[i].used && free_slot < 0) free_slot = i;
++    }
++    if (free_slot >= 0) {
++        barrier_t *bar = &barriers[free_slot];
++        bar->used = 1;
++        bar->key = key;
++        bar->goal = goal;
++        bar->arrived = 0;
++        ++bar->generation;
++        list_init(&bar->wait_queue);
++    }
++    irq_restore(flags);
++    return free_slot;
++}
++
++static void wake_barrier_waiters(barrier_t *bar)
++{
++    while (!list_empty(&bar->wait_queue)) {
++        list_node_t *node = bar->wait_queue.next;
++        list_entry(node, pcb_t, list)->barrier_idx = -1;
++        do_unblock(node);
++    }
++}
++
++void do_barrier_wait(int id)
++{
++    uint64_t flags = irq_save();
++    if (id < 0 || id >= BARRIER_NUM || !barriers[id].used) {
++        irq_restore(flags);
++        return;
++    }
++    barrier_t *bar = &barriers[id];
++    if (++bar->arrived == bar->goal) {
++        bar->arrived = 0;
++        ++bar->generation;
++        wake_barrier_waiters(bar);
++    } else {
++        current_running->barrier_idx = id;
++        do_block(&current_running->list, &bar->wait_queue);
++        current_running->barrier_idx = -1;
++    }
++    irq_restore(flags);
++}
++
++void do_barrier_destroy(int id)
++{
++    uint64_t flags = irq_save();
++    if (id >= 0 && id < BARRIER_NUM && barriers[id].used) {
++        barrier_t *bar = &barriers[id];
++        bar->used = 0;
++        bar->arrived = 0;
++        ++bar->generation;
++        wake_barrier_waiters(bar); /* Destroy cancels outstanding waits. */
++    }
++    irq_restore(flags);
++}
++
++/* Termination removes a waiting participant; it does not silently count that
++ * participant as an arrival. The application can destroy/cancel the barrier. */
++void barrier_cancel_wait(pcb_t *task)
++{
++    int id = task->barrier_idx;
++    if (id >= 0 && id < BARRIER_NUM && barriers[id].used &&
++        barriers[id].arrived > 0)
++        --barriers[id].arrived;
++    task->barrier_idx = -1;
++}
+diff --git a/kernel/sched/sched.c b/kernel/sched/sched.c
+index 946477e..4ebfde8 100644
+--- a/kernel/sched/sched.c
++++ b/kernel/sched/sched.c
+@@ -3,8 +3,18 @@
+ #include <os/time.h>
+ #include <os/mm.h>
+ #include <os/irq.h>
++#include <os/lock.h>
++#include <os/task.h>
++#include <os/loader.h>
++#include <os/string.h>
++#include <os/config.h>
++#include <printk.h>
++#include <csr.h>
+ #include <assert.h>
+ 
++extern int task_num;
++extern void ret_from_exception(void);
++
+ pcb_t pcb[NUM_MAX_TASK];
+ const ptr_t pid0_stack = INIT_KERNEL_STACK + PAGE_SIZE;
+ pcb_t pid0_pcb = { .pid = 0, .kernel_sp = INIT_KERNEL_STACK + PAGE_SIZE,
+@@ -13,13 +23,68 @@ LIST_HEAD(ready_queue);
+ LIST_HEAD(sleep_queue);
+ pid_t process_id = 1;
+ 
++/* Interrupts are masked. Never recycle the currently executing stack. */
++static void reap_exited(void)
++{
++    for (int i = 0; i < NUM_MAX_TASK; ++i)
++        if (&pcb[i] != current_running && pcb[i].used &&
++            pcb[i].status == TASK_EXITED)
++            pcb[i].used = 0;
++}
++
++void init_process_table(void)
++{
++    list_init(&ready_queue);
++    list_init(&sleep_queue);
++    bzero(pcb, sizeof(pcb));
++    for (int i = 0; i < NUM_MAX_TASK; ++i) {
++        pcb[i].status = TASK_EXITED;
++        pcb[i].task_id = -1;
++        pcb[i].barrier_idx = -1;
++        list_init(&pcb[i].list);
++        list_init(&pcb[i].wait_list);
++    }
++    list_init(&pid0_pcb.list);
++    list_init(&pid0_pcb.wait_list);
++    pid0_pcb.status = TASK_RUNNING;
++    pid0_pcb.used = 1;
++    pid0_pcb.task_id = -1;
++    pid0_pcb.barrier_idx = -1;
++    current_running = &pid0_pcb;
++    process_id = 1;
++    __asm__ volatile ("csrw sscratch, %0" :: "r"(current_running) : "memory");
++}
++
++void init_pcb_stack(ptr_t ktop, ptr_t utop, ptr_t entry, pcb_t *task,
++                    int argc, uint64_t arg0, uint64_t arg1, uint64_t arg2)
++{
++    regs_context_t *regs = (regs_context_t *)(ktop - sizeof(*regs));
++    switchto_context_t *sw = (switchto_context_t *)((ptr_t)regs - sizeof(*sw));
++    bzero(regs, sizeof(*regs));
++    bzero(sw, sizeof(*sw));
++    regs->regs[2] = utop;
++    regs->regs[10] = argc;
++    regs->regs[11] = arg0;
++    regs->regs[12] = arg1;
++    regs->regs[13] = arg2;
++    regs->sepc = entry;
++#if LAB_STAGE >= 3
++    regs->sstatus = SR_SPIE;
++#else
++    regs->regs[4] = (ptr_t)task;
++    regs->sstatus = SR_SPP;
++#endif
++    sw->regs[0] = (ptr_t)ret_from_exception;
++    sw->regs[1] = (ptr_t)sw;
++    task->kernel_sp = (ptr_t)sw;
++    task->user_sp = utop;
++}
++
+ void do_scheduler(void)
+ {
+     uint64_t flags = irq_save();
++    reap_exited();
+     check_sleeping();
+-    /************************************************************/
+-    /* Do not touch this comment. Reserved for future projects. */
+-    /************************************************************/
+     pcb_t *prev = current_running;
+     if (prev->status == TASK_RUNNING && prev != &pid0_pcb) {
+         prev->status = TASK_READY;
+@@ -29,19 +94,15 @@ void do_scheduler(void)
+     pcb_t *next = node ? list_entry(node, pcb_t, list) : &pid0_pcb;
+     if (prev == &pid0_pcb && next != prev) prev->status = TASK_READY;
+     next->status = TASK_RUNNING;
+-    if (prev != next) {
+-        /* switch_to installs tp and sscratch atomically with IRQs disabled. */
+-        switch_to(prev, next);
+-    }
++    if (prev != next) switch_to(prev, next);
+     irq_restore(flags);
+ }
+ 
+ void do_sleep(uint32_t seconds)
+ {
+     uint64_t flags = irq_save();
+-    if (!seconds) {
+-        do_scheduler();
+-    } else {
++    if (!seconds) do_scheduler();
++    else {
+         current_running->wakeup_time = get_ticks() + (uint64_t)seconds * time_base;
+         do_block(&current_running->list, &sleep_queue);
+     }
+@@ -69,3 +130,134 @@ void do_unblock(list_node_t *node)
+     list_add_tail(node, &ready_queue);
+     irq_restore(flags);
+ }
++
++pid_t do_exec(int id, int argc, uint64_t arg0, uint64_t arg1, uint64_t arg2)
++{
++    uint64_t flags = irq_save();
++    if (id < 0 || id >= task_num || argc < 0 || argc > 3 ||
++        process_id == INT32_MAX) {
++        irq_restore(flags);
++        return -1;
++    }
++    reap_exited();
++    pcb_t *task = NULL;
++    int image_in_use = 0;
++    for (int i = 0; i < NUM_MAX_TASK; ++i) {
++        if (!pcb[i].used && !task) task = &pcb[i];
++        if (pcb[i].used && pcb[i].status != TASK_EXITED && pcb[i].task_id == id)
++            image_in_use = 1;
++    }
++    if (!task) {
++        irq_restore(flags);
++        return -1;
++    }
++    /* Flat shared images: do not overwrite another live instance's data. */
++    ptr_t entry = image_in_use ? tasks[id].entrypoint :
++                                load_task_img(tasks[id].task_name);
++    if (!entry) {
++        irq_restore(flags);
++        return -1;
++    }
++    ptr_t kbase = task->kernel_stack_base;
++    ptr_t ubase = task->user_stack_base;
++    if (!kbase) kbase = allocKernelPage(1);
++    if (!ubase) ubase = allocUserPage(1);
++    bzero(task, sizeof(*task));
++    task->kernel_stack_base = kbase;
++    task->user_stack_base = ubase;
++    task->task_id = id;
++    task->barrier_idx = -1;
++    list_init(&task->list);
++    list_init(&task->wait_list);
++    init_pcb_stack(kbase + PAGE_SIZE, ubase + PAGE_SIZE, entry,
++                   task, argc, arg0, arg1, arg2);
++    task->pid = process_id++;
++    task->used = 1;
++    task->status = TASK_READY;
++    list_add_tail(&task->list, &ready_queue);
++    pid_t pid = task->pid;
++    irq_restore(flags);
++    return pid;
++}
++
++static pcb_t *find_process(pid_t pid)
++{
++    for (int i = 0; i < NUM_MAX_TASK; ++i)
++        if (pcb[i].used && pcb[i].pid == pid) return &pcb[i];
++    return NULL;
++}
++
++/* One termination protocol for exit and kill; caller masks interrupts. */
++static void finish_process(pcb_t *task)
++{
++    barrier_cancel_wait(task);
++    if (!list_empty(&task->list)) list_del(&task->list);
++    task->status = TASK_EXITED;
++    mutex_release_all(task->pid);
++    while (!list_empty(&task->wait_list)) do_unblock(task->wait_list.next);
++    /* Reuse the slot's stacks only when no CPU is executing on them. */
++    if (task != current_running) task->used = 0;
++}
++
++void do_exit(void)
++{
++    irq_save();
++    assert(current_running != &pid0_pcb);
++    finish_process(current_running);
++    do_scheduler();
++    assert(0);
++}
++
++int do_kill(pid_t pid)
++{
++    uint64_t flags = irq_save();
++    pcb_t *task = find_process(pid);
++    if (pid <= 0 || !task || task->status == TASK_EXITED) {
++        irq_restore(flags);
++        return -1;
++    }
++    int self = task == current_running;
++    finish_process(task);
++    if (self) {
++        do_scheduler();
++        assert(0);
++    }
++    irq_restore(flags);
++    return pid;
++}
++
++int do_waitpid(pid_t pid)
++{
++    uint64_t flags = irq_save();
++    if (pid <= 0 || pid >= process_id || pid == current_running->pid) {
++        irq_restore(flags);
++        return -1;
++    }
++    pcb_t *task = find_process(pid);
++    /* Every earlier PID was created; PIDs are monotonic and never reused.
++     * A completed PID can still be waited on after its PCB slot is recycled. */
++    if (task && task->status != TASK_EXITED)
++        do_block(&current_running->list, &task->wait_list);
++    irq_restore(flags);
++    return pid;
++}
++
++pid_t do_getpid(void)
++{
++    return current_running->pid;
++}
++
++void do_process_show(void)
++{
++    static const char *states[] = {"BLOCKED", "RUNNING", "READY", "EXITED"};
++    uint64_t flags = irq_save();
++    printk("PID  STATUS   PROGRAM\n");
++    printk("0    %s idle\n", states[pid0_pcb.status]);
++    for (int i = 0; i < NUM_MAX_TASK; ++i) {
++        pcb_t *task = &pcb[i];
++        if (task->used && task->status != TASK_EXITED)
++            printk("%d    %s %s\n", task->pid, states[task->status],
++                   tasks[task->task_id].task_name);
++    }
++    irq_restore(flags);
++}
+diff --git a/test/host-qemu/firmware.S b/test/host-qemu/firmware.S
+index f21a04c..e7e75a1 100644
+--- a/test/host-qemu/firmware.S
++++ b/test/host-qemu/firmware.S
+@@ -80,7 +80,13 @@ putchar:
+     sb a0, 0(t0)
+     j bios_done
+ getchar:
+-    li a0, -1
++    li t0, 0x10000000
++    lbu t1, 5(t0)
++    andi t1, t1, 1
++    beqz t1, 1f
++    lbu a0, 0(t0)
++    j bios_done
++1:  li a0, -1
+     j bios_done
+ putstr:
+     mv t0, a0
+diff --git a/test/shell.c b/test/shell.c
+index b8e715c..c6288b2 100644
+--- a/test/shell.c
++++ b/test/shell.c
+@@ -25,33 +25,129 @@
+  *
+  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  * * * * * * * * * * */
+ 
++/* Project3 S-Core shell implementation. */
+ #include <stdio.h>
+ #include <stdint.h>
+ #include <unistd.h>
+ #include <string.h>
+-#include <ctype.h>
+ 
+ #define SHELL_BEGIN 20
++#define LINE_SIZE 128
++#define MAX_WORDS 8
+ 
+-int main(void)
++static int number(const char *s, uint64_t *out)
++{
++    int negative = 0, base = 10, digits = 0;
++    uint64_t value = 0;
++    if (*s == '+' || *s == '-') { negative = *s == '-'; ++s; }
++    if (s[0] == '0' && (s[1] == 'x' || s[1] == 'X')) {
++        base = 16;
++        s += 2;
++    }
++    uint64_t limit = negative ? (1ULL << 63) : ~0ULL;
++    for (; *s; ++s) {
++        unsigned digit;
++        if (*s >= '0' && *s <= '9') digit = *s - '0';
++        else if (*s >= 'a' && *s <= 'f') digit = *s - 'a' + 10;
++        else if (*s >= 'A' && *s <= 'F') digit = *s - 'A' + 10;
++        else return 0;
++        if (digit >= (unsigned)base || value > (limit - digit) / base) return 0;
++        value = value * base + digit;
++        ++digits;
++    }
++    if (!digits) return 0;
++    *out = negative ? 0 - value : value;
++    return 1;
++}
++
++static int split(char *line, char **words)
++{
++    int count = 0;
++    while (*line) {
++        while (*line == ' ' || *line == '\t') ++line;
++        if (!*line) break;
++        if (count == MAX_WORDS) return -1;
++        words[count++] = line;
++        while (*line && *line != ' ' && *line != '\t') ++line;
++        if (*line) *line++ = '\0';
++    }
++    return count;
++}
++
++static void banner(void)
+ {
+     sys_move_cursor(0, SHELL_BEGIN);
+     printf("------------------- COMMAND -------------------\n");
+-    printf("> root@UCAS_OS: ");
+-
+-    while (1)
+-    {
+-        // TODO [P3-task1]: call syscall to read UART port
+-        
+-        // TODO [P3-task1]: parse input
+-        // note: backspace maybe 8('\b') or 127(delete)
++}
+ 
+-        // TODO [P3-task1]: ps, exec, kill, clear    
++static void command(char *line)
++{
++    char *words[MAX_WORDS];
++    int count = split(line, words);
++    if (!count) return;
++    if (count < 0) { printf("Too many arguments\n"); return; }
++    if (!strcmp(words[0], "ps") && count == 1) sys_ps();
++    else if (!strcmp(words[0], "clear") && count == 1) {
++        sys_clear();
++        banner();
++    } else if (!strcmp(words[0], "help") && count == 1) {
++        printf("ps | clear | exec ID [arg0 arg1 arg2] [&] | kill PID\n");
++        printf("Use 'make list-tasks' in the Linux terminal to see program IDs.\n");
++    } else if (!strcmp(words[0], "exec")) {
++        int background = !strcmp(words[count - 1], "&");
++        if (background) --count;
++        uint64_t id, args[3] = {0};
++        if (count < 2 || count > 5 || !number(words[1], &id) || id > INT32_MAX) {
++            printf("Usage: exec ID [arg0 arg1 arg2] [&]\n");
++            return;
++        }
++        for (int i = 2; i < count; ++i) {
++            if (!number(words[i], &args[i - 2])) {
++                printf("Invalid numeric argument\n");
++                return;
++            }
++        }
++        pid_t pid = sys_exec((int)id, count - 2, args[0], args[1], args[2]);
++        if (pid < 0) printf("exec failed\n");
++        else if (background) printf("[shell] started pid=%d\n", pid);
++        else sys_waitpid(pid);
++    } else if (!strcmp(words[0], "kill")) {
++        uint64_t pid;
++        if (count != 2 || !number(words[1], &pid) || pid == 0 || pid > INT32_MAX) {
++            printf("Usage: kill PID\n");
++            return;
++        }
++        if (sys_kill((pid_t)pid) < 0) printf("kill failed\n");
++        else printf("[shell] killed pid=%d\n", (int)pid);
++    } else printf("Unknown command\n");
++}
+ 
+-        /************************************************************/
+-        /* Do not touch this comment. Reserved for future projects. */
+-        /************************************************************/    
++int main(void)
++{
++    char line[LINE_SIZE];
++    int length = 0, skip_lf = 0;
++    banner();
++    printf("> root@UCAS_OS: ");
++    for (;;) {
++        int ch = sys_getchar();
++        if (ch < 0) { sys_yield(); continue; }
++        if (skip_lf && ch == '\n') { skip_lf = 0; continue; }
++        skip_lf = 0;
++        if (ch == '\r' || ch == '\n') {
++            skip_lf = ch == '\r';
++            line[length] = '\0';
++            printf("\n");
++            command(line);
++            length = 0;
++            printf("> root@UCAS_OS: ");
++        } else if (ch == '\b' || ch == 127) {
++            if (length > 0) { --length; printf("\b"); }
++        } else {
++            if (ch == '\t') ch = ' ';
++            if (ch >= 32 && ch <= 126 && length < LINE_SIZE - 1) {
++                line[length++] = ch;
++                printf("%c", ch);
++            }
++        }
+     }
+-
+-    return 0;
+ }
+diff --git a/test/test_project3/barrier.c b/test/test_project3/barrier.c
+index 75e9a58..4edabeb 100644
+--- a/test/test_project3/barrier.c
++++ b/test/test_project3/barrier.c
+@@ -23,7 +23,7 @@ int main(int argc, int arg0)
+     for (int i = 0; i < NUM_TB; ++i)
+     {
+         // TODO: [P3-TASK2 S-core] use your "test_barrier" id here        
+-        int tb_id = -1;
++        int tb_id = 5;
+         assert(tb_id != -1);
+         pids[i] = sys_exec(tb_id, 2, print_location + i, handle, 0);       
+     }
+diff --git a/test/test_project3/waitpid.c b/test/test_project3/waitpid.c
+index 1dafea8..65126d7 100644
+--- a/test/test_project3/waitpid.c
++++ b/test/test_project3/waitpid.c
+@@ -20,7 +20,7 @@ int main(int argc, int arg0)
+ 
+     // Launch two assistant processes, and pass mutex handles to them
+     // TODO: [P3-TASK1 S-core] use your "ready_to_exit" id here
+-    int rte_id = -1;
++    int rte_id = 2;
+     assert(rte_id != -1);
+     pid_t pid1 = sys_exec(rte_id, 3, print_location + 1, handle1, handle2);
+ 
+@@ -28,7 +28,7 @@ int main(int argc, int arg0)
+     
+ 
+     // TODO: [P3-TASK1 S-core] use your "wait_locks" id here
+-    int wl_id = -1;
++    int wl_id = 3;
+     assert(wl_id != -1);
+     pid_t pid2 = sys_exec(wl_id, 3, print_location + 2, handle1, handle2);
+ 
+diff --git a/test/validation/p3_probe.c b/test/validation/p3_probe.c
+new file mode 100644
+index 0000000..d462945
+--- /dev/null
++++ b/test/validation/p3_probe.c
+@@ -0,0 +1,102 @@
++#include <stdio.h>
++#include <stdint.h>
++#include <unistd.h>
++#include <assert.h>
++#include "p3_shared.h"
++static void report(const char *message)
++{
++    sys_move_cursor(0, 10);
++    printf("[P3-CHECK] %s                                      \n", message);
++    sys_reflush();
++}
++static void await(volatile int *flag)
++{
++    long start = sys_get_tick();
++    while (!*flag) {
++        assert(sys_get_tick() - start < 3 * sys_get_timebase());
++        sys_yield();
++    }
++}
++int main(int argc, int worker_id)
++{
++    assert(argc == 1);
++    assert(sys_exec(-1, 0, 0, 0, 0) == -1);
++    assert(sys_exec(worker_id, 4, 0, 0, 0) == -1);
++    assert(sys_waitpid(sys_getpid()) == -1);
++    assert(sys_waitpid(0) == -1);
++    assert(sys_waitpid(1000000) == -1);
++    assert(sys_kill(0) == -1);
++    assert(sys_kill(1000000) == -1);
++    pid_t first = 0;
++    for (int i = 0; i < 40; ++i) {
++        struct p3_shared value = {0};
++        pid_t child = sys_exec(worker_id, 3, P3_RETURN, (uint64_t)&value, P3_MAGIC);
++        assert(child > 0);
++        if (!first) first = child;
++        assert(sys_waitpid(child) == child);
++        assert(value.result == P3_MAGIC);
++    }
++    assert(sys_waitpid(first) == first);
++    report("args/reuse PASS");
++
++    struct p3_shared locks = {0};
++    locks.lock1 = sys_mutex_init(71);
++    locks.lock2 = sys_mutex_init(72);
++    assert(locks.lock1 >= 0 && locks.lock2 >= 0);
++    pid_t holder = sys_exec(worker_id, 3, P3_HOLD, (uint64_t)&locks, 0);
++    assert(holder > 0);
++    await(&locks.holding);
++    pid_t waiter = sys_exec(worker_id, 3, P3_WAIT_LOCKS, (uint64_t)&locks, 0);
++    assert(waiter > 0);
++    await(&locks.waiting);
++    sys_sleep(1);
++    assert(!locks.finished);
++    assert(sys_kill(holder) == holder);
++    assert(sys_waitpid(holder) == holder);
++    assert(sys_waitpid(waiter) == waiter);
++    assert(locks.finished && !locks.unexpected);
++    report("kill-locks PASS");
++
++    pid_t children[20];
++    int count = 0;
++    for (; count < 20; ++count) {
++        children[count] = sys_exec(worker_id, 3, P3_SLEEP, 0, 0);
++        if (children[count] < 0) break;
++    }
++    assert(count > 0 && count < 16);
++    assert(sys_exec(worker_id, 3, P3_SLEEP, 0, 0) == -1);
++    for (int i = 0; i < count; ++i) {
++        assert(sys_kill(children[i]) == children[i]);
++        assert(sys_waitpid(children[i]) == children[i]);
++    }
++    report("capacity PASS");
++
++    struct p3_shared barrier = {0};
++    barrier.barrier = sys_barrier_init(777, 2);
++    assert(barrier.barrier >= 0);
++    assert(sys_barrier_init(777, 2) == barrier.barrier);
++    assert(sys_barrier_init(777, 3) == -1);
++    pid_t blocked = sys_exec(worker_id, 3, P3_BARRIER, (uint64_t)&barrier, 0);
++    assert(blocked > 0);
++    await(&barrier.waiting);
++    sys_sleep(1);
++    assert(!barrier.finished);
++    sys_barrier_destroy(barrier.barrier);
++    assert(sys_waitpid(blocked) == blocked && barrier.finished);
++    barrier.waiting = barrier.finished = 0;
++    barrier.barrier = sys_barrier_init(777, 2);
++    blocked = sys_exec(worker_id, 3, P3_BARRIER, (uint64_t)&barrier, 0);
++    assert(blocked > 0);
++    await(&barrier.waiting);
++    sys_sleep(1);
++    assert(sys_kill(blocked) == blocked);
++    assert(sys_waitpid(blocked) == blocked);
++    sys_barrier_destroy(barrier.barrier);
++    int one = sys_barrier_init(777, 1);
++    assert(one >= 0);
++    sys_barrier_wait(one);
++    sys_barrier_destroy(one);
++    report("barrier-cancel PASS");
++    report("all PASS");
++    return 0;
++}
+diff --git a/test/validation/p3_shared.h b/test/validation/p3_shared.h
+new file mode 100644
+index 0000000..5dce896
+--- /dev/null
++++ b/test/validation/p3_shared.h
+@@ -0,0 +1,20 @@
++#ifndef P3_SHARED_H
++#define P3_SHARED_H
++#include <stdint.h>
++#define P3_RETURN 1
++#define P3_HOLD 2
++#define P3_WAIT_LOCKS 3
++#define P3_SLEEP 4
++#define P3_BARRIER 5
++#define P3_MAGIC 0x12345678UL
++struct p3_shared {
++    volatile int holding;
++    volatile int waiting;
++    volatile int finished;
++    volatile int unexpected;
++    volatile uint64_t result;
++    int lock1;
++    int lock2;
++    int barrier;
++};
++#endif
+diff --git a/test/validation/p3_worker.c b/test/validation/p3_worker.c
+new file mode 100644
+index 0000000..df114c7
+--- /dev/null
++++ b/test/validation/p3_worker.c
+@@ -0,0 +1,51 @@
++#include <stdio.h>
++#include <stdint.h>
++#include <unistd.h>
++#include <assert.h>
++#include "p3_shared.h"
++static long raw_write(const char *s)
++{
++    register long a0 asm("a0") = (long)s;
++    register long a7 asm("a7") = 20;
++    asm volatile("ecall" : "+r"(a0) : "r"(a7) : "memory");
++    return a0;
++}
++int main(int argc, uint64_t mode, uint64_t address, uint64_t value)
++{
++    assert(argc == 3);
++    if (mode == P3_SLEEP) {
++        sys_sleep(30);
++        return 0;
++    }
++    struct p3_shared *shared = (struct p3_shared *)address;
++    assert(shared != 0);
++    if (mode == P3_RETURN) {
++        assert(value == P3_MAGIC);
++        assert(sys_getpid() > 1);
++        sys_move_cursor(0, 12);
++        /* A new PID must retain access to its own image's constant strings. */
++        assert(raw_write("[P3-WORKER] image/args checked") == 0);
++        assert(raw_write((const char *)1) == -14);
++        shared->result = value;
++        return 0;
++    }
++    if (mode == P3_HOLD) {
++        sys_mutex_acquire(shared->lock1);
++        sys_mutex_acquire(shared->lock2);
++        shared->holding = 1;
++        sys_sleep(30);
++        shared->unexpected = 1;
++    } else if (mode == P3_WAIT_LOCKS) {
++        shared->waiting = 1;
++        sys_mutex_acquire(shared->lock1);
++        sys_mutex_acquire(shared->lock2);
++        shared->finished = 1;
++        sys_mutex_release(shared->lock2);
++        sys_mutex_release(shared->lock1);
++    } else if (mode == P3_BARRIER) {
++        shared->waiting = 1;
++        sys_barrier_wait(shared->barrier);
++        shared->finished = 1;
++    } else assert(0);
++    return 0;
++}
+diff --git a/tiny_libc/syscall.c b/tiny_libc/syscall.c
+index bf6455e..6295480 100644
+--- a/tiny_libc/syscall.c
++++ b/tiny_libc/syscall.c
+@@ -87,7 +87,7 @@ void sys_sleep(uint32_t seconds)
+ /* Do not touch this comment. Reserved for future projects. */
+ /************************************************************/
+ 
+-/* P3 user wrappers; matching kernel handlers still need implementation. */
++/* P3 user wrappers. S-Core handlers are registered by init_syscall(). */
+ #ifdef S_CORE
+ pid_t sys_exec(int id, int argc, uint64_t arg0, uint64_t arg1, uint64_t arg2)
+ {
+diff --git a/tools/host_qemu_p3.py b/tools/host_qemu_p3.py
+new file mode 100644
+index 0000000..ddf5c19
+--- /dev/null
++++ b/tools/host_qemu_p3.py
+@@ -0,0 +1,206 @@
++#!/usr/bin/env python3
++"""Exercise the real S-Core kernel through QEMU UART input.
++Only a temporary copy is relocated to upstream virt RAM. The test BIOS is
++not course U-Boot/SD/DASIC and cannot substitute for course-board acceptance.
++"""
++import argparse
++import os
++from pathlib import Path
++import re
++import selectors
++import shutil
++import subprocess
++import tempfile
++import time
++import json
++
++ROOT = Path(__file__).resolve().parents[1]
++TASKS = 'shell waitpid ready_to_exit wait_locks barrier test_barrier p3_probe p3_worker'
++PROMPT = '> root@UCAS_OS:'
++
++class Screen:
++    def __init__(self):
++        self.lines = [[' '] * 160 for _ in range(80)]
++        self.row = self.col = 0
++        self.pending = ''
++        self.prompt_active = [False] * 80
++        self.prompts = 0
++        self.events = []
++        self.barrier_rows = set()
++        self.fault = False
++        self.markers = set()
++
++    def observe(self):
++        line = ''.join(self.lines[self.row]).rstrip()
++        active = line == PROMPT
++        if active and not self.prompt_active[self.row]: self.prompts += 1
++        self.prompt_active[self.row] = active
++        if not self.events or self.events[-1] != line:
++            self.events.append(line)
++        if 'Exited barrier (9)' in line and self.row in (0, 1, 2):
++            self.barrier_rows.add(self.row)
++        for marker in ['Unknown command', 'exec failed', 'Invalid numeric argument',
++                       'PID  STATUS   PROGRAM', '[P3-CHECK] args/reuse PASS',
++                       '[P3-CHECK] kill-locks PASS', '[P3-CHECK] capacity PASS',
++                       '[P3-CHECK] barrier-cancel PASS', '[P3-CHECK] all PASS']:
++            if marker in line: self.markers.add(marker)
++        if 'Assertion failed' in line or 'scause:' in line: self.fault = True
++
++    def feed(self, data):
++        self.pending += data.decode(errors='replace')
++        i = 0
++        while i < len(self.pending):
++            ch = self.pending[i]
++            if ch == '\x1b':
++                match = re.match(r'\x1b\[[0-9;?]*[A-Za-z]', self.pending[i:])
++                if not match: break
++                self.observe()
++                token = match[0]
++                if token.endswith('H'):
++                    coords = token[2:-1].split(';')
++                    self.row = max(0, min(79, int(coords[0] or 1) - 1))
++                    self.col = max(0, min(159, int(coords[1] or 1) - 1)) if len(coords) > 1 else 0
++                elif token == '\x1b[2J':
++                    self.lines = [[' '] * 160 for _ in range(80)]
++                    self.prompt_active = [False] * 80
++                i += len(token)
++                continue
++            if ch == '\n': self.observe(); self.row = min(79, self.row + 1)
++            elif ch == '\r': self.observe(); self.col = 0
++            elif ch.isprintable():
++                self.lines[self.row][self.col] = ch
++                self.col = min(159, self.col + 1)
++            i += 1
++            self.observe()
++        self.pending = self.pending[i:]
++
++class Guest:
++    def __init__(self, cmd, logdir):
++        self.process = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
++                                        stderr=subprocess.STDOUT)
++        self.select = selectors.DefaultSelector()
++        self.select.register(self.process.stdout, selectors.EVENT_READ)
++        self.screen = Screen()
++        self.raw = bytearray()
++        self.logdir = logdir
++
++    def wait(self, condition, seconds=8):
++        deadline = time.monotonic() + seconds
++        while time.monotonic() < deadline:
++            if self.screen.fault: raise RuntimeError('guest exception/assertion')
++            if condition(): return
++            if self.process.poll() is not None: raise RuntimeError('QEMU exited unexpectedly')
++            for key, _ in self.select.select(0.1):
++                data = os.read(key.fileobj.fileno(), 65536)
++                if data: self.raw.extend(data); self.screen.feed(data)
++        raise RuntimeError('guest evidence timeout; last lines: ' + repr(self.screen.events[-8:]))
++
++    def command(self, text, seconds=8):
++        before = self.screen.prompts
++        self.process.stdin.write(text.encode()); self.process.stdin.flush()
++        self.wait(lambda: self.screen.prompts > before, seconds)
++
++    def close(self):
++        self.process.terminate()
++        try: self.process.wait(timeout=3)
++        except subprocess.TimeoutExpired: self.process.kill(); self.process.wait()
++        self.select.close()
++        (self.logdir / 'uart.raw.log').write_bytes(self.raw)
++        (self.logdir / 'screen-events.txt').write_text('\n'.join(self.screen.events))
++        (self.logdir / 'last-screen.txt').write_text('\n'.join(''.join(row).rstrip() for row in self.screen.lines))
++
++parser = argparse.ArgumentParser()
++parser.add_argument('--qemu', default='qemu-system-riscv64')
++parser.add_argument('--cross-prefix', default='riscv64-linux-gnu-')
++parser.add_argument('--log-dir', type=Path, default=Path('p3-host-validation'))
++parser.add_argument('--basic-only', action='store_true')
++args = parser.parse_args()
++logdir = args.log_dir.resolve(); logdir.mkdir(parents=True, exist_ok=True)
++checks = []
++with tempfile.TemporaryDirectory(prefix='p3-uart-check-') as tmp:
++    tree = Path(tmp) / 'Project3'
++    shutil.copytree(ROOT, tree, ignore=shutil.ignore_patterns('build', '.git', '*.log', '__pycache__'))
++    for path in tree.rglob('*'):
++        if not path.is_file() or 'host-qemu' in path.parts: continue
++        if path.suffix in ('.c', '.h', '.S') or path.name == 'Makefile':
++            def relocate(match):
++                value = int(match[0], 16)
++                return hex(value + 0x30000000) if 0x50000000 <= value < 0x53000000 else match[0]
++            path.write_text(re.sub(r'0[xX][0-9a-fA-F]+', relocate, path.read_text()))
++    with (logdir / 'build-relocated.log').open('w') as buildlog:
++        subprocess.run(['make', 'image', 'CROSS_PREFIX=' + args.cross_prefix,
++                        'LAB_STAGE=4', 'TASKS=' + TASKS], cwd=tree,
++                       stdout=buildlog, stderr=subprocess.STDOUT, check=True)
++        fw = ROOT / 'test/host-qemu'
++        subprocess.run([args.cross_prefix + 'gcc', '-nostdlib', '-static', '-fno-pie',
++                        '-no-pie', '-march=rv64imac_zicsr_zifencei', '-mabi=lp64',
++                        '-Wl,--build-id=none', '-Wl,--no-relax', '-T', str(fw / 'firmware.lds'),
++                        str(fw / 'firmware.S'), '-o', str(tree / 'firmware.elf')],
++                       stdout=buildlog, stderr=subprocess.STDOUT, check=True)
++    command = [args.qemu, '-machine', 'virt', '-m', '256M', '-nographic', '-monitor', 'none',
++               '-bios', str(tree / 'firmware.elf'), '-device',
++               'loader,file=' + str(tree / 'build/image') + ',addr=0x84000000,force-raw=on']
++    guest = Guest(command, logdir)
++    try:
++        guest.wait(lambda: guest.screen.prompts > 0)
++        guest.command('ps\n')
++        assert 'PID  STATUS   PROGRAM' in guest.screen.markers
++        assert any(re.search(r'\b0\s+READY\s+idle', row) for row in guest.screen.events)
++        assert any(re.search(r'\b1\s+RUNNING\s+shell', row) for row in guest.screen.events)
++        guest.command('\bpss\b\n')
++        assert 'Unknown command' not in guest.screen.markers
++        guest.command('not-a-command\n')
++        assert 'Unknown command' in guest.screen.markers
++        guest.command('exec 99\n')
++        assert 'exec failed' in guest.screen.markers
++        guest.command('exec 1 invalid\n')
++        assert 'Invalid numeric argument' in guest.screen.markers
++        guest.command('clear\n')
++        guest.command('x' * 200 + '\n')
++        guest.command('clear\r\n')
++        event_start = len(guest.screen.events)
++        guest.command('exec 7 4 0 0 &\n')
++        starts = [re.search(r'\[shell\] started pid=(\d+)', row)
++                  for row in guest.screen.events[event_start:]]
++        starts = [match for match in starts if match]
++        assert starts, 'background exec did not return a PID'
++        background_pid = int(starts[-1][1])
++        guest.command('ps\n')
++        assert any(re.search(r'\b' + str(background_pid) + r'\s+(?:READY|BLOCKED)\s+p3_worker', row)
++                   for row in guest.screen.events[event_start:])
++        event_start = len(guest.screen.events)
++        guest.command('kill ' + str(background_pid) + '\n')
++        assert any('[shell] killed pid=' + str(background_pid) in row
++                   for row in guest.screen.events[event_start:])
++        guest.command('clear\n')
++        checks.append('UART, ps, unknown command, backspace, numeric validation, long input, clear/CRLF')
++        checks.append('shell background exec and kill commands')
++        print('Verified shell UART/editor/commands', flush=True)
++        guest.command('exec 1\n', 15)
++        assert any('Task (pid=' in row and 'has exited.' in row for row in guest.screen.events)
++        checks.append('course waitpid, normal exit and foreground wait')
++        print('Verified course waitpid/normal exit', flush=True)
++        if not args.basic_only:
++            guest.command('exec 4\n', 45)
++            assert guest.screen.barrier_rows == {0, 1, 2}, guest.screen.barrier_rows
++            checks.append('course three-process barrier, ten rounds, waitpid and destroy')
++            print('Verified course barrier: all three tasks completed round 9', flush=True)
++            guest.command('exec 6 7\n', 20)
++            for mark in ['args/reuse PASS', 'kill-locks PASS', 'capacity PASS', 'barrier-cancel PASS', 'all PASS']:
++                assert '[P3-CHECK] ' + mark in guest.screen.markers, mark
++            checks.append('argument registers, PID-based image access, 40 exec/exit cycles, completed-PID wait')
++            checks.append('kill sleeping two-lock owner, wake lock waiter and waitpid')
++            checks.append('PCB capacity/reuse, barrier destroy/cancel and killed participant')
++            print('Verified lifecycle, lock cleanup, capacity and barrier cancellation probes', flush=True)
++        before = len(guest.screen.events)
++        guest.command('ps\n')
++        recent = guest.screen.events[before:]
++        assert any(re.search(r'\b1\s+RUNNING\s+shell', row) for row in recent)
++        assert not any(re.search(r'\b(?:READY|RUNNING|BLOCKED)\s+(?:waitpid|ready_to_exit|wait_locks|barrier|test_barrier|p3_probe|p3_worker)\s*$', row) for row in recent)
++        checks.append('shell remains responsive; completed test processes absent from ps')
++        result = {'passed': True, 'checks': checks, 'tasks': TASKS,
++                  'scope': 'real kernel in upstream QEMU with temporary relocation and a test BIOS; course hardware/firmware not validated'}
++        (logdir / 'results.json').write_text(json.dumps(result, ensure_ascii=False, indent=2) + '\n')
++        print(json.dumps(result, ensure_ascii=False), flush=True)
++    finally:
++        guest.close()
