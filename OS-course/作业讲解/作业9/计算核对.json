@@ -1,0 +1,218 @@
+{
+  "best": [
+    {
+      "request_MB": 12,
+      "holes_MB": [
+        5,
+        18,
+        20,
+        8,
+        9,
+        10,
+        15
+      ],
+      "comparisons": 8
+    },
+    {
+      "request_MB": 10,
+      "holes_MB": [
+        5,
+        18,
+        20,
+        8,
+        9,
+        15
+      ],
+      "comparisons": 7
+    },
+    {
+      "request_MB": 9,
+      "holes_MB": [
+        5,
+        18,
+        20,
+        8,
+        15
+      ],
+      "comparisons": 6
+    }
+  ],
+  "worst": [
+    {
+      "request_MB": 12,
+      "holes_MB": [
+        12,
+        5,
+        18,
+        8,
+        8,
+        9,
+        10,
+        15
+      ],
+      "comparisons": 8
+    },
+    {
+      "request_MB": 10,
+      "holes_MB": [
+        12,
+        5,
+        8,
+        8,
+        8,
+        9,
+        10,
+        15
+      ],
+      "comparisons": 8
+    },
+    {
+      "request_MB": 9,
+      "holes_MB": [
+        12,
+        5,
+        8,
+        8,
+        8,
+        9,
+        10,
+        6
+      ],
+      "comparisons": 8
+    }
+  ],
+  "first": [
+    {
+      "request_MB": 12,
+      "holes_MB": [
+        5,
+        18,
+        20,
+        8,
+        9,
+        10,
+        15
+      ],
+      "comparisons": 1
+    },
+    {
+      "request_MB": 10,
+      "holes_MB": [
+        5,
+        8,
+        20,
+        8,
+        9,
+        10,
+        15
+      ],
+      "comparisons": 2
+    },
+    {
+      "request_MB": 9,
+      "holes_MB": [
+        5,
+        8,
+        11,
+        8,
+        9,
+        10,
+        15
+      ],
+      "comparisons": 3
+    }
+  ],
+  "next": [
+    {
+      "request_MB": 12,
+      "holes_MB": [
+        5,
+        18,
+        20,
+        8,
+        9,
+        10,
+        15
+      ],
+      "comparisons": 1
+    },
+    {
+      "request_MB": 10,
+      "holes_MB": [
+        5,
+        8,
+        20,
+        8,
+        9,
+        10,
+        15
+      ],
+      "comparisons": 2
+    },
+    {
+      "request_MB": 9,
+      "holes_MB": [
+        5,
+        8,
+        11,
+        8,
+        9,
+        10,
+        15
+      ],
+      "comparisons": 2
+    }
+  ],
+  "paging": {
+    "page_bytes": 4096,
+    "indexable_pages": 1048576,
+    "aligned_data_pages": 57,
+    "unaligned_max_data_pages": 60,
+    "layouts": {
+      "compact_aligned": {
+        "data_pages": 57,
+        "level1_tables": 1,
+        "level2_tables": 1,
+        "level3_tables": 1,
+        "total_frames": 60
+      },
+      "max_tables_aligned": {
+        "data_pages": 57,
+        "level1_tables": 1,
+        "level2_tables": 6,
+        "level3_tables": 6,
+        "total_frames": 70
+      },
+      "max_tables_unaligned": {
+        "data_pages": 60,
+        "level1_tables": 1,
+        "level2_tables": 6,
+        "level3_tables": 6,
+        "total_frames": 73
+      }
+    },
+    "single_level_table_frames": 1024,
+    "single_level_total_aligned": 1081,
+    "single_level_total_unaligned_max": 1084
+  },
+  "TLB": {
+    "hit_time_ns": 5,
+    "miss_time_ns": 110,
+    "40ns_hit_rate": "2/3",
+    "20ns_min_hit_rate": "6/7"
+  },
+  "every_iteration_miss": {
+    "M": 1024,
+    "N": 33792,
+    "iterations": 33,
+    "read_address_hits": 0,
+    "misses": 33
+  },
+  "adjacent_reuse": {
+    "M": 1,
+    "N": 32768,
+    "iterations": 32768,
+    "read_address_hits": 32736,
+    "misses": 32
+  }
+}
