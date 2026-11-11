@@ -1,5 +1,5 @@
 diff --git a/Makefile b/Makefile
-index 1060b03..638c325 100644
+index 1060b03..58756c5 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -26,7 +26,7 @@ TASKS ?= $(P3_TASKS)
@@ -11,6 +11,24 @@ index 1060b03..638c325 100644
  VALID_TASKS = $(P3_TASKS) $(COURSE_TASKS) $(VALIDATION_TASKS)
  ifneq ($(filter-out $(VALID_TASKS),$(TASKS)),)
  $(error Unknown task: $(filter-out $(VALID_TASKS),$(TASKS)))
+@@ -39,7 +39,7 @@ $(error TASKS must not contain duplicates)
+ endif
+ 
+ RISCV_ARCH ?= rv64imac_zicsr_zifencei
+-CFLAGS = -O1 -g -Wall -Wextra -Wno-unused-parameter -ffreestanding -fno-builtin \
++CFLAGS = -std=gnu11 -O1 -g -Wall -Wextra -Wno-unused-parameter -ffreestanding -fno-builtin \
+          -nostdlib -nostdinc -fno-pie -fno-stack-protector -fno-common \
+          -mcmodel=medany -msmall-data-limit=0 -mno-relax \
+          -march=$(RISCV_ARCH) -mabi=lp64 -DLAB_STAGE=$(LAB_STAGE)
+@@ -79,7 +79,7 @@ build/libtinyc.a: $(USER_OBJ)
+ build/%: %.c build/crt0.o build/libtinyc.a riscv.lds $(HEADERS) build/config
+ 	$(CC) $(CFLAGS) $(UINC) $(LDFLAGS) -Wl,--defsym=TEXT_START=$$(python3 -c 'import sys; print(hex(0x52000000+sys.argv[2:].index(sys.argv[1])*0x10000))' '$*' $(TASKS)) -o $@ build/crt0.o $< -Lbuild -ltinyc
+ build/createimage: tools/createimage.c
+-	$(HOST_CC) -O2 -g -Wall -Wextra -Werror $< -o $@
++	$(HOST_CC) -std=gnu11 -O2 -g -Wall -Wextra -Werror $< -o $@
+ elf: build/bootblock build/main $(USER_ELF)
+ image: elf build/createimage
+ 	cd build && ./createimage --extended bootblock main $(TASKS)
 @@ -100,3 +100,7 @@ gdb:
  clean:
  	rm -rf build

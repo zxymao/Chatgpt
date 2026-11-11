@@ -44,6 +44,8 @@ PID 标识一次进程，task_id 标识镜像里的程序，PCB 槽位用于存�
 
 ## 编译、编号与验证
 
+Makefile 现在显式指定 -std=gnu11，兼容默认采用 C23 的新编译器。已有工程遇到 typedef int bool、函数指针无参数等报错时，在 CFLAGS 第一行的 -O1 前加入 -std=gnu11，再执行 make clean 和 make。此次改动已通过完整交叉编译与 shell/进程系统调用回归。
+
 ```bash
 make list-tasks
 make
@@ -132,7 +134,7 @@ $(error TASKS must not contain duplicates)
 endif
 
 RISCV_ARCH ?= rv64imac_zicsr_zifencei
-CFLAGS = -O1 -g -Wall -Wextra -Wno-unused-parameter -ffreestanding -fno-builtin \
+CFLAGS = -std=gnu11 -O1 -g -Wall -Wextra -Wno-unused-parameter -ffreestanding -fno-builtin \
          -nostdlib -nostdinc -fno-pie -fno-stack-protector -fno-common \
          -mcmodel=medany -msmall-data-limit=0 -mno-relax \
          -march=$(RISCV_ARCH) -mabi=lp64 -DLAB_STAGE=$(LAB_STAGE)
@@ -172,7 +174,7 @@ build/libtinyc.a: $(USER_OBJ)
 build/%: %.c build/crt0.o build/libtinyc.a riscv.lds $(HEADERS) build/config
 	$(CC) $(CFLAGS) $(UINC) $(LDFLAGS) -Wl,--defsym=TEXT_START=$$(python3 -c 'import sys; print(hex(0x52000000+sys.argv[2:].index(sys.argv[1])*0x10000))' '$*' $(TASKS)) -o $@ build/crt0.o $< -Lbuild -ltinyc
 build/createimage: tools/createimage.c
-	$(HOST_CC) -O2 -g -Wall -Wextra -Werror $< -o $@
+	$(HOST_CC) -std=gnu11 -O2 -g -Wall -Wextra -Werror $< -o $@
 elf: build/bootblock build/main $(USER_ELF)
 image: elf build/createimage
 	cd build && ./createimage --extended bootblock main $(TASKS)
