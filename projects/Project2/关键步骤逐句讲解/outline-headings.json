@@ -1,0 +1,686 @@
+[
+  {
+    "level": 1,
+    "title": "从“调用程序”到“管理任务”"
+  },
+  {
+    "level": 1,
+    "title": "阅读路线与目录"
+  },
+  {
+    "level": 1,
+    "title": "先看目标，再沿执行链读代码"
+  },
+  {
+    "level": 2,
+    "title": "读每一段时，先回答四个问题"
+  },
+  {
+    "level": 2,
+    "title": "任务状态图"
+  },
+  {
+    "level": 2,
+    "title": "两种帧先分开记"
+  },
+  {
+    "level": 2,
+    "title": "反复出现的寄存器，先查这张表"
+  },
+  {
+    "level": 1,
+    "title": "01　为什么普通函数调用不够用了"
+  },
+  {
+    "level": 2,
+    "title": "1. P1：查找、检查、直接调用、返回提示"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "把执行过程手算一遍"
+  },
+  {
+    "level": 2,
+    "title": "应该看到什么，由哪里保证"
+  },
+  {
+    "level": 1,
+    "title": "02　先记住任务，再记住两种现场"
+  },
+  {
+    "level": 2,
+    "title": "1. 两种现场、任务状态和PCB的完整定义"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "2. current_running与任务集合"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "3. 编译期检查：C结构体必须与汇编约定一致"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "把执行过程手算一遍"
+  },
+  {
+    "level": 2,
+    "title": "应该看到什么，由哪里保证"
+  },
+  {
+    "level": 1,
+    "title": "03　用双向链表组织“谁可以运行”"
+  },
+  {
+    "level": 2,
+    "title": "1. 链表节点、头部和所有关键操作"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "把执行过程手算一遍"
+  },
+  {
+    "level": 2,
+    "title": "应该看到什么，由哪里保证"
+  },
+  {
+    "level": 1,
+    "title": "04　加载程序只是第一步，还要分栈并建PCB"
+  },
+  {
+    "level": 2,
+    "title": "1. 页分配器：为栈取得不同的内存区间"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "2. init_pcb：完整创建流程"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "把执行过程手算一遍"
+  },
+  {
+    "level": 2,
+    "title": "应该看到什么，由哪里保证"
+  },
+  {
+    "level": 1,
+    "title": "05　伪造一份“以后恢复时会用到”的现场"
+  },
+  {
+    "level": 2,
+    "title": "1. init_pcb_stack：完整构造两个初始帧"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "2. P2任务crt0：完整入口与main返回后的兜底"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "把执行过程手算一遍"
+  },
+  {
+    "level": 2,
+    "title": "应该看到什么，由哪里保证"
+  },
+  {
+    "level": 1,
+    "title": "06　FIFO轮转：该回队尾的才回队尾"
+  },
+  {
+    "level": 2,
+    "title": "1. 调度器全局对象与完整do_scheduler"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "把执行过程手算一遍"
+  },
+  {
+    "level": 2,
+    "title": "应该看到什么，由哪里保证"
+  },
+  {
+    "level": 1,
+    "title": "07　switch_to：为什么一个ret能回到另一个任务"
+  },
+  {
+    "level": 2,
+    "title": "1. switch_to和首次返回入口：完整实现"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "把执行过程手算一遍"
+  },
+  {
+    "level": 2,
+    "title": "应该看到什么，由哪里保证"
+  },
+  {
+    "level": 1,
+    "title": "08　接好跳转表，让yield到达调度器"
+  },
+  {
+    "level": 2,
+    "title": "1. yield服务包装：完整函数"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "2. init_jmptab：完整服务表初始化"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "3. sys_yield：完整分阶段封装"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "4. 验证程序coop1：完整源码"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "把执行过程手算一遍"
+  },
+  {
+    "level": 2,
+    "title": "应该看到什么，由哪里保证"
+  },
+  {
+    "level": 1,
+    "title": "09　原子交换、关中断与等待队列各做什么"
+  },
+  {
+    "level": 2,
+    "title": "1. 锁状态和互斥锁结构：完整定义"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "2. atomic_swap：完整32位原子交换"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "3. irq_save / irq_restore：完整本地中断保护"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "4. 自旋基础操作与锁数组初始化：完整函数组"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "把执行过程手算一遍"
+  },
+  {
+    "level": 2,
+    "title": "应该看到什么，由哪里保证"
+  },
+  {
+    "level": 1,
+    "title": "10　同key返回同槽，索引必须有效"
+  },
+  {
+    "level": 2,
+    "title": "1. do_mutex_lock_init和get_lock：完整实现"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "把执行过程手算一遍"
+  },
+  {
+    "level": 2,
+    "title": "应该看到什么，由哪里保证"
+  },
+  {
+    "level": 1,
+    "title": "11　拿不到锁就睡，释放时把所有权交给等待者"
+  },
+  {
+    "level": 2,
+    "title": "1. do_block与do_unblock：完整状态／队列迁移"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "2. 互斥锁获取与释放：完整函数组"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "3. mutex1：持锁时故意yield的完整测试"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "把执行过程手算一遍"
+  },
+  {
+    "level": 2,
+    "title": "应该看到什么，由哪里保证"
+  },
+  {
+    "level": 1,
+    "title": "12　把服务号和参数放入寄存器，再执行ecall"
+  },
+  {
+    "level": 2,
+    "title": "1. invoke_syscall：完整用户态汇编封装"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "2. sys_write：完整分阶段服务接口"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "把执行过程手算一遍"
+  },
+  {
+    "level": 2,
+    "title": "应该看到什么，由哪里保证"
+  },
+  {
+    "level": 1,
+    "title": "13　先找可靠的PCB，再选栈和保存现场"
+  },
+  {
+    "level": 2,
+    "title": "1. setup_exception：完整异常入口注册"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "2. SAVE_CONTEXT：完整宏，不省略保存指令"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "3. exception_handler_entry：完整汇编到C入口"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "4. interrupt_helper：完整异常／中断分流"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "把执行过程手算一遍"
+  },
+  {
+    "level": 2,
+    "title": "应该看到什么，由哪里保证"
+  },
+  {
+    "level": 1,
+    "title": "14　根据a7查表，结果放回a0，ecall的PC加4"
+  },
+  {
+    "level": 2,
+    "title": "1. sleep服务包装：完整函数"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "2. init_syscall：完整服务表初始化"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "3. 系统调用表与handle_syscall：完整源码"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "把执行过程手算一遍"
+  },
+  {
+    "level": 2,
+    "title": "应该看到什么，由哪里保证"
+  },
+  {
+    "level": 1,
+    "title": "15　恢复完整帧，最后用sret而不是ret"
+  },
+  {
+    "level": 2,
+    "title": "1. RESTORE_CONTEXT：完整恢复宏"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "2. ret_from_exception：完整返回入口"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "把执行过程手算一遍"
+  },
+  {
+    "level": 2,
+    "title": "应该看到什么，由哪里保证"
+  },
+  {
+    "level": 1,
+    "title": "16　睡眠是进入等待队列，不是占着CPU空转"
+  },
+  {
+    "level": 2,
+    "title": "1. 时间变量与查询函数：完整函数组"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "2. sys_sleep：完整用户接口"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "3. do_sleep：完整阻塞逻辑"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "4. check_sleeping：完整到期检查"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "把执行过程手算一遍"
+  },
+  {
+    "level": 2,
+    "title": "应该看到什么，由哪里保证"
+  },
+  {
+    "level": 1,
+    "title": "17　任务不主动yield，内核也能收回CPU"
+  },
+  {
+    "level": 2,
+    "title": "1. init_exception：完整注册流程"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "2. 中断源与全局开关：完整汇编函数组"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "3. 本实现的定时间隔常量"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "4. handle_irq_timer：完整时钟回调"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "把执行过程手算一遍"
+  },
+  {
+    "level": 2,
+    "title": "应该看到什么，由哪里保证"
+  },
+  {
+    "level": 1,
+    "title": "18　最后接总线：准备完成后才让任务运行"
+  },
+  {
+    "level": 2,
+    "title": "1. P2 main：完整函数，包含idle逻辑"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "把执行过程手算一遍"
+  },
+  {
+    "level": 2,
+    "title": "应该看到什么，由哪里保证"
+  },
+  {
+    "level": 1,
+    "title": "19　哪些任务入镜像、入口放哪里、装完才可取指"
+  },
+  {
+    "level": 2,
+    "title": "1. 阶段与任务选择：完整条件块"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "2. 裸机编译／链接约定：完整标志定义"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "3. 链接入口与打包：完整任务规则及镜像规则"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "4. init_task_info：完整任务记录检查"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "5. load_task_img：完整P2按名加载"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "把执行过程手算一遍"
+  },
+  {
+    "level": 2,
+    "title": "应该看到什么，由哪里保证"
+  },
+  {
+    "level": 1,
+    "title": "20　字符串输出为什么还要检查指针"
+  },
+  {
+    "level": 2,
+    "title": "1. k_write：完整用户字符串检查与输出"
+  },
+  {
+    "level": 3,
+    "title": "按原始行号逐句理解"
+  },
+  {
+    "level": 2,
+    "title": "把执行过程手算一遍"
+  },
+  {
+    "level": 2,
+    "title": "应该看到什么，由哪里保证"
+  },
+  {
+    "level": 1,
+    "title": "来源、选择范围与原始许可"
+  },
+  {
+    "level": 1,
+    "title": "最后：现象、原因、验证一一对应"
+  },
+  {
+    "level": 2,
+    "title": "本次重新运行的证据"
+  },
+  {
+    "level": 2,
+    "title": "真正到lab时怎样分阶段观察"
+  },
+  {
+    "level": 2,
+    "title": "把整条链自己讲一遍"
+  },
+  {
+    "level": 2,
+    "title": "不属于本书已证明的能力"
+  }
+]

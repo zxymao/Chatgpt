@@ -1,0 +1,132 @@
+{
+  "checked_at": "2026-11-12T09:31:47.547438+00:00",
+  "records": [
+    {
+      "id": "image",
+      "name": "镜像布局与错误输入",
+      "result": "10项通过",
+      "exit_code": 0
+    },
+    {
+      "id": "stage1",
+      "name": "Task 1 通用QEMU适配运行",
+      "result": "按运行器实际输出断言通过",
+      "exit_code": 0
+    },
+    {
+      "id": "stage2",
+      "name": "Task 2 通用QEMU适配运行",
+      "result": "按运行器实际输出断言通过",
+      "exit_code": 0
+    },
+    {
+      "id": "stage3",
+      "name": "Task 3 通用QEMU适配运行",
+      "result": "按运行器实际输出断言通过",
+      "exit_code": 0
+    },
+    {
+      "id": "stage4",
+      "name": "Task 4 通用QEMU适配运行",
+      "result": "按运行器实际输出断言通过",
+      "exit_code": 0
+    },
+    {
+      "id": "course",
+      "name": "Task4六个课程任务组合",
+      "result": "对应行输出、sleep和timer均按运行器检查通过",
+      "exit_code": 0
+    },
+    {
+      "id": "idle",
+      "name": "Task4仅probe1：全体用户任务睡眠后的唤醒",
+      "result": "运行器检查probe1的PASS及睡眠时间下界通过",
+      "exit_code": 0
+    }
+  ],
+  "scope": "临时地址重定位副本 + 独立测试BIOS的通用QEMU；测试实际执行内核切换、异常、系统调用、锁和定时器代码。不是课程QEMU/U-Boot或板端验收。",
+  "not_run": [
+    "课程QEMU/U-Boot端到端",
+    "真实SD/virtio硬件路径",
+    "loadbootd/DASIC",
+    "Pynq板端",
+    "Task5"
+  ],
+  "exit_status_note": "acore.py test和单probe运行器退出均为0；客体内核持续运行，运行器到观察时限后检查实际输出，超时本身不算通过。",
+  "files": {
+    "stage4-serial.log": {
+      "bytes": 39800,
+      "sha256": "cfae8b44ed4b87ac165f17e3e2c46df3dacf063fb44588d77abc91aa778d5edb"
+    },
+    "stage2-serial.log": {
+      "bytes": 4102765,
+      "sha256": "42f22770d0f044271626e3d5dc4405aeb1a099b41f4857355287104ce81f4cd3"
+    },
+    "stage1-serial.log": {
+      "bytes": 2275536,
+      "sha256": "69006b7ec123dac0327d809b19a7812ba4ac983b6c14aff2d3befee5b50bb17d"
+    },
+    "acore-test-runner.log": {
+      "bytes": 2862,
+      "sha256": "44df3045df785848be7884b1a22085fc3f59563e142fdd1745b7dbfaf16b5a2c"
+    },
+    "idle-runner.log": {
+      "bytes": 314,
+      "sha256": "d2143e795d4cd75f5a732471c9be42fdd4b021d2f50148b841f074d59e55e256"
+    },
+    "idle-serial.log": {
+      "bytes": 38268,
+      "sha256": "ee87e7365957c59fdc7973af15a9e2db9bbaa9d09f04a0d85ec9f27dbfbc89ee"
+    },
+    "course-serial.log": {
+      "bytes": 1987181,
+      "sha256": "130b676a9984ce326b04e80b8be959e2485100d6c68e32136846becee55e979e"
+    },
+    "stage3-serial.log": {
+      "bytes": 36656,
+      "sha256": "c325819da1bccac736ad2eea69a29c317bdef5794e2328efa903dd56d6d41457"
+    }
+  },
+  "compressed_serial_logs": {
+    "stage4-serial.log": {
+      "gzip_file": "stage4-serial.log.gz",
+      "gzip_sha256": "7bf4e216fc75b00799f9e284e98624f56345f5f2581117d9179bad79ffe84dc5",
+      "uncompressed_sha256": "cfae8b44ed4b87ac165f17e3e2c46df3dacf063fb44588d77abc91aa778d5edb"
+    },
+    "stage2-serial.log": {
+      "gzip_file": "stage2-serial.log.gz",
+      "gzip_sha256": "b485b18e513278ff09a0a3ab68622f59bd7fe325cbb03d81a76c43d8fcba1742",
+      "uncompressed_sha256": "42f22770d0f044271626e3d5dc4405aeb1a099b41f4857355287104ce81f4cd3"
+    },
+    "stage1-serial.log": {
+      "gzip_file": "stage1-serial.log.gz",
+      "gzip_sha256": "6bae411a33d181fa5619a58b2e671d87b618f07c98d39c57fccea37e0b69f7dc",
+      "uncompressed_sha256": "69006b7ec123dac0327d809b19a7812ba4ac983b6c14aff2d3befee5b50bb17d"
+    },
+    "idle-serial.log": {
+      "gzip_file": "idle-serial.log.gz",
+      "gzip_sha256": "e342186c648fec0a243d285fdcfa8816487adf8c6f6aaed615daeda4c74fa673",
+      "uncompressed_sha256": "ee87e7365957c59fdc7973af15a9e2db9bbaa9d09f04a0d85ec9f27dbfbc89ee"
+    },
+    "course-serial.log": {
+      "gzip_file": "course-serial.log.gz",
+      "gzip_sha256": "8c55dfed725c7efdfdc95f9d96398d1f5db0a259dce1df61c829d24995bc6eb9",
+      "uncompressed_sha256": "130b676a9984ce326b04e80b8be959e2485100d6c68e32136846becee55e979e"
+    },
+    "stage3-serial.log": {
+      "gzip_file": "stage3-serial.log.gz",
+      "gzip_sha256": "c380b51a03c20697750b5f9937ab5985a93e42ddb17f0a9eb8f88082902f741a",
+      "uncompressed_sha256": "c325819da1bccac736ad2eea69a29c317bdef5794e2328efa903dd56d6d41457"
+    }
+  },
+  "source_integrity": {
+    "P1": {
+      "original_archive_files_checked": 35,
+      "all_files_unchanged": true
+    },
+    "P2": {
+      "original_archive_files_checked": 111,
+      "all_files_unchanged": true
+    }
+  }
+}

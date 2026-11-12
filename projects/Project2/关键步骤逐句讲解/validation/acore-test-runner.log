@@ -1,0 +1,27 @@
+cd build && ./createimage --extended bootblock main print1 print2 lock1 lock2 sleep timer
+bootblock: entry=0x50200000, file span=104 bytes
+main: entry=0x50201000, file span=11076 bytes
+print1: entry=0x52000000, file span=2504 bytes
+print2: entry=0x52010000, file span=2512 bytes
+lock1: entry=0x52020000, file span=2958 bytes
+lock2: entry=0x52030000, file span=2958 bytes
+sleep: entry=0x52040000, file span=2737 bytes
+timer: entry=0x52050000, file span=2596 bytes
+image: kernel=11076 bytes, tasks=6, app-info=27853
+PASS: 10 image layout/error cases
+/workspace/.cloud-setup/sysroot/usr/bin/../lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/bin/ld: warning: build/main has a LOAD segment with RWX permissions
+PASS: relocated upstream-QEMU smoke stage 1; log=/workspace/Chatgpt/.local/logs/stage1.log
+/workspace/.cloud-setup/sysroot/usr/bin/../lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/bin/ld: warning: build/main has a LOAD segment with RWX permissions
+PASS: relocated upstream-QEMU smoke stage 2; log=/workspace/Chatgpt/.local/logs/stage2.log
+/workspace/.cloud-setup/sysroot/usr/bin/../lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/bin/ld: warning: build/main has a LOAD segment with RWX permissions
+/workspace/.cloud-setup/sysroot/usr/bin/../lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/bin/ld: warning: build/sleep has a LOAD segment with RWX permissions
+PASS: relocated upstream-QEMU smoke stage 3; log=/workspace/Chatgpt/.local/logs/stage3.log
+/workspace/.cloud-setup/sysroot/usr/bin/../lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/bin/ld: warning: build/main has a LOAD segment with RWX permissions
+guest events: [PROBE 1] start, [PROBE 2] start, [PROBE 1] cpu-loop-ok, [PROBE 1] lock-held, [PROBE 2] cpu-loop-ok, [PROBE 1] lock-release, [PROBE 2] lock-held, [PROBE 1] PASS, [PROBE 2] lock-release, [PROBE 2] PASS
+PASS: relocated upstream-QEMU smoke stage 4; log=/workspace/Chatgpt/.local/logs/stage4.log
+/workspace/.cloud-setup/sysroot/usr/bin/../lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/bin/ld: warning: build/main has a LOAD segment with RWX permissions
+/workspace/.cloud-setup/sysroot/usr/bin/../lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/bin/ld: warning: build/lock1 has a LOAD segment with RWX permissions
+/workspace/.cloud-setup/sysroot/usr/bin/../lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/bin/ld: warning: build/lock2 has a LOAD segment with RWX permissions
+/workspace/.cloud-setup/sysroot/usr/bin/../lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/bin/ld: warning: build/sleep has a LOAD segment with RWX permissions
+PASS: relocated upstream-QEMU smoke stage 4; log=/workspace/Chatgpt/.local/logs/course.log
+All checks passed. Logs: /workspace/Chatgpt/.local/logs

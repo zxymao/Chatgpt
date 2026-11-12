@@ -1,0 +1,2 @@
+/workspace/.cloud-setup/sysroot/usr/bin/../lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/bin/ld: warning: build/main has a LOAD segment with RWX permissions
+PASS: relocated upstream-QEMU smoke stage 4; log=/workspace/Chatgpt/projects/Project2/关键步骤逐句讲解/validation/idle-serial.log
