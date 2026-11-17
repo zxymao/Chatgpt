@@ -1,0 +1,79 @@
+> [TASK] Exited barrier (9).(sleep 3 s)
+> [TASK] Exited barrier (9).(sleep 1 s) quired two mutex locks. (9999)
+> [TASK] Exited barrier (9).(sleep 1 s) ndle=1).
+
+
+
+
+
+
+
+[P3-CHECK] all PASS
+
+[P3-WORKER] image/args checked
+
+
+
+
+
+
+
+------------------- COMMAND -------------------
+> root@UCAS_OS: exec 1
+> root@UCAS_OS: exec 4
+> root@UCAS_OS: exec 6 7
+> root@UCAS_OS: ps
+PID  STATUS   PROGRAM
+0    READY idle
+1    RUNNING shell
+> root@UCAS_OS:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

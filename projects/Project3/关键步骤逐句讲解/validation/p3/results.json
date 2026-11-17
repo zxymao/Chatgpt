@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "checks": [
+    "UART, ps, unknown command, backspace, numeric validation, long input, clear/CRLF",
+    "shell background exec and kill commands",
+    "course waitpid, normal exit and foreground wait",
+    "course three-process barrier, ten rounds, waitpid and destroy",
+    "argument registers, PID-based image access, 40 exec/exit cycles, completed-PID wait",
+    "kill sleeping two-lock owner, wake lock waiter and waitpid",
+    "PCB capacity/reuse, barrier destroy/cancel and killed participant",
+    "shell remains responsive; completed test processes absent from ps"
+  ],
+  "tasks": "shell waitpid ready_to_exit wait_locks barrier test_barrier p3_probe p3_worker",
+  "scope": "real kernel in upstream QEMU with temporary relocation and a test BIOS; course hardware/firmware not validated"
+}

@@ -1,0 +1,86 @@
+{
+  "archives": {
+    "P2": {
+      "path": "projects/Project2/Project2-Acore.tar.gz",
+      "sha256": "2ab7415ff127705c660a5ed35255e53beab81bf185b5ddcde4c9556a5cab9a20"
+    },
+    "P3": {
+      "path": "oslab/Project3-SCore-complete.tar.gz",
+      "sha256": "b2c65f3c60162d92abe5abc479202e9d67c511ff55f9d8509a87855b107e4ba5"
+    }
+  },
+  "selected_sources": {
+    "P2:init/main.c": {
+      "sha256": "f27be9d7ff9fd9df9976d6988b29305943a2ca599a4a28fa44c85409eeb58e9b",
+      "lines": 219
+    },
+    "P3:Makefile": {
+      "sha256": "7242022d8f798a04a09ea043c7ac50c3f9c98aca30bcc91ae131baaf03122a34",
+      "lines": 106
+    },
+    "P3:arch/riscv/crt0/crt0.S": {
+      "sha256": "41d8dcbb86f8029d385bd3f4c11e9bf66358fa4c357844206eee992efac7d1cc",
+      "lines": 19
+    },
+    "P3:drivers/screen.c": {
+      "sha256": "cdc13ac358f18e7a944cacd70583840be78c90e19805fbb7401e8d4e8322694d",
+      "lines": 151
+    },
+    "P3:include/os/lock.h": {
+      "sha256": "7588cd243058559557de188d165b137baa1c32b775b460eaa318d420bb6fa5cc",
+      "lines": 133
+    },
+    "P3:include/os/sched.h": {
+      "sha256": "8dbd3fe966ab4264bba109fe133bd455a668db77cc410588090ef025b0ab78de",
+      "lines": 141
+    },
+    "P3:init/main.c": {
+      "sha256": "261278555e5f87c5f15befbbd9418b03c54ddd792aae3cadafc9049589ed1aa2",
+      "lines": 216
+    },
+    "P3:kernel/locking/lock.c": {
+      "sha256": "7ec4bdcc350976eeaa4d3cfcb408881f5fb93286389b283d2270dabaa54ff07f",
+      "lines": 190
+    },
+    "P3:kernel/mm/mm.c": {
+      "sha256": "9e9a3cbd1d8c1cd956fa76aa312d9a9af01959270e030790b9bb561cc0d334f0",
+      "lines": 20
+    },
+    "P3:kernel/sched/sched.c": {
+      "sha256": "2d0c3880af52c93fda49de521257f23140f6f7ee19eb227c3095402c9a9880de",
+      "lines": 263
+    },
+    "P3:kernel/syscall/syscall.c": {
+      "sha256": "997f221e1074513833005edac5acdcbc50837057a0fdd31b310dacecb743485b",
+      "lines": 14
+    },
+    "P3:test/shell.c": {
+      "sha256": "230c7d442c3501598a53db915d7b4aead4daa170e9d6cdfe6800b94b8a7c3033",
+      "lines": 153
+    },
+    "P3:test/test_project3/barrier.c": {
+      "sha256": "2e8c8c05f36ede6d6f114d98dfda45a05ca2cd6b4c02950709cec1d7ed6c4b32",
+      "lines": 79
+    },
+    "P3:test/test_project3/ready_to_exit.c": {
+      "sha256": "0379fd63cbb47c4acc26c4fc52515dc9c707b7289604983a7d0f13d2fae5066a",
+      "lines": 38
+    },
+    "P3:test/test_project3/test_barrier.c": {
+      "sha256": "3da915a16ff234a2a7918d609374201cb9a1a2a7d606f6dac866fde2b67d1abe",
+      "lines": 41
+    },
+    "P3:test/test_project3/wait_locks.c": {
+      "sha256": "4ef636aa19c946d5c572f87ee6a2dcada3c33e439bebe1b9751007f0ef8c58ff",
+      "lines": 45
+    },
+    "P3:test/test_project3/waitpid.c": {
+      "sha256": "d0ae965f45184e3a37a03f92d2a9c88aaa4e9f2cde475b93ba4194e67d6357f1",
+      "lines": 107
+    },
+    "P3:tiny_libc/syscall.c": {
+      "sha256": "2ef279df951b3f57a23b1d6d90d3a5ee58a95e076870b40bcb7c9d5900358c01",
+      "lines": 216
+    }
+  }
+}

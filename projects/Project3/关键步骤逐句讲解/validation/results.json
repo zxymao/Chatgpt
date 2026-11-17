@@ -1,0 +1,70 @@
+{
+  "validated_at_utc": "2026-11-17T08:30:39.423752+00:00",
+  "passed": true,
+  "source_archive": "oslab/Project3-SCore-complete.tar.gz",
+  "source_sha256": "b2c65f3c60162d92abe5abc479202e9d67c511ff55f9d8509a87855b107e4ba5",
+  "working_directory": "/workspace/Chatgpt/.local/Project3-SCore",
+  "activation": "source /workspace/cloud-tools/env.sh",
+  "toolchain": {
+    "riscv_gcc": "Debian 14.2.0-19, GCC 14.2.0",
+    "qemu": "10.0.13 (Debian 1:10.0.13+ds-0+deb13u1)"
+  },
+  "checks": [
+    {
+      "command": "make CROSS_PREFIX=riscv64-linux-gnu-",
+      "exit_code": 0,
+      "passed": true,
+      "log": "build-original.log",
+      "details": "Original course layout; kernel span 15452 bytes; six default user programs built."
+    },
+    {
+      "command": "python3 tools/test_image.py build/createimage",
+      "exit_code": 0,
+      "passed": true,
+      "cases": 10,
+      "log": "image-test.log"
+    },
+    {
+      "command": "python3 tools/host_qemu_p3.py --log-dir /workspace/Chatgpt/projects/Project3/关键步骤逐句讲解/validation/p3",
+      "exit_code": 0,
+      "passed": true,
+      "log": "p3-runner.log",
+      "runner_results": "p3/results.json",
+      "checks": [
+        "UART, ps, unknown command, backspace, numeric validation, long input, clear/CRLF",
+        "shell background exec and kill commands",
+        "course waitpid, normal exit and foreground wait",
+        "course three-process barrier, ten rounds, waitpid and destroy",
+        "argument registers, PID-based image access, 40 exec/exit cycles, completed-PID wait",
+        "kill sleeping two-lock owner, wake lock waiter and waitpid",
+        "PCB capacity/reuse, barrier destroy/cancel and killed participant",
+        "shell remains responsive; completed test processes absent from ps"
+      ],
+      "evidence_notes": [
+        "Raw runner scenario names are preserved in checks and p3/results.json. The kill-locks probe calls kill before waitpid: it verifies mutex-waiter recovery and immediate wait on an already terminated PID, not a pre-blocked waitpid waiter awakened by kill. Normal-exit waiting is exercised separately by the course scenario."
+      ]
+    },
+    {
+      "command": "python3 tools/host_qemu_smoke.py --stage 4 --seconds 8 --log /workspace/Chatgpt/projects/Project3/关键步骤逐句讲解/validation/p2-regression.log",
+      "exit_code": 0,
+      "passed": true,
+      "log": "p2-regression-runner.log",
+      "guest_log": "p2-regression.log",
+      "details": "Both probes PASS; observed asynchronous preemption, sleep and mutex ownership handoff."
+    }
+  ],
+  "scope": {
+    "current_run": true,
+    "historical_archive_logs_used_as_results": false,
+    "original_course_address_build": true,
+    "actual_kernel_uart_test": true,
+    "temporary_qemu_relocation": "0x50000000..0x52ffffff + 0x30000000",
+    "test_firmware": "test/host-qemu",
+    "course_qemu": false,
+    "course_uboot": false,
+    "dasic_loadbootd": false,
+    "pynq_board": false,
+    "note": "Tests execute the actual S-Core kernel and userspace in upstream QEMU. Test BIOS and temporary relocation do not establish course hardware or firmware acceptance.",
+    "unrun_combination": "A waitpid caller already blocked on the target before that target is killed was not directly exercised by this run."
+  }
+}

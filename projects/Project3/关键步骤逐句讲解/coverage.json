@@ -1,0 +1,426 @@
+{
+  "statistics": {
+    "steps": 16,
+    "blocks": 46,
+    "quoted_lines": 1139,
+    "unique_source_lines": 1139,
+    "explanations": 469,
+    "selected_source_files": 18
+  },
+  "blocks": [
+    {
+      "step": "01",
+      "source": "P2:init/main.c",
+      "first": 146,
+      "last": 171,
+      "quote_sha256": "9140a51d8c47cebff1d7ef6c577bdc35ce9d9da54f1064d6db7e61176a9cf0fe",
+      "explanations": 13,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "02",
+      "source": "P3:include/os/sched.h",
+      "first": 35,
+      "last": 111,
+      "quote_sha256": "70d6f5b7b0f3d5d619ea7d028e3c8e4e9ec4553a8a6b4d25430c209429bb3c6d",
+      "explanations": 25,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "02",
+      "source": "P3:kernel/sched/sched.c",
+      "first": 18,
+      "last": 24,
+      "quote_sha256": "d7244c14fe24c3e470383d11f06f0e0b686792629004a3ed537a39f2ea6330e0",
+      "explanations": 5,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "02",
+      "source": "P3:kernel/sched/sched.c",
+      "first": 35,
+      "last": 56,
+      "quote_sha256": "611346ab37a00ee90a17e21efd18ecf57efb7d0a01c50fc38bdcaa9647e9e137",
+      "explanations": 8,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "02",
+      "source": "P3:init/main.c",
+      "first": 144,
+      "last": 156,
+      "quote_sha256": "0c47dda63c479218b62c0b5d69a42d75e921824495e349f1fa0084cc16febb71",
+      "explanations": 5,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "03",
+      "source": "P3:kernel/sched/sched.c",
+      "first": 58,
+      "last": 81,
+      "quote_sha256": "c5f9a4465ac1e290d9bdd3d2c53034a48f7c9ca45e474102acabc7abb37a6281",
+      "explanations": 13,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "03",
+      "source": "P3:init/main.c",
+      "first": 24,
+      "last": 29,
+      "quote_sha256": "9c60f587757c5c1b14191b24a72f3f81d962150079d8a71d74b7a3258cbe85ef",
+      "explanations": 3,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "03",
+      "source": "P3:kernel/mm/mm.c",
+      "first": 3,
+      "last": 20,
+      "quote_sha256": "55b2c36662e63fbe35444e80b5435cebd16c54beef5c1c235ca2803ff47a76b1",
+      "explanations": 7,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "04",
+      "source": "P3:kernel/sched/sched.c",
+      "first": 134,
+      "last": 181,
+      "quote_sha256": "bd69aa980a721e1c9b02e1157f3947da883acac2c56f2a87d6bcbb971f359855",
+      "explanations": 22,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "05",
+      "source": "P3:kernel/sched/sched.c",
+      "first": 26,
+      "last": 33,
+      "quote_sha256": "27599a3a775d147b7d9515dd4f8d2a3e9af5bdb350b01dd1bfaf38e2c70ef260",
+      "explanations": 3,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "05",
+      "source": "P3:kernel/sched/sched.c",
+      "first": 83,
+      "last": 99,
+      "quote_sha256": "9cecbb50631cacd068bf46e1ed5124686918f31aeaaed51c95d553cecc9a1e56",
+      "explanations": 9,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "05",
+      "source": "P3:kernel/sched/sched.c",
+      "first": 101,
+      "last": 132,
+      "quote_sha256": "e07b619e1091afeeffe58a08d14949ceab9fd92dfcb7633be30c95fb269c8287",
+      "explanations": 12,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "05",
+      "source": "P3:init/main.c",
+      "first": 184,
+      "last": 216,
+      "quote_sha256": "bdbcc4411d0e29b3bf59b77b646b31cdfc731de00cd23f4f34435f916f9cb992",
+      "explanations": 12,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "06",
+      "source": "P3:kernel/sched/sched.c",
+      "first": 183,
+      "last": 188,
+      "quote_sha256": "96a5232d960bfd20bdab72c077931140fecd04b9d17f720ae2bc0589b5e795a5",
+      "explanations": 3,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "06",
+      "source": "P3:kernel/sched/sched.c",
+      "first": 229,
+      "last": 243,
+      "quote_sha256": "db81636053342ad9a33ebe828410fdd56afcf01749e4d450b2156649ae0827a2",
+      "explanations": 7,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "06",
+      "source": "P3:kernel/sched/sched.c",
+      "first": 245,
+      "last": 263,
+      "quote_sha256": "4d8461c96720f7950488e818149b1d5efd429e95bba624b1753567c7339bcb4b",
+      "explanations": 7,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "07",
+      "source": "P3:kernel/sched/sched.c",
+      "first": 190,
+      "last": 200,
+      "quote_sha256": "a2385d660acde92584e69d8c8b1ee31fe3c2077a537ffce362617f6b8348b2bd",
+      "explanations": 7,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "07",
+      "source": "P3:kernel/sched/sched.c",
+      "first": 202,
+      "last": 209,
+      "quote_sha256": "edcf9b370f4dd307de5eb28461ab65357c72f2724989e03dd6f7799602fd7609",
+      "explanations": 4,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "07",
+      "source": "P3:kernel/sched/sched.c",
+      "first": 211,
+      "last": 227,
+      "quote_sha256": "ebe09b7a76f665c4412e38d59dbe03784220d74c090da6fbbdf50ba9041a57ef",
+      "explanations": 7,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "08",
+      "source": "P3:tiny_libc/syscall.c",
+      "first": 6,
+      "last": 17,
+      "quote_sha256": "55330a4f6787923e421fcb3f322857ee75032bec4c8932adc745b63859f7ac9f",
+      "explanations": 6,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "08",
+      "source": "P3:tiny_libc/syscall.c",
+      "first": 90,
+      "last": 136,
+      "quote_sha256": "1e71c4a327f15b63888d674721400085c8826a1367308bab5be39c7cc485abfa",
+      "explanations": 10,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "08",
+      "source": "P3:kernel/syscall/syscall.c",
+      "first": 1,
+      "last": 14,
+      "quote_sha256": "f36d21656658a9de6dcd6025d1f206ee6ce5a59375a931e623101479325b8ae8",
+      "explanations": 6,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "08",
+      "source": "P3:init/main.c",
+      "first": 80,
+      "last": 99,
+      "quote_sha256": "ceda9a0659ae890e61d40cfad2149cbf0f23c3ff910253b061c83672fb1ced3e",
+      "explanations": 10,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "08",
+      "source": "P3:init/main.c",
+      "first": 158,
+      "last": 182,
+      "quote_sha256": "fe2b3a3019e0857c6cdccf3e86981366bc8d8149695d88e4e476b4d9316da3db",
+      "explanations": 6,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "08",
+      "source": "P3:init/main.c",
+      "first": 34,
+      "last": 56,
+      "quote_sha256": "e5171ee44c0034925908b50f75db109e5e6aeb50cbcdc9a705fed248ebd751e0",
+      "explanations": 9,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "09",
+      "source": "P3:test/shell.c",
+      "first": 34,
+      "last": 36,
+      "quote_sha256": "7fcae54a7e935f451ac108741ee8422ea3245939756a97924640ea41e277c922",
+      "explanations": 3,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "09",
+      "source": "P3:test/shell.c",
+      "first": 77,
+      "last": 81,
+      "quote_sha256": "4cda5453526e70422f17785a886311b75b38a8fe960fb6f8a3bf329f579b95f4",
+      "explanations": 3,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "09",
+      "source": "P3:test/shell.c",
+      "first": 125,
+      "last": 153,
+      "quote_sha256": "f127c46127c73f3d2719f209febe6a9e3bf86f0269e3904b6053b1e81ee132e7",
+      "explanations": 12,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "09",
+      "source": "P3:drivers/screen.c",
+      "first": 39,
+      "last": 68,
+      "quote_sha256": "b99248450a703c0ac1fa23c2eb6eb25567cb5c917614587df39aafc44acfec09",
+      "explanations": 8,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "10",
+      "source": "P3:test/shell.c",
+      "first": 38,
+      "last": 61,
+      "quote_sha256": "dc72636ef1979dcba646ee02698a00ebc4975e7a58bc9e9284794fb8ebef2b84",
+      "explanations": 10,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "10",
+      "source": "P3:test/shell.c",
+      "first": 63,
+      "last": 75,
+      "quote_sha256": "dcdaff78052ce7287790b8884c241f803986a0ee8cb3efd3a352c2f19440aded",
+      "explanations": 6,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "10",
+      "source": "P3:test/shell.c",
+      "first": 83,
+      "last": 123,
+      "quote_sha256": "73c9b3b8b144ebe4fd302730496883366016c13592f9c9368c62fba3c14931e8",
+      "explanations": 15,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "11",
+      "source": "P3:arch/riscv/crt0/crt0.S",
+      "first": 1,
+      "last": 19,
+      "quote_sha256": "355cce682c2b502ab9fcfb6a0a4caf9369756f0f36d3b6603282c6781c19e4b9",
+      "explanations": 8,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "11",
+      "source": "P3:test/test_project3/waitpid.c",
+      "first": 12,
+      "last": 54,
+      "quote_sha256": "8c339aba33e5db56994ff62948536a4c7570dc36b47ea954a89cc0c1b0584c54",
+      "explanations": 11,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "11",
+      "source": "P3:test/test_project3/ready_to_exit.c",
+      "first": 6,
+      "last": 38,
+      "quote_sha256": "d3dd81a58ba369e626e177b96541816ab74bc1be3bae47b45a57c8b340fda4ff",
+      "explanations": 8,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "11",
+      "source": "P3:test/test_project3/wait_locks.c",
+      "first": 6,
+      "last": 45,
+      "quote_sha256": "5ac9e24356236415556ea55792ae35386465d64fb9685e186df00e716d5517be",
+      "explanations": 12,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "12",
+      "source": "P3:include/os/lock.h",
+      "first": 45,
+      "last": 52,
+      "quote_sha256": "52249698df04b92be505c65a60a8e67c708e9941b930e61c93b5ecba44adf546",
+      "explanations": 7,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "12",
+      "source": "P3:kernel/locking/lock.c",
+      "first": 53,
+      "last": 96,
+      "quote_sha256": "95a62bef61ae368ba1b684983568729e57aa24f0e838454e222a17f8f33a5d57",
+      "explanations": 26,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "13",
+      "source": "P3:include/os/lock.h",
+      "first": 70,
+      "last": 87,
+      "quote_sha256": "5caa7dfd254868d05b15967c000a5cc40b9c551b1d7a8f2571b2b9c619ff6540",
+      "explanations": 11,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "13",
+      "source": "P3:kernel/locking/lock.c",
+      "first": 98,
+      "last": 137,
+      "quote_sha256": "e5624523384855c9d78968486d9e02ced5f99c89ed2d1c0f428a8026acafba66",
+      "explanations": 21,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "14",
+      "source": "P3:kernel/locking/lock.c",
+      "first": 139,
+      "last": 166,
+      "quote_sha256": "31327d263cb0fa12b237df5675ef094635c370e78e7f47a8692e369239dacda5",
+      "explanations": 18,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "14",
+      "source": "P3:test/test_project3/barrier.c",
+      "first": 11,
+      "last": 41,
+      "quote_sha256": "b4e03f478c957b90e0c975dcc3e72a21b403cbc96bb5f4b008fc93261856c7d7",
+      "explanations": 12,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "14",
+      "source": "P3:test/test_project3/test_barrier.c",
+      "first": 7,
+      "last": 41,
+      "quote_sha256": "66c5b0f9ed571e1c25bddbb21a3f0fa88c647ec3494193914e784985666bb452",
+      "explanations": 15,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "15",
+      "source": "P3:kernel/locking/lock.c",
+      "first": 168,
+      "last": 190,
+      "quote_sha256": "1559df7c40c81a7c9e8c7a1159914878be32b8358747cef437d2a2e1d8d46d22",
+      "explanations": 15,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "16",
+      "source": "P3:Makefile",
+      "first": 1,
+      "last": 56,
+      "quote_sha256": "75e3c7b778535c50d217b09e1ce6be8d6438e61d15a414a43b48dacc9460165f",
+      "explanations": 19,
+      "all_selected_nonblank_lines_explained_once": true
+    },
+    {
+      "step": "16",
+      "source": "P3:Makefile",
+      "first": 79,
+      "last": 106,
+      "quote_sha256": "2f0fe6de0252cedb522dbb54d849d3de0f2830b58fde1798866d71973cab91c0",
+      "explanations": 10,
+      "all_selected_nonblank_lines_explained_once": true
+    }
+  ]
+}

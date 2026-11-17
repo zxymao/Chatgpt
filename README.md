@@ -1,6 +1,12 @@
 # Chatgpt
 My place for codex
 
+## Project 3：进程管理、shell 与屏障
+
+[下载 PRJ3 完整压缩包](projects/Project3/PRJ3.zip)（源码、111 页说明与验证记录）
+
+[彩色 PDF 讲义](projects/Project3/关键步骤逐句讲解/Project3-关键步骤与逐句讲解.pdf) · [离线 HTML](projects/Project3/关键步骤逐句讲解/Project3-关键步骤与逐句讲解.html) · [说明与源码入口](projects/Project3/README.md)。延续 Project1、Project2 的完整代码与逐句解释形式，共 16 个关键步骤、111 页，讲清动态 exec、waitpid、exit/kill、shell、锁退出清理和可复用 barrier，附本次真实 QEMU 验证记录。
+
 ## 计网期中模拟试卷 A–D
 
 [下载试卷 PDF](cncourse/复习资料/模拟试卷/计网期中模拟卷A-试卷.pdf) · [参考答案与评分标准](cncourse/复习资料/模拟试卷/计网期中模拟卷A-参考答案.pdf) · [完整资料与可编辑文件](cncourse/复习资料/模拟试卷/README.md)。第一至四章，100 分、120 分钟、25 道题；试卷和答案分别为 6 页 A4。

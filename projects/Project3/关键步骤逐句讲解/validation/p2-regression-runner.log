@@ -1,0 +1,3 @@
+/workspace/cloud-tools/sysroot/usr/bin/../lib/gcc-cross/riscv64-linux-gnu/14/../../../../riscv64-linux-gnu/bin/ld: warning: build/main has a LOAD segment with RWX permissions
+guest events: [PROBE 1] start, [PROBE 2] start, [PROBE 1] cpu-loop-ok, [PROBE 1] lock-held, [PROBE 2] cpu-loop-ok, [PROBE 1] lock-release, [PROBE 2] lock-held, [PROBE 1] PASS, [PROBE 2] lock-release, [PROBE 2] PASS
+PASS: relocated upstream-QEMU smoke stage 4; log=/workspace/Chatgpt/projects/Project3/关键步骤逐句讲解/validation/p2-regression.log
